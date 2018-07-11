@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="55dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="@string/Recognize_IRCode_View"
+        android:textColor="#fff"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/ircode_data_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColor="#333" />
+
+    <Button
+        android:id="@+id/recognize_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:onClick="recognizeIRCode"
+        android:text="@string/Recognize_IRCode"
+        android:textColor="#272a29"
+        android:textSize="19sp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:onClick="downloadIRCode"
+        android:text="@string/Download_IRCode"
+        android:textColor="#272a29"
+        android:textSize="19sp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:onClick="getIRCodeScriptBaseInfo"
+        android:text="@string/Get_IRCode_Base_Info"
+        android:textColor="#272a29"
+        android:textSize="19sp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:onClick="getIRCodeData"
+        android:text="@string/Get_IRCode_Data"
+        android:textColor="#272a29"
+        android:textSize="19sp" />
+
+</LinearLayout>

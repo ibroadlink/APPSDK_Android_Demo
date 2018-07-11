@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+<body>
+<div class="funcContent">
+</div>
+
+<div class="dialogBg">
+    <div class="dialog">
+        <!--<div class="selectContainer father-box" style="display: none;">-->
+            <!--<div class="child-box selected"  onclick="getTrendType(4)">变为</div>-->
+            <!--<div class="child-box" onclick="getTrendType(2)">大于</div>-->
+            <!--<div class="child-box" onclick="getTrendType(3)">小于</div>-->
+        <!--</div>-->
+        <div class="selectContainer father-box" style="display: none;">
+            <div class="child-box  selected" id="child1" >变为</div>
+            <div class="child-box " id="child2" >大于</div>
+            <div class="child-box " id="child3">小于</div>
+        </div>
+        <div class="selectContainer2 father-box" style="display: none;">
+            <div class="child-box  selected" id="child4" >变为</div>
+            <div class="child-box " id="child5" >上升到</div>
+            <div class="child-box " id="child6">下降到</div>
+        </div>
+        <div class="dialogContent">
+        </div>
+        <div class="dialogCancel">取消</div>
+    </div>
+</div>
+<script type="text/javascript" src="../js/cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+
+</body>
+</html>

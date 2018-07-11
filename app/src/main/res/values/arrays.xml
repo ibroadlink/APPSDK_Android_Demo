@@ -1,0 +1,370 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string-array name="ary_cat_opens">
+		<item>On</item>
+		<item>Start</item>
+	</string-array>
+	<string-array name="ary_cat_closes">
+		<item>Off</item>
+		<item>Stop</item>
+	</string-array>
+	<string-array name="ary_cat_all_opens">
+		<item>All on</item>
+		<item>Fully-open</item>
+		<item>Fully-on</item>
+	</string-array>
+	<string-array name="ary_cat_all_closes">
+		<item>All-off</item>
+		<item>Fully-close</item>
+		<item>Fully-off</item>
+	</string-array>
+	<string-array name="ary_dev_keys">
+		<item>Light</item>
+		<item>Fan</item>
+		<item>Hot water</item>
+		<item>Water pump</item>
+		<item>Oxygen injection</item>
+		<item>Shooting</item>
+		<item>Pot</item>
+		<item>Socket</item>
+		<item>Go home</item>
+		<item>Leave home</item>
+		<item>I am sleepy</item>
+		<item>I get up</item>
+	</string-array>
+	<string-array name="ary_dev_key_vals">
+		<item>Light</item>
+		<item>Fan</item>
+		<item>Calorifier</item>
+		<item>Fish tank</item>
+		<item>Fish tank</item>
+		<item>Camera</item>
+		<item>Elec kettle</item>
+		<item>Socket</item>
+		<item>Go home</item>
+		<item>Leave home</item>
+		<item>Go to bed</item>
+		<item>Get up</item>
+	</string-array>
+	<string-array name="ary_1_9_number">
+		<item>One</item>
+		<item>Two</item>
+		<item>Three</item>
+		<item>Four</item>
+		<item>Five</item>
+		<item>Six</item>
+		<item>Seven</item>
+		<item>Eight</item>
+		<item>Nine</item>
+	</string-array>
+	<string-array name="ary_up">
+		<item>Go up</item>
+		<item>Plus</item>
+		<item>Increase</item>
+		<item>Turn up</item>
+		<item>Rise</item>
+	</string-array>
+	<string-array name="ary_down">
+		<item>Go down</item>
+		<item>Minus</item>
+		<item>Decrease</item>
+		<item>Down</item>
+		<item>Turn down</item>
+	</string-array>
+	<string-array name="ary_temp_heigh">
+		<item>Too hot</item>
+	</string-array>
+	<string-array name="ary_temp_low">
+		<item>Too cold</item>
+	</string-array>
+	<string-array name="week_array">
+		<item>Sunday</item>
+		<item>Monday</item>
+		<item>Tuesday</item>
+		<item>Wednesday</item>
+		<item>Thursday</item>
+		<item>Friday</item>
+		<item>Saturday</item>
+	</string-array>
+	<string-array name="s1_config_protect_array">
+		<item>Out home warning</item>
+		<item>Home warning</item>
+		<item>Cancel warning</item>
+	</string-array>
+
+
+	<!-- MS1 -->
+	<string-array name="ms1_bound_source_array">
+		<item>Binding</item>
+		<item>Audition</item>
+	</string-array>
+
+	<string-array name="m1_sd_folder_array">
+		<item>Check</item>
+		<item>Binding</item>
+		<item>Audition</item>
+	</string-array>
+	<string-array name="m1_net_radio_classify_array">
+		<item>Domestic radios</item>
+		<item>International radios</item>
+		<item>Music radio</item>
+		<item>News radio</item>
+		<item>Economic radio</item>
+		<item>Integrated radio</item>
+		<item>Sports radio</item>
+		<item>Folk art radio</item>
+		<item>Traffic radio</item>
+		<item>User-defined radio</item>
+	</string-array>
+
+	<!-- ms1 Clock-->
+	<string-array name="m1_week_array">
+		<item>Monday</item>
+		<item>Tuesday</item>
+		<item>Wednesday</item>
+		<item>Thursday</item>
+		<item>Friday</item>
+		<item>Saturday</item>
+		<item>Sunday</item>
+	</string-array>
+
+	<string-array name="eair_sensor_array">
+		<item>Temperature</item>
+		<item>Humidity</item>
+		<item>Illumination</item>
+		<item>Air quality</item>
+		<item>Sound</item>
+	</string-array>
+	<string-array name="light_array">
+		<item>Dark</item>
+		<item>Dim</item>
+		<item>Normal</item>
+		<item>Light</item>
+	</string-array>
+	<string-array name="air_array">
+		<item>Optimal</item>
+		<item>Good</item>
+		<item>Normal</item>
+		<item>Bad</item>
+	</string-array>
+	<string-array name="voice_array">
+		<item>Quiet</item>
+		<item>Normal</item>
+		<item>Noise</item>
+		<item>Noisy</item>
+	</string-array>
+	<string-array name="s1_place_array">
+		<item>Parlour</item>
+		<item>Master bedroom</item>
+		<item>Subaltern room 1</item>
+		<item>Subaltern room 2</item>
+		<item>Kitchen</item>
+		<item>Rest room</item>
+		<item>Balcony</item>
+		<item>Carport</item>
+		<item>Unspecified</item>
+	</string-array>
+	<string-array name="s1_use_array">
+		<item>Door</item>
+		<item>Window</item>
+		<item>Drawer</item>
+	</string-array>
+	<string-array name="s1_sensor_state_change_delay_array">
+		<item>30 seconds</item>
+		<item>6 minutes</item>
+	</string-array>
+	<string-array name="scene_more_action_array">
+		<item>Insert</item>
+		<item>Reset</item>
+		<item>Delete</item>
+	</string-array>
+	<string-array name="m1_source_array">
+		<item>Botton 1</item>
+		<item>Botton 2</item>
+		<item>Botton 3</item>
+		<item>Botton 4</item>
+		<item>Botton 5</item>
+		<item>Botton 6</item>
+	</string-array>
+	<string-array name="m1_source_v71_array">
+		<item>Botton 1</item>
+		<item>Botton 2</item>
+		<item>Botton 3</item>
+		<item>Botton 4</item>
+		<item>Botton 5</item>
+		<item>Botton 6</item>
+		<item>Botton 7</item>
+		<item>Botton 8</item>
+		<item>Botton 9</item>
+		<item>Botton 10</item>
+		<item>Botton 11</item>
+		<item>Botton 12</item>
+	</string-array>
+	<string-array name="change_icon_array">
+		<item>Graph library</item>
+		<item>Photograph</item>
+		<item>Selected from mobile album</item>
+	</string-array>
+
+	<string-array name="ir_study_array">
+		<item>Study</item>
+		<item>Sweep</item>
+	</string-array>
+
+	<!-- camera -->
+	<string-array name="camera_pir_array">
+		<item>Someone</item>
+		<item>No one</item>
+	</string-array>
+	<string-array name="camera_light_array">
+		<item>Bright</item>
+		<item>Dark</item>
+	</string-array>
+	<string-array name="camera_move_array">
+		<item>Move</item>
+		<item>No move</item>
+	</string-array>
+	<string-array name="camera_interval_time_array">
+		<item>1 minute</item>
+		<item>3 minutes</item>
+		<item>5 minutes</item>
+		<item>10 minutes</item>
+		<item>20 minutes</item>
+		<item>40 minutes</item>
+		<item>1hour</item>
+	</string-array>
+	<string-array name="camera_more_list">
+		<item>Videos</item>
+		<item>Photos</item>
+		<item>Cloud videos</item>
+		<item>Overturn</item>
+		<!--<item>Relive binding</item>-->
+		<!--<item>Change icon</item>-->
+	</string-array>
+
+	<string-array name="device_properties_list">
+		<item>Infrared</item>
+		<item>Radio frequency</item>
+		<item>Unknown</item>
+	</string-array>
+
+	<string-array name="wether_value_array">
+		<item>Clear</item>
+		<item>Cloudy</item>
+		<item>Rain</item>
+		<item>Snow</item>
+		<item>Haze</item>
+		<item>Sand storm</item>
+	</string-array>
+
+	<string-array name="wether_qlty_array">
+		<item>Excellent</item>
+		<item>Good</item>
+		<item>Mild contamination</item>
+		<item>Middle contamination</item>
+		<item>Serious contamination</item>
+		<item>Severe contamination</item>
+	</string-array>
+
+	<string-array name="wether_wind_dir_array">
+		<item>North wind</item>
+		<item>East wind</item>
+		<item>South wind</item>
+		<item>West wind</item>
+		<item>Northeaster</item>
+		<item>Southeaster</item>
+		<item>Southwester</item>
+		<item>Northwest wind</item>
+	</string-array>
+
+	<string-array name="human_temp_array">
+		<item>Comfort</item>
+		<item>Hot</item>
+		<item>Quiet hot</item>
+		<item>Cold</item>
+		<item>Quiet Cold</item>
+	</string-array>
+	<string-array name="human_emotion_array">
+		<item>Normal</item>
+		<item>Restless</item>
+		<item>Joyous</item>
+		<item>Depressed</item>
+	</string-array>
+	<string-array name="human_sleep_array">
+		<item>Sober</item>
+		<item>Wakeful</item>
+		<item>Light sleep</item>
+		<item>Deep sleep</item>
+	</string-array>
+	<string-array name="human_fatigue_array">
+		<item>Normal</item>
+		<item>Tired</item>
+		<item>Very tired</item>
+	</string-array>
+	<string-array name="human_hungry_array">
+		<item>Normal</item>
+		<item>Full</item>
+		<item>Empty</item>
+		<item>Thirstiness</item>
+		<item>Empty and thirstiness</item>
+	</string-array>
+	<string-array name="human_light_array">
+		<item>Normal</item>
+		<item>Dim</item>
+		<item>Dark</item>
+		<item>Light</item>
+		<item>Dazzling</item>
+	</string-array>
+	<string-array name="human_noise_array">
+		<item>Normal</item>
+		<item>Quiet</item>
+		<item>Noise</item>
+		<item>Noisy</item>
+	</string-array>
+	<string-array name="human_air_array">
+		<item>Normal</item>
+		<item>Clear air</item>
+		<item>Dusty</item>
+		<item>Smelly</item>
+	</string-array>
+	<string-array name="human_params_array">
+		<item>Emotional index</item>
+		<item>Light perception</item>
+		<item>Sendible temperature</item>
+		<item>Normal condition</item>
+		<item>Hungry and thirsty</item>
+		<item>Comfort index</item>
+		<item>Sound degree</item>
+		<item>Fatigue degree</item>
+	</string-array>
+	<string-array name="knx_scene_array">
+		<item>Corridor lights lights</item>
+		<item>Parlour lights</item>
+		<item>Dining room lights</item>
+		<item>Subaltern room lights</item>
+		<item>Main bathroom lights</item>
+		<item>Master bedroom lights</item>
+		<item>Kitchen lights</item>
+	</string-array>
+	<string-array name="knx_scene_key_array">
+		<item>knx_corridorpwr</item>
+		<item>knx_livingroompwr</item>
+		<item>knx_diningroompwr</item>
+		<item>knx_secondliepwr</item>
+		<item>knx_bathroompwr</item>
+		<item>knx_bedroompwr</item>
+		<item>knx_kitchenpwr</item>
+	</string-array>
+
+	<string-array name="gender_array">
+		<item>Male</item>
+		<item>Female</item>
+	</string-array>
+
+	<string-array name="market_rank_array">
+		<item>Like it</item>
+		<item>Don\'t like</item>
+		<item>Skip this time</item>
+	</string-array>
+</resources>

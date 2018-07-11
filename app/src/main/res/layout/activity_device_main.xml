@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="55dp"
+        android:background="@color/title_bar_color">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/Device_Control_Main"
+            android:textColor="#fff"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/btn_config_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Config_Device"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" />
+
+    <Button
+        android:id="@+id/btn_probe_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Probe_Device_List"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" />
+
+    <Button
+        android:id="@+id/btn_my_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/My_Device_List"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" />
+
+
+</LinearLayout>
+

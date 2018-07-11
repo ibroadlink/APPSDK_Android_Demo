@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="55dp"
+        android:background="@color/colorPrimaryDark"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:gravity="center"
+        android:text="@string/Config_Device"
+        android:textColor="#fff"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="55dp"
+        android:background="#333" />
+
+    <EditText
+        android:id="@+id/ssid_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#fff"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:hint="@string/Input_SSID"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#272a29"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#333" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="5dp"
+        android:background="#333" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#fff"
+        android:drawablePadding="10dp"
+        android:hint="@string/Input_PASSWORD"
+        android:maxLength="20"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#272a29"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#333" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:onClick="devConfig"
+        android:text="@string/Config_2_Device"
+        android:layout_marginTop="20dp"
+        android:textColor="#272a29"
+        android:textSize="19sp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:onClick="devConfig3"
+        android:text="@string/Config_3_Device"
+        android:layout_marginTop="20dp"
+        android:textColor="#272a29"
+        android:textSize="19sp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:onClick="apConfig"
+        android:text="@string/Config_AP_Device"
+        android:layout_marginTop="20dp"
+        android:textColor="#272a29"
+        android:textSize="19sp" />
+</LinearLayout>

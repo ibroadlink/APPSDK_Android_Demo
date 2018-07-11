@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cn.com.broadlink.blappsdkdemo">
+
+    <!-- SD卡读写权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- 连接互联网Internet权限 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".BLApplcation"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="LET_LICENSE"
+            android:value="CceFpDt7d+r4pZ8KP74tbpNSf9Ug9pP+ytpIXApsCYpvvDEid0s8SdJtKgQMc5QmUsWWVwAAAACvEX37zpG5Wgi/Mlnda1pd2B9J96AQz9N0vO6WstfgR9yEgbkpFXFyJbsnfyHXt8pOdkTVo81rQrPhkOnhmpQBsEkbxXTfoUSQjDzWcfVjcAAAAAA=" />
+        <!-- <meta-data -->
+        <!-- android:name="LET_LICENSE" -->
+        <!-- android:value="0PlPqgTGPZt7CwNNz4lWVm7qQZqm8AdPyooafIrN9QX5UING6RYrag2V2nFqWRIQrFDxVgAAAADoWWz5UyBiHvQQIPyIUhi4XFSykPGAqniglnoIUWhvuHCgxWxDEyF0yb0xHzyz6V5BLR6D0KoiI6QqjWxRKs8JsEkbxXTfoUSQjDzWcfVjcBAAAADp06OIOk1mH/qjm7XF95qOxpLv1t9uNsVE3e4wHc8mrB+SMRJcG2nmzb9yL3Mu09S5XRVHUoOQTMAYYtozBSYvlMaOcIFoWVVAgBZJjiSMHQ==" /> -->
+        <meta-data
+            android:name="LET_CHANNEL"
+            android:value="" />
+
+        <activity
+            android:name=".activity.LoadingActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.Device.DevListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Account.RegisterByPhoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Device.DevMoreActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Device.RMDemoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Device.SPDemoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Device.DevConfigActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Device.WebControlActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Device.DnaControlActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Family.FamilyListActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.Family.FamilyDetailActivity" />
+        <activity android:name=".activity.Device.MyDeviceListActivity" />
+        <activity android:name=".activity.IRCode.IRCodeOptActivity" />
+        <activity android:name=".activity.IRCode.IRCodeRecognizeActivity" />
+        <activity android:name=".activity.IRCode.IRCodeACOperateActivity" />
+        <activity android:name=".activity.IRCode.IRCodeAreaSelectActivity" />
+        <activity android:name=".activity.IRCode.IRCodeTCOperateActivity" />
+        <activity android:name=".activity.Device.GateWayActivity" />
+        <activity android:name=".activity.Device.DeviceMainActivity" />
+        <activity
+            android:name=".activity.Account.AccountMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Account.AccountForgotPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Account.AccountForgotPasswordResetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Account.AccountAndSecurityActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.Family.FamilyAddActivity" />
+        <activity
+            android:name=".activity.Family.FamilyRoomListActivity"
+            android:label="@string/title_activity_family_room_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.Family.FamilyModuleListActivity"></activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:paddingTop="20dp">
+
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:id="@+id/family_name_view"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/input_bg_round_tran_gray" />
+
+    <Button
+        android:id="@+id/btn_add_family"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/btn_yellow_selector"
+        android:enabled="false"
+        android:text="@string/str_create_family"
+        android:textColor="#fff" />
+
+</LinearLayout>

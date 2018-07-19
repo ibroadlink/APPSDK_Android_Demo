@@ -1,12 +1,12 @@
 package cn.com.broadlink.blappsdkdemo.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.widget.ImageView;
 
 import java.io.File;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,15 +14,19 @@ import cn.com.broadlink.account.BLAccount;
 import cn.com.broadlink.base.BLLoginResult;
 import cn.com.broadlink.blappsdkdemo.BLApplcation;
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfo;
+import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfoDao;
+import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.sdk.BLLet;
 
 import cn.com.broadlink.blappsdkdemo.common.BLFileUtils;
+import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
 /**
  * 启动页面
  * Created by YeJin on 2016/5/9.
  */
-public class LoadingActivity extends Activity{
+public class LoadingActivity extends BaseActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

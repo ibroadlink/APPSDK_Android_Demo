@@ -11,13 +11,17 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+
 import cn.com.broadlink.blappsdkdemo.BLApplcation;
+import cn.com.broadlink.blappsdkdemo.db.DatabaseHelper;
 
 
 public class BaseActivity extends FragmentActivity {
 
     public BLApplcation mApplication;
 
+    private volatile DatabaseHelper mHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,11 @@ public class BaseActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if (mHelper != null) {
+            OpenHelperManager.releaseHelper();
+            mHelper = null;
+        }
     }
 
     @Override
@@ -74,6 +83,13 @@ public class BaseActivity extends FragmentActivity {
         Intent intent = new Intent(BaseActivity.this, LoadingActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+    public DatabaseHelper getHelper() {
+        if (mHelper == null) {
+            mHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
+        }
+        return mHelper;
     }
 
     /**关闭手机键盘**/

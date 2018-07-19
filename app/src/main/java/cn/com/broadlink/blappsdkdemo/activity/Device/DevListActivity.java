@@ -1,6 +1,5 @@
 package cn.com.broadlink.blappsdkdemo.activity.Device;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,10 +12,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfo;
+import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfoDao;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceListener;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
@@ -25,7 +28,7 @@ import cn.com.broadlink.sdk.data.controller.BLDNADevice;
  * 设备列表
  * Created by YeJin on 2016/5/9.
  */
-public class DevListActivity extends Activity {
+public class DevListActivity extends TitleActivity {
 
     private ListView mDevListView;
     private List<BLDNADevice> mDevices = new ArrayList<>();
@@ -40,6 +43,8 @@ public class DevListActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dev_list_layout);
+        setTitle(R.string.Probe_Device_List);
+
         mLocalDeviceManager = BLLocalDeviceManager.getInstance();
         mDevices = mLocalDeviceManager.getLocalDevices();
 
@@ -65,6 +70,16 @@ public class DevListActivity extends Activity {
                 dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        try {
+                            BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
+                            BLDeviceInfo deviceInfo = new BLDeviceInfo(device);
+                            List<BLDeviceInfo> list = new ArrayList<>();
+                            list.add(deviceInfo);
+                            blDeviceInfoDao.insertData(list);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+
                         mLocalDeviceManager.addDeviceIntoSDK(device);
                     }
                 });

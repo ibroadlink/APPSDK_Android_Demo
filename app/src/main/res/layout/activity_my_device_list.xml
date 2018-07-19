@@ -4,21 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="55dp"
-        android:background="@color/colorPrimaryDark">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@null"
-            android:text="@string/My_Device_List"
-            android:textColor="#fff"
-            android:textSize="18sp" />
-    </RelativeLayout>
-
     <ListView
         android:id="@+id/my_dev_list"
         android:layout_width="fill_parent"

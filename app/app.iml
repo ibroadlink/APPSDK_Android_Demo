@@ -110,10 +110,12 @@
     <orderEntry type="library" exported="" name="Gradle: com.ibroadlink:BLLetBaseAndroid-2.6.5" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.ibroadlink:BLLetFamilyAndroid-2.6.6" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support.constraint:constraint-layout-1.0.2" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: __local_jars__:/Users/admin/Work/Broadlink/Gitlab/BLLetSDK/Android/Demo/BLAPPSDKNewDemo/app/libs/sqlcipher.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:appcompat-v7-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.ibroadlink:BLLetCoreAndroid-2.6.12" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:design-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:animated-vector-drawable-23.4.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: __local_jars__:/Users/admin/Work/Broadlink/Gitlab/BLLetSDK/Android/Demo/BLAPPSDKNewDemo/app/libs/ormlite-android-encryption.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="Gradle: __local_jars__:/Users/admin/Work/Broadlink/Gitlab/BLLetSDK/Android/Demo/BLAPPSDKNewDemo/app/libs/cordova.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.ibroadlink:BLLetAccountAndroid-2.6.6" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:support-v4-23.4.0" level="project" />

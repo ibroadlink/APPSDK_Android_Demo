@@ -1,6 +1,5 @@
 package cn.com.broadlink.blappsdkdemo.activity.Device;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,14 +12,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfo;
+import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfoDao;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
-public class MyDeviceListActivity extends Activity {
+public class MyDeviceListActivity extends TitleActivity {
 
     private ListView mDevListView;
     private List<BLDNADevice> mDevices = new ArrayList<>();
@@ -32,6 +35,7 @@ public class MyDeviceListActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_device_list);
+        setTitle(R.string.My_Device_List);
 
         mLocalDeviceManager = BLLocalDeviceManager.getInstance();
         mDevices = mLocalDeviceManager.getDevicesAddInSDK();
@@ -72,6 +76,15 @@ public class MyDeviceListActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+
+                                try {
+                                    BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
+                                    BLDeviceInfo deviceInfo = new BLDeviceInfo(device);
+                                    blDeviceInfoDao.deleteDevice(deviceInfo);
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+
                                 mDevices = mLocalDeviceManager.getDevicesAddInSDK();
                                 mDeviceAdapter.notifyDataSetChanged();
                             }

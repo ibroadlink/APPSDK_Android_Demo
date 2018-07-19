@@ -3,6 +3,8 @@ package cn.com.broadlink.blappsdkdemo;
 import android.app.Application;
 import android.content.res.Resources;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
 import java.lang.reflect.Field;
 
 import cn.com.broadlink.account.BLAccount;
@@ -30,6 +32,8 @@ public class BLApplcation extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+        SQLiteDatabase.loadLibs(this);
+
         sdkInit();
         queryPhoneWindowInfo();
 

@@ -6,6 +6,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import cn.com.broadlink.blappsdkdemo.BLApplcation;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.Account.AccountAndSecurityActivity;
@@ -14,6 +17,10 @@ import cn.com.broadlink.blappsdkdemo.activity.Device.DeviceMainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.Family.FamilyListActivity;
 import cn.com.broadlink.blappsdkdemo.activity.IRCode.IRCodeOptActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
+import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfo;
+import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfoDao;
+import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
+import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
 public class MainActivity extends TitleActivity {
 
@@ -24,6 +31,8 @@ public class MainActivity extends TitleActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle(R.string.Main_View);
+
+        addDevice();
 
         findView();
         setListener();
@@ -94,4 +103,19 @@ public class MainActivity extends TitleActivity {
 
     }
 
+    private void addDevice() {
+        try {
+            BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
+            List<BLDeviceInfo> deviceInfoList = blDeviceInfoDao.queryDevList();
+
+            if (deviceInfoList != null) {
+                for (BLDeviceInfo dev : deviceInfoList) {
+                    BLDNADevice dnaDev = dev.cloneBLDNADevice();
+                    BLLocalDeviceManager.getInstance().addDeviceIntoSDK(dnaDev);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

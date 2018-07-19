@@ -60,8 +60,8 @@ public class BLApplcation extends Application{
         blConfigParam.put(BLConfigParam.CONTROLLER_NETMODE, "-1");
         // 8. 设置脚本和UI文件下载资源平台。 默认 0 老平台。  1 - 新平台
         blConfigParam.put(BLConfigParam.CONTROLLER_SCRIPT_DOWNLOAD_VERSION, "1");
-
-        blConfigParam.put(BLConfigParam.CONTROLLER_QUERY_COUNT, "1");
+        // 9. 批量查询设备在线状态最小设备数
+        blConfigParam.put(BLConfigParam.CONTROLLER_QUERY_COUNT, "8");
 
         BLLet.init(this, blConfigParam);
 

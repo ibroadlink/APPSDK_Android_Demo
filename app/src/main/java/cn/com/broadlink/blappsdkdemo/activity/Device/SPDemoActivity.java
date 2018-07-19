@@ -119,12 +119,12 @@ public class SPDemoActivity extends Activity implements SPControlListener{
     @Override
     public void controlSuccess(int pwr) {
         deviceStatusShow(pwr);
-        BLCommonUtils.toastShow(SPDemoActivity.this, "Control Success");
+//        BLCommonUtils.toastShow(SPDemoActivity.this, "Control Success");
     }
 
     @Override
     public void controlFail(BLBaseResult result) {
-        BLCommonUtils.toastShow(SPDemoActivity.this, "Control Failed");
+//        BLCommonUtils.toastShow(SPDemoActivity.this, "Control Failed");
     }
 
     @Override
@@ -150,7 +150,7 @@ public class SPDemoActivity extends Activity implements SPControlListener{
                 public void run() {
                     mSPControlModel.queryDevStatus(mDNADevice.getDid());
                 }
-            }, 0 , 30000);
+            }, 0 , 500);
         }
     }
 

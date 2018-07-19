@@ -28,6 +28,8 @@ public class SPControlModelImpl implements SPControlModel{
         mSPControlListener = spControlListener;
     }
 
+    private int dev_pwr = 0;
+
     @Override
     public void queryDevStatus(String did) {
         /**查询开关状态命令**/
@@ -68,8 +70,9 @@ public class SPControlModelImpl implements SPControlModel{
                 ctrlParam.getParams().add("pwr");
                 ctrlParam.getVals().add(pwrVals);
 
+                //设置单次控制重试次数
                 BLConfigParam configParam = new BLConfigParam();
-                configParam.put("CONTROLLER_SEND_COUNT", "1");
+                configParam.put("CONTROLLER_SEND_COUNT", "3");
 
                 final BLStdControlResult stdControlResult = BLLet.Controller.dnaControl(did, null, ctrlParam, configParam);
                 if(mSPControlListener != null){

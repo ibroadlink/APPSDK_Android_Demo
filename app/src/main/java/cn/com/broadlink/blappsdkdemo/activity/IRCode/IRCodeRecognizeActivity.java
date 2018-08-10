@@ -19,6 +19,10 @@ import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 
+import cn.com.broadlink.ircode.BLIRCode;
+import cn.com.broadlink.ircode.result.BLDownLoadIRCodeResult;
+import cn.com.broadlink.ircode.result.BLIrdaConProductResult;
+import cn.com.broadlink.ircode.result.BLResponseResult;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.result.controller.BLBaseBodyResult;
 import cn.com.broadlink.sdk.result.controller.BLDownloadScriptResult;
@@ -33,8 +37,6 @@ public class IRCodeRecognizeActivity extends Activity {
     private String mScriptRandkey;
     private String mScriptName;
     private String mSavePath;
-
-    private String mScriptInfo = null;
 
     //美的空调(Media AC)
     private int mDeviceType = BLConstants.BL_IRCODE_DEVICE_AC;
@@ -97,32 +99,31 @@ public class IRCodeRecognizeActivity extends Activity {
         if (!file.exists()) {
             BLCommonUtils.toastShow(IRCodeRecognizeActivity.this, "Please download script first!");
         } else {
-            BLIRCodeInfoResult result = BLLet.IRCode.queryIRCodeInfomation(path, ircode_dev_type);
-            if (result.succeed()) {
-                mScriptInfo = result.getInfomation();
-                mIrCodeView.setText(mScriptInfo);
-                return true;
+
+            if (ircode_dev_type == BLConstants.BL_IRCODE_DEVICE_AC) {
+                BLIrdaConProductResult result = BLIRCode.queryACIRCodeInfomation(path);
+                if (result.succeed()) {
+                    mIrCodeView.setText(result.getIrdaInfo().name);
+                    return true;
+                } else {
+                    BLCommonUtils.toastShow(IRCodeRecognizeActivity.this, "getIRCodeScriptBaseInfo failed! Error: " + String.valueOf(result.getStatus()) + " Msg:" + result.getMsg());
+                }
             } else {
-                BLCommonUtils.toastShow(IRCodeRecognizeActivity.this, "getIRCodeScriptBaseInfo failed! Error: " + String.valueOf(result.getStatus()) + " Msg:" + result.getMsg());
+                BLCommonUtils.toastShow(IRCodeRecognizeActivity.this, "电视/机顶盒不支持该功能");
             }
+
         }
         return false;
     }
 
     private void queryIRCodeData(String path, int ircode_dev_type) {
-        if (mScriptInfo == null) {
-            if (!queryIRCodeBaseInfo(path, ircode_dev_type))
-                return;
-        }
 
         Intent intent = new Intent();
         if (ircode_dev_type == BLConstants.BL_IRCODE_DEVICE_AC) {
             intent.putExtra("ScriptPath", mSavePath);
-            intent.putExtra("ScriptInfo", mScriptInfo);
             intent.setClass(IRCodeRecognizeActivity.this, IRCodeACOperateActivity.class);
         } else {
             intent.putExtra("ScriptPath", mSavePath);
-            intent.putExtra("ScriptInfo", mScriptInfo);
             intent.putExtra("DeviceType", mDeviceType);
             intent.setClass(IRCodeRecognizeActivity.this, IRCodeTCOperateActivity.class);
         }
@@ -130,7 +131,7 @@ public class IRCodeRecognizeActivity extends Activity {
         startActivity(intent);
     }
 
-    class RecongnizeIRCodeTask extends AsyncTask<String, Void, BLBaseBodyResult> {
+    class RecongnizeIRCodeTask extends AsyncTask<String, Void, BLResponseResult> {
         ProgressDialog progressDialog;
 
         @Override
@@ -142,12 +143,12 @@ public class IRCodeRecognizeActivity extends Activity {
         }
 
         @Override
-        protected BLBaseBodyResult doInBackground(String... strings) {
-            return BLLet.IRCode.recognizeIRCode(strings[0]);
+        protected BLResponseResult doInBackground(String... strings) {
+            return BLIRCode.recognizeACIRCode(strings[0]);
         }
 
         @Override
-        protected void onPostExecute(BLBaseBodyResult blBaseBodyResult) {
+        protected void onPostExecute(BLResponseResult blBaseBodyResult) {
             super.onPostExecute(blBaseBodyResult);
             progressDialog.dismiss();
 
@@ -161,7 +162,7 @@ public class IRCodeRecognizeActivity extends Activity {
                     JSONObject info = infos.getJSONObject(0);
                     mScriptName = info.optString("name", null);
                     mDownloadUrl = info.optString("downloadurl", null);
-                    mScriptRandkey = info.optString("randkey", null);
+                    mScriptRandkey = info.optString("fixkey", null);
 
                     mSavePath = BLLet.Controller.queryIRCodePath() + File.separator + mScriptName;
                     mIrCodeView.setText("Name:" + mScriptName + "\nDownload:" + mDownloadUrl + "\nRandkey:" + mScriptRandkey);
@@ -175,7 +176,7 @@ public class IRCodeRecognizeActivity extends Activity {
         }
     }
 
-    class DownLoadIRCodeScriptTask extends AsyncTask<String, Void, BLDownloadScriptResult> {
+    class DownLoadIRCodeScriptTask extends AsyncTask<String, Void, BLDownLoadIRCodeResult> {
         ProgressDialog progressDialog;
 
         @Override
@@ -187,12 +188,12 @@ public class IRCodeRecognizeActivity extends Activity {
         }
 
         @Override
-        protected BLDownloadScriptResult doInBackground(String... strings) {
-            return BLLet.IRCode.downloadIRCodeScript(strings[0], strings[1], strings[2]);
+        protected BLDownLoadIRCodeResult doInBackground(String... strings) {
+            return BLIRCode.downloadIRCodeScript(strings[0], strings[1], strings[2]);
         }
 
         @Override
-        protected void onPostExecute(BLDownloadScriptResult blDownloadScriptResult) {
+        protected void onPostExecute(BLDownLoadIRCodeResult blDownloadScriptResult) {
             super.onPostExecute(blDownloadScriptResult);
             progressDialog.dismiss();
 

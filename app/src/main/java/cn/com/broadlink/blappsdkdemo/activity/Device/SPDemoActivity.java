@@ -150,7 +150,7 @@ public class SPDemoActivity extends Activity implements SPControlListener{
                 public void run() {
                     mSPControlModel.queryDevStatus(mDNADevice.getDid());
                 }
-            }, 0 , 500);
+            }, 0 , 5000);
         }
     }
 

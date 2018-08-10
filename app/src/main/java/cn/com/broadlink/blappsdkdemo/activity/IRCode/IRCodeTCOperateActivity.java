@@ -3,6 +3,7 @@ package cn.com.broadlink.blappsdkdemo.activity.IRCode;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,14 +11,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
-import cn.com.broadlink.blappsdkdemo.common.BLConstants;
-import cn.com.broadlink.sdk.BLLet;
-import cn.com.broadlink.sdk.result.controller.BLIRCodeDataResult;
+import cn.com.broadlink.blappsdkdemo.common.BLFileUtils;
 
 public class IRCodeTCOperateActivity extends Activity {
 
@@ -26,8 +31,9 @@ public class IRCodeTCOperateActivity extends Activity {
 
     private List<String> mFunctionList = new ArrayList<>();
     private ArrayAdapter<String> mAdapter;
-    private String mScriptPath, mScriptInfo;
-    private int mDeviceType;
+    private Map<String, String> mCodeMap = new HashMap<>();
+
+    private String mScriptPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +46,8 @@ public class IRCodeTCOperateActivity extends Activity {
         Intent intent = getIntent();
         if (intent != null) {
             mScriptPath = getIntent().getStringExtra("ScriptPath");
-            mScriptInfo = getIntent().getStringExtra("ScriptInfo");
-            mDeviceType = getIntent().getIntExtra("DeviceType", BLConstants.BL_IRCODE_DEVICE_TV);
 
-            analysisScriptInfo(mScriptInfo);
+            readIRCodeScriptFile(mScriptPath);
         }
 
     }
@@ -63,27 +67,51 @@ public class IRCodeTCOperateActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String func = mFunctionList.get(position);
-                BLIRCodeDataResult result = BLLet.IRCode.queryTVIRCodeData(mScriptPath, mDeviceType, func);
-                if (result.succeed()) {
-                    mTVIrcodeView.setText(result.getIrcode());
-                } else {
-                    BLCommonUtils.toastShow(IRCodeTCOperateActivity.this, "getIRCodeScriptBaseInfo failed! Error: " + String.valueOf(result.getStatus()) + " Msg:" + result.getMsg());
-                }
+                mTVIrcodeView.setText(mCodeMap.get(func));
             }
         });
     }
 
-    private void analysisScriptInfo(String infomation) {
-        Log.d(BLConstants.BROADLINK_LOG_TAG, infomation);
-        String[] arrayStr = new String[]{};
-        arrayStr = infomation.split(",");
+    private void readIRCodeScriptFile(String file) {
 
-        mFunctionList.clear();
-        for (int i = 0; i < arrayStr.length; i++) {
-            String fun = arrayStr[i];
-            fun = fun.replace("[", "").replace("\"", "").replace("]", "");
-            mFunctionList.add(fun);
+        String jsonStr = BLFileUtils.readTextFileContent(file);
+        if (!TextUtils.isEmpty(jsonStr) && !jsonStr.contains("error")) {
+            try {
+                JSONObject irDataJO = new JSONObject(jsonStr);
+
+                mCodeMap.clear();
+                JSONArray ircodeJA = irDataJO.optJSONArray("functionList");
+                for (int index = 0; index < ircodeJA.length(); index++) {
+                    org.json.JSONObject irCodeSrcJO = ircodeJA.optJSONObject(index);
+                    JSONArray codeJA = irCodeSrcJO.optJSONArray("code");
+                    String function = irCodeSrcJO.optString("function");
+
+                    mCodeMap.put(function, jsonArrayToCode(codeJA));
+                }
+
+                mFunctionList.clear();
+                mFunctionList.addAll(mCodeMap.keySet());
+
+                mAdapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                BLCommonTools.handleError(e);
+            }
+
         }
-        mAdapter.notifyDataSetChanged();
     }
+
+    private String jsonArrayToCode(JSONArray codeJA) {
+        byte[] codes = new byte[codeJA.length()];
+
+        try {
+            for (int i = 0; i < codeJA.length(); i++) {
+                codes[i] = (byte) codeJA.getInt(i);
+            }
+        } catch (JSONException e) {
+            BLCommonTools.handleError(e);
+        }
+
+        return BLCommonTools.bytes2HexString(codes);
+    }
+
 }

@@ -13,10 +13,11 @@ import org.json.JSONObject;
 import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
-import cn.com.broadlink.sdk.BLLet;
+import cn.com.broadlink.blirdaconlib.BLIrdaConState;
+import cn.com.broadlink.ircode.BLIRCode;
+import cn.com.broadlink.ircode.result.BLIrdaConDataResult;
 import cn.com.broadlink.sdk.data.controller.BLRMCloudAcConstants;
-import cn.com.broadlink.sdk.param.controller.BLQueryIRCodeParams;
-import cn.com.broadlink.sdk.result.controller.BLIRCodeDataResult;
+
 
 public class IRCodeACOperateActivity extends Activity {
 
@@ -142,17 +143,15 @@ public class IRCodeACOperateActivity extends Activity {
                 TextUtils.isEmpty(speedInput) || TextUtils.isEmpty(tempInput)) {
             BLCommonUtils.toastShow(IRCodeACOperateActivity.this, "Please input all params!");
         } else {
-            BLQueryIRCodeParams params = new BLQueryIRCodeParams();
+            BLIrdaConState params = new BLIrdaConState();
             // You can see BLRMCloudAcConstants to know meanings
-            params.setState(Integer.parseInt(statusInput));
-            params.setDirect(Integer.parseInt(dirInput));
-            params.setMode(Integer.parseInt(modeInput));
-            params.setSpeed(Integer.parseInt(speedInput));
-            params.setTemperature(Integer.parseInt(tempInput));
+            params.status = Integer.parseInt(statusInput);
+            params.mode = Integer.parseInt(modeInput);
+            params.wind_direct = Integer.parseInt(dirInput);
+            params.wind_speed = Integer.parseInt(speedInput);
+            params.temperature = Integer.parseInt(tempInput);
 
-            params.setKey(BLRMCloudAcConstants.IRDA_KEY_TEMP_ADD);
-
-            BLIRCodeDataResult result = BLLet.IRCode.queryACIRCodeData(mScriptPath, params);
+            BLIrdaConDataResult result = BLIRCode.queryACIRCodeData(mScriptPath, BLRMCloudAcConstants.IRDA_KEY_TEMP_ADD, params);
             if (result.succeed()) {
                 mIRCodeDataView.setText(result.getIrcode());
                 BLCommonTools.debug(result.getIrcode());

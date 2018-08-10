@@ -24,6 +24,8 @@ import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.data.BLIRCodeArea;
+import cn.com.broadlink.ircode.BLIRCode;
+import cn.com.broadlink.ircode.result.BLResponseResult;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.result.controller.BLBaseBodyResult;
 
@@ -121,7 +123,7 @@ public class IRCodeAreaSelectActivity extends Activity {
             if (mBrandID == null) {
                 new QueryIRCodeBrandTask().execute(String.valueOf(mDeviceType));
             } else if (mDownloadUrl == null){
-                new QueryIRCodeScriptDownloadUrlTask().execute(String.valueOf(mDeviceType), mBrandID);
+                new QueryACIRCodeScriptDownloadUrlTask().execute(mBrandID);
             } else {
                 goToNextActivity();
             }
@@ -130,7 +132,7 @@ public class IRCodeAreaSelectActivity extends Activity {
             if (mBrandID == null) {
                 new QueryIRCodeBrandTask().execute(String.valueOf(mDeviceType));
             } else if(mDownloadUrl == null) {
-                new QueryIRCodeScriptDownloadUrlTask().execute(String.valueOf(mDeviceType), mBrandID, "0");
+                new QueryTVIRCodeScriptDownloadUrlTask().execute(mBrandID);
             } else {
                 goToNextActivity();
             }
@@ -165,7 +167,7 @@ public class IRCodeAreaSelectActivity extends Activity {
         startActivity(intent);
     }
 
-    class QueryIRCodeBrandTask extends AsyncTask<String, Void, BLBaseBodyResult> {
+    class QueryIRCodeBrandTask extends AsyncTask<String, Void, BLResponseResult> {
         ProgressDialog progressDialog;
 
         @Override
@@ -176,13 +178,13 @@ public class IRCodeAreaSelectActivity extends Activity {
             progressDialog.show();
         }
         @Override
-        protected BLBaseBodyResult doInBackground(String... strings) {
+        protected BLResponseResult doInBackground(String... strings) {
             int type = Integer.parseInt(strings[0]);
-            return BLLet.IRCode.requestIRCodeDeviceBrands(type);
+            return BLIRCode.requestIRCodeDeviceBrands(type);
         }
 
         @Override
-        protected void onPostExecute(BLBaseBodyResult blBaseBodyResult) {
+        protected void onPostExecute(BLResponseResult blBaseBodyResult) {
             super.onPostExecute(blBaseBodyResult);
             progressDialog.dismiss();
 
@@ -212,7 +214,7 @@ public class IRCodeAreaSelectActivity extends Activity {
         }
     }
 
-    class QueryIRCodeSubAreaTask extends AsyncTask<String, Void, BLBaseBodyResult> {
+    class QueryIRCodeSubAreaTask extends AsyncTask<String, Void, BLResponseResult> {
         ProgressDialog progressDialog;
 
         @Override
@@ -224,13 +226,13 @@ public class IRCodeAreaSelectActivity extends Activity {
         }
 
         @Override
-        protected BLBaseBodyResult doInBackground(String... strings) {
+        protected BLResponseResult doInBackground(String... strings) {
             int locateid = Integer.parseInt(strings[0]);
-            return BLLet.IRCode.requestSubAreas(locateid);
+            return BLIRCode.requestSubAreas(locateid);
         }
 
         @Override
-        protected void onPostExecute(BLBaseBodyResult blBaseBodyResult) {
+        protected void onPostExecute(BLResponseResult blBaseBodyResult) {
             super.onPostExecute(blBaseBodyResult);
             progressDialog.dismiss();
 
@@ -259,7 +261,7 @@ public class IRCodeAreaSelectActivity extends Activity {
         }
     }
 
-    class QueryIRCodeSubAreaProviderTask extends AsyncTask<String, Void, BLBaseBodyResult> {
+    class QueryIRCodeSubAreaProviderTask extends AsyncTask<String, Void, BLResponseResult> {
         ProgressDialog progressDialog;
 
         @Override
@@ -271,13 +273,13 @@ public class IRCodeAreaSelectActivity extends Activity {
         }
 
         @Override
-        protected BLBaseBodyResult doInBackground(String... strings) {
+        protected BLResponseResult doInBackground(String... strings) {
             int locateid = Integer.parseInt(strings[0]);
-            return BLLet.IRCode.requestSTBProvider(locateid);
+            return BLIRCode.requestSTBProvider(locateid);
         }
 
         @Override
-        protected void onPostExecute(BLBaseBodyResult blBaseBodyResult) {
+        protected void onPostExecute(BLResponseResult blBaseBodyResult) {
             super.onPostExecute(blBaseBodyResult);
             progressDialog.dismiss();
 
@@ -304,7 +306,7 @@ public class IRCodeAreaSelectActivity extends Activity {
         }
     }
 
-    class QueryIRCodeScriptDownloadUrlTask extends AsyncTask<String, Void, BLBaseBodyResult> {
+    class QueryACIRCodeScriptDownloadUrlTask extends AsyncTask<String, Void, BLResponseResult> {
         ProgressDialog progressDialog;
 
         @Override
@@ -315,14 +317,72 @@ public class IRCodeAreaSelectActivity extends Activity {
             progressDialog.show();
         }
         @Override
-        protected BLBaseBodyResult doInBackground(String... strings) {
-            int type = Integer.parseInt(strings[0]);
-            int brand = Integer.parseInt(strings[1]);
-            return BLLet.IRCode.requestIRCodeScriptDownloadUrl(type, brand);
+        protected BLResponseResult doInBackground(String... strings) {
+            int brand = Integer.parseInt(strings[0]);
+            return BLIRCode.requestACIRCodeScriptDownloadUrl(brand);
         }
 
         @Override
-        protected void onPostExecute(BLBaseBodyResult blBaseBodyResult) {
+        protected void onPostExecute(BLResponseResult blBaseBodyResult) {
+            super.onPostExecute(blBaseBodyResult);
+            progressDialog.dismiss();
+
+            if (blBaseBodyResult.succeed()) {
+                Log.d(BLConstants.BROADLINK_LOG_TAG, blBaseBodyResult.getResponseBody());
+                try {
+                    JSONObject jResult = new JSONObject(blBaseBodyResult.getResponseBody());
+                    JSONArray infos = jResult.optJSONArray("downloadinfo");
+
+                    if (infos != null) {
+                        int count = infos.length();
+                        if (count > 1) {
+                            mAreas.clear();
+                            for (int i = 0; i < count; i++) {
+                                JSONObject jInfo = infos.optJSONObject(i);
+                                BLIRCodeArea area = new BLIRCodeArea();
+                                area.setAreaName(jInfo.optString("name", null));
+                                area.setAreaId(jInfo.optString("fixkey", null));
+                                area.setDownloadUrl(jInfo.optString("downloadurl", null));
+                                mAdapter.add(area);
+                            }
+                            mAdapter.notifyDataSetChanged();
+                        } else {
+                            JSONObject info = infos.getJSONObject(0);
+                            if (info != null) {
+                                mDownloadUrl = info.optString("downloadurl", null);
+                                mScriptRandkey = info.optString("fixkey", null);
+                                mScriptName = info.optString("name", null);
+
+                                goToNextActivity();
+                            }
+                        }
+                    }
+
+                } catch (Exception e) {
+
+                }
+            }
+        }
+    }
+
+    class QueryTVIRCodeScriptDownloadUrlTask extends AsyncTask<String, Void, BLResponseResult> {
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(IRCodeAreaSelectActivity.this);
+            progressDialog.setMessage(getResources().getString(R.string.loading));
+            progressDialog.show();
+        }
+        @Override
+        protected BLResponseResult doInBackground(String... strings) {
+            int brand = Integer.parseInt(strings[0]);
+            return BLIRCode.requestTVIRCodeScriptDownloadUrl(brand);
+        }
+
+        @Override
+        protected void onPostExecute(BLResponseResult blBaseBodyResult) {
             super.onPostExecute(blBaseBodyResult);
             progressDialog.dismiss();
 
@@ -364,7 +424,7 @@ public class IRCodeAreaSelectActivity extends Activity {
         }
     }
 
-    class QuerySTBIRCodeScriptDownloadUrlTask extends AsyncTask<String, Void, BLBaseBodyResult> {
+    class QuerySTBIRCodeScriptDownloadUrlTask extends AsyncTask<String, Void, BLResponseResult> {
         ProgressDialog progressDialog;
 
         @Override
@@ -376,14 +436,14 @@ public class IRCodeAreaSelectActivity extends Activity {
         }
 
         @Override
-        protected BLBaseBodyResult doInBackground(String... strings) {
+        protected BLResponseResult doInBackground(String... strings) {
             int locateid = Integer.parseInt(strings[0]);
             int providerid = Integer.parseInt(strings[1]);
-            return BLLet.IRCode.requestSTBIRCodeScriptDownloadUrl(locateid, providerid, 0);
+            return BLIRCode.requestSTBIRCodeScriptDownloadUrl(locateid, providerid, 0);
         }
 
         @Override
-        protected void onPostExecute(BLBaseBodyResult blBaseBodyResult) {
+        protected void onPostExecute(BLResponseResult blBaseBodyResult) {
             super.onPostExecute(blBaseBodyResult);
             progressDialog.dismiss();
 

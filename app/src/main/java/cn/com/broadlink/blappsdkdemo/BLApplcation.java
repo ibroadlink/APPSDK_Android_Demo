@@ -8,13 +8,12 @@ import net.sqlcipher.database.SQLiteDatabase;
 import java.lang.reflect.Field;
 
 import cn.com.broadlink.account.BLAccount;
-import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.base.BLConfigParam;
-import cn.com.broadlink.base.BLLoginResult;
 import cn.com.broadlink.blappsdkdemo.common.BLSettings;
 import cn.com.broadlink.blappsdkdemo.common.BLUserInfoUnits;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.family.BLFamily;
+import cn.com.broadlink.ircode.BLIRCode;
 import cn.com.broadlink.sdk.BLLet;
 
 public class BLApplcation extends Application{
@@ -77,11 +76,13 @@ public class BLApplcation extends Application{
         BLFamily.init(companyId, lid);
         // 初始化账户库
         BLAccount.init(companyId, lid);
+        // 初始化红外码库
+        BLIRCode.init(lid, blConfigParam);
 
         // 添加登录成功回调函数
         BLAccount.addLoginListener(BLLet.Controller.getLoginListener());
-        BLAccount.addLoginListener(BLLet.IRCode.getLoginListener());
         BLAccount.addLoginListener(BLFamily.getLoginListener());
+        BLAccount.addLoginListener(BLIRCode.getLoginListener());
     }
 
     public void appFinish(){

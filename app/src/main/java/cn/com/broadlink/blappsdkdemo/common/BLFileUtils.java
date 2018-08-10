@@ -142,7 +142,6 @@ public class BLFileUtils {
 				StringBuffer sbString = new StringBuffer();
 				String str = null;
 				while ((str = reader.readLine()) != null) {
-					System.out.println(file.getName() + ":" + str);
 					sbString.append(str);
 				}
 				reader.close();

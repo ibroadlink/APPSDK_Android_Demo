@@ -89,8 +89,9 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.4.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.ibroadlink/BLLetAccountAndroid/2.6.6/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.ibroadlink/BLLetBaseAndroid/2.6.5/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.ibroadlink/BLLetCoreAndroid/2.6.12/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.ibroadlink/BLLetCoreAndroid/2.7.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.ibroadlink/BLLetFamilyAndroid/2.6.6/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.ibroadlink/BLLetIRCodeAndroid/2.1.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-safeguard" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
@@ -112,11 +113,12 @@
     <orderEntry type="library" exported="" name="Gradle: com.android.support.constraint:constraint-layout-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: __local_jars__:/Users/admin/Work/Broadlink/Gitlab/BLLetSDK/Android/Demo/BLAPPSDKNewDemo/app/libs/sqlcipher.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:appcompat-v7-23.4.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.ibroadlink:BLLetCoreAndroid-2.6.12" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.ibroadlink:BLLetCoreAndroid-2.7.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:design-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:animated-vector-drawable-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: __local_jars__:/Users/admin/Work/Broadlink/Gitlab/BLLetSDK/Android/Demo/BLAPPSDKNewDemo/app/libs/ormlite-android-encryption.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="Gradle: __local_jars__:/Users/admin/Work/Broadlink/Gitlab/BLLetSDK/Android/Demo/BLAPPSDKNewDemo/app/libs/cordova.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: com.ibroadlink:BLLetIRCodeAndroid-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.ibroadlink:BLLetAccountAndroid-2.6.6" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:support-v4-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.android.support:support-annotations:23.4.0@jar" level="project" />

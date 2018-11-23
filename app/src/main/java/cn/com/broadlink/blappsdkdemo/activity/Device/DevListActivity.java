@@ -44,6 +44,7 @@ public class DevListActivity extends TitleActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dev_list_layout);
         setTitle(R.string.Probe_Device_List);
+        setBackWhiteVisible();
 
         mLocalDeviceManager = BLLocalDeviceManager.getInstance();
         mDevices = mLocalDeviceManager.getLocalDevices();
@@ -53,7 +54,7 @@ public class DevListActivity extends TitleActivity {
     }
 
     private void findView() {
-        mDevListView = (ListView) findViewById(R.id.dev_list);
+        mDevListView = findViewById(R.id.dev_list);
         mDeviceAdapter  = new DeviceAdapter(DevListActivity.this, mDevices);
         mDevListView.setAdapter(mDeviceAdapter);
     }

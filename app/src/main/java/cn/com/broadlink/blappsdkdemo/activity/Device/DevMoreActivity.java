@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSON;
 import java.io.File;
 
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 
 import cn.com.broadlink.blappsdkdemo.data.BLDevProfileInfo;
@@ -20,6 +21,7 @@ import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.constants.controller.BLControllerErrCode;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
+import cn.com.broadlink.sdk.result.controller.BLDeviceTimeResult;
 import cn.com.broadlink.sdk.result.controller.BLDownloadScriptResult;
 import cn.com.broadlink.sdk.result.controller.BLDownloadUIResult;
 import cn.com.broadlink.sdk.result.controller.BLProfileStringResult;
@@ -27,7 +29,7 @@ import cn.com.broadlink.sdk.result.controller.BLQueryResoureVersionResult;
 import cn.com.broadlink.sdk.result.controller.BLResourceVersion;
 
 
-public class DevMoreActivity extends Activity{
+public class DevMoreActivity extends TitleActivity {
 
     /**RM 分类**/
     private static final String CATEGORY_RM = "1.1.5";
@@ -41,12 +43,20 @@ public class DevMoreActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dev_more_layout);
+        setTitle(R.string.Device_More_View);
+        setBackWhiteVisible();
 
         mDNADevice = getIntent().getParcelableExtra("INTENT_DEV_ID");
     }
 
+    //查询设备在线状态
     public void queryDeviceStatusOnServer(View view) {
         new QueryDeviceStatusTask().execute();
+    }
+
+    //查询设备在服务器时间
+    public void queryDeviceServerTime(View view) {
+        new QueryDeviceTimeTask().execute();
     }
 
     //脚本版本查询
@@ -71,7 +81,7 @@ public class DevMoreActivity extends Activity{
 
     //使用下载脚本控制设备
     public void dnaControl(View view) {
-        if (scriptFileExist() ) {
+        if (scriptFileExist()) {
             Intent intent = new Intent();
             intent.putExtra("INTENT_DEV_ID", mDNADevice);
             intent.setClass(DevMoreActivity.this, DnaControlActivity.class);
@@ -94,22 +104,18 @@ public class DevMoreActivity extends Activity{
     }
 
     //SP控制
-    public void spControl(View view){
-        if(scriptFileExist()){
-//            BLDevProfileInfo profileInfo = queryDevProfile();
-//            if(profileInfo.getSrvs().get(0).equals(CATEGORY_SP)){
-//                Intent intent = new Intent();
-//                intent.putExtra("INTENT_DEV_ID", mDNADevice);
-//                intent.setClass(DevMoreActivity.this, SPDemoActivity.class);
-//                startActivity(intent);
-//            }else{
-//                BLCommonUtils.toastShow(DevMoreActivity.this, "This device is not sp device!");
-//            }
-            Intent intent = new Intent();
-            intent.putExtra("INTENT_DEV_ID", mDNADevice);
-            intent.setClass(DevMoreActivity.this, SPDemoActivity.class);
-            startActivity(intent);
-        }else{
+    public void spControl(View view) {
+        if(scriptFileExist()) {
+            BLDevProfileInfo profileInfo = queryDevProfile();
+            if(profileInfo.getSrvs().get(0).equals(CATEGORY_SP)){
+                Intent intent = new Intent();
+                intent.putExtra("INTENT_DEV_ID", mDNADevice);
+                intent.setClass(DevMoreActivity.this, SPDemoActivity.class);
+                startActivity(intent);
+            }else{
+                BLCommonUtils.toastShow(DevMoreActivity.this, "This device is not sp device!");
+            }
+        } else {
             BLCommonUtils.toastShow(DevMoreActivity.this, "Script not exit, please download first!");
         }
     }
@@ -173,6 +179,31 @@ public class DevMoreActivity extends Activity{
         return file.exists();
     }
 
+    //服务器设备时间查询
+    class QueryDeviceTimeTask extends AsyncTask<Void, Void, BLDeviceTimeResult>{
+        private ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(DevMoreActivity.this);
+            progressDialog.setMessage("Requesting...");
+            progressDialog.show();
+        }
+
+        @Override
+        protected BLDeviceTimeResult doInBackground(Void... params) {
+            return BLLet.Controller.queryDeviceTime(mDNADevice.getDid());
+        }
+
+        @Override
+        protected void onPostExecute(BLDeviceTimeResult result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            BLCommonUtils.toastShow(DevMoreActivity.this, "Device Time ：" + result.getTime());
+        }
+    }
+
     //脚本版本查询
     class QueryDeviceStatusTask extends AsyncTask<Void, Void, Integer>{
         private ProgressDialog progressDialog;
@@ -220,8 +251,12 @@ public class DevMoreActivity extends Activity{
             super.onPostExecute(result);
             progressDialog.dismiss();
             if(result != null && result.getStatus() == BLControllerErrCode.SUCCESS){
-                BLResourceVersion version = result.getVersions().get(0);
-                BLCommonUtils.toastShow(DevMoreActivity.this, "Script Version ：" + version.getVersion());
+                if (result.getVersions() != null) {
+                    BLResourceVersion version = result.getVersions().get(0);
+                    BLCommonUtils.toastShow(DevMoreActivity.this, "Script Version ：" + version.getVersion());
+                } else {
+                    BLCommonUtils.toastShow(DevMoreActivity.this, "Script Version is null");
+                }
             }
         }
     }
@@ -268,7 +303,8 @@ public class DevMoreActivity extends Activity{
 
         @Override
         protected BLDownloadScriptResult doInBackground(Void... params) {
-            return BLLet.Controller.downloadScript(mDNADevice.getPid());
+            String pid = mDNADevice.getPid();
+            return BLLet.Controller.downloadScript(pid);
         }
 
         @Override
@@ -296,7 +332,8 @@ public class DevMoreActivity extends Activity{
 
         @Override
         protected BLDownloadUIResult doInBackground(Void... params) {
-            return BLLet.Controller.downloadUI(mDNADevice.getPid());
+            String pid = mDNADevice.getPid();
+            return BLLet.Controller.downloadUI(pid);
         }
 
         @Override

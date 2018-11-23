@@ -6,29 +6,24 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_config_device"
+        android:id="@+id/btn_start_check"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Config_Device"
+        android:text="@string/check_start"
         android:paddingLeft="20dp"
         android:paddingRight="20dp" />
 
-    <Button
-        android:id="@+id/btn_probe_device"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Probe_Device_List"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp" />
+        android:text="@string/Service_list"
+        android:textColor="#333" />
 
-    <Button
-        android:id="@+id/btn_my_device"
+    <ListView
+        android:id="@+id/server_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/My_Device_List"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp" />
-
+        android:layout_height="300dp"
+        android:layout_weight="1" />
 
 </LinearLayout>
-

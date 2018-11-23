@@ -1,14 +1,6 @@
 <resources>
-    <!--<string name="facebook_app_id">1190893947686095</string>-->
-    <string name="facebook_app_id">1285249481550769</string>
 
-    <string name="app_name">智小星</string>
-
-    <string name="str_url_privacy">https://privacypolicy.ibroadlink.com/privacypolicy/index.html</string>
-
-    <!-- 语音唤醒 -->
-    <string name="str_crazy_max">Mad Max</string>
-    <string name="str_max">Max</string>
+    <string name="app_name">BLTool</string>
 
     <!-- 上下拉刷新 -->
     <string name="cube_ptr_pull_down">Pull down</string>
@@ -243,12 +235,6 @@
     <string name="aacount_3rd_party_oauth_authentication_failed">3rd-party oauth authentication failed</string>
     <string name="str_no_permission">No permissions</string>
 
-    <!-- 启动页面-->
-    <string name="copyright_info">© 2018 Hangzhou Gubei Electronics Technology Co., Ltd.</string>
-    <string name="copyright_about_info">Copyright © 2014-2018 BroadLink all rights reserved</string>
-    <string name="leading_smart_life">Leading Smart Life</string>
-    <string name="welcome_smart_life">Welcome to smart home</string>
-
     <!-- 设备分类 -->
     <string name="str_main_device_smart_plug">Smart Plug</string>
     <string name="str_main_device_rm">Universal Remote</string>
@@ -341,41 +327,6 @@
     <string name="str_main_help">Help</string>
     <string name="str_main_about">About</string>
     <string name="str_main_settings">Settings</string>
-
-    <!-- 手势密码 -->
-    <string name="str_settings_set_gesture">Set unlock pattern</string>
-    <string name="str_settings_set_unlocking_pattern">Draw an unlock pattern</string>
-    <string name="str_settings_set_unlocking_pattern_again">Please draw the unlock pattern again</string>
-    <string name="str_settings_set_gesture_successfully">Set unlock pattern successfully</string>
-    <string name="str_settings_modify_gesture_password">Change unlock pattern</string>
-    <string name="str_settings_gesture_cancel">Disable unlock pattern</string>
-    <string name="str_settings_enter_original_gesture_password">Draw saved pattern</string>
-    <string name="str_settings_set_unlocking_pattern_once_more">Draw new pattern</string>
-    <string name="str_settings_enter_gesture_password">Please draw unlock pattern</string>
-    <string name="str_settings_modify_gesture_password_successfully">Change unlock pattern successfully</string>
-    <string name="str_settings_forget_gesture_password">Forget unlock pattern?</string>
-    <string name="str_settings_enter_err_original_gesture_password">Wrong patten</string>
-    <string name="str_settings_enter_new_gesture_password">Please draw new pattern</string>
-    <string name="str_settings_err_password_verify">Two inputs do not match. Please try again.</string>
-
-    <!-- 设置页面 -->
-    <string name="str_settings_vibrate_on_key">Button vibration</string>
-    <string name="str_settings_enable_notification">Push message</string>
-    <string name="str_settings_gesture">Gesture control</string>
-    <string name="str_settings_gesture_password">Gesture control</string>
-    <string name="str_settings_my_place">Homes List</string>
-    <string name="str_settings_my_image">My icons</string>
-    <string name="str_settings_my_setting">Settings</string>
-    <string name="str_settings_account_safety">Account security</string>
-    <string name="str_settings_check_version">Check new version</string>
-    <string name="str_settings_about_us">About the App</string>
-    <string name="str_settings_about">About the app</string>
-    <string name="str_settings_third_platform">Third-party platform</string>
-    <string name="str_checking_app_version">Checking new version...</string>
-    <string name="str_is_new_app_version">You are using the latest version</string>
-    <string name="third_platform_haikang">Cameras</string>
-    <string name="str_settings_my_scene">My scenes</string>
-    <string name="str_settings_my_dev">My devices</string>
 
     <!-- 帐号安全 -->
     <string name="sex_male">Male</string>
@@ -584,6 +535,8 @@
     <string name="str_settings_single_device">%d device</string>
     <string name="str_settings_no_device">No device</string>
     <string name="str_settings_add_a_room">Add a room</string>
+    <string name="str_family_region">Family Region</string>
+    <string name="str_settings_my_place">My Place</string>
 
     <!-- 家庭成员管理 -->
     <string name="str_settings_place_administrator">Owner</string>
@@ -1001,569 +954,6 @@
     <string name="str_devices_confirm_deleting">Do you want to delete this device from your home? You will be unable to control the device if you delete it.</string>
     <string name="str_new_fw_update_hint">New ﬁrmware version found! The current ﬁrmware may aﬀect normal function of some features.Update now?</string>
 
-    <!-- 场景 -->
-    <string name="str_add_scene_picture">Scene picture</string>
-    <string name="str_add_scene_add_appliances">Add appliance</string>
-    <string name="str_home_scene_name">Scene name</string>
-    <string name="str_home_scene_choose_devices">Select device</string>
-    <string name="str_add_scene_custom_scene">User-defined scene</string>
-    <string name="str_home_scene_photo">Choose a picture from gallery or take a picture for the scene</string>
-    <string name="str_home_scene_start">Enabled</string>
-    <string name="str_home_scene_all_features">All features</string>
-    <string name="str_home_scene_features_selected">Selected features</string>
-    <string name="str_home_scene_start_delay">Delay to execute after activating</string>
-    <string name="str_home_scene_set_function">Function setting</string>
-    <string name="str_home_scene_delay_time">Delay %1$sH %1$sM %2$sS</string>
-    <string name="str_recommend">Recommend</string>
-    <string name="str_add_scene_execute">Executing scene...</string>
-    <string name="str_add_scene_waiting">Waiting</string>
-    <string name="str_add_scene_finish">Scene finished</string>
-    <string name="str_add_scene_succeed">Activated successfully</string>
-    <string name="str_add_scene_failed">Failed to activate</string>
-    <string name="select_m1_source">Select music source</string>
-    <string name="format_play">Play %1$s</string>
-
-    <!--主页面S1-->
-    <string name="str_main_fuel_gas">Flue gas</string>
-    <string name="str_main_smoke_detector">Smoke sensor</string>
-    <string name="str_devices_doorsensor">Door sensor</string>
-    <string name="str_main_organize_protection">Away security</string>
-    <string name="str_main_protection_state">Security state</string>
-    <string name="str_main_infrared_detection">Motion sensor</string>
-    <string name="str_main_protection">Security</string>
-
-    <!-- A1 -->
-    <string name="str_main_environment_humidity">Humidity</string>
-    <string name="str_main_environment_sound">Noise</string>
-    <string name="str_main_environment_light">Illumination</string>
-    <string name="str_main_environment">Indoor environment</string>
-    <string name="str_main_music">Music</string>
-    <string name="str_main_camera">Camera</string>
-    <string name="str_main_dark">Dark</string>
-    <string name="str_main_dim">Low</string>
-    <string name="str_main_normal">Normal</string>
-    <string name="str_main_bright">High</string>
-    <string name="str_main_optimal">Perfect</string>
-    <string name="str_main_fine">Good</string>
-    <string name="str_main_bad">Bad</string>
-    <string name="str_main_quiet">Silent</string>
-    <string name="str_main_noise">High</string>
-    <string name="str_main_noisy">Extreme</string>
-    <string name="str_main_air_quality">Air quality</string>
-    <string name="str_main_eair">Environment sensor</string>
-    <string name="str_main_environment_parameter">Environment conditions</string>
-    <string name="str_main_time_parameter">Time range</string>
-    <string name="str_main_execute_order">Actions</string>
-    <string name="str_main_choose_executive_order">No action selected</string>
-    <string name="str_main_like_that">then</string>
-    <string name="if_en">if</string>
-    <string name="str_main_then">then</string>
-    <string name="str_main_choose">Select</string>
-    <string name="str_main_time_setting">Timer setting</string>
-    <string name="str_main_setting_time">Set time</string>
-    <string name="str_main_from">From</string>
-    <string name="str_main_choose_environment_parameters">No environment condition is selected. Please select from the list.</string>
-    <string name="str_common_if">if</string>
-    <string name="str_main_ifttt">IFTTT</string>
-    <string name="str_main_up">go up</string>
-    <string name="str_main_down">go down</string>
-    <string name="str_main_choose_device">Please choose a device for action</string>
-    <string name="str_main_rechoose_order">Please select again the action to be performed.</string>
-    <string name="str_place_open">ON</string>
-    <string name="str_main_set_wrong_time">Time setting error</string>
-    <string name="str_main_choose_one_parameter">Select one environment condition</string>
-    <string name="str_main_up_to">Go up to %1$s</string>
-    <string name="str_main_down_to">Go down to %1$s</string>
-    <string name="str_main_choose_some_parameters">Select a %1$s condition</string>
-    <string name="str_main_choose_some_parameter">Select %1$s condition</string>
-    <string name="str_main_to">to %1$s,</string>
-    <string name="str_main_choose_when">When %1$s</string>
-    <string name="str_main_no_group_button">Cannot choose button combination</string>
-    <string name="str_main_device_edit">Edit device</string>
-    <string name="str_main_confirm_display">Do you want to show information of %1$s on home page?</string>
-    <string name="str_main_device_default_display">Set as default to display</string>
-    <string name="str_main_eight_linkage_tasks">Max 8 triggers can be added</string>
-    <string name="str_settings_name_too_long">The name input is too long</string>
-    <string name="str_settings_name_icon_null">The name and icon must be set</string>
-    <string name="str_settings_name_null">The name must be set</string>
-    <string name="str_main_confirm_quit_sleeping_mode">Do you want to exit sleeping mode?</string>
-    <string name="str_main_start_sleeping_mode">When sleeping mode is enabled and after 30mins, it slowly turn down the volume until turning off automatically.</string>
-
-    <!-- S1 -->
-    <string name="str_loading">Waiting....</string>
-    <string name="str_ifttt_list">Task list</string>
-    <string name="str_delete_task_hint">Confirm to delete the timer or not?</string>
-    <string name="str_error_s1_max_time_list">You are allowed to add max 16 triggers</string>
-    <string name="str_if_en">if</string>
-    <string name="str_then_en">then</string>
-    <string name="if_zh">if</string>
-    <string name="then">then</string>
-    <string name="from">From</string>
-    <string name="to">To</string>
-    <string name="str_the_next_day">The next day</string>
-    <string name="str_format_delay_time">%1$s hour %2$s min</string>
-    <string name="caution">Alarm</string>
-    <string name="caution_item">Alarm info</string>
-    <string name="door_contact">Door sensor</string>
-    <string name="infrared_detection">PIR</string>
-    <string name="add_parts">Add accessories</string>
-    <string name="input_serial_number">Enter serial number</string>
-    <string name="msg_err">Data not match. Please check again.</string>
-    <string name="excute_current_day">Execute on current day</string>
-    <string name="every_day">Everyday</string>
-    <string name="s1_warning_set">Settings</string>
-    <string name="down_data">Downloading data....</string>
-    <string name="parse_data">Analyzing data....</string>
-    <string name="s1_add_sensor_hint">This sensor has already been added.</string>
-    <string name="err_network">The Internet connection is poor. Please check your network connection or try again.</string>
-    <string name="err_qr">Please check if it is an accessory of alarm kit and check the network connection.</string>
-    <string name="s1_security_level_bad">\n Security level: Low</string>
-    <string name="s1_security_level_good">\n Security level: Normal</string>
-    <string name="s1_security_level_best">\n Security level: High</string>
-    <string name="history_state">History state</string>
-    <string name="more_history">More history state</string>
-    <string name="sp_mini_have_not_history">No data</string>
-    <string name="s1_warning_hint">Alarm</string>
-    <string name="querying">querying...</string>
-    <string name="place_be_used">Zone</string>
-    <string name="more_set">Settings</string>
-    <string name="s1_scan_hint">Align the barcode of sensor in scanning box. \n The sensor can be added automatically.</string>
-    <string name="scan_qr">Scan bar code</string>
-    <string name="s1_vender_name">Vendor name</string>
-    <string name="s1_accessories_type">Sensor type</string>
-    <string name="s1_accessories_id">Sensor ID</string>
-    <string name="s1_warning">Security</string>
-    <string name="switch_on">ON</string>
-    <string name="switch_off">OFF</string>
-    <string name="s1_at_home_warning_exclude">Part-Arm</string>
-    <string name="things_be_used">Attach to</string>
-    <string name="s1_accessories_info">Sensor info</string>
-    <string name="s1_accessories_name">Type</string>
-    <string name="s1_set_accessories">Sensor definition</string>
-    <string name="last_step">Back</string>
-    <string name="save_success">save successfully</string>
-    <string name="err_null_name">Please enter a name</string>
-    <string name="error_s1_name_length">The length of input name exceeds limit. Please try another one.</string>
-    <string name="saving">Saving....</string>
-    <string name="place_be_used_hint">Please choose where to use new added accessories</string>
-    <string name="things_be_used_hint">Please choose the place for the sensor to be added</string>
-    <string name="enviromental_param">Environmental parameter</string>
-    <string name="unselected_executive_command">No action selected. Please select.</string>
-    <string name="err_select_enviromental_param">Environmental parameter hasn\'t been selected, please select</string>
-    <string name="time_param">Time parameter</string>
-    <string name="the_next_day">The next day</string>
-    <string name="executive_command">Actions</string>
-    <string name="ifttt">IFTTT</string>
-    <string name="error_s1_max_time_list">You are allowed to add max 16 triggers</string>
-    <string name="please_set_order">Please choose the action</string>
-    <string name="format_delay_time">%1$S hours %2$s minutes</string>
-    <string name="down_s1_ifttt_fail">Alarm kit failed to download IFTTT from cloud</string>
-    <string name="s1_out_home_warning">Full-Arm</string>
-    <string name="s1_sensor_state_change_delay">Absent delay time</string>
-    <string name="more_info">More info</string>
-    <string name="str_s1_modify_room">Change room</string>
-    <string name="please_choose">Please choose</string>
-    <string name="deleting">Deleting...</string>
-    <string name="error_delete_sensor">The sensor has been added in the IFTTT task. Do you want to delete it?</string>
-    <string name="set_success">Set successfully</string>
-    <string name="format_second">%1$s sec</string>
-    <string name="format_minute">%1$s min</string>
-    <string name="linkage">Triggers</string>
-    <string name="common_setting">General setting</string>
-    <string name="error_s1_sensor_size">Max 16 sensors can be added</string>
-    <string name="select_one_enviromental_param">Select one environmental parameter</string>
-    <string name="select_enviromental_param">Select environmental parameter</string>
-    <string name="error_s1_max_params">You are allowed to select max 6 conditions.</string>
-    <string name="delete_task_hint">Confirm to delete the timer or not?</string>
-    <string name="select_change_trend">Please select change trend</string>
-    <string name="setting_time">Set time</string>
-    <string name="str_s1_repeat">Repeated</string>
-    <string name="str_s1_choose">Select</string>
-    <string name="str_s1_keep_time">Retention time</string>
-    <string name="str_s1_set_time">Time setting</string>
-    <string name="str_s1_action_duration_hint">It will trigger interaction only after trigger requirement (conditions and retention time) is meet.</string>
-    <string name="str_s1_set_keep_time">Set duration of hold time</string>
-    <string name="str_s1_max_command_list">Alarm kit supports 8 instructions to be executed at most</string>
-    <string name="str_s1_warnning_setting">Alarm setting</string>
-    <string name="str_s1_warning_delay_time">Delay time settings</string>
-    <string name="str_s1_warning_delay_time2">Duration setting</string>
-    <string name="str_s1_alarm_hint">Warning</string>
-    <string name="str_set_s1_alarm_duration">Set the duration</string>
-    <string name="str_s1_at_home_warning">Part-Arm</string>
-    <string name="str_s1_set_at_home_warning">Alarm setting</string>
-    <string name="str_s1_alarm_duration_forever">Always</string>
-    <string name="str_error_no_profile">Cannot obtain product profile information</string>
-    <string name="str_error_get_product_info">Cannot obtain product information</string>
-    <string name="scene_content_too_much">Your number of scenes is full. Cannot add new scene.</string>
-    <string name="scene_null_content">No content in the scene. Please add content.</string>
-
-    <!-- 摄像头-->
-    <string name="realplay_play_fail_becauseof_network">Fail to play the video. Please check your network.</string>
-    <string name="realplay_play_talkback_network_exception">Network error. Talk-back is turned off.</string>
-    <string name="realplay_play_talkback_request_timeout">Request time out. Talk-back is turned off.</string>
-    <string name="realplay_set_vediomode_fail">Failed to switch video quality</string>
-    <string name="serial_number_error">Invalid serial number</string>
-    <string name="realplay_play_fail">Failed to play the video</string>
-    <string name="realplay_password_error_title">Enter device password</string>
-    <string name="realplay_password_error_message1">The default password is 12345. If you have changed the password, please enter the new password.</string>
-    <string name="realplay_encrypt_password_error_message">Your video has been encrypted. Please enter the password to view the video. The initial default password is the verification code on device tag. If there is no verification code, please enter ABCDEF (password is case-sensitive).</string>
-    <string name="realplay_password_error_message3">Your device version is old. You need to enter the device password. It is recommended to upgrade your device.</string>
-    <string name="realplay_password_error_message4">This video is encrypted. Please contact the sharer to gain password(case sensitive)</string>
-    <string name="realplay_encrypt_password_error_title">Enter encrypted password of video and picture</string>
-    <string name="remoteplayback_over_link">The number of connect device is excessive, stop other connections and try again</string>
-    <string name="realplay_fail_device_not_exist">Device is offline</string>
-    <string name="realplay_fail_connect_device">Failed to play the video. Device connection error.</string>
-    <string name="realplay_set_fail_status">Failed to play the video. Privacy protection mode of device is enabled.</string>
-    <string name="realplay_share_time_over">Sharing ends. See you next time.</string>
-    <string name="realplay_share_no_permission">Sharing has stopped</string>
-    <string name="realplay_no_permission">No preview permission</string>
-    <string name="realplay_play_no_video_source">No video source</string>
-    <string name="please_input_phonenumber_txt">Please enter a valid mobile phone number</string>
-    <string name="get_sms_code">Obtain activation code</string>
-    <string name="sms_verify_code_received">Please input the activation code in your SMS</string>
-    <string name="please_input_phone_txt">Please enter phone number to enable Ezviz cloud service:/n(Please read the \&apos;Private cloud connection process\&apos;)</string>
-    <string name="open_ys_service">Enable Ezviz cloud service</string>
-    <string name="get_sms_code_fail">Fail to obtain activation code</string>
-    <string name="open_ys_service_fail">Failed enable ezviz cloud service</string>
-    <string name="open_ys_service_success">Enable Ezviz cloud service successfully</string>
-    <string name="secure_validatee_fail">Validation failed</string>
-    <string name="submit_secure_validate">Submit validation</string>
-    <string name="secure_validate">Hardware validation</string>
-    <string name="secure_validate_success">Validation succeeds</string>
-    <string name="device_password_is_null">The password can\&apos;t be empty</string>
-    <string name="get_serial_nul_fail">Failed to obtain the serial number</string>
-    <string name="verify_code_title">Please input the activation code on the bottom of device</string>
-
-    <!-- Camera 新增-->
-    <string name="message_no_data_text">No message record found</string>
-    <string name="ipc_local_video">Record</string>
-    <string name="talk">Talk-back</string>
-    <string name="ptz">Rotate</string>
-    <string name="screen_shot">Capture</string>
-    <string name="video_tape">Record</string>
-    <string name="quality">Quality</string>
-    <string name="ipc_local_pic">Picture</string>
-    <string name="cloud_video">Cloud video</string>
-    <string name="ipc_unbind">Cancel binding</string>
-    <string name="video">Video</string>
-    <string name="message">Message</string>
-    <string name="select_time">Select time</string>
-    <string name="alert_year">Y</string>
-    <string name="alert_month">M</string>
-    <string name="alert_day">D</string>
-    <string name="select_date">Select the date</string>
-    <string name="realplay_net_warn">Your data traffic reaches alert limit. Do you want to continue to watching video?</string>
-    <string name="realplay_stop">Stop</string>
-    <string name="realplay_continue">Continue</string>
-    <string name="ipc_unbind_hint">Do you want to unbind the camera from current Ezviz account?</string>
-    <string name="select_trigger_condition">Select trigger condition</string>
-    <string name="detail_del_device_success">Deleted successfully</string>
-    <string name="alarm_message_del_fail_txt">Failed to delete</string>
-    <string name="alarm_message_del_fail_network_exception">Failed to delete. Please check your network connection.</string>
-    <string name="network_3g">3G network</string>
-    <string name="str_main_camera_unavailable_wifi">Your phone will use data service to play the video and may generate extra cost if it is not in a Wi-Fi network.  Do you want to continue?</string>
-    <string name="start_voice_talk">Initiating talk-back</string>
-    <string name="local_network_unnedd_pwd">The network does not need passwords</string>
-    <string name="local_network_exception">No available network found. Please check your network connection.</string>
-    <string name="realplay_set_fail_network">Set failed, please check your network</string>
-    <string name="press_to_talk_release_to_listen">Hold to talk \n Release to listen</string>
-    <string name="talking">Talking....</string>
-    <string name="realplay_play_talkback_fail">Fail to enable talk-back. Error code:</string>
-    <string name="realplay_play_talkback_fail_ison">You can only use talk-back with one device at the same time. Please stop your current talk-back and try again.</string>
-    <string name="realplay_play_talkback_fail_privacy">Talk-back is not available under privacy protection mode.</string>
-    <string name="check_feature_code_fail">Failed to verify feature code of hardware</string>
-    <string name="setting_video_level">Setting video quality....</string>
-    <string name="message_video">Message video</string>
-    <string name="message_live">Live video</string>
-    <string name="message_come_from_tip">From:</string>
-    <string name="message_refresh_fail_network_exception">Failed to obtain event message. Please check your network connection.</string>
-    <string name="message_refresh_fail_server_exception">Failed to obtain event message. Server error.</string>
-    <string name="get_message_fail_service_exception">Failed to obtain event message</string>
-    <string name="refresh">Retry</string>
-
-    <string name="alarm_type_remotecontrol">Event: Emergency help detected!</string>
-    <string name="alarm_type_infrared">Event: Person detected!</string>
-    <string name="alarm_type_door">Alarm: Door opened!</string>
-    <string name="alarm_type_smoke">Alarm: Smoke detected!</string>
-    <string name="alarm_type_gas">Alarm: Flammable gas detected!</string>
-    <string name="alarm_type_water">Alarm: Water leakage detected!</string>
-    <string name="alarm_type_urgent_button">Alarm: Emergency help detected!</string>
-    <string name="alarm_type_person_alarm">Alarm: Person detected!</string>
-    <string name="alarm_type_motion_detection">Alarm: Movement detected!</string>
-    <string name="alarm_type_baby_cry">Alarm: Baby crying detected!</string>
-    <string name="alarm_type_unknown">Alarm: Unknown event!</string>
-    <string name="pir">Motion detection</string>
-    <string name="motion">Occupancy</string>
-    <string name="light">Brightness</string>
-    <string name="choose_pir">Choose motion detection</string>
-    <string name="choose_light">Choose brightness</string>
-    <string name="choose_motion">Choose motion property</string>
-    <string name="please_set_trigger">Please choose the event</string>
-    <string name="error_camera_max_time_list">You are allowed to add max 15 triggers</string>
-    <string name="format_tag">When %1$s, %2$s</string>
-    <string name="open_camera_fail">Failed to start camera. Please enter manually to add the device.</string>
-    <string name="cooling_time">Cool-down time</string>
-    <string name="select_trigger_condition_title">Trigger condition</string>
-
-    <!-- 历史录像回放界面 -->
-    <string name="error_web_device_added_btn_other">The device has been added by another user</string>
-    <string name="camera_not_online">Device is offline</string>
-    <string name="remoteplayback_fail">Failed to play the video. Error code:</string>
-    <string name="remoteplayback_connect_server_error">Failed to connect to the server. Please try again.</string>
-    <string name="remoteplayback_connect_device_error">Failed to play the video. Please try again.</string>
-    <string name="remoteplayback_searchfile_fail_for_network">Failed to search the video. Please check your network connection.</string>
-    <string name="remoteplayback_searchfile_fail_for_device">Failed to search the video. Error code:</string>
-    <string name="remoteplayback_norecordfile">No video found</string>
-    <string name="remoteplayback_norecordfile_alarm">Cannot find alarm video on this time</string>
-    <string name="remoteplayback_capture_fail">Failed to capture picture</string>
-    <string name="remoteplayback_capture_fail_for_memory">Failed to capture picture. The storage is full.</string>
-    <string name="remoteplayback_record_fail">Failed to record video</string>
-    <string name="remoteplayback_record_fail_for_memory">Failed to record video. The storage is full.</string>
-    <string name="remoteplayback_SDCard_disable_use">Memory card not available</string>
-    <string name="stop_in_seconds">(Stop automatically after %s)</string>
-
-    <!-- 条形码、二维码扫描 -->
-    <string name="str_common_sweep_code">Scan QR code</string>
-    <string name="str_common_align_sweeping_code">Align QR code within the frame to scan</string>
-    <string name="scan_cue_txt">Align the QR code on device or user manual within the scanning frame. Your smart phone will identify the code.</string>
-    <string name="scan_title_txt">Scan S/N</string>
-    <string name="manual_input_txt">Input manually</string>
-    <string name="str_dev_validity_check">Authentication check</string>
-    <string name="str_dev_unvalidity">The device is illegal</string>
-
-    <!-- MS1 音乐源列表 -->
-    <string name="current_bound">Current music source</string>
-    <string name="source_baidu">Baidu Cloud</string>
-    <string name="source_xiami">Xiami Music</string>
-    <string name="ximalaya">Ximalaya Radio</string>
-    <string name="source_net">Internet radio</string>
-    <string name="qingting_fm">Qingting FM</string>
-    <string name="source_sd">Micro SD card</string>
-    <string name="format_m1_bound_source">Select %1$s and bind to %2$s</string>
-    <string name="format_ms1_listen_music">Loading“%1$s”....</string>
-    <string name="cancel_listen">Cancel</string>
-    <string name="listen">Listen</string>
-    <string name="bound">Binding</string>
-    <string name="m1_bound_success_hint">Tap the number in App and press the same number on device to bind the music.</string>
-    <string name="perfect_experience">Perfect experience</string>
-    <string name="unbind_music">No music source is bound</string>
-
-    <!-- MS1 xiami-->
-    <string name="input_xiami_search_key">Enter the name of song, album or artist</string>
-    <string name="recommend_music_list">Recommended</string>
-    <string name="xiami_rank">Top Hits</string>
-    <string name="xiami_radio">Radio</string>
-    <string name="xiami_collect">Collection</string>
-    <string name="xiami_my_music">My Music</string>
-    <string name="music">Music</string>
-    <string name="song">Songs</string>
-    <string name="special">Album</string>
-    <string name="artist">Artist</string>
-    <string name="history_list">History</string>
-    <string name="clear_history_list">Clear search history</string>
-    <string name="xiami_auth">Xiami authentication</string>
-
-    <!--ms1 ximalay-->
-    <string name="voice">Noise</string>
-
-    <!-- ms1 网络电台-->
-    <string name="search_net_radio_hint">Search the radio channels you like</string>
-    <string name="no_net_radio">No music and radio source found</string>
-    <string name="click_add_net_radio">Tap &quot;+&quot; on top right corner to add the music and radio source</string>
-    <string name="set_music">Set source of music</string>
-    <string name="delete_hint">Do you want to delete?</string>
-    <string name="add_radio_address">Add radio source URL</string>
-    <string name="input_radio_name">Please input radio name</string>
-    <string name="input_radio_url">Please input radio source URL</string>
-    <string name="close_m1_hint_no_adapter">The Wi-Fi speaker is not connected to AC power. You cannot turn on the device from App when it is in OFF state. Do you want to turn off MS1?</string>
-    <string name="close_m1_hint">Do you want to turn off MS1?</string>
-
-    <!-- MS1 闹钟-->
-    <string name="alarm">Alarm clock</string>
-    <string name="m1_no_alarm_list">No alarm clock</string>
-    <string name="m1_no_alarm_list_hint">Tap &quot;+&quot; on top right corner to add the alarm ring</string>
-    <string name="ring">Ring</string>
-    <string name="mon">Mon</string>
-    <string name="get_up_mode">Wake-up mode</string>
-    <string name="add_alarm_clock">Add alarm clock</string>
-    <string name="m1_select_source_alarm">Select a music source as alarm ring</string>
-    <string name="save">Save</string>
-    <string name="run_one_time">One time</string>
-    <string name="m1_max_alram_length">Able to add 10 alarm clocks at most</string>
-
-    <!-- MS1 设置-->
-    <string name="creat_shortcut">Create shortcut</string>
-    <string name="open_shortcut_hint">If the shortcut is enabled, the device icon will be displayed in the home page of App.</string>
-    <string name="lock_device">Lock device</string>
-    <string name="lock_device_hint">If the device is locked, other users in the network will not be able to find the device.</string>
-    <string name="tf_share">Share contents in Micro SD card</string>
-    <string name="format_tf_share_hint">Please input the address as below in the address bar of my computer:\\%1$s</string>
-    <string name="voice_prompt">Voice prompt</string>
-    <string name="m1_connection_play">Continue play</string>
-    <string name="wifi_link">Wi-Fi connection</string>
-    <string name="background_image">Background picture</string>
-    <string name="sleep_mode">Sleeping mode</string>
-    <string name="sleep_mode_hint">When sleeping mode is enabled, it will start to lower the volume after 30min and finally turn off the device.</string>
-    <string name="tf_share_local">Micro SD card sharing is only available in the same Wi-Fi network</string>
-    <string name="save_wifi_list">Saved Wi-Fi SSID</string>
-
-    <!-- MS1固件升级-->
-    <string name="firmware_version">Firmware version</string>
-    <string name="remote_version">New version:</string>
-    <string name="firmware_update">Firmware update</string>
-    <string name="version_info">Version Info</string>
-    <string name="pro_setting">Advanced</string>
-    <string name="update_hint">Do you want to update?</string>
-    <string name="url">Please enter firmware URL address</string>
-    <string name="url_hint">Please enter correct firmware URL for user-defined update.</string>
-    <string name="force_update">Update firmware version</string>
-    <string name="err_url">URL format error. Please enter again.</string>
-    <string name="query_update_state">Checking the progress of updates</string>
-    <string name="downing">Downloading....</string>
-    <string name="downing_res_fail">Failed to download resources</string>
-    <string name="writing">Erasing....</string>
-    <string name="download_success_update">Download successfully, do you want to update the firmware of MS1 now?</string>
-    <string name="update_fail">Failed to update</string>
-    <string name="send_fail">Failed to send</string>
-    <string name="update_success">Update successfully</string>
-    <string name="send_success">Sent successfully</string>
-    <string name="format_update_content">What\'s updated in %1$s:</string>
-
-    <!--MS1 wifi -->
-    <string name="password">Password</string>
-    <string name="input_wifi_password">Please enter Wi-Fi password</string>
-    <string name="max_three_ssid">Max 3 Wi-Fi SSIDs can be saved.</string>
-    <string name="timer_get_error">Querying failed</string>
-
-    <!-- MS1 列表-->
-    <string name="home">Home page</string>
-    <string name="str_devices_tv_open">Turn on TV</string>
-    <string name="str_devices_tv_close">Turn off TV</string>
-    <string name="str_common_click_add_device">Please tap here\nto add device</string>
-
-    <string name="alter_delay_delete_tip">Do you want to cancel delay timer?</string>
-    <string name="rm_ac_wind_direct_auto">Auto</string>
-    <string name="rm_ac_wind_direct_fixed">Fix</string>
-    <string name="choose_room_without_rm">You cannot choose this room as no universal remote is found in the room.</string>
-    <string name="str_combo_key">Name the button</string>
-    <string name="str_combo_key_hint">Please enter a name for the combo button</string>
-    <string name="str_combo_key_icon">Button icon</string>
-    <string name="str_combo_key_icon_title">Combo button icon</string>
-    <string name="str_combo_test">Test</string>
-    <string name="str_combo_add">Add combo button</string>
-
-    <string name="str_add_scene_go_home">Home</string>
-    <string name="str_add_scene_away_home">Away</string>
-    <string name="str_add_scene_get_up">Morning</string>
-    <string name="str_add_scene_sleep">Night</string>
-
-    <!-- 月光宝盒 -->
-    <string name="str_mbox_control">ON/OFF</string>
-    <string name="str_mbox_add_time">Add more</string>
-    <string name="str_add_time_introduce">Add timer in calendar.\n e.g.: Turn on at 14:30:00 on Oct.10</string>
-    <string name="str_add_delay_introduce">Set timer for a period.\n e.g.: Turn on after 14’30’’</string>
-    <string name="str_add_repeat_introduce">Set a timer repeated on specific day(s).\n e.g.: Turn on at 14:30:00 on every Thursday</string>
-    <string name="str_add_cycle_introduce">Set a timer to turn on and off alternatively in specific time range.\n e.g.: During 08:30:30 - 18:30:30, turn on every 4’30’’ and turn off every 2’30’’</string>
-    <string name="str_add_rand_introduce">Set a timer to turn on and off randomly in specific time range.\n e.g.: During 08:30:30 - 18:30:30, turn on and off randomly</string>
-    <string name="str_common_command_set">Command setting</string>
-    <string name="str_delete_time_title">Delete timer</string>
-    <string name="str_delete_time_content">Do you want to delete this timer?</string>
-    <string name="str_product_name">Device name</string>
-    <string name="str_product_icon">Product icon</string>
-    <string name="str_delay_time_edit">Edit delay timer</string>
-    <string name="str_timer_edit">Edit scheduled timer</string>
-    <string name="str_repeat_time_edit">Edit lap timer</string>
-    <string name="str_cycle_time_edit">Edit cycled timer</string>
-    <string name="str_rand_time_edit">Edit random timer</string>
-
-    <string name="str_add_16_sub_dev_hint">Max 16 sensors can be added</string>
-    <string name="sub_dev_not_surpport">Unsupported accessory type</string>
-
-    <!-- ImageLib -->
-    <string name="imagelib_warn_http_cancle">Cancel communication</string>
-    <string name="imagelib_warn_http_nook">You are using data service and this may generate cost. Do you want to proceed?</string>
-    <string name="imagelib_warn_http_cancle_add">Failed to add. Please check your network connection.</string>
-    <string name="imagelib_warn_http_cancle_del">Failed to delete. Please check your network connection.</string>
-    <string name="imagelib_warn_http_cancle_edit">Failed to edit. Please check your network connection.</string>
-    <string name="imagelib_warn_http_cancle_get">Failed to refresh. Please check your network connection.</string>
-    <string name="imagelib_warn_http_doing_get">Refreshing data.... Please wait.</string>
-    <string name="imagelib_error_img">Unknown error, please change the picture again</string>
-    <string name="iamgeLib_tab_official">official</string>
-    <string name="iamgeLib_tab_custom">custom</string>
-    <string name="iamgeLib_title_mid">Icons</string>
-    <string name="iamgeLib_title_right_edit">Edit</string>
-    <string name="iamgeLib_title_right_save">Save</string>
-    <string name="iamgeLib_offical_home">Home background</string>
-    <string name="iamgeLib_offical_device">Device</string>
-    <string name="iamgeLib_offical_button">Button</string>
-    <string name="iamgeLib_offical_button_subtype_tv">TV</string>
-    <string name="iamgeLib_offical_button_subtype_box">Set-top box</string>
-    <string name="iamgeLib_offical_button_subtype_airControll">Air conditioner</string>
-    <string name="iamgeLib_user_image">Picture</string>
-    <string name="iamgeLib_user_icon">Icon</string>
-
-    <string name="str_device_authorize">Authorize the device %1$s to obtain the following permissions</string>
-    <string name="str_common_authorize">Authorize</string>
-    <string name="str_authorize_centre">Permission center</string>
-    <string name="str_device_authorize_already">The following devices are granted with permissions:</string>
-    <string name="str_device_authority">Permission</string>
-    <string name="str_device_authorized">Permitted devices</string>
-    <string name="str_open_authority_hint">Allow %1$s?</string>
-    <string name="str_open_authority_hint2">Obtain permission?</string>
-    <string name="str_select_all">All</string>
-    <string name="str_authorize_hint">You can select permissions in the list to authorize devices.</string>
-    <string name="str_format_auth_size">%1$s permission</string>
-    <string name="str_no_auth_dev">Unauthorized devices</string>
-    <string name="str_device_select_authorized">You did not select permissions from the list to be authorized</string>
-
-    <!--联动-->
-    <string name="str_change_to">Change to</string>
-    <string name="str_change_up">Move up to</string>
-    <string name="str_change_down">Move down to</string>
-    <string name="str_change_greater">&gt;</string>
-    <string name="str_change_less">&lt;</string>
-    <string name="str_condition">Conditions</string>
-    <string name="str_addcondition">Add condition</string>
-    <string name="str_adddely">Add delay timer</string>
-    <string name="str_characteristic_title">Triggers</string>
-    <string name="str_addlinkage">Add a trigger</string>
-    <string name="str_trigger">Trigger condition</string>
-    <string name="str_addtrigger">Add a trigger condition</string>
-    <string name="str_addcustomlinkage">Add a user-defined trigger</string>
-    <string name="str_addlinkagemodel">Add a smart cloud trigger</string>
-    <string name="str_time">Time</string>
-    <string name="str_characteristic">Property</string>
-    <string name="str_location">Location</string>
-    <string name="str_cancle">Cancel</string>
-    <string name="str_timetrigger">Time trigger</string>
-    <string name="str_time_condition">Time condition</string>
-    <string name="str_hintname">Please input name</string>
-    <string name="str_enable">Enabled</string>
-    <string name="str_datetime">Date and time</string>
-    <string name="str_addcustomlinkage_state">Set trigger conditions for the scene The selected scene will be triggered if certain time, location or change of device property is matched.</string>
-    <string name="str_enable_state">Switch to enable or disable the trigger for the scene.</string>
-    <string name="str_addevent">Add property</string>
-    <string name="str_event_state">The trigger will be activated if the property of this device is changed. e.g.: Turn on lights when you arrive home.</string>
-    <string name="str_condition_state">If all conditions are matched, the change of device property will trigger the specified scene.</string>
-    <string name="str_delay_time">%1$H %2$sM</string>
-    <string name="str_tip_selectparam">Please select the condition to be set</string>
-    <string name="str_instance_scen">Please choose a scene</string>
-    <string name="str_atleast_characteristic">Please add at lease one property</string>
-    <string name="str_rule_scene">Act</string>
-    <string name="str_rule_event">Trigger</string>
-    <string name="str_condition_null">No</string>
-    <string name="str_error_time_setting">Time period format setting error</string>
-
-    <string name="str_query_getway_subdev_list_err">Failed to query accessory list under this gateway</string>
-    <string name="str_getway_subdev_list">Accessory list under this gateway</string>
-    <string name="str_device_upgrade">Please update these devices</string>
-    <string name="str_device_upgrade_please">Device update</string>
-    <string name="str_device_upgrade_finish">Update successfully</string>
-    <string name="str_virtual_device">Virtual Devices</string>
-    <string name="str_congfig_subdev_hint">No gateway is found. You cannot configure %1$s.</string>
-    <string name="str_show_homepage">Display in the home page</string>
-    <string name="str_err_irdata_isnull">Invalid IR code</string>
-
     <!-- RM 学习红码-->
     <string name="str_rm_study_ir">Learn IR code</string>
     <string name="str_rm_study_rf">Learn RF code</string>
@@ -1598,6 +988,7 @@
     <string name="str_get_started">Get Started</string>
     <string name="str_add_rm_module">Add a remote control to master the home electrical appliances</string>
     <string name="str_login_with">Sign in with</string>
+    <string name="str_password">Password</string>
 
     <!-- RM 新交互 -->
     <string name="str_ac_match_type">Matching mode</string>
@@ -1621,61 +1012,6 @@
     <string name="str_common_wind_low">Low air</string>
     <string name="str_devices_learn_complete">Finish the study</string>
     <string name="str_download_ircode_fail">Failed to download IR code</string>
-
-    <!-- 萤石 摄像头-->
-    <string name="defence_plan">protection plan</string>
-      
-    <string name="ez_settings_device_serial">serial number</string>
-      
-    <string name="defence_plan_tip">After opening the protection plan, the alarm box will automatically switch the protection mode according to the time you set</string>
-      
-    <string name="set_defence_plan">set the protection plan</string>
-      
-    <string name="ez_current_version">current version</string>
-      
-    <string name="source_detection_off">OFF</string>
-      
-    <string name="close_source_localization">Listen to</string>
-      
-    <string name="close_camera_lens">lens mask</string>
-      
-    <string name="quality_hd">HD</string>
-      
-    <string name="quality_balanced">Equalization</string>
-      
-    <string name="quality_flunet">fluent</string>
-      
-    <string name="realplay_full_talk_start_tip">you can start talking</string>
-      
-    <string name="already_saved_to_volume">saved to album</string>
-      
-    <string name="camera_lens_closed">lens mask</string>
-      
-    <string name="detail_safe_mode">video image encryption</string>
-      
-    <string name="detail_defend_c1_c2_f1">activity detection reminder</string>
-      
-    <string name="ez_latest_version">latest version</string>
-      
-    <string name="version_newest">is the latest version</string>
-      
-    <string name="encrypt_password_open_fail">operation failed</string>
-      
-    <string name="encrypt_password_open_success">operation succeed</string>
-      
-    <string name="ez_dialog_btn_disable_video_encrypt">turn off video encryption</string>
-      
-    <string name="input_device_verify_code">Please enter the device verification code</string>
-      
-    <string name="device_have_not_added">device not added or deleted</string>
-      
-    <string name="detail_safe_close_btn_tip">After closing, the security level of video and picture viewing will be reduced and sure to turn off?</string>
-      
-    <string name="detail_safe_btn_tip">If your video is being shared, someone else will not be able to view the video after opening. Are you sure you want to open?</string>
-      
-    <string name="str_query_fw_version_fail">failed to get device version information</string>
-      
-    <string name="str_fw_update_progress_format">Upgrade progress:%1$d%%</string>
 
     <!--产品添加 -->
     <string name="str_all_catrgory">All category</string>
@@ -1703,27 +1039,10 @@
     <string name="str_electricity_price_number">Electricity price number</string>
     <string name="str_local_electricity_price">%1$s/kWh</string>
 
-    <!--声明隐私条款-->
-    <string name="str_start_privacy_statement">Registration means that you agree with the &#160;</string>
-    <string name="str_end_privacy_statement">privacy terms</string>
-    <string name="str_title_privacy_statement">BroadLink-Private Policy</string>
-
     <!--欢迎家庭界面-->
     <string name="str_welcome_home">Welcome home</string>
     <string name="str_welcome_home_tip">With ihc app, you can control your home smart devices at any time .</string>
     <string name="str_start_use">Get started</string>
-
-    <!--第三方服务模块-->
-    <string name="str_alexa">Alexa</string>
-    <string name="str_alexa_page_title">Work with Alexa</string>
-
-    <!--场景-->
-    <string name="str_done">Done</string>
-
-    <!-- 家庭-->
-    <string name="str_family_region">Home location</string>
-    <string name="str_during_peak_hours">Low hour</string>
-    <string name="str_into_wifi_set">Enter Wi-Fi settings</string>
 
     <!-- 机顶盒-->
     <string name="str_tv_add_topbox_hint">Do you watch programs through your set top box？</string>
@@ -1883,26 +1202,6 @@
     <string name="tip_bind_phone_succ">Bind phone Success</string>
     <string name="tip_bind_email_succ">Bind email Success</string>
 
-    <!--海康摄像头-->
-    <string name="touch_to_load">Touch screen to reload</string>
-    <string name="no_remote_data">Quiet day, did not record anything ~</string>
-    <string name="delete">Delete</string>
-    <string name="auto_play_time">%s seconds later, the next video will be played</string>
-    <string name="play_hour">O\'clock</string>
-    <string name="more_local_image">more local video</string>
-    <string name="local_play_hour">O\'clock</string>
-    <string name="ez_cloud_video">Cloud video</string>
-    <string name="ez_device_video">SD card recording</string>
-    <string name="ez_no_remote_data">No cloud video was found</string>
-    <string name="ez_no_remote_data_device">No local video was found</string>
-    <string name="am">Am</string>
-    <string name="pm">Afternoon</string>
-    <string name="month">Month</string>
-    <string name="day">Day</string>
-    <string name="local_video_not_delete">Delete local video not supported</string>
-    <string name="loading_text_default">Loading, please wait</string>
-    <string name="calendar_setting_error">Please set the date after 2012/01/01</string>
-
     <!--权限弹框-->
     <string name="str_permission_title">Ihc needs the following permissions to provide you with a complete service</string>
     <string name="str_permission_location">Location permissions</string>
@@ -2020,11 +1319,11 @@
 
     <string name="loading">Loading...</string>
 
-    <string name="Device_Control">设备管理</string>
-    <string name="Account_Control">账户管理</string>
-    <string name="Family_Control">家庭管理</string>
-    <string name="IRCode_Control">红外码管理</string>
-    <string name="Network_Check">网络服务检测</string>
+    <string name="Device_Control">Device Management</string>
+    <string name="Account_Control">Account Management</string>
+    <string name="Family_Control">Family Management</string>
+    <string name="IRCode_Control">IRCode Management</string>
+    <string name="Network_Check">Network Check</string>
 
     <string name="Login">Login</string>
     <string name="Logining">Logining...</string>
@@ -2054,16 +1353,18 @@
     <string name="Main_View">Main View</string>
     <string name="title_activity_my_device_list">MyDeviceListActivity</string>
 
-    <string name="Device_Control_Main">设备管理主页</string>
-    <string name="Config_Device">设备配网</string>
-    <string name="Probe_Device_List">设备局域网扫描</string>
-    <string name="My_Device_List">我的设备列表</string>
+    <string name="Device_Control_Main">Device Main</string>
+    <string name="Config_Device">Device Config</string>
+    <string name="Probe_Device_List">Device Probe</string>
+    <string name="My_Device_List">My Device List</string>
+    <string name="Device_STD_Control">Device Control</string>
 
-    <string name="Input_SSID">请输入SSID</string>
-    <string name="Input_PASSWORD">请输入密码</string>
-    <string name="Config_2_Device">2代配网</string>
-    <string name="Config_3_Device">3代配网</string>
-    <string name="Config_AP_Device">AP配网</string>
+    <string name="Input_SSID">Please input SSID</string>
+    <string name="Input_PASSWORD">Please input password</string>
+    <string name="Config_2_Device">SmartConfig 2</string>
+    <string name="Config_3_Device">SmartConfig 3</string>
+    <string name="Config_AP_SCAN">Scan AP List</string>
+    <string name="Config_AP">AP Config</string>
 
     <string name="Device_More_View">Device More</string>
     <string name="Query_SERVER_TIME">Query SERVER TIME</string>
@@ -2072,7 +1373,7 @@
     <string name="Script_Download">Script Download</string>
     <string name="UI_Verision">UI Verision</string>
     <string name="UI_Download">UI Download</string>
-    <string name="Standard_DnaControl">Standard DnaControl</string>
+    <string name="Standard_DnaControl">STD DnaControl</string>
     <string name="WebControl">WebControl</string>
     <string name="SPControl">SPControl</string>
     <string name="RMControl">RMControl</string>
@@ -2118,4 +1419,10 @@
     <string name="Family_Version">Family Version : </string>
     <string name="Create_Module">Create Module</string>
     <string name="title_activity_family_room_list">FamilyRoomListActivity</string>
+
+    <string name="check_sdk">SDK Check</string>
+    <string name="check_device">Device Check</string>
+    <string name="check_start">Start Check</string>
+    <string name="Service_list">Service List</string>
+
 </resources>

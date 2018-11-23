@@ -18,12 +18,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="LET_LICENSE"
-            android:value="CceFpDt7d+r4pZ8KP74tbpNSf9Ug9pP+ytpIXApsCYpvvDEid0s8SdJtKgQMc5QmUsWWVwAAAACvEX37zpG5Wgi/Mlnda1pd2B9J96AQz9N0vO6WstfgR9yEgbkpFXFyJbsnfyHXt8pOdkTVo81rQrPhkOnhmpQBsEkbxXTfoUSQjDzWcfVjcAAAAAA=" />
+
          <!--<meta-data-->
          <!--android:name="LET_LICENSE"-->
-         <!--android:value="vL+QKsjdYlYmBSFRDXyODXM34LGAgrLzG36TDA3+rHNqWOBZ9Z96sm9wMqqwyWo0knHbWAAAAADUQSajZpK4LySMhnlkW3G81jNZGl8Gj0M3TRWBiON6x9m3k0d2hvgWfetMpOK+1IJQCGnYoGAWDBFGs6J0Q8UJsEkbxXTfoUSQjDzWcfVjcAAAAAA=" />-->
+         <!--android:value="CceFpDt7d+r4pZ8KP74tbpNSf9Ug9pP+ytpIXApsCYpvvDEid0s8SdJtKgQMc5QmUsWWVwAAAACvEX37zpG5Wgi/Mlnda1pd2B9J96AQz9N0vO6WstfgR9yEgbkpFXFyJbsnfyHXt8pOdkTVo81rQrPhkOnhmpQBsEkbxXTfoUSQjDzWcfVjcAAAAAA=" />-->
+        <meta-data
+            android:name="LET_LICENSE"
+            android:value="0PlPqgTGPZt7CwNNz4lWVm7qQZqm8AdPyooafIrN9QX5UING6RYrag2V2nFqWRIQrFDxVgAAAADoWWz5UyBiHvQQIPyIUhi4XFSykPGAqniglnoIUWhvuHCgxWxDEyF0yb0xHzyz6V5BLR6D0KoiI6QqjWxRKs8JsEkbxXTfoUSQjDzWcfVjcA4AAADzeX7wfU+3ndxs2/3yXOnJrFAlYyFEltcuD9SloQA7kInW0ynCvel2PMHSm6RgRp/xNYhi5LPROx4fnr746yHD" />
         <meta-data
             android:name="LET_CHANNEL"
             android:value="" />
@@ -94,7 +95,10 @@
             android:name=".activity.Family.FamilyRoomListActivity"
             android:label="@string/title_activity_family_room_list"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.Family.FamilyModuleListActivity"></activity>
+        <activity android:name=".activity.Family.FamilyModuleListActivity" />
+        <activity android:name=".activity.Check.NetworkCheckActivity" />
+        <activity android:name=".activity.Check.SDKCheckActivity" />
+        <activity android:name=".activity.Check.DeviceCheckActivity"></activity>
     </application>
 
 </manifest>

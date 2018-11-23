@@ -10,11 +10,25 @@ public class BLJSDeviceInfo {
 	private String deviceName;
 
 	private String deviceMac;
-	
+
+	private String key;
+
 	private int deviceStatus;
-	
+
+	private String productID;
+
+	private int devicetypeflag;
+
+	public void setDevicetypeflag(int devicetypeflag) {
+		this.devicetypeflag = devicetypeflag;
+	}
+
+	public int getDevicetypeflag() {
+		return devicetypeflag;
+	}
+
 	private UserInfo user = new UserInfo();
-	
+
 	private BLNetworkStatusInfo networkStatus = new BLNetworkStatusInfo();
 
 	public String getSubDeviceID() {
@@ -23,6 +37,22 @@ public class BLJSDeviceInfo {
 
 	public void setSubDeviceID(String subDeviceID) {
 		this.subDeviceID = subDeviceID;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getProductID() {
+		return productID;
+	}
+
+	public void setProductID(String productID) {
+		this.productID = productID;
 	}
 
 	public static class UserInfo{
@@ -35,7 +65,7 @@ public class BLJSDeviceInfo {
 		public void setName(String name) {
 			this.name = name;
 		}
-		
+
 	}
 
 	public String getDeviceMac() {
@@ -85,6 +115,7 @@ public class BLJSDeviceInfo {
 	public void setDeviceStatus(int deviceStatus) {
 		this.deviceStatus = deviceStatus;
 	}
-	
-	
+
+
+
 }

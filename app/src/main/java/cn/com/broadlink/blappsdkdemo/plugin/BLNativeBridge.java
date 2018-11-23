@@ -11,8 +11,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cn.com.broadlink.blappsdkdemo.BLApplcation;
 import cn.com.broadlink.blappsdkdemo.activity.Device.WebControlActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLUserInfoUnits;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
@@ -34,6 +36,8 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer{
 					return deviceControl(jsonArray, callbackContext);
 				case GET_WIFI_INFO:
 					return getWifiInfo(callbackContext);
+				case HTTP_REQUERT:
+					return httpRequest(jsonArray, callbackContext);
 			}
     	}
 
@@ -81,18 +85,29 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer{
 		WebControlActivity activity = (WebControlActivity) cordova.getActivity();
     	if(activity != null && activity.mDNADevice != null){
 			BLDNADevice deviceInfo = activity.mDNADevice;
-			String did =  deviceInfo.getDid();
-			String sdid = null;
+			String did = TextUtils.isEmpty(deviceInfo.getpDid()) ? deviceInfo.getDid() : deviceInfo.getpDid();
+			String sdid = TextUtils.isEmpty(deviceInfo.getpDid()) ? null : deviceInfo.getDid();
 
     		BLJSDeviceInfo startUpInfo = new BLJSDeviceInfo();
     		startUpInfo.setDeviceStatus(BLLet.Controller.queryDeviceState(did));
 			startUpInfo.setDeviceID(did);
 			startUpInfo.setSubDeviceID(sdid);
+			startUpInfo.setProductID(deviceInfo.getPid());
 			startUpInfo.setDeviceName(deviceInfo.getName());
 		    startUpInfo.setDeviceMac(deviceInfo.getMac());
     		startUpInfo.getNetworkStatus().setStatus(BLCommonUtils.checkNetwork(activity)
 					? BLPluginInterfacer.NETWORK_AVAILAVLE : BLPluginInterfacer.NETWORK_UNAVAILAVLE);
-    		startUpInfo.getUser().setName("13567165451");
+
+
+			BLUserInfoUnits blUserInfoUnits = BLApplcation.mBLUserInfoUnits;
+			String username = "";
+			if (blUserInfoUnits.getPhone() != null) {
+				username = blUserInfoUnits.getPhone();
+			} else if (blUserInfoUnits.getEmail() != null) {
+				username = blUserInfoUnits.getEmail();
+			}
+
+    		startUpInfo.getUser().setName(username);
     		callbackContext.success(JSON.toJSONString(startUpInfo));
     	}
 		return true;
@@ -151,6 +166,12 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer{
 
 	@Override
 	public Boolean shouldAllowBridgeAccess(String url) {
+		return true;
+	}
+
+	private boolean httpRequest(JSONArray jsonArray, CallbackContext callbackContext) throws JSONException {
+		String cmdJsonStr = jsonArray.getString(0);
+		new HttpRequestTask(cordova.getActivity(), callbackContext).execute(cmdJsonStr);
 		return true;
 	}
 }

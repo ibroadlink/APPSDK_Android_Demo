@@ -155,7 +155,7 @@ public class LoginFragement extends AccountBaseFragemt{
             if (loginResult != null && loginResult.getError() == BLAppSdkErrCode.SUCCESS && hasData != null) {
 
                 //存储登陆成功返回的 userId 和 loginSession ，便于下次直接登陆使用
-                BLApplcation.getmBLUserInfoUnits().login(loginResult.getUserid(), loginResult.getLoginsession(),
+                BLApplcation.mBLUserInfoUnits.login(loginResult.getUserid(), loginResult.getLoginsession(),
                         loginResult.getNickname(), loginResult.getIconpath(), loginResult.getLoginip(),
                         loginResult.getLogintime(), loginResult.getSex(), null, loginResult.getPhone(), loginResult.getEmail(), loginResult.getBirthday());
 

@@ -27,15 +27,6 @@
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:onClick="rmRemoteStateQuery"
-        android:text="@string/Remote_State_Query"
-        android:textColor="#272a29"
-        android:textSize="19sp" />
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
         android:onClick="studyIr"
         android:text="@string/Learn_IRCode"
         android:textColor="#272a29"

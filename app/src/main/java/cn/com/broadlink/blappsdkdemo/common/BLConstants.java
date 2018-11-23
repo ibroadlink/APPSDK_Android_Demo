@@ -53,4 +53,10 @@ public class BLConstants {
     public static final String INTENT_EXTEND = "INTENT_EXTEND";
     public static final String INTENT_ID = "INTENT_ID";
     public static final String INTENT_FAMILY_ID = "INTENT_FAMILY_ID";
+    public static final String INTENT_ACTION = "INTENT_ACTION";
+    public static final String INTENT_URL = "INTENT_URL";
+    public static final String INTENT_MODULE = "INTENT_MODULE";
+    public static final String INTENT_DEVICE = "INTENT_DEVICE";
+    public static final String INTENT_MODEL = "INTENT_MODEL";
+
 }

@@ -68,6 +68,7 @@ public class IRCodeTCOperateActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String func = mFunctionList.get(position);
                 mTVIrcodeView.setText(mCodeMap.get(func));
+                BLCommonTools.debug(func);
             }
         });
     }

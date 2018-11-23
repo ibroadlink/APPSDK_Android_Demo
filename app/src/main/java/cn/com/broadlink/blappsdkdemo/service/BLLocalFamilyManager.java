@@ -21,6 +21,8 @@ import cn.com.broadlink.family.result.BLFamilyBaseInfoListResult;
 import cn.com.broadlink.family.result.BLFamilyInfoResult;
 import cn.com.broadlink.family.result.BLManageRoomResult;
 import cn.com.broadlink.family.result.BLModuleControlResult;
+import cn.com.broadlink.ircode.BLIRCode;
+import cn.com.broadlink.sdk.BLLet;
 
 
 public class BLLocalFamilyManager {
@@ -56,6 +58,8 @@ public class BLLocalFamilyManager {
         currentFamilyId = familyId;
         // 家庭选择之后，设置家庭ID到SDK，便于后续SDK数据处理
         BLFamily.setCurrentFamilyId(currentFamilyId);
+        BLLet.Controller.setCurrentFamilyId(currentFamilyId);
+        BLIRCode.setFamilyId(currentFamilyId);
     }
 
     public void setCurrentFamilyVersion(String version) {

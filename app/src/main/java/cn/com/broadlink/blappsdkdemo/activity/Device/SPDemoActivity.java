@@ -1,11 +1,14 @@
 package cn.com.broadlink.blappsdkdemo.activity.Device;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -15,6 +18,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.com.broadlink.base.BLBaseResult;
+import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
@@ -61,20 +65,42 @@ public class SPDemoActivity extends Activity implements SPControlListener{
         mSPControlModel.controlDevPwr(mDNADevice.getDid(), PWR_OFF);
     }
 
+    private void spTaskSetAlert(final String type, String task) {
+
+        final EditText inputServer = new EditText(SPDemoActivity.this);
+        inputServer.setText(task);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(SPDemoActivity.this);
+        builder.setTitle("输入定时信息").setIcon(android.R.drawable.ic_dialog_info).setView(inputServer)
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                String text = inputServer.getText().toString();
+                mSPControlModel.taskDevSet(mDNADevice.getDid(), type, text);
+            }
+        });
+        builder.show();
+    }
+
     public void spTimingTaskSet(View view) {
-        mSPControlModel.taskDevSet(mDNADevice.getDid(), TIMING_TASK_MODEL, "+0800@null|0@20171031-103030|1");
+        spTaskSetAlert(TIMING_TASK_MODEL, "+0800@null|0@20181031-103030|1");
     }
 
     public void spPerTaskSet(View view) {
-        mSPControlModel.taskDevSet(mDNADevice.getDid(), PER_TASK_MODEL, "1|+0800-150000@160000|1234567|1|1");
+        spTaskSetAlert(PER_TASK_MODEL, "1|+0800-150000@160000|1234567|1|1");
     }
 
     public void spCycleTaskSet(View view) {
-        mSPControlModel.taskDevSet(mDNADevice.getDid(), CYCLE_TASK_MODEL, "1|+0800-000000@235959|50|1200|12347");
+        spTaskSetAlert(CYCLE_TASK_MODEL, "1|+0800-000000@235959|50|1200|12347");
     }
 
     public void spRandomTaskSet(View view) {
-        mSPControlModel.taskDevSet(mDNADevice.getDid(), RANDOM_TASK_MODEL, "1|+0800-000000@235901|10|12347");
+        spTaskSetAlert(RANDOM_TASK_MODEL, "1|+0800-000000@235901|10|12347");
     }
 
     public void queryElectricityData(View view) {
@@ -119,12 +145,12 @@ public class SPDemoActivity extends Activity implements SPControlListener{
     @Override
     public void controlSuccess(int pwr) {
         deviceStatusShow(pwr);
-//        BLCommonUtils.toastShow(SPDemoActivity.this, "Control Success");
+        BLCommonUtils.toastShow(SPDemoActivity.this, "Control Success");
     }
 
     @Override
     public void controlFail(BLBaseResult result) {
-//        BLCommonUtils.toastShow(SPDemoActivity.this, "Control Failed");
+        BLCommonUtils.toastShow(SPDemoActivity.this, "Control Failed : " + result.getMsg());
     }
 
     @Override

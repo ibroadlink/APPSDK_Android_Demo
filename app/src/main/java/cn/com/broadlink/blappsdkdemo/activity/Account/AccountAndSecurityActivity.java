@@ -69,7 +69,7 @@ public class AccountAndSecurityActivity extends TitleActivity {
 
             @Override
             public void doOnClick(View v) {
-                BLApplcation.getmBLUserInfoUnits().loginOut();
+                BLApplcation.mBLUserInfoUnits.loginOut();
 
                 Intent intent = new Intent();
                 intent.setClass(AccountAndSecurityActivity.this, AccountMainActivity.class);
@@ -82,7 +82,7 @@ public class AccountAndSecurityActivity extends TitleActivity {
     }
 
     private void initView() {
-        BLUserInfoUnits blUserInfoUnits = BLApplcation.getmBLUserInfoUnits();
+        BLUserInfoUnits blUserInfoUnits = BLApplcation.mBLUserInfoUnits;
 
         String iconPath = blUserInfoUnits.getIconpath();
         if (!TextUtils.isEmpty(iconPath)) {

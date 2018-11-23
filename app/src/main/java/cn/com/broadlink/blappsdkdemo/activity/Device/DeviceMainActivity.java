@@ -1,21 +1,23 @@
 package cn.com.broadlink.blappsdkdemo.activity.Device;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
 
-public class DeviceMainActivity extends Activity {
+public class DeviceMainActivity extends TitleActivity {
 
     private Button mConfigBtn, mProbeBtn, mMyDeviceBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(R.string.Device_Control_Main);
         setContentView(R.layout.activity_device_main);
+        setBackWhiteVisible();
 
         findView();
         setListener();

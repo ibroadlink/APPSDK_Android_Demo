@@ -38,10 +38,6 @@ public class RMDemoActivity extends Activity{
         mIrCodeView = (TextView) findViewById(R.id.ircode_view);
     }
 
-    public void rmRemoteStateQuery(View view) {
-        new queryRemoteTask().execute();
-    }
-
     public void studyIr(View view){
         new StudyIrTask().execute();
     }
@@ -52,36 +48,6 @@ public class RMDemoActivity extends Activity{
             new SendIrTask().execute(irCodeStr);
         }else{
             BLCommonUtils.toastShow(RMDemoActivity.this, "Please learn ircode first!");
-        }
-    }
-
-    private class queryRemoteTask extends AsyncTask<Void, Void, Integer> {
-        private ProgressDialog progressDialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(RMDemoActivity.this);
-            progressDialog.setMessage("Querying...");
-            progressDialog.show();
-        }
-
-        @Override
-        protected Integer doInBackground(Void... params) {
-            Integer state = BLLet.Controller.queryDeviceRemoteState(mDNADevice.getDid());
-            return state;
-        }
-
-        @Override
-        protected void onPostExecute(Integer state) {
-            super.onPostExecute(state);
-            progressDialog.dismiss();
-
-            if (state == 2) {
-                BLCommonUtils.toastShow(RMDemoActivity.this, "This device is online");
-            } else {
-                BLCommonUtils.toastShow(RMDemoActivity.this, "This device is offline");
-            }
         }
     }
 

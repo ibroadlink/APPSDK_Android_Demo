@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "cn.com.broadlink.blappsdkdemo.baihk"
-        minSdkVersion 9
-        targetSdkVersion 22
+        minSdkVersion 16
+        targetSdkVersion 27
         versionCode 1
         versionName "1.1"
     }
@@ -17,15 +17,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.ibroadlink:BLLetCoreAndroid:2.7.+'
-    compile 'com.ibroadlink:BLLetAccountAndroid:2.6.6'
-    compile 'com.ibroadlink:BLLetFamilyAndroid:2.6.6'
-    compile 'com.ibroadlink:BLLetIRCodeAndroid:2.2.0'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.ibroadlink:BLLetCoreAndroid:2.8.9'
+    compile 'com.ibroadlink:BLLetAccountAndroid:2.+'
+    compile 'com.ibroadlink:BLLetFamilyAndroid:2.+'
+    compile 'com.ibroadlink:BLLetIRCodeAndroid:2.+'
+
+    compile 'com.android.support:design:27.0.2'
+    compile 'com.android.support:appcompat-v7:27.0.2'
+    compile 'com.android.support:recyclerview-v7:27.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:23.4.0'
 }
+ 

@@ -213,19 +213,21 @@ public class GateWayActivity extends Activity {
 
         @Override
         protected BLSubDevListResult doInBackground(String... params) {
-            return BLLet.Controller.devSubDevListQuery(mDNADevice.getDid(), 0, 10);
+            return BLLet.Controller.devSubDevListQuery(mDNADevice.getDid(), 0, 5);
         }
 
         @Override
         protected void onPostExecute(BLSubDevListResult result) {
             super.onPostExecute(result);
             progressDialog.dismiss();
-            if(result != null && result.getStatus() == BLAppSdkErrCode.SUCCESS){
-                BLCommonUtils.toastShow(GateWayActivity.this, "Query Success");
+            if(result != null && result.getStatus() == BLAppSdkErrCode.SUCCESS) {
                 mSubDeviceList.clear();
-                for (BLDNADevice dev  : result.getData().getList() ) {
-                    dev.setpDid(mDNADevice.getDid());
-                    mSubDeviceList.add(dev);
+
+                if (result.getData() != null) {
+                    for (BLDNADevice dev  : result.getData().getList() ) {
+                        dev.setpDid(mDNADevice.getDid());
+                        mSubDeviceList.add(dev);
+                    }
                 }
 
                 if (mSubDeviceList.size() > 0) {
@@ -234,6 +236,8 @@ public class GateWayActivity extends Activity {
                 } else {
                     mSubDevice = null;
                 }
+
+                BLCommonUtils.toastShow(GateWayActivity.this, "Query Success " + String.valueOf(mSubDeviceList.size()));
             } else {
                 BLCommonUtils.toastShow(GateWayActivity.this, "Query Failed " + result.getMsg());
             }

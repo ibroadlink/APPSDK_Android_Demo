@@ -41,4 +41,13 @@
         android:text="@string/IRCode_Control"
         />
 
+    <Button
+        android:id="@+id/btn_network_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/Network_Check"
+        />
+
 </LinearLayout>

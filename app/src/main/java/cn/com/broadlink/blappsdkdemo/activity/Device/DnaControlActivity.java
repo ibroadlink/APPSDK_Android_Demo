@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.data.BLControlActConstans;
 import cn.com.broadlink.sdk.BLLet;
@@ -36,7 +37,7 @@ import cn.com.broadlink.sdk.result.controller.BLTaskDataResult;
  * Created by zhujunjie on 2016/11/11.
  */
 
-public class DnaControlActivity extends Activity {
+public class DnaControlActivity extends TitleActivity {
     private BLDNADevice mDNADevice;
     private EditText mValInputView;
     private EditText mParamInputView;
@@ -46,7 +47,7 @@ public class DnaControlActivity extends Activity {
     private Button mDnaTaskListBtn;
     private Button mTimerTaskSetBtn;
     private Button mPeriodTaskSetBtn;
-    private Button mCycleTaskSetBtn;
+    private Button mRandomTaskSetBtn;
     private Button mQueryTaskDataBtn;
     private Button maskDelBtn;
 
@@ -54,6 +55,8 @@ public class DnaControlActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dnacontrol_layout);
+        setTitle(R.string.Device_STD_Control);
+        setBackWhiteVisible();
 
         mDNADevice = getIntent().getParcelableExtra("INTENT_DEV_ID");
 
@@ -70,7 +73,7 @@ public class DnaControlActivity extends Activity {
         mDnaTaskListBtn = (Button) findViewById(R.id.dna_get_tasklist_btn);
         mTimerTaskSetBtn = (Button) findViewById(R.id.dna_set_timer_btn);
         mPeriodTaskSetBtn = (Button) findViewById(R.id.dna_set_period_btn);
-        mCycleTaskSetBtn = (Button) findViewById(R.id.dna_set_cycle_btn);
+        mRandomTaskSetBtn = (Button) findViewById(R.id.dna_set_random_btn);
         mQueryTaskDataBtn = (Button) findViewById(R.id.dna_query_task_data_btn);
         maskDelBtn = (Button) findViewById(R.id.dna_del_period_btn);
     }
@@ -125,11 +128,11 @@ public class DnaControlActivity extends Activity {
             }
         });
 
-        mCycleTaskSetBtn.setOnClickListener(new View.OnClickListener() {
+        mRandomTaskSetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String param = mParamInputView.getText().toString();
-                new SetTaskCycleTask().execute(param);
+                new SetTaskRandomTask().execute(param);
             }
         });
 
@@ -375,7 +378,7 @@ public class DnaControlActivity extends Activity {
         }
     }
 
-    class SetTaskCycleTask extends AsyncTask<String, Void, BLQueryTaskResult> {
+    class SetTaskRandomTask extends AsyncTask<String, Void, BLQueryTaskResult> {
         private ProgressDialog progressDialog;
 
         @Override

@@ -17,10 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.activity.Check.DeviceCheckActivity;
 import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfoDao;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
+import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
 public class MyDeviceListActivity extends TitleActivity {
@@ -30,18 +32,33 @@ public class MyDeviceListActivity extends TitleActivity {
     private MyDeviceListActivity.SDKDeviceAdapter mDeviceAdapter;
 
     private BLLocalDeviceManager mLocalDeviceManager;
+    private int mDeviceCheck = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_device_list);
         setTitle(R.string.My_Device_List);
+        setBackWhiteVisible();
 
         mLocalDeviceManager = BLLocalDeviceManager.getInstance();
         mDevices = mLocalDeviceManager.getDevicesAddInSDK();
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            mDeviceCheck = getIntent().getIntExtra("INTENT_IS_CHECK", 0);
+        }
+
         findView();
         setListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mDevices = mLocalDeviceManager.getDevicesAddInSDK();
+        mDeviceAdapter.notifyDataSetChanged();
     }
 
     private void findView() {
@@ -51,13 +68,33 @@ public class MyDeviceListActivity extends TitleActivity {
     }
 
     private void setListener() {
+        setRightButtonOnClickListener(R.string.str_common_add,
+                getResources().getColor(R.color.bl_yellow_main_color),
+                new OnSingleClickListener() {
+
+                    @Override
+                    public void doOnClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(MyDeviceListActivity.this, DevListActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
         mDevListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent();
-                intent.putExtra("INTENT_DEV_ID", mDevices.get(position));
-                intent.setClass(MyDeviceListActivity.this, DevMoreActivity.class);
-                startActivity(intent);
+
+                if (mDeviceCheck == 0) {
+                    Intent intent = new Intent();
+                    intent.putExtra("INTENT_DEV_ID", mDevices.get(position));
+                    intent.setClass(MyDeviceListActivity.this, DevMoreActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent();
+                    intent.putExtra("INTENT_DEV_ID", mDevices.get(position));
+                    intent.setClass(MyDeviceListActivity.this, DeviceCheckActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -130,28 +167,28 @@ public class MyDeviceListActivity extends TitleActivity {
             BLDNADevice device = getItem(position);
 
             viewHolder.name.setText(device.getName());
-            viewHolder.mac.setText("设备Mac: " + device.getMac());
-            viewHolder.type.setText("设备类型: " + String.valueOf(device.getType()));
-            viewHolder.key.setText("控制Key: " + device.getKey());
+            viewHolder.mac.setText("Mac: " + device.getMac());
+            viewHolder.type.setText("Type: " + String.valueOf(device.getType()));
+            viewHolder.key.setText("Key: " + device.getKey());
 
             String status;
             switch (device.getState()) {
                 case 0:
-                    status = "初始化状态";
+                    status = "Init";
                     break;
                 case 1:
-                    status = "局域网";
+                    status = "Lan";
                     break;
                 case 2:
-                    status = "远程在线";
+                    status = "Remote Online";
                     break;
                 case 3:
-                    status = "离线";
+                    status = "Remote Offline";
                     break;
                 default:
-                    status = "未知";
+                    status = "Unknown";
             }
-            viewHolder.status.setText("设备状态: " + status);
+            viewHolder.status.setText("Device Status: " + status);
 
             return convertView;
         }

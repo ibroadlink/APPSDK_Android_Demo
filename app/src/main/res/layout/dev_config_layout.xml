@@ -4,21 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="55dp"
-        android:background="@color/colorPrimaryDark"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:gravity="center"
-        android:text="@string/Config_Device"
-        android:textColor="#fff"
-        android:textSize="18sp" />
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="10dp"
         android:background="#333" />
 
     <EditText
@@ -63,30 +52,68 @@
         android:layout_height="1px"
         android:background="#333" />
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:onClick="devConfig"
-        android:text="@string/Config_2_Device"
-        android:layout_marginTop="20dp"
-        android:textColor="#272a29"
-        android:textSize="19sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:onClick="devConfig3"
-        android:text="@string/Config_3_Device"
-        android:layout_marginTop="20dp"
-        android:textColor="#272a29"
-        android:textSize="19sp" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:onClick="devConfigByVersion2"
+            android:text="@string/Config_2_Device"
+            android:layout_marginTop="10dp"
+            android:textColor="#272a29"
+            android:textSize="19sp" />
 
-    <Button
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:onClick="devConfigByVersion3"
+            android:text="@string/Config_3_Device"
+            android:layout_marginTop="10dp"
+            android:textColor="#272a29"
+            android:textSize="19sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:onClick="apConfigScan"
+            android:text="@string/Config_AP_SCAN"
+            android:layout_marginTop="10dp"
+            android:textColor="#272a29"
+            android:textSize="19sp" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:onClick="apConfig"
+            android:text="@string/Config_AP"
+            android:layout_marginTop="10dp"
+            android:textColor="#272a29"
+            android:textSize="19sp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/scan_ap_list"
+        android:layout_marginTop="10dp"
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:onClick="apConfig"
-        android:text="@string/Config_AP_Device"
-        android:layout_marginTop="20dp"
-        android:textColor="#272a29"
-        android:textSize="19sp" />
+        android:layout_weight="1"
+        android:layout_height="0dp" />
+
+
 </LinearLayout>

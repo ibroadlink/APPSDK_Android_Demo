@@ -18,25 +18,17 @@ import cn.com.broadlink.sdk.BLLet;
 
 public class BLApplcation extends Application{
 
-    public static BLUserInfoUnits getmBLUserInfoUnits() {
-        return mBLUserInfoUnits;
-    }
-
-    public static void setmBLUserInfoUnits(BLUserInfoUnits mBLUserInfoUnits) {
-        BLApplcation.mBLUserInfoUnits = mBLUserInfoUnits;
-    }
-
     public static BLUserInfoUnits mBLUserInfoUnits;
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        queryPhoneWindowInfo();
         SQLiteDatabase.loadLibs(this);
+        mBLUserInfoUnits = new BLUserInfoUnits(this);
 
         sdkInit();
-        queryPhoneWindowInfo();
-
-        mBLUserInfoUnits = new BLUserInfoUnits(this);
         BLLocalDeviceManager.getInstance();
     }
 
@@ -65,6 +57,10 @@ public class BLApplcation extends Application{
         blConfigParam.put(BLConfigParam.CONTROLLER_SCRIPT_DOWNLOAD_VERSION, "1");
         // 9. 批量查询设备在线状态最小设备数
         blConfigParam.put(BLConfigParam.CONTROLLER_QUERY_COUNT, "8");
+        // 10. 使用APPService服务
+        blConfigParam.put(BLConfigParam.APP_SERVICE_ENABLE, "1");
+        // 11. 设置认证包名，默认为APP自身包名
+        blConfigParam.put(BLConfigParam.CONTROLLER_AUTH_PACKAGE_NAME, "cn.com.broadlink.econtrol.plus");
 
         BLLet.init(this, blConfigParam);
 
@@ -127,4 +123,5 @@ public class BLApplcation extends Application{
         }
         return 0;
     }
+
 }

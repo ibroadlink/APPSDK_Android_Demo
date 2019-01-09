@@ -13,7 +13,9 @@ import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.db.DatabaseHelper;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
+import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.sdk.interfaces.controller.BLDeviceScanListener;
+import cn.com.broadlink.sdk.interfaces.controller.BLDeviceStateChangedListener;
 
 /**
  * Created by zhujunjie on 2017/8/8.
@@ -38,13 +40,15 @@ public class BLLocalDeviceManager {
         BLLet.Controller.setOnDeviceScanListener(new BLDeviceScanListener() {
 
             @Override
-            public boolean shouldAdd(BLDNADevice bldnaDevice) {
-                return false;
-            }
-
-            @Override
-            public void onDeviceUpdate(BLDNADevice bldnaDevice, boolean b) {
+            public void onDeviceUpdate(BLDNADevice bldnaDevice, boolean isNew) {
                 addDeviceInList(bldnaDevice);
+            }
+        });
+
+        BLLet.Controller.setOnDeviceStateChangedListener(new BLDeviceStateChangedListener() {
+            @Override
+            public void onChanged(String did, int state) {
+                BLCommonTools.debug("Device did=" + did + " State=" + state);
             }
         });
 

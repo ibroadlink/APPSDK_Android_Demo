@@ -170,4 +170,43 @@
             android:textSize="15sp" />
     </LinearLayout>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/fastcon_list_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="FC List"
+            android:textColor="#272a29"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/fastcon_config_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="FC Config"
+            android:textColor="#272a29"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/fastcon_query_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="FC Query"
+            android:textColor="#272a29"
+            android:textSize="15sp" />
+    </LinearLayout>
+
 </LinearLayout>

@@ -3,6 +3,8 @@ package cn.com.broadlink.blappsdkdemo.activity.Device;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -16,13 +18,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.com.broadlink.base.BLBaseResult;
+import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.activity.Family.BLSFamilyHTTP;
+import cn.com.broadlink.blappsdkdemo.activity.Family.FamilyModuleListActivity;
+import cn.com.broadlink.blappsdkdemo.activity.Family.FamilyRoomListActivity;
+import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSEndpointInfo;
+import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSQueryRoomListResult;
+import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSRoomInfo;
 import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfoDao;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceListener;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
+import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
+import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
+import cn.com.broadlink.sdk.result.controller.BLPairResult;
 
 /**
  * 设备列表
@@ -38,6 +52,7 @@ public class DevListActivity extends TitleActivity {
 
     private Handler checkHandler = new Handler();
     private Runnable checkRunnable;
+    private String mFamilyId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +63,11 @@ public class DevListActivity extends TitleActivity {
 
         mLocalDeviceManager = BLLocalDeviceManager.getInstance();
         mDevices = mLocalDeviceManager.getLocalDevices();
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            mFamilyId = getIntent().getStringExtra("INTENT_FAMILY_ID");
+        }
 
         findView();
         setListener();
@@ -60,6 +80,7 @@ public class DevListActivity extends TitleActivity {
     }
 
     private void setListener(){
+        //短按只是添加设备到 MyDeviceList 内
         mDevListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -71,17 +92,25 @@ public class DevListActivity extends TitleActivity {
                 dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        try {
-                            BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
-                            BLDeviceInfo deviceInfo = new BLDeviceInfo(device);
-                            List<BLDeviceInfo> list = new ArrayList<>();
-                            list.add(deviceInfo);
-                            blDeviceInfoDao.insertData(list);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
+
+                        BLPairResult pairResult = BLLet.Controller.pair(device);
+                        if (pairResult.succeed()) {
+                            device.setId(pairResult.getId());
+                            device.setKey(pairResult.getKey());
+
+                            try {
+                                BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
+                                BLDeviceInfo deviceInfo = new BLDeviceInfo(device);
+                                List<BLDeviceInfo> list = new ArrayList<>();
+                                list.add(deviceInfo);
+                                blDeviceInfoDao.insertData(list);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+
+                            mLocalDeviceManager.addDeviceIntoSDK(device);
                         }
 
-                        mLocalDeviceManager.addDeviceIntoSDK(device);
                     }
                 });
                 dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -91,6 +120,57 @@ public class DevListActivity extends TitleActivity {
                     }
                 });
                 dialog.show();
+
+            }
+        });
+
+        //长按添加设备到家庭
+        mDevListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long id) {
+
+                if (mFamilyId != null) {
+                    final BLDNADevice device = mDevices.get(position);
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(DevListActivity.this);
+                    dialog.setTitle("Message");
+                    dialog.setMessage("Add Device " + device.getName() + " into family?");
+                    dialog.setCancelable(false);
+                    dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            BLPairResult pairResult = BLLet.Controller.pair(device);
+                            if (pairResult.succeed()) {
+                                device.setId(pairResult.getId());
+                                device.setKey(pairResult.getKey());
+
+                                try {
+                                    BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
+                                    BLDeviceInfo deviceInfo = new BLDeviceInfo(device);
+                                    List<BLDeviceInfo> list = new ArrayList<>();
+                                    list.add(deviceInfo);
+                                    blDeviceInfoDao.insertData(list);
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+
+                                mLocalDeviceManager.addDeviceIntoSDK(device);
+                                new AddEndpointTask().execute(position);
+                            }
+
+                        }
+                    });
+                    dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    dialog.show();
+                    return true;
+                } else {
+                    return false;
+                }
 
             }
         });
@@ -119,6 +199,40 @@ public class DevListActivity extends TitleActivity {
         };
         checkHandler.postDelayed(checkRunnable, 5 * 1000);
     }
+
+    private class AddEndpointTask extends AsyncTask<Integer, Void, BLBaseResult> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected BLBaseResult doInBackground(Integer...integers) {
+
+            Integer index = integers[0];
+            BLDNADevice device = mDevices.get(index);
+            BLSEndpointInfo endpointInfo = new BLSEndpointInfo(device);
+            endpointInfo.setFriendlyName("TestEndPoint");
+            endpointInfo.setRoomId("2008426781207206652");
+
+            List<BLSEndpointInfo> infos = new ArrayList<>();
+            infos.add(endpointInfo);
+
+            return BLSFamilyHTTP.getInstance().addEndpoint(mFamilyId, infos);
+        }
+
+        @Override
+        protected void onPostExecute(BLBaseResult result) {
+            super.onPostExecute(result);
+
+            if (result != null && result.succeed()) {
+                BLCommonUtils.toastShow(DevListActivity.this, "Add EndPoint Success");
+            }
+        }
+    }
+
+
 
     //设备列表适配器
     private class DeviceAdapter extends ArrayAdapter<BLDNADevice> {

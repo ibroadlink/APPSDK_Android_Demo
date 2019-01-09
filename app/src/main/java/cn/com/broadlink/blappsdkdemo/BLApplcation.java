@@ -9,10 +9,10 @@ import java.lang.reflect.Field;
 
 import cn.com.broadlink.account.BLAccount;
 import cn.com.broadlink.base.BLConfigParam;
+import cn.com.broadlink.blappsdkdemo.activity.Family.BLSFamilyHTTP;
 import cn.com.broadlink.blappsdkdemo.common.BLSettings;
 import cn.com.broadlink.blappsdkdemo.common.BLUserInfoUnits;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
-import cn.com.broadlink.family.BLFamily;
 import cn.com.broadlink.ircode.BLIRCode;
 import cn.com.broadlink.sdk.BLLet;
 
@@ -57,19 +57,20 @@ public class BLApplcation extends Application{
         blConfigParam.put(BLConfigParam.CONTROLLER_SCRIPT_DOWNLOAD_VERSION, "1");
         // 9. 批量查询设备在线状态最小设备数
         blConfigParam.put(BLConfigParam.CONTROLLER_QUERY_COUNT, "8");
+
         // 10. 使用APPService服务
         blConfigParam.put(BLConfigParam.APP_SERVICE_ENABLE, "1");
+
         // 11. 设置认证包名，默认为APP自身包名
         blConfigParam.put(BLConfigParam.CONTROLLER_AUTH_PACKAGE_NAME, "cn.com.broadlink.econtrol.plus");
+        String license = "0PlPqgTGPZt7CwNNz4lWVm7qQZqm8AdPyooafIrN9QX5UING6RYrag2V2nFqWRIQrFDxVgAAAADoWWz5UyBiHvQQIPyIUhi4XFSykPGAqniglnoIUWhvuHCgxWxDEyF0yb0xHzyz6V5BLR6D0KoiI6QqjWxRKs8JsEkbxXTfoUSQjDzWcfVjcA4AAADzeX7wfU+3ndxs2/3yXOnJrFAlYyFEltcuD9SloQA7kInW0ynCvel2PMHSm6RgRp/xNYhi5LPROx4fnr746yHD";
 
-        BLLet.init(this, blConfigParam);
+        BLLet.init(this, license, "", blConfigParam);
 
         // 初始化之后，获取 lid 和 companyId ，用于其他类库的初始化
         String lid = BLLet.getLicenseId();
         String companyId = BLLet.getCompanyid();
 
-        // 初始化家庭库
-        BLFamily.init(companyId, lid);
         // 初始化账户库
         BLAccount.init(companyId, lid);
         // 初始化红外码库
@@ -77,8 +78,11 @@ public class BLApplcation extends Application{
 
         // 添加登录成功回调函数
         BLAccount.addLoginListener(BLLet.Controller.getLoginListener());
-        BLAccount.addLoginListener(BLFamily.getLoginListener());
         BLAccount.addLoginListener(BLIRCode.getLoginListener());
+
+        BLSFamilyHTTP familyHTTP = BLSFamilyHTTP.getInstance();
+        familyHTTP.setLicenseid(lid);
+        familyHTTP.setServerHost(String.format("https://%sappservice.ibroadlink.com", lid));
     }
 
     public void appFinish(){

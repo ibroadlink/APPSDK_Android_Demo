@@ -1,6 +1,6 @@
 package cn.com.broadlink.blappsdkdemo.intferfacer;
 
-import cn.com.broadlink.family.params.BLFamilyAllInfo;
+import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSFamilyInfo;
 
 public interface FamilyInterface {
 
@@ -16,5 +16,5 @@ public interface FamilyInterface {
      * 获取家庭全部信息
      * @param allInfo 家庭全部信息
      */
-    void familyAllInfo(BLFamilyAllInfo allInfo);
+    void familyAllInfo(BLSFamilyInfo allInfo);
 }

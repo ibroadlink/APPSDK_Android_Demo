@@ -28,29 +28,29 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import cn.com.broadlink.base.BLCommonTools;
+import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.activity.Device.DevListActivity;
 import cn.com.broadlink.blappsdkdemo.activity.Device.WebControlActivity;
+import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSEndpointInfo;
+import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSQueryEndpointListResult;
 import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLImageLoaderUtils;
-import cn.com.broadlink.blappsdkdemo.intferfacer.FamilyInterface;
-import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
+import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleItemClickListener;
-import cn.com.broadlink.family.params.BLFamilyAllInfo;
-import cn.com.broadlink.family.params.BLFamilyDeviceInfo;
-import cn.com.broadlink.family.params.BLFamilyModuleInfo;
-import cn.com.broadlink.family.params.BLFamilyRoomInfo;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.result.controller.BLDownloadScriptResult;
 import cn.com.broadlink.sdk.result.controller.BLDownloadUIResult;
 
-public class FamilyModuleListActivity extends TitleActivity implements FamilyInterface {
+public class FamilyModuleListActivity extends TitleActivity {
 
     private ListView mModuleListView;
     private ModuleAdapter mAdapter;
     private BLDNADevice mDNADevice;
+    private String mFamilyId = null;
+    private List<BLSEndpointInfo> blsEndpointInfos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,33 +62,19 @@ public class FamilyModuleListActivity extends TitleActivity implements FamilyInt
         findView();
         setListener();
 
-        mAdapter = new ModuleAdapter(BLLocalFamilyManager.getInstance().getCurrentFamilyAllInfo().getModuleInfos());
+        mAdapter = new ModuleAdapter(blsEndpointInfos);
         mModuleListView.setAdapter(mAdapter);
 
-        BLLocalFamilyManager.getInstance().setFamilyInterface(this);
+        Intent intent = getIntent();
+        if (intent != null) {
+            mFamilyId = getIntent().getStringExtra("INTENT_FAMILY_ID");
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void familyInfoChanged(Boolean isChanged, String familyId, String familyVersion) {
-        if (isChanged) {
-            showProgressDialog(getResources().getString(R.string.loading));
-            BLLocalFamilyManager.getInstance().queryFamilyAllInfo(null);
-        }
-    }
-
-    @Override
-    public void familyAllInfo(BLFamilyAllInfo allInfo) {
-        dismissProgressDialog();
-        if (allInfo != null) {
-            mAdapter.notifyDataSetChanged();
-        }
+        updateFamilyEndpoints();
     }
 
     private void findView() {
@@ -96,31 +82,42 @@ public class FamilyModuleListActivity extends TitleActivity implements FamilyInt
     }
 
     private void setListener(){
+        setRightButtonOnClickListener(R.string.str_common_add,
+                getResources().getColor(R.color.bl_yellow_main_color),
+                new OnSingleClickListener() {
+
+                    @Override
+                    public void doOnClick(View v) {
+                        Intent intent = new Intent();
+                        intent.putExtra("INTENT_FAMILY_ID", mFamilyId);
+                        intent.setClass(FamilyModuleListActivity.this, DevListActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+
         mModuleListView.setOnItemClickListener(new OnSingleItemClickListener() {
             @Override
             public void doOnClick(AdapterView<?> parent, View view, int position, long id) {
-                List<BLFamilyModuleInfo> blFamilyModuleInfoList = BLLocalFamilyManager.getInstance().getCurrentFamilyAllInfo().getModuleInfos();
-                BLFamilyModuleInfo info = blFamilyModuleInfoList.get(position);
-                toModuleView(info);
+                BLSEndpointInfo info = blsEndpointInfos.get(position);
+                toEndpointView(info);
             }
         });
 
         mModuleListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                List<BLFamilyModuleInfo> blFamilyModuleInfoList = BLLocalFamilyManager.getInstance().getCurrentFamilyAllInfo().getModuleInfos();
-                BLFamilyModuleInfo moduleInfo = blFamilyModuleInfoList.get(i);
-                final String moduleId = moduleInfo.getModuleId();
-                String name = moduleInfo.getName();
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                final BLSEndpointInfo info = blsEndpointInfos.get(position);
+                String name = info.getFriendlyName();
 
                 AlertDialog.Builder dialog = new AlertDialog.Builder(FamilyModuleListActivity.this);
                 dialog.setTitle("Message");
-                dialog.setMessage("Delete Module " + name);
+                dialog.setMessage("Delete EndPoint " + name);
                 dialog.setCancelable(false);
                 dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        BLLocalFamilyManager.getInstance().delModuleFromFamily(moduleId);
+                        new DelEndpointTask().execute(info.getEndpointId());
                     }
                 });
                 dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -136,73 +133,65 @@ public class FamilyModuleListActivity extends TitleActivity implements FamilyInt
         });
     }
 
-    private void toModuleView(BLFamilyModuleInfo info) {
-        int moduleType = info.getModuleType();
-
-        if (moduleType == 1 || moduleType == 3) {
-            // SP 模块和通用模块
-            BLFamilyModuleInfo.ModuleDeviceInfo moduleDeviceInfo = info.getModuleDevs().get(0);
-            String did = moduleDeviceInfo.getDid();
-
-            List<BLFamilyDeviceInfo> deviceInfoList = BLLocalFamilyManager.getInstance().getCurrentFamilyAllInfo().getDeviceInfos();
-            BLFamilyDeviceInfo blFamilyDeviceInfo = null;
-
-            for (BLFamilyDeviceInfo deviceInfo : deviceInfoList) {
-                if (did.equalsIgnoreCase(deviceInfo.getDid())) {
-                    blFamilyDeviceInfo = deviceInfo;
-                    break;
-                }
-            }
-
-            if (blFamilyDeviceInfo == null) {
-                BLCommonTools.error("Can not find device !");
-                return;
-            }
-
-            mDNADevice = toDNADevice(blFamilyDeviceInfo);
-            BLLet.Controller.addDevice(mDNADevice);
-
-            String pid = mDNADevice.getPid();
-
-            if (scriptFileExist(pid) && uiFileExit(pid)) {
-                Intent intent = new Intent();
-                intent.putExtra("INTENT_DEV_ID", mDNADevice);
-                intent.setClass(FamilyModuleListActivity.this, WebControlActivity.class);
-                startActivity(intent);
-            } else {
-
-                if (!scriptFileExist(pid)) {
-                    new DownLoadScriptTask().execute();
-                }
-
-                if (!uiFileExit(pid)) {
-                    new DownLoadUITask().execute();
-                }
-
-                BLCommonUtils.toastShow(FamilyModuleListActivity.this, "正在下载UI包，请稍后再试");
-            }
-
-
-        } else {
-            //其他模块类型暂不支持
-            BLCommonUtils.toastShow(FamilyModuleListActivity.this, "该类型本Demo暂不支持");
-        }
-
+    private void updateFamilyEndpoints() {
+        new QueryEndpointListTask().execute(mFamilyId);
     }
 
-    private BLDNADevice toDNADevice(BLFamilyDeviceInfo familyDeviceInfo) {
-        BLDNADevice bldnaDevice = new BLDNADevice();
+    private class QueryEndpointListTask extends AsyncTask<String, Void, BLSQueryEndpointListResult> {
 
-        bldnaDevice.setDid(familyDeviceInfo.getDid());
-        bldnaDevice.setPid(familyDeviceInfo.getPid());
-        bldnaDevice.setMac(familyDeviceInfo.getMac());
-        bldnaDevice.setName(familyDeviceInfo.getName());
-        bldnaDevice.setType(familyDeviceInfo.getType());
-        bldnaDevice.setId(familyDeviceInfo.getTerminalId());
-        bldnaDevice.setKey(familyDeviceInfo.getAeskey());
-        bldnaDevice.setPassword(familyDeviceInfo.getPassword());
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
-        return bldnaDevice;
+        @Override
+        protected BLSQueryEndpointListResult doInBackground(String... strings) {
+            String familyId = strings[0];
+
+            return BLSFamilyHTTP.getInstance().queryEndpointList(familyId);
+        }
+
+        @Override
+        protected void onPostExecute(BLSQueryEndpointListResult result) {
+            super.onPostExecute(result);
+
+            if (result != null && result.succeed() && result.getData() != null) {
+                blsEndpointInfos.clear();
+
+                if (result.getData().getEndpoints() != null) {
+                    blsEndpointInfos.addAll(result.getData().getEndpoints());
+                }
+
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    private void toEndpointView(BLSEndpointInfo info) {
+
+        mDNADevice = info.toDnadeviceInfo();
+        BLLet.Controller.addDevice(mDNADevice);
+
+        String pid = mDNADevice.getPid();
+
+        if (scriptFileExist(pid) && uiFileExit(pid)) {
+            Intent intent = new Intent();
+            intent.putExtra("INTENT_DEV_ID", mDNADevice);
+            intent.setClass(FamilyModuleListActivity.this, WebControlActivity.class);
+            startActivity(intent);
+        } else {
+
+            if (!scriptFileExist(pid)) {
+                new DownLoadScriptTask().execute();
+            }
+
+            if (!uiFileExit(pid)) {
+                new DownLoadUITask().execute();
+            }
+
+            BLCommonUtils.toastShow(FamilyModuleListActivity.this, "正在下载UI包，请稍后再试");
+        }
+
     }
 
     private boolean scriptFileExist(String pid){
@@ -268,12 +257,35 @@ public class FamilyModuleListActivity extends TitleActivity implements FamilyInt
         }
     }
 
-    private class ModuleAdapter extends ArrayAdapter<BLFamilyModuleInfo>{
-        private BLImageLoaderUtils imageLoaderUtils;
+    class DelEndpointTask extends AsyncTask<String, Void, BLBaseResult>{
+        private ProgressDialog progressDialog;
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(FamilyModuleListActivity.this);
+            progressDialog.show();
+        }
+
+        @Override
+        protected BLBaseResult doInBackground(String... Strings) {
+            String endpointId = Strings[0];
+
+            return BLSFamilyHTTP.getInstance().delEndpoint(mFamilyId, endpointId);
+        }
+
+        @Override
+        protected void onPostExecute(BLBaseResult result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+        }
+    }
+
+    private class ModuleAdapter extends ArrayAdapter<BLSEndpointInfo> {
+        private BLImageLoaderUtils imageLoaderUtils;
         private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 
-        public ModuleAdapter( List<BLFamilyModuleInfo> objects) {
+        public ModuleAdapter( List<BLSEndpointInfo> objects) {
             super(FamilyModuleListActivity.this, 0, 0, objects);
             imageLoaderUtils = BLImageLoaderUtils.getInstence(FamilyModuleListActivity.this);
         }
@@ -291,10 +303,8 @@ public class FamilyModuleListActivity extends TitleActivity implements FamilyInt
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
-            //显示家庭的名称
-            viewHolder.familyNameView.setText(getItem(position).getName());
-            //显示家庭的图片
-            imageLoaderUtils.displayImage(getItem(position).getIconPath(),viewHolder.familyIconView, animateFirstListener);
+            viewHolder.familyNameView.setText(getItem(position).getFriendlyName());
+            imageLoaderUtils.displayImage(getItem(position).getIcon(),viewHolder.familyIconView, animateFirstListener);
 
             return convertView;
         }

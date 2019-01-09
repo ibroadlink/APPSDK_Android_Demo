@@ -3,33 +3,24 @@ package cn.com.broadlink.blappsdkdemo.service;
 
 import android.os.AsyncTask;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
-
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.base.BLCommonTools;
+import cn.com.broadlink.blappsdkdemo.activity.Family.BLSFamilyHTTP;
+import cn.com.broadlink.blappsdkdemo.activity.Family.Params.BLSUpdateFamilyInfoParams;
+import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSFamilyInfo;
+import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSFamilyInfoResult;
+import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSFamilyUpdateResult;
+import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSFamilyListResult;
 import cn.com.broadlink.blappsdkdemo.intferfacer.FamilyInterface;
 import cn.com.broadlink.blappsdkdemo.intferfacer.FamilyListInterface;
-import cn.com.broadlink.family.BLFamily;
-import cn.com.broadlink.family.params.BLFamilyAllInfo;
-import cn.com.broadlink.family.params.BLFamilyBaseInfo;
-import cn.com.broadlink.family.params.BLFamilyRoomInfo;
-import cn.com.broadlink.family.result.BLAllFamilyInfoResult;
-import cn.com.broadlink.family.result.BLFamilyBaseInfoListResult;
-import cn.com.broadlink.family.result.BLFamilyInfoResult;
-import cn.com.broadlink.family.result.BLManageRoomResult;
-import cn.com.broadlink.family.result.BLModuleControlResult;
 import cn.com.broadlink.ircode.BLIRCode;
 import cn.com.broadlink.sdk.BLLet;
 
 
 public class BLLocalFamilyManager {
 
-    private BLFamilyAllInfo currentFamilyAllInfo;
+    private BLSFamilyInfo currentFamilyInfo;
     private String currentFamilyId;
-    private String currentFamilyVersion;
 
     private static BLLocalFamilyManager sharedInstance = null;
     private FamilyInterface familyInterface = null;
@@ -44,26 +35,23 @@ public class BLLocalFamilyManager {
         return sharedInstance;
     }
 
-    public BLFamilyAllInfo getCurrentFamilyAllInfo() {
-        return currentFamilyAllInfo;
+    public BLSFamilyInfo getCurrentFamilyInfo() {
+        return currentFamilyInfo;
     }
 
-    public void setCurrentFamilyAllInfo(BLFamilyAllInfo allInfo) {
-        currentFamilyAllInfo = allInfo;
-        setCurrentFamilyId(currentFamilyAllInfo.getFamilyInfo().getFamilyId());
-        setCurrentFamilyVersion(currentFamilyAllInfo.getFamilyInfo().getFamilyVersion());
+    public void setCurrentFamilyInfo(BLSFamilyInfo currentFamilyInfo) {
+        this.currentFamilyInfo = currentFamilyInfo;
     }
 
     public void setCurrentFamilyId(String familyId) {
         currentFamilyId = familyId;
         // 家庭选择之后，设置家庭ID到SDK，便于后续SDK数据处理
-        BLFamily.setCurrentFamilyId(currentFamilyId);
         BLLet.Controller.setCurrentFamilyId(currentFamilyId);
         BLIRCode.setFamilyId(currentFamilyId);
     }
 
-    public void setCurrentFamilyVersion(String version) {
-        currentFamilyVersion = version;
+    public String getCurrentFamilyId() {
+        return currentFamilyId;
     }
 
     public void setFamilyInterface(FamilyInterface familyInterface) {
@@ -78,7 +66,7 @@ public class BLLocalFamilyManager {
      * 查询当前用户下所有家庭的基本信息
      */
     public void queryAllFamilyBaseInfo() {
-        new FamilyBaseInfoTask().execute();
+        new FamilyListTask().execute();
     }
 
     /**
@@ -92,44 +80,9 @@ public class BLLocalFamilyManager {
     }
 
     /**
-     * 创建默认家庭
-     * @param name 家庭名称
+     * 家庭信息列表获取
      */
-    public void createDefaultFamily(String name) {
-        new CreateDefaultFamilyTask().execute(name);
-    }
-
-    /**
-     * 添加新的房间
-     * @param name 房间名称
-     */
-    public void addRoomIntoFamily(String name) {
-        String action = "add";
-        new ManageRoomTask().execute(action, name, null);
-    }
-
-    /**
-     * 删除指定房间
-     * @param name 房间名称
-     * @param roomId 房间ID
-     */
-    public void delRoomFromFamilt(String name, String roomId) {
-        String action = "del";
-        new ManageRoomTask().execute(action, name,roomId);
-    }
-
-    /**
-     * 删除指定模块
-     * @param moduleId 模块ID
-     */
-    public void delModuleFromFamily(String moduleId) {
-        new DelModuleTask().execute(moduleId);
-    }
-
-    /**
-     * 家庭基本信息列表获取
-     */
-    private class FamilyBaseInfoTask extends AsyncTask<String, Void, BLFamilyBaseInfoListResult> {
+    private class FamilyListTask extends AsyncTask<String, Void, BLSFamilyListResult> {
 
         @Override
         protected void onPreExecute() {
@@ -137,26 +90,32 @@ public class BLLocalFamilyManager {
         }
 
         @Override
-        protected BLFamilyBaseInfoListResult doInBackground(String... params) {
-            return BLFamily.queryLoginUserFamilyBaseInfoList();
+        protected BLSFamilyListResult doInBackground(String... params) {
+            return BLSFamilyHTTP.getInstance().queryFamilyList();
         }
 
         @Override
-        protected void onPostExecute(BLFamilyBaseInfoListResult blFamilyBaseInfoListResult) {
-            super.onPostExecute(blFamilyBaseInfoListResult);
+        protected void onPostExecute(BLSFamilyListResult result) {
+            super.onPostExecute(result);
 
-            if (blFamilyBaseInfoListResult != null) {
+            if (result != null) {
                 try {
 
-                    int status = blFamilyBaseInfoListResult.getStatus();
-                    String msg = blFamilyBaseInfoListResult.getMsg();
+                    int status = result.getStatus();
+                    String msg = result.getMsg();
                     if (status == 0) {
-                        List<BLFamilyBaseInfo> infoList = blFamilyBaseInfoListResult.getInfoList();
-                        if (familyListInterface != null) {
-                            familyListInterface.queryFamilyBaseInfoList(infoList);
+                        if (result.getData() != null) {
+                            if (familyListInterface != null) {
+                                familyListInterface.queryFamilyBaseInfoList(result.getData().getFamilyList());
+                            }
+                            return;
                         }
                     } else {
                         BLCommonTools.debug(msg);
+                    }
+
+                    if (familyListInterface != null) {
+                        familyListInterface.queryFamilyBaseInfoList(null);
                     }
                 } catch (Exception e) {
                     BLCommonTools.handleError(e);
@@ -168,7 +127,7 @@ public class BLLocalFamilyManager {
     /**
      * 家庭详细信息获取
      */
-    private class FamilyAllInfoTask extends AsyncTask<String, Void, BLAllFamilyInfoResult> {
+    private class FamilyAllInfoTask extends AsyncTask<String, Void, BLSFamilyInfoResult> {
 
         @Override
         protected void onPreExecute() {
@@ -176,32 +135,32 @@ public class BLLocalFamilyManager {
         }
 
         @Override
-        protected BLAllFamilyInfoResult doInBackground(String... strings) {
-            return BLFamily.queryAllFamilyInfos(strings);
+        protected BLSFamilyInfoResult doInBackground(String... strings) {
+            String familyId = strings[0];
+            return BLSFamilyHTTP.getInstance().queryFamilyInfo(familyId);
         }
 
         @Override
-        protected void onPostExecute(BLAllFamilyInfoResult blAllFamilyInfoResult) {
-            super.onPostExecute(blAllFamilyInfoResult);
+        protected void onPostExecute(BLSFamilyInfoResult result) {
+            super.onPostExecute(result);
 
-            if (blAllFamilyInfoResult.succeed()) {
+            if (result.succeed() && result.getData() != null) {
                 //We just query only one family
-                BLFamilyAllInfo allInfo = blAllFamilyInfoResult.getAllInfos().get(0);
-                setCurrentFamilyAllInfo(allInfo);
+                BLSFamilyInfo allInfo = result.getData().getFamilyInfo();
+                setCurrentFamilyInfo(allInfo);
                 if (familyInterface != null) {
                     familyInterface.familyAllInfo(allInfo);
                 }
             } else {
-                BLCommonTools.debug(blAllFamilyInfoResult.getMsg());
+                BLCommonTools.debug(result.getMsg());
             }
-
         }
     }
 
     /**
      * 创建默认家庭
      */
-    private class CreateDefaultFamilyTask extends AsyncTask<String, Void, BLFamilyInfoResult> {
+    private class CreateDefaultFamilyTask extends AsyncTask<String, Void, BLSFamilyUpdateResult> {
 
         @Override
         protected void onPreExecute() {
@@ -209,123 +168,22 @@ public class BLLocalFamilyManager {
         }
 
         @Override
-        protected BLFamilyInfoResult doInBackground(String... strings) {
+        protected BLSFamilyUpdateResult doInBackground(String... strings) {
             String name = strings[0];
 
-            return BLFamily.createDefaultFamily(name, null, null, null);
+            BLSUpdateFamilyInfoParams params = new BLSUpdateFamilyInfoParams();
+            params.setName(name);
+
+            return BLSFamilyHTTP.getInstance().AddFamily(params);
         }
 
         @Override
-        protected void onPostExecute(BLFamilyInfoResult result) {
-            super.onPostExecute(result);
-
-            if (familyInterface != null) {
-                familyInterface.familyInfoChanged(result.succeed(), result.getFamilyInfo().getFamilyId(), result.getFamilyInfo().getFamilyVersion());
-            }
-        }
-    }
-
-    /**
-     * 删除指定ID的家庭
-     */
-    private class DelFamilyTask extends AsyncTask<String, Void, BLBaseResult> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected BLBaseResult doInBackground(String... strings) {
-            String familyId = strings[0];
-            String familyVersion = strings[1];
-
-            return BLFamily.delFamily(familyId, familyVersion);
-        }
-
-        @Override
-        protected void onPostExecute(BLBaseResult result) {
+        protected void onPostExecute(BLSFamilyUpdateResult result) {
             super.onPostExecute(result);
 
             if (familyInterface != null) {
                 familyInterface.familyInfoChanged(result.succeed(), null, null);
             }
-        }
-    }
-
-    /**
-     * 家庭房间操作 - add / del / modify
-     */
-    private class ManageRoomTask extends AsyncTask<String, Void, BLManageRoomResult> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected BLManageRoomResult doInBackground(String... params) {
-
-            String action = params[0];
-            String name = params[1];
-            String roomId = null;
-            if (params.length >= 3 && params[2] != null) {
-                roomId = params[2];
-            }
-
-            final BLFamilyRoomInfo roomInfo = new BLFamilyRoomInfo();
-            roomInfo.setName(name);
-            roomInfo.setAction(action);
-            roomInfo.setRoomId(roomId);
-            roomInfo.setFamilyId(currentFamilyId);
-
-            List<BLFamilyRoomInfo> roomInfos = new ArrayList<BLFamilyRoomInfo>(){{
-                add(roomInfo);
-            }};
-
-            BLManageRoomResult result = BLFamily.manageFamilyRooms(currentFamilyId, currentFamilyVersion, roomInfos);;
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(BLManageRoomResult result) {
-            super.onPostExecute(result);
-
-            if (result.succeed()) {
-                setCurrentFamilyId(result.getFamilyId());
-                setCurrentFamilyVersion(result.getFamilyVersion());
-            } else {
-                BLCommonTools.error(result.getMsg());
-            }
-
-            if (familyInterface != null) {
-                familyInterface.familyInfoChanged(result.succeed(), result.getFamilyId(), result.getFamilyVersion());
-            }
-        }
-    }
-
-    private class DelModuleTask extends AsyncTask<String, Void, BLModuleControlResult> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected BLModuleControlResult doInBackground(String... strings) {
-            String moduleId = strings[0];
-
-            return BLFamily.delModuleFromFamily(moduleId, currentFamilyId, currentFamilyVersion);
-        }
-
-        @Override
-        protected void onPostExecute(BLModuleControlResult result) {
-            super.onPostExecute(result);
-
-            if (familyInterface != null) {
-                familyInterface.familyInfoChanged(result.succeed(), currentFamilyId, result.getVersion());
-            }
-
         }
     }
 }

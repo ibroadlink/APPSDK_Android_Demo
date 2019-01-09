@@ -10,11 +10,16 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
@@ -50,6 +55,9 @@ public class DnaControlActivity extends TitleActivity {
     private Button mRandomTaskSetBtn;
     private Button mQueryTaskDataBtn;
     private Button maskDelBtn;
+    private Button mFCListBtn;
+    private Button mFCConfigBtn;
+    private Button mFCQueryBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +84,10 @@ public class DnaControlActivity extends TitleActivity {
         mRandomTaskSetBtn = (Button) findViewById(R.id.dna_set_random_btn);
         mQueryTaskDataBtn = (Button) findViewById(R.id.dna_query_task_data_btn);
         maskDelBtn = (Button) findViewById(R.id.dna_del_period_btn);
+
+        mFCListBtn = findViewById(R.id.fastcon_list_btn);
+        mFCConfigBtn = findViewById(R.id.fastcon_config_btn);
+        mFCQueryBtn = findViewById(R.id.fastcon_query_btn);
     }
 
     private void setListener(){
@@ -153,6 +165,73 @@ public class DnaControlActivity extends TitleActivity {
                 new DelTaskPeriodTask().execute(param, val);
             }
         });
+
+        mFCListBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    String command = "fastcon_no_config";
+
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("did", mDNADevice.getDid());
+                    jsonObject.put("act", 0);
+                    jsonObject.put("count", 5);
+                    jsonObject.put("index", 0);
+
+                    new FastConCmdTask().execute(command, jsonObject.toJSONString());
+
+                } catch (JSONException e) {
+                    BLCommonTools.handleError(e);
+                }
+
+            }
+        });
+
+        mFCConfigBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    String command = "fastcon_no_config";
+
+                    org.json.JSONObject jsonObject = new org.json.JSONObject();
+                    jsonObject.put("did", mDNADevice.getDid());
+                    jsonObject.put("act",  1);
+
+                    JSONArray didArray = new JSONArray();
+                    didArray.put("0000000000000000000034ea3437fc5f");
+
+                    jsonObject.put("devlist", didArray);
+
+                    new FastConCmdTask().execute(command, jsonObject.toString());
+
+                } catch (org.json.JSONException e) {
+                    BLCommonTools.handleError(e);
+                }
+            }
+        });
+
+        mFCQueryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    String command = "fastcon_no_config";
+
+                    org.json.JSONObject jsonObject = new org.json.JSONObject();
+                    jsonObject.put("did", mDNADevice.getDid());
+                    jsonObject.put("act",  2);
+
+                    JSONArray didArray = new JSONArray();
+                    didArray.put("0000000000000000000034ea3437fc5f");
+
+                    jsonObject.put("devlist", didArray);
+
+                    new FastConCmdTask().execute(command, jsonObject.toString());
+
+                } catch (org.json.JSONException e) {
+                    BLCommonTools.handleError(e);
+                }
+            }
+        });
     }
 
     class DnaControlGetTask extends AsyncTask<String, Void, BLStdControlResult> {
@@ -172,7 +251,9 @@ public class DnaControlActivity extends TitleActivity {
 
             BLStdControlParam stdControlParam = new BLStdControlParam();
             stdControlParam.setAct(BLControlActConstans.ACT_GET);
-            stdControlParam.getParams().add(param);
+            if (param.length() > 0) {
+                stdControlParam.getParams().add(param);
+            }
 
             return BLLet.Controller.dnaControl(mDNADevice.getDid(), null, stdControlParam);
         }
@@ -497,6 +578,34 @@ public class DnaControlActivity extends TitleActivity {
             } else {
                 BLCommonUtils.toastShow(DnaControlActivity.this, result.getMsg());
             }
+        }
+    }
+
+    class FastConCmdTask extends AsyncTask<String, Void, String> {
+        private ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(DnaControlActivity.this);
+            progressDialog.setMessage("Fast control...");
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String command = params[0];
+            String dataStr = params[1];
+
+            return BLLet.Controller.dnaControl(mDNADevice.getDid(), null, dataStr, command, null);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            BLCommonUtils.toastShow(DnaControlActivity.this, result);
+
         }
     }
 }

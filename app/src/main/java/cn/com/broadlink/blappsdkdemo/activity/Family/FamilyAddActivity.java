@@ -7,12 +7,12 @@ import android.view.View;
 import android.widget.Button;
 
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSFamilyInfo;
 import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.intferfacer.FamilyInterface;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.InputTextView;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
-import cn.com.broadlink.family.params.BLFamilyAllInfo;
 
 public class FamilyAddActivity extends TitleActivity implements FamilyInterface {
 
@@ -60,7 +60,6 @@ public class FamilyAddActivity extends TitleActivity implements FamilyInterface 
             public void doOnClick(View v) {
                 showProgressDialog(getResources().getString(R.string.loading));
                 String name = mFamilyNameView.getTextString();
-                BLLocalFamilyManager.getInstance().createDefaultFamily(name);
             }
         });
     }
@@ -74,7 +73,7 @@ public class FamilyAddActivity extends TitleActivity implements FamilyInterface 
     }
 
     @Override
-    public void familyAllInfo(BLFamilyAllInfo allInfo) {
+    public void familyAllInfo(BLSFamilyInfo allInfo) {
 
     }
 }

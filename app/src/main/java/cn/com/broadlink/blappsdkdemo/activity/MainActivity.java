@@ -10,8 +10,6 @@ import android.widget.Button;
 import java.sql.SQLException;
 import java.util.List;
 
-import cn.com.broadlink.base.BLApiUrls;
-import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.BLApplcation;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.Account.AccountAndSecurityActivity;
@@ -129,11 +127,11 @@ public class MainActivity extends TitleActivity {
             }
 
 //            BLDNADevice deviceInfo = new BLDNADevice();
-//            deviceInfo.setDid("00000000000000000000780f77314944");
-//            deviceInfo.setPid("00000000000000000000000083750000");
-//            deviceInfo.setMac("78:0f:77:31:49:44");
-//            deviceInfo.setName("Wi-Fi智能插座");
-//            deviceInfo.setType(30083);
+//            deviceInfo.setDid("00000000000000000000780f77e1ec40");
+//            deviceInfo.setPid("000000000000000000000000117d0000");
+//            deviceInfo.setMac("78:0f:77:e1:ec:40");
+//            deviceInfo.setName("SPmini3");
+//            deviceInfo.setType(32017);
 //            deviceInfo.setKey("9d848f02429ceb513651e27aae74ec71");
 //            deviceInfo.setId(1);
 //            deviceInfo.setPassword(0);

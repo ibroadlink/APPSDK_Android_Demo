@@ -14,6 +14,7 @@ import cn.com.broadlink.account.BLAccount;
 import cn.com.broadlink.base.BLLoginResult;
 import cn.com.broadlink.blappsdkdemo.BLApplcation;
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.activity.Family.BLSFamilyHTTP;
 import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfoDao;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
@@ -59,6 +60,8 @@ public class LoadingActivity extends BaseActivity{
            loginResult.setLogintime(BLApplcation.mBLUserInfoUnits.getLogintime());
 
            BLAccount.localLogin(loginResult);
+           BLSFamilyHTTP.getInstance().setUserid(BLApplcation.mBLUserInfoUnits.getUserid());
+           BLSFamilyHTTP.getInstance().setLoginsession(BLApplcation.mBLUserInfoUnits.getLoginsession());
         }
 
         // 已登录用户直接跳转到主页面

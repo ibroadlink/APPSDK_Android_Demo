@@ -23,10 +23,9 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.ibroadlink:BLLetCoreAndroid:2.8.9'
-    compile 'com.ibroadlink:BLLetAccountAndroid:2.+'
-    compile 'com.ibroadlink:BLLetFamilyAndroid:2.+'
-    compile 'com.ibroadlink:BLLetIRCodeAndroid:2.+'
+    compile 'com.ibroadlink:BLLetCoreAndroid:2.9.2'
+    compile 'com.ibroadlink:BLLetAccountAndroid:2.8.+'
+    compile 'com.ibroadlink:BLLetIRCodeAndroid:2.8.+'
 
     compile 'com.android.support:design:27.0.2'
     compile 'com.android.support:appcompat-v7:27.0.2'

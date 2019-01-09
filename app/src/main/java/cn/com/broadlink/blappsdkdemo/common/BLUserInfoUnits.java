@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import cn.com.broadlink.blappsdkdemo.activity.Family.BLSFamilyHTTP;
+
 /**
  * 用户登录信息返回保存
  * Created by YeJin on 2016/5/9.
@@ -82,6 +84,9 @@ public class BLUserInfoUnits {
         this.phone = phone;
         this.email = email;
         this.birthday = birthday;
+
+        BLSFamilyHTTP.getInstance().setUserid(userid);
+        BLSFamilyHTTP.getInstance().setLoginsession(loginsession);
     }
 
     public void loginOut(){
@@ -109,6 +114,9 @@ public class BLUserInfoUnits {
         this.phone = null;
         this.email = null;
         this.birthday = null;
+
+        BLSFamilyHTTP.getInstance().setUserid(null);
+        BLSFamilyHTTP.getInstance().setLoginsession(null);
     }
 
     public Boolean checkAccountLogin() {

@@ -227,6 +227,10 @@ public class DnaControlActivity extends TitleActivity {
 
                     new FastConCmdTask().execute(command, jsonObject.toString());
 
+                    ArrayList<String> dids = new ArrayList<>();
+                    dids.add("0000000000000000000034ea3437fc5f");
+
+                    BLLet.Controller.addWhiteDids(dids);
                 } catch (org.json.JSONException e) {
                     BLCommonTools.handleError(e);
                 }

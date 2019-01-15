@@ -16,6 +16,7 @@ import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.sdk.interfaces.controller.BLDeviceScanListener;
 import cn.com.broadlink.sdk.interfaces.controller.BLDeviceStateChangedListener;
+import cn.com.broadlink.sdk.result.controller.BLPairResult;
 
 /**
  * Created by zhujunjie on 2017/8/8.
@@ -130,13 +131,25 @@ public class BLLocalDeviceManager {
 
     private void addDeviceInList(BLDNADevice bldnaDevice) {
         if (!mMapDevice.containsKey(bldnaDevice.getDid())) {
-            synchronized (mMapDevice) {
-                mMapDevice.put(bldnaDevice.getDid(), bldnaDevice);
+
+            //设备Pair
+            BLPairResult pairResult = BLLet.Controller.pair(bldnaDevice);
+            if (pairResult.succeed()) {
+                //只有成功才能添加
+
+                bldnaDevice.setId(pairResult.getId());
+                bldnaDevice.setKey(pairResult.getKey());
+
+                synchronized (mMapDevice) {
+                    mMapDevice.put(bldnaDevice.getDid(), bldnaDevice);
+                }
+                if (blLocalDeviceListener != null) {
+                    blLocalDeviceListener.deviceChange();
+                }
+                Log.d(BLConstants.BROADLINK_LOG_TAG, "add device did:" + bldnaDevice.getDid());
+
             }
-            if (blLocalDeviceListener != null) {
-                blLocalDeviceListener.deviceChange();
-            }
-            Log.d(BLConstants.BROADLINK_LOG_TAG, "add device did:" + bldnaDevice.getDid());
+
         } else {
             synchronized (mMapDevice) {
                 mMapDevice.put(bldnaDevice.getDid(), bldnaDevice);

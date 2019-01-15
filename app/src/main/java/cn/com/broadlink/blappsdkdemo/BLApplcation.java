@@ -54,16 +54,30 @@ public class BLApplcation extends Application{
         // 7. 设置设备控制支持的网络模式，默认 -1 都支持。  0 - 局域网控制，非0 - 局域网/远程都支持。
         blConfigParam.put(BLConfigParam.CONTROLLER_NETMODE, "-1");
         // 8. 设置脚本和UI文件下载资源平台。 默认 0 老平台。  1 - 新平台
-        blConfigParam.put(BLConfigParam.CONTROLLER_SCRIPT_DOWNLOAD_VERSION, "1");
+        blConfigParam.put(BLConfigParam.CONTROLLER_SCRIPT_DOWNLOAD_VERSION, "0");
         // 9. 批量查询设备在线状态最小设备数
         blConfigParam.put(BLConfigParam.CONTROLLER_QUERY_COUNT, "8");
 
         // 10. 使用APPService服务
-        blConfigParam.put(BLConfigParam.APP_SERVICE_ENABLE, "1");
+        blConfigParam.put(BLConfigParam.APP_SERVICE_ENABLE, "0");
+//        blConfigParam.put(BLConfigParam.APP_SERVICE_HOST, "https://3c015b249dd66ef0f11f9bef59ecd737appservice.aux-home.com");
 
-        // 11. 设置认证包名，默认为APP自身包名
-        blConfigParam.put(BLConfigParam.CONTROLLER_AUTH_PACKAGE_NAME, "cn.com.broadlink.econtrol.plus");
-        String license = "0PlPqgTGPZt7CwNNz4lWVm7qQZqm8AdPyooafIrN9QX5UING6RYrag2V2nFqWRIQrFDxVgAAAADoWWz5UyBiHvQQIPyIUhi4XFSykPGAqniglnoIUWhvuHCgxWxDEyF0yb0xHzyz6V5BLR6D0KoiI6QqjWxRKs8JsEkbxXTfoUSQjDzWcfVjcA4AAADzeX7wfU+3ndxs2/3yXOnJrFAlYyFEltcuD9SloQA7kInW0ynCvel2PMHSm6RgRp/xNYhi5LPROx4fnr746yHD";
+//        // 11. 设置认证包名，默认为APP自身包名
+//        blConfigParam.put(BLConfigParam.CONTROLLER_AUTH_PACKAGE_NAME, "cn.com.broadlink.econtrol.plus");
+//        String license = "0PlPqgTGPZt7CwNNz4lWVm7qQZqm8AdPyooafIrN9QX5UING6RYrag2V2nFqWRIQrFDxVgAAAADoWWz5UyBiHvQQIPyIUhi4XFSykPGAqniglnoIUWhvuHCgxWxDEyF0yb0xHzyz6V5BLR6D0KoiI6QqjWxRKs8JsEkbxXTfoUSQjDzWcfVjcA4AAADzeX7wfU+3ndxs2/3yXOnJrFAlYyFEltcuD9SloQA7kInW0ynCvel2PMHSm6RgRp/xNYhi5LPROx4fnr746yHD";
+
+        blConfigParam.put(BLConfigParam.CONTROLLER_AUTH_PACKAGE_NAME, "com.rokid.tamasii");
+        String license = "/rwShkeAWjGAFh96I+6+GMnLVIiAwX6QUNhwc7fpZgUXKnK0W0FyBzI5KTliH8YiUq0HWwAAAAAC+PA2OR2cpVaOEbg+pbfzLKPSj4pDysI1qxTbwhsprn1GA6Z3p0voz/Q/a/4JSm4IH1jkh7Xp61Pak+RgxDwLsEkbxXTfoUSQjDzWcfVjcAAAAAA=";
+
+//        blConfigParam.put(BLConfigParam.CONTROLLER_AUTH_PACKAGE_NAME, "com.heat.davell");
+//        String license = "I8YeNcXG+gMHXnWZFaYT8uzgGLWbq1YN/ERtutV7TX23gx3weq/auoNsFe+aXYBOCsqVWwAAAACJG173y/J39Msj2bQanDY3/WVU/IFDGkQHEi03jsCxXZwNmNG/ttAty4gTtMDz2HCom1OBHdB1WvPdyQSYsRYCsEkbxXTfoUSQjDzWcfVjcAAAAAA=";
+
+//        blConfigParam.put(BLConfigParam.CONTROLLER_AUTH_PACKAGE_NAME, "com.vivo.vhome");
+//        String license ="9LARHwsb33GcYoMfg24HpDmp3T1AzfUbCIMODlk5U5kk3FG4E20fq3CNBP+sjXJCgLtjWwAAAAAdxpGCmmkZ9SVX4elwwiRLrG6dyS3/pQTNw+HA0SFm+Y/iiDqaRYAfjPqN0aWCrEKpyNLH0ul/EUxOj+xrY3ELsEkbxXTfoUSQjDzWcfVjcAAAAAA=";
+
+//        blConfigParam.put(BLConfigParam.CONTROLLER_AUTH_PACKAGE_NAME, "com.broadlink.acfreedom.america");
+//        String license ="PAFbJJ3WbvDxH5vvWezXN5BujETtH/iuTtIIW5CE/SeHN7oNKqnEajgljTcL0fBQQWM0XAAAAAAnBhJyhMi7zIQMsUcwR/PEwGA3uB5HLOnr+xRrci+FwHMkUtK7v4yo0ZHa+jPvb6djelPP893k7SagmffZmOkLSOsbNs8CAqsu8HuIDs2mDQAAAAA=";
+
 
         BLLet.init(this, license, "", blConfigParam);
 

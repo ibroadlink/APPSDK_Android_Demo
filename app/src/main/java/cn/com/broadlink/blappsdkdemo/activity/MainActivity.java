@@ -128,10 +128,10 @@ public class MainActivity extends TitleActivity {
 
 //            BLDNADevice deviceInfo = new BLDNADevice();
 //            deviceInfo.setDid("00000000000000000000780f77e1ec40");
-//            deviceInfo.setPid("000000000000000000000000117d0000");
+//            deviceInfo.setPid("000000000000000000000000dc270000");
 //            deviceInfo.setMac("78:0f:77:e1:ec:40");
-//            deviceInfo.setName("SPmini3");
-//            deviceInfo.setType(32017);
+//            deviceInfo.setName("Wi-Fi智能插座");
+//            deviceInfo.setType(10204);
 //            deviceInfo.setKey("9d848f02429ceb513651e27aae74ec71");
 //            deviceInfo.setId(1);
 //            deviceInfo.setPassword(0);

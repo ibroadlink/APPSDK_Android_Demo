@@ -115,7 +115,7 @@ public class GateWayActivity extends Activity {
 
         @Override
         protected BLSubDevListResult doInBackground(String... params) {
-            return BLLet.Controller.devSubDevNewListQuery(mDNADevice.getDid(), "000000000000000000000000d0010100",0, 5);
+            return BLLet.Controller.devSubDevNewListQuery(mDNADevice.getDid(), "00000000000000000000000011510000",0, 5);
         }
 
         @Override

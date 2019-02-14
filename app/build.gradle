@@ -23,7 +23,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.ibroadlink:BLLetCoreAndroid:2.9.2'
+    compile 'com.ibroadlink:BLLetCoreAndroid:2.9.5'
     compile 'com.ibroadlink:BLLetAccountAndroid:2.8.+'
     compile 'com.ibroadlink:BLLetIRCodeAndroid:2.8.+'
 

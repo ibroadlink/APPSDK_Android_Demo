@@ -127,14 +127,14 @@ public class MainActivity extends TitleActivity {
             }
 
 //            BLDNADevice deviceInfo = new BLDNADevice();
-//            deviceInfo.setDid("00000000000000000000780f77e1ec40");
-//            deviceInfo.setPid("000000000000000000000000dc270000");
-//            deviceInfo.setMac("78:0f:77:e1:ec:40");
-//            deviceInfo.setName("Wi-Fi智能插座");
-//            deviceInfo.setType(10204);
-//            deviceInfo.setKey("9d848f02429ceb513651e27aae74ec71");
+//            deviceInfo.setDid("00000000000000000000780f7716bfa8");
+//            deviceInfo.setPid("0000000000000000000000002a4e0000");
+//            deviceInfo.setMac("78:0f:77:16:bf:a8");
+//            deviceInfo.setName("AUX");
+//            deviceInfo.setType(20010);
+//            deviceInfo.setKey("3801147427445811224671461bf25133");
 //            deviceInfo.setId(1);
-//            deviceInfo.setPassword(0);
+//            deviceInfo.setPassword(1646382889);
 //
 //            BLLocalDeviceManager.getInstance().addDeviceIntoSDK(deviceInfo);
 

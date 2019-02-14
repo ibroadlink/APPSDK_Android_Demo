@@ -37,9 +37,8 @@ public class BLLocalDeviceManager {
 
     private BLLocalDeviceManager() {
 
-        BLLet.Controller.startProbe(3000);
+        BLLet.Controller.startProbe(2000);
         BLLet.Controller.setOnDeviceScanListener(new BLDeviceScanListener() {
-
             @Override
             public void onDeviceUpdate(BLDNADevice bldnaDevice, boolean isNew) {
                 addDeviceInList(bldnaDevice);

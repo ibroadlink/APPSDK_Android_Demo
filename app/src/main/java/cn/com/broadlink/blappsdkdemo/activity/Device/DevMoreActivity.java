@@ -12,6 +12,8 @@ import com.alibaba.fastjson.JSON;
 
 import java.io.File;
 
+import cn.com.broadlink.base.BLBaseResult;
+import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
@@ -24,6 +26,7 @@ import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.result.controller.BLDeviceTimeResult;
 import cn.com.broadlink.sdk.result.controller.BLDownloadScriptResult;
 import cn.com.broadlink.sdk.result.controller.BLDownloadUIResult;
+import cn.com.broadlink.sdk.result.controller.BLPassthroughResult;
 import cn.com.broadlink.sdk.result.controller.BLProfileStringResult;
 import cn.com.broadlink.sdk.result.controller.BLQueryResoureVersionResult;
 import cn.com.broadlink.sdk.result.controller.BLResourceVersion;
@@ -177,6 +180,32 @@ public class DevMoreActivity extends TitleActivity {
         Log.e("UIExit", uiFilePath);
         File file = new File(uiFilePath);
         return file.exists();
+    }
+
+    class PassthougtTask extends AsyncTask<Void, Void, BLPassthroughResult> {
+        private ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(DevMoreActivity.this);
+            progressDialog.setMessage("Requesting...");
+            progressDialog.show();
+        }
+
+        @Override
+        protected BLPassthroughResult doInBackground(Void... params) {
+            String passString = "bb000680000002004101fb7d";
+            byte[] datas = BLCommonTools.parseStringToByte(passString);
+
+            return BLLet.Controller.dnaPassthrough(mDNADevice.getDid(), null, datas);
+        }
+
+        @Override
+        protected void onPostExecute(BLPassthroughResult result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+        }
     }
 
     //服务器设备时间查询

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/activity_main"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingTop="20dp"
+              android:paddingBottom="20dp"
+              android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_account_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/Account_Control"
+        />
+
+    <Button
+        android:id="@+id/btn_family_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/Family_Control"
+        />
+
+    <Button
+        android:id="@+id/btn_device_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/Device_Control"
+        />
+
+
+    <Button
+        android:id="@+id/btn_ircode_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/IRCode_Control"
+        />
+    
+    <Button
+        android:id="@+id/btn_product_manage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Product Management"
+        />
+
+    <Button
+        android:id="@+id/btn_network_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/Network_Check"
+        />
+
+</LinearLayout>

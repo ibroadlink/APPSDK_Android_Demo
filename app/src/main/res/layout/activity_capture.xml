@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/capture_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <SurfaceView
+        android:id="@+id/capture_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <cn.com.broadlink.blappsdkdemo.view.scans.activity.ViewfinderView
+        android:id="@+id/viewfinder_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:corner_color="@color/themeYellow"
+        app:frame_color="@color/themeYellow"
+        app:label_text_color="@color/white"
+        app:label_text_size="14sp"
+        app:laser_color="@color/themeYellow"
+        app:mask_color="#80000000" />
+
+    <TextView
+        android:id="@+id/tv_scan_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="#ffffffff"
+        android:textSize="14sp"
+        />
+
+    <Button
+        android:id="@+id/btn_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="80dp"
+        android:background="@null"
+        android:textColor="@color/btn_theme_yellow_selector"
+        android:textSize="14sp"/>
+</RelativeLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
+    tools:context="cn.com.broadlink.blappsdkdemo.activity.device.DevAPManualConfigActivity">
+    
+    <EditText
+        android:id="@+id/et_ssid"
+        android:layout_width="match_parent"
+        android:hint="Please input SSID"
+        android:layout_height="45dp"/>
+    <EditText
+        android:id="@+id/et_pwd"
+        android:layout_width="match_parent"
+        android:hint="Please input password"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/et_ssid"
+        android:layout_height="45dp"/>
+    
+    <TextView
+        android:id="@+id/tv_tip"
+        android:text="Select wifi encryption mode: "
+        android:layout_below="@+id/et_pwd"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"/>
+
+    <Spinner
+        android:id="@+id/sp_type"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/tv_tip"
+        android:layout_height="45dp"/>
+    
+    <Button
+        android:layout_below="@+id/sp_type"
+        android:layout_marginTop="20dp"
+        style="@style/commonBtn"
+        android:text="config"
+        android:id="@+id/bt_commit"/>
+    
+    <TextView
+        android:id="@+id/tv_result"
+        android:padding="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/bt_commit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="vertical"/>
+</RelativeLayout>

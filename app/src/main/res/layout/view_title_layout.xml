@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="false">
+
+    <FrameLayout
+        android:id="@+id/body"
+        android:background="@color/body_ebebeb_color"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingTop="45dp" />
+
+    <include
+        layout="@layout/view_title_bar_layout" />
+
+    <View
+        android:id="@+id/more_shadow_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#a1000000"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/more_list_view"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="-10dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/more_rectangle"
+        android:divider="@color/line_gray_bg"
+        android:dividerHeight="1px"
+        android:paddingBottom="25dp"
+        android:paddingLeft="22dp"
+        android:paddingRight="22dp"
+        android:paddingTop="18dp"
+        android:visibility="gone" />
+
+</FrameLayout>

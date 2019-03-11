@@ -633,4 +633,5 @@ public class TitleActivity extends BaseActivity {
             progressDialog = null;
         }
     }
+    
 }

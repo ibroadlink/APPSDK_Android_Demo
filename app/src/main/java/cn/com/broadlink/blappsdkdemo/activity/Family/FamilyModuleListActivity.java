@@ -1,9 +1,7 @@
-package cn.com.broadlink.blappsdkdemo.activity.Family;
+package cn.com.broadlink.blappsdkdemo.activity.family;
 
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -30,13 +28,16 @@ import java.util.List;
 
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.Device.DevListActivity;
-import cn.com.broadlink.blappsdkdemo.activity.Device.WebControlActivity;
-import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSEndpointInfo;
-import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSQueryEndpointListResult;
-import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.device.DevListActivity;
+import cn.com.broadlink.blappsdkdemo.activity.h5.DeviceH5Activity;
+import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSEndpointInfo;
+import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSQueryEndpointListResult;
+import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLImageLoaderUtils;
+import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleItemClickListener;
 import cn.com.broadlink.sdk.BLLet;
@@ -60,6 +61,7 @@ public class FamilyModuleListActivity extends TitleActivity {
         setBackWhiteVisible();
 
         findView();
+        
         setListener();
 
         mAdapter = new ModuleAdapter(blsEndpointInfos);
@@ -67,7 +69,7 @@ public class FamilyModuleListActivity extends TitleActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            mFamilyId = getIntent().getStringExtra("INTENT_FAMILY_ID");
+            mFamilyId = getIntent().getStringExtra(BLConstants.INTENT_FAMILY_ID);
         }
     }
 
@@ -89,7 +91,8 @@ public class FamilyModuleListActivity extends TitleActivity {
                     @Override
                     public void doOnClick(View v) {
                         Intent intent = new Intent();
-                        intent.putExtra("INTENT_FAMILY_ID", mFamilyId);
+                        intent.putExtra(BLConstants.INTENT_FAMILY_ID, mFamilyId);
+                        intent.putExtra(BLConstants.INTENT_CLASS, FamilyModuleListActivity.class.getSimpleName());
                         intent.setClass(FamilyModuleListActivity.this, DevListActivity.class);
                         startActivity(intent);
                     }
@@ -109,25 +112,18 @@ public class FamilyModuleListActivity extends TitleActivity {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
                 final BLSEndpointInfo info = blsEndpointInfos.get(position);
                 String name = info.getFriendlyName();
-
-                AlertDialog.Builder dialog = new AlertDialog.Builder(FamilyModuleListActivity.this);
-                dialog.setTitle("Message");
-                dialog.setMessage("Delete EndPoint " + name);
-                dialog.setCancelable(false);
-                dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                BLAlert.showDialog(FamilyModuleListActivity.this, "Delete EndPoint " + name, new BLAlert.DialogOnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onPositiveClick() {
                         new DelEndpointTask().execute(info.getEndpointId());
                     }
-                });
-                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onNegativeClick() {
 
                     }
                 });
-                dialog.show();
-
+                
                 return true;
             }
         });
@@ -142,27 +138,32 @@ public class FamilyModuleListActivity extends TitleActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            showProgressDialog("Loading...");
         }
 
         @Override
         protected BLSQueryEndpointListResult doInBackground(String... strings) {
             String familyId = strings[0];
 
-            return BLSFamilyHTTP.getInstance().queryEndpointList(familyId);
+            return BLSFamilyManager.getInstance().queryEndpointList(familyId);
         }
 
         @Override
         protected void onPostExecute(BLSQueryEndpointListResult result) {
             super.onPostExecute(result);
-
+            dismissProgressDialog();
             if (result != null && result.succeed() && result.getData() != null) {
                 blsEndpointInfos.clear();
 
                 if (result.getData().getEndpoints() != null) {
                     blsEndpointInfos.addAll(result.getData().getEndpoints());
+                }else{
+                    BLCommonUtils.toastErr(result);
                 }
 
                 mAdapter.notifyDataSetChanged();
+            }else{
+                BLCommonUtils.toastErr(result);
             }
         }
     }
@@ -176,8 +177,8 @@ public class FamilyModuleListActivity extends TitleActivity {
 
         if (scriptFileExist(pid) && uiFileExit(pid)) {
             Intent intent = new Intent();
-            intent.putExtra("INTENT_DEV_ID", mDNADevice);
-            intent.setClass(FamilyModuleListActivity.this, WebControlActivity.class);
+            intent.putExtra(BLConstants.INTENT_DEVICE, mDNADevice);
+            intent.setClass(FamilyModuleListActivity.this, DeviceH5Activity.class);
             startActivity(intent);
         } else {
 
@@ -257,27 +258,28 @@ public class FamilyModuleListActivity extends TitleActivity {
         }
     }
 
+    
     class DelEndpointTask extends AsyncTask<String, Void, BLBaseResult>{
-        private ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(FamilyModuleListActivity.this);
-            progressDialog.show();
+            showProgressDialog("Deleting...");
         }
 
         @Override
         protected BLBaseResult doInBackground(String... Strings) {
             String endpointId = Strings[0];
 
-            return BLSFamilyHTTP.getInstance().delEndpoint(mFamilyId, endpointId);
+            return BLSFamilyManager.getInstance().delEndpoint(mFamilyId, endpointId);
         }
 
         @Override
         protected void onPostExecute(BLBaseResult result) {
             super.onPostExecute(result);
-            progressDialog.dismiss();
+           dismissProgressDialog();
+           BLCommonUtils.toastErr(result);
+            updateFamilyEndpoints();
         }
     }
 
@@ -295,7 +297,7 @@ public class FamilyModuleListActivity extends TitleActivity {
             ViewHolder viewHolder;
             if(convertView == null){
                 viewHolder = new ViewHolder();
-                convertView = getLayoutInflater().inflate(R.layout.device_family_list_item_layout, null);
+                convertView = getLayoutInflater().inflate(R.layout.item_family_dev, null);
                 viewHolder.familyIconView = (ImageView) convertView.findViewById(R.id.fiamily_icon_view);
                 viewHolder.familyNameView = (TextView) convertView.findViewById(R.id.fiamily_name_view);
                 convertView.setTag(viewHolder);

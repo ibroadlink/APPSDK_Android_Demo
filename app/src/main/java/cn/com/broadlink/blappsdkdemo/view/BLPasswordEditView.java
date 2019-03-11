@@ -57,7 +57,7 @@ public class BLPasswordEditView extends LinearLayout {
     }
     
     private void initView(Context context, @Nullable AttributeSet attrs){
-        LayoutInflater.from(context).inflate(R.layout.bl_password_edit_view_layout,this,true);
+        LayoutInflater.from(context).inflate(R.layout.view_password_edit,this,true);
         
         if(attrs == null) return;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BLPasswordEditView);

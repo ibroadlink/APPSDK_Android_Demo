@@ -1,44 +1,38 @@
-package cn.com.broadlink.blappsdkdemo.activity.Family;
+package cn.com.broadlink.blappsdkdemo.activity.family;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.broadlink.lib.imageloader.core.assist.FailReason;
 import com.broadlink.lib.imageloader.core.listener.SimpleImageLoadingListener;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSFamilyInfo;
-import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.family.param.BLSUpdateFamilyInfoParams;
+import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyInfo;
+import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLImageLoaderUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
+import cn.com.broadlink.blappsdkdemo.data.MatchCountryProvinceInfo;
 import cn.com.broadlink.blappsdkdemo.intferfacer.FamilyInterface;
+import cn.com.broadlink.blappsdkdemo.mvp.presenter.CountryContentProvider;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
+import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 
 public class FamilyDetailActivity extends TitleActivity implements FamilyInterface {
 
-    private BLSFamilyInfo blFamilyInfo;
-
-    private LinearLayout mQrLayout, mIconLyaout, mRoomListLayout, mMemberLayout, mDeviceLayout;
-
+    private LinearLayout mQrLayout, mIconLyaout, mRoomListLayout, mMemberLayout, mDeviceLayout, mSceneLayout, mLinkageLayout;
+    private TextView mFamilyNameView, mCountryView, mVersionView;
     private ImageView mFamilyIconView;
     private BLImageLoaderUtils mBlImageLoaderUtils;
-
-    private TextView mFamilyNameView, mRoomCountView, mCountryView, mMemberView, mDeviceCountView;
-
+    private BLSFamilyInfo blFamilyInfo;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +42,12 @@ public class FamilyDetailActivity extends TitleActivity implements FamilyInterfa
 
         Intent intent = getIntent();
         if (intent != null) {
-            String familyId = getIntent().getStringExtra("INTENT_FAMILY_ID");
+            String familyId = getIntent().getStringExtra(BLConstants.INTENT_FAMILY_ID);
             BLLocalFamilyManager.getInstance().setCurrentFamilyId(familyId);
         }
 
         findView();
+        
         setListener();
     }
 
@@ -94,51 +89,26 @@ public class FamilyDetailActivity extends TitleActivity implements FamilyInterfa
         mFamilyIconView = (ImageView) findViewById(R.id.fiamily_icon_view);
 
         mRoomListLayout = (LinearLayout) findViewById(R.id.room_list_layout);
-        mRoomCountView = (TextView) findViewById(R.id.room_count_view);
-
         mCountryView = (TextView) findViewById(R.id.country_view);
-
         mMemberLayout = (LinearLayout) findViewById(R.id.family_member_layout);
-        mMemberView = (TextView) findViewById(R.id.family_member_view);
 
         mDeviceLayout = (LinearLayout) findViewById(R.id.device_list_layout);
-        mDeviceCountView = (TextView) findViewById(R.id.device_count_view);
+        mSceneLayout = (LinearLayout) findViewById(R.id.ll_scene);
+        mLinkageLayout = (LinearLayout) findViewById(R.id.ll_linkage);
+        mVersionView = findViewById(R.id.tv_version);
 
         mBlImageLoaderUtils = BLImageLoaderUtils.getInstence(FamilyDetailActivity.this);
     }
 
     private void setListener(){
 
-        mQrLayout.setOnClickListener(new OnSingleClickListener() {
-
-            @Override
-            public void doOnClick(View v) {
-
-            }
-        });
-
-        mIconLyaout.setOnClickListener(new OnSingleClickListener() {
-
-            @Override
-            public void doOnClick(View v) {
-
-            }
-        });
-
-        mMemberView.setOnClickListener(new OnSingleClickListener() {
-
-            @Override
-            public void doOnClick(View v) {
-
-            }
-        });
 
         mRoomListLayout.setOnClickListener(new OnSingleClickListener() {
 
             @Override
             public void doOnClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra("INTENT_FAMILY_ID", BLLocalFamilyManager.getInstance().getCurrentFamilyId());
+                intent.putExtra(BLConstants.INTENT_FAMILY_ID, BLLocalFamilyManager.getInstance().getCurrentFamilyId());
                 intent.setClass(FamilyDetailActivity.this, FamilyRoomListActivity.class);
                 startActivity(intent);
             }
@@ -148,11 +118,68 @@ public class FamilyDetailActivity extends TitleActivity implements FamilyInterfa
             @Override
             public void doOnClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra("INTENT_FAMILY_ID", BLLocalFamilyManager.getInstance().getCurrentFamilyId());
+                intent.putExtra(BLConstants.INTENT_FAMILY_ID, BLLocalFamilyManager.getInstance().getCurrentFamilyId());
                 intent.setClass(FamilyDetailActivity.this, FamilyModuleListActivity.class);
                 startActivity(intent);
             }
         });
+
+        mQrLayout.setOnClickListener(new OnSingleClickListener() {
+
+            @Override
+            public void doOnClick(View v) {
+                BLAlert.showEditDilog(FamilyDetailActivity.this, "Input a new name", blFamilyInfo.getName(), new BLAlert.BLEditDialogOnClickListener() {
+                    @Override
+                    public void onClink(String value) {
+                        final BLSUpdateFamilyInfoParams blsUpdateFamilyInfoParams = new BLSUpdateFamilyInfoParams();
+                        blsUpdateFamilyInfoParams.setCountryCode(blFamilyInfo.getCountryCode());
+                        blsUpdateFamilyInfoParams.setName(value);
+                        
+                        showProgressDialog(getResources().getString(R.string.loading));
+                        BLLocalFamilyManager.getInstance().modifyFamily(null, blsUpdateFamilyInfoParams);
+                    }
+
+                    @Override
+                    public void onClinkCacel(String value) {
+
+                    }
+                }, false);
+            }
+        });
+
+        mIconLyaout.setOnClickListener(new OnSingleClickListener() {
+
+            @Override
+            public void doOnClick(View v) {
+                // TODO: 2019/2/18 设置图标
+            }
+        });
+
+        mMemberLayout.setOnClickListener(new OnSingleClickListener() {
+
+            @Override
+            public void doOnClick(View v) {
+                final Intent intent = new Intent(FamilyDetailActivity.this, FamilyMemberListActivity.class);
+                intent.putExtra(BLConstants.INTENT_FAMILY_ID, BLLocalFamilyManager.getInstance().getCurrentFamilyId());
+                intent.putExtra(BLConstants.INTENT_NAME, blFamilyInfo.getMaster());
+                startActivity(intent);
+            }
+        });
+        
+        mSceneLayout.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                BLToastUtils.show("Coming soon");
+            }
+        });
+
+        mLinkageLayout.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                BLToastUtils.show("Coming soon");
+            }
+        });
+
     }
 
     private void initFamilyIconView(){
@@ -177,15 +204,13 @@ public class FamilyDetailActivity extends TitleActivity implements FamilyInterfa
 
     private void refreshCountryView(BLSFamilyInfo blFamilyInfo){
         if(blFamilyInfo != null){
-            mCountryView.setText(blFamilyInfo.getCountryCode());
-            if(blFamilyInfo.getProvinceCode() != null){
-                mCountryView.append(" ");
-                mCountryView.append(blFamilyInfo.getProvinceCode());
+            final MatchCountryProvinceInfo contryInfoByCode = CountryContentProvider.getInstance().findContryInfoByCode(blFamilyInfo.getCountryCode(), null, null);
+            if(contryInfoByCode != null){
+                mCountryView.setText(contryInfoByCode.toString());
+            }else{
+                mCountryView.setText(R.string.str_settings_safety_unsetting);
             }
-            if(blFamilyInfo.getCityCode() != null){
-                mCountryView.append(" ");
-                mCountryView.append(blFamilyInfo.getCityCode());
-            }
+            mVersionView.setText(blFamilyInfo.getVersion());
         }else{
             mCountryView.setText(R.string.str_settings_safety_unsetting);
         }

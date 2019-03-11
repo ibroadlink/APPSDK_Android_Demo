@@ -3,17 +3,14 @@ package cn.com.broadlink.blappsdkdemo.service;
 import android.os.Handler;
 import android.util.Log;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
-import cn.com.broadlink.blappsdkdemo.db.DatabaseHelper;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
-import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.sdk.interfaces.controller.BLDeviceScanListener;
 import cn.com.broadlink.sdk.interfaces.controller.BLDeviceStateChangedListener;
 import cn.com.broadlink.sdk.result.controller.BLPairResult;
@@ -111,7 +108,21 @@ public class BLLocalDeviceManager {
         }
         return devicesAddInSDK;
     }
-
+    
+    
+    public BLDNADevice getCachedDevice(String did) {
+        devicesAddInSDK.clear();
+        synchronized (mMapDeviceInSDK) {
+            for (String key : mMapDeviceInSDK.keySet()) {
+                final BLDNADevice device = mMapDeviceInSDK.get(key);
+                devicesAddInSDK.add(device);
+                if(device.getDid().equalsIgnoreCase(did)){
+                    return device;
+                }
+            }
+        }
+        return null;
+    }
     private void checkLocalDeviceList() {
 
         long curTime = System.currentTimeMillis();

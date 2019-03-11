@@ -8,6 +8,9 @@ import com.j256.ormlite.table.TableUtils;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
+import cn.com.broadlink.blappsdkdemo.db.data.DNAKitDirInfo;
+
 /**
  * 数据库处理类
  */
@@ -38,6 +41,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
         try {
 			TableUtils.createTableIfNotExists(connectionSource, BLDeviceInfo.class);
+			TableUtils.createTableIfNotExists(connectionSource, DNAKitDirInfo.class);
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
@@ -46,6 +50,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public void cleanDB() {
 		try {
 			TableUtils.clearTable(connectionSource, BLDeviceInfo.class);
+			TableUtils.clearTable(connectionSource, DNAKitDirInfo.class);
 		} catch (java.sql.SQLException e) {
 			e.printStackTrace();
 		}

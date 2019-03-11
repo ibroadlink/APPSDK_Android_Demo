@@ -1,4 +1,4 @@
-package cn.com.broadlink.blappsdkdemo.activity.Check;
+package cn.com.broadlink.blappsdkdemo.activity.check;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.Button;
 
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.Device.MyDeviceListActivity;
-import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.device.DevMyDevListActivity;
+import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 
 public class NetworkCheckActivity extends TitleActivity {
 
@@ -46,7 +46,7 @@ public class NetworkCheckActivity extends TitleActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.putExtra("INTENT_IS_CHECK", 1);
-                intent.setClass(NetworkCheckActivity.this, MyDeviceListActivity.class);
+                intent.setClass(NetworkCheckActivity.this, DevMyDevListActivity.class);
                 startActivity(intent);
             }
         });

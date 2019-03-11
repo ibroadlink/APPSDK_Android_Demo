@@ -220,4 +220,27 @@
         <attr name="pwdTextColor" format="color|reference"/>
     </declare-styleable>
 
+    <declare-styleable name="BLInputTextView">
+        <attr name="paddingLeft"  format="dimension"/>
+        <attr name="hint" />
+        <attr name="light" />
+        <attr name="textColor" />
+        <attr name="textSize" />
+        <attr name="textMaxLen" />
+        <attr name="background" />
+        <attr name="isPwdType" />
+        <attr name="textColorHint" />
+    </declare-styleable>
+
+    <declare-styleable name="BLInputCountdownView">
+        <attr name="hint" />
+        <attr name="light" />
+        <attr name="textColor" />
+        <attr name="textSize" />
+        <attr name="textMaxLen" />
+        <attr name="background" />
+        <attr name="countDown" />
+    </declare-styleable>
+
+
 </resources>

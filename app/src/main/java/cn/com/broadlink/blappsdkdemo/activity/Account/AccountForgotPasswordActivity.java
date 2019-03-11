@@ -1,4 +1,4 @@
-package cn.com.broadlink.blappsdkdemo.activity.Account;
+package cn.com.broadlink.blappsdkdemo.activity.account;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,7 +14,7 @@ import cn.com.broadlink.account.BLAccount;
 import cn.com.broadlink.base.BLAppSdkErrCode;
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.view.BLProgressDialog;
@@ -42,7 +42,7 @@ public class AccountForgotPasswordActivity extends TitleActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.account_forgot_password_layout);
+        setContentView(R.layout.activity_account_forgot_password);
         setTitle(R.string.str_account_retrieve_password);
         setBackWhiteVisible();
 

@@ -3,7 +3,7 @@
 
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#EFAB3E</color>
 
     <color name="eaeae5">#eaeae5</color>
     <color name="f4f4f4">#f4f4f4</color>
@@ -151,11 +151,40 @@
     <color name="more_color">#3ea6ef</color>
     <color name="common_hint_text">#adadad</color>
     <color name="ez_c1">#1E90FF</color>
-
     <color name="no_find_device_bg">#ffaa00</color>
-    
     <color name="tip_dev_offline_bg">#555555</color>
-
     <color name= "thrid_service_color">#222222</color>
+    
+    
+    <!--ihc-->
+    <color name="textDark">#111111</color>
+    <color name="textDarkPress">#bf030303</color>
+    <color name="textLight">#FFF</color>
+    <color name="textDarkGray">#2C2C2F</color>
+    <color name="textGray">#45444A</color>
+    <color name="invalid_gray">#BFBFBF</color>
+    <color name="title_bar_line">#D2D2D2</color>
+
+    <color name="themeYellow">#CFAB80</color>
+    <color name="themeYellowDark">#AE8A60</color>
+    <color name="titleBarBg">#FFF</color>
+    <color name="commonBg">#F5F5F5</color>
+    <color name="commonBgAlpha">#aaF5F5F5</color>
+    <color name="text999">#999999</color>
+    <color name="searchBoxBg">#F5F5F5</color>
+
+    <color name="sceneName">#BFBFBF</color>
+    <color name="whiteAlpha">#BBFFFFFF</color>
+    <color name="blDelRed">#FF4929</color>
+    <color name="listDivideLine">#E1E1E1</color>
+    <color name="textDesc">#45444A</color>
+    <color name="text555">#555555</color>
+    <color name="text222">#222222</color>
+
+
+    <color name="divideLine">#EAEAEA</color>
+    <color name="darkDivideLine">#1AFFFFFF</color>
+    <color name="themeYellow_press">#3DCFAB80</color>
+
     
 </resources>

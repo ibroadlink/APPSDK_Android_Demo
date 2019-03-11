@@ -82,52 +82,9 @@
             android:gravity="center_vertical|right"
             android:paddingLeft="5dp"
             android:paddingRight="10dp"
-            android:text="@string/str_settings_choose_photo_for_place"
             android:textColor="#6c6d68"
             android:textSize="16sp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginRight="12dp"
-            android:layout_weight="0"
-            android:scaleType="centerInside"
-            android:src="@drawable/arrow_gray_right" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/line_gray_bg" />
-
-    <LinearLayout
-        android:id="@+id/room_list_layout"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/white_selector"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingRight="12dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/str_settings_home_rooms"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/room_count_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:drawablePadding="9dp"
-            android:drawableRight="@drawable/arrow_gray_right"
-            android:text="7间"
-            android:textColor="@color/gray"
-            android:textSize="14sp" />
     </LinearLayout>
 
     <View
@@ -161,6 +118,73 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:drawablePadding="9dp"
+            android:textColor="@color/gray"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_gray_bg" />
+    <LinearLayout
+        android:id="@+id/btn_family_version"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/white_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="12dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:paddingRight="12dp"
+            android:text="Family Version"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:drawablePadding="9dp"
+            android:textColor="@color/gray"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_gray_bg" />
+
+    <LinearLayout
+        android:id="@+id/room_list_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/white_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="12dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/str_settings_home_rooms"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/room_count_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:drawablePadding="9dp"
             android:drawableRight="@drawable/arrow_gray_right"
             android:textColor="@color/gray"
             android:textSize="14sp" />
@@ -185,7 +209,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/str_settings_place_members"
+            android:text="Manage Members"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -220,12 +244,79 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/str_devices"
+            android:text="Manage Devices"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/device_count_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:drawablePadding="9dp"
+            android:drawableRight="@drawable/arrow_gray_right"
+            android:text=""
+            android:textColor="@color/gray"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_gray_bg" />
+
+    <LinearLayout
+        android:id="@+id/ll_scene"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/white_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="12dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Manage Scenes"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:drawablePadding="9dp"
+            android:drawableRight="@drawable/arrow_gray_right"
+            android:text=""
+            android:textColor="@color/gray"
+            android:textSize="14sp" />
+    </LinearLayout>
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_gray_bg" />
+    <LinearLayout
+        android:id="@+id/ll_linkage"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/white_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="12dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Manage Linkage"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"

@@ -1,4 +1,4 @@
-package cn.com.broadlink.blappsdkdemo.activity.Device;
+package cn.com.broadlink.blappsdkdemo.activity.device;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,7 +18,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.com.broadlink.base.BLBaseResult;
-import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
@@ -49,9 +48,9 @@ public class SPDemoActivity extends Activity implements SPControlListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sp_demo_layout);
+        setContentView(R.layout.activity_dev_sp_demo);
 
-        mDNADevice = getIntent().getParcelableExtra("INTENT_DEV_ID");
+        mDNADevice = getIntent().getParcelableExtra(BLConstants.INTENT_DEVICE);
         mSpStatusView = (TextView) findViewById(R.id.sp_status_view);
 
         mSPControlModel = new SPControlModelImpl(this);

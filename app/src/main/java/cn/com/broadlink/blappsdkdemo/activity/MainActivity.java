@@ -1,7 +1,6 @@
 package cn.com.broadlink.blappsdkdemo.activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,34 +9,42 @@ import android.widget.Button;
 import java.sql.SQLException;
 import java.util.List;
 
-import cn.com.broadlink.blappsdkdemo.BLApplcation;
+import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.Account.AccountAndSecurityActivity;
-import cn.com.broadlink.blappsdkdemo.activity.Account.AccountMainActivity;
-import cn.com.broadlink.blappsdkdemo.activity.Check.NetworkCheckActivity;
-import cn.com.broadlink.blappsdkdemo.activity.Device.DeviceMainActivity;
-import cn.com.broadlink.blappsdkdemo.activity.Family.FamilyListActivity;
-import cn.com.broadlink.blappsdkdemo.activity.IRCode.IRCodeOptActivity;
+import cn.com.broadlink.blappsdkdemo.activity.account.AccountAndSecurityActivity;
+import cn.com.broadlink.blappsdkdemo.activity.account.AccountMainActivity;
+import cn.com.broadlink.blappsdkdemo.activity.check.NetworkCheckActivity;
+import cn.com.broadlink.blappsdkdemo.activity.device.DeviceMainActivity;
+import cn.com.broadlink.blappsdkdemo.activity.family.FamilyListActivity;
+import cn.com.broadlink.blappsdkdemo.activity.irCode.IRCodeMainActivity;
+import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.product.ProductCategoryListActivity;
+import cn.com.broadlink.blappsdkdemo.common.AppExitHelper;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
-import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfo;
-import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfoDao;
+import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
+import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
+import cn.com.broadlink.blappsdkdemo.mvp.presenter.BLPushServicePresenter;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
-import cn.com.broadlink.blappsdkdemo.view.BLProgressDialog;
+import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
 public class MainActivity extends TitleActivity {
 
-    private Button mDeviceBtn, mAccountBtn, mFamilyBtn, mIRCodeBtn, mNetworkCheckBtn;
+    private Button mDeviceBtn, mAccountBtn, mFamilyBtn, mIRCodeBtn, mNetworkCheckBtn, mProductManageBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home_main);
         setTitle(R.string.Main_View);
 
         addDevice();
+        
         findView();
+        
         setListener();
+
+        BLPushServicePresenter.getInstance(mActivity).reportPushServiceToken();
     }
 
     private void findView() {
@@ -46,9 +53,17 @@ public class MainActivity extends TitleActivity {
         mFamilyBtn = (Button) findViewById(R.id.btn_family_control);
         mIRCodeBtn = (Button) findViewById(R.id.btn_ircode_control);
         mNetworkCheckBtn = (Button) findViewById(R.id.btn_network_check);
+        mProductManageBtn = (Button) findViewById(R.id.btn_product_manage);
     }
 
     private void setListener(){
+        
+        setRightButtonOnClickListener("Reset", getResources().getColor(R.color.bl_yellow_main_color), new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                BLCommonUtils.toActivity(mActivity, ResetActivity.class);
+            }
+        });
 
         mDeviceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,8 +78,8 @@ public class MainActivity extends TitleActivity {
             @Override
             public void onClick(View v) {
 
-                String userId = BLApplcation.mBLUserInfoUnits.getUserid();
-                String loginSession = BLApplcation.mBLUserInfoUnits.getLoginsession();
+                String userId = BLApplication.mBLUserInfoUnits.getUserid();
+                String loginSession = BLApplication.mBLUserInfoUnits.getLoginsession();
 
                 Intent intent = new Intent();
                 if (TextUtils.isEmpty(userId) && TextUtils.isEmpty(loginSession)) {
@@ -80,7 +95,7 @@ public class MainActivity extends TitleActivity {
             @Override
             public void onClick(View v) {
 
-                if (BLApplcation.mBLUserInfoUnits.checkAccountLogin()) {
+                if (BLApplication.mBLUserInfoUnits.checkAccountLogin()) {
                     Intent intent = new Intent();
                     intent.setClass(MainActivity.this, FamilyListActivity.class);
                     startActivity(intent);
@@ -94,9 +109,9 @@ public class MainActivity extends TitleActivity {
             @Override
             public void onClick(View v) {
 
-                if (BLApplcation.mBLUserInfoUnits.checkAccountLogin()) {
+                if (BLApplication.mBLUserInfoUnits.checkAccountLogin()) {
                     Intent intent = new Intent();
-                    intent.setClass(MainActivity.this, IRCodeOptActivity.class);
+                    intent.setClass(MainActivity.this, IRCodeMainActivity.class);
                     startActivity(intent);
                 } else {
                     BLCommonUtils.toastShow(MainActivity.this, "Please Login First!");
@@ -112,6 +127,13 @@ public class MainActivity extends TitleActivity {
                 startActivity(intent);
             }
         });
+
+        mProductManageBtn.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                BLCommonUtils.toActivity(mActivity, ProductCategoryListActivity.class);
+            }
+        });
     }
 
     private void addDevice() {
@@ -125,21 +147,13 @@ public class MainActivity extends TitleActivity {
                     BLLocalDeviceManager.getInstance().addDeviceIntoSDK(dnaDev);
                 }
             }
-
-//            BLDNADevice deviceInfo = new BLDNADevice();
-//            deviceInfo.setDid("00000000000000000000780f7716bfa8");
-//            deviceInfo.setPid("0000000000000000000000002a4e0000");
-//            deviceInfo.setMac("78:0f:77:16:bf:a8");
-//            deviceInfo.setName("AUX");
-//            deviceInfo.setType(20010);
-//            deviceInfo.setKey("3801147427445811224671461bf25133");
-//            deviceInfo.setId(1);
-//            deviceInfo.setPassword(1646382889);
-//
-//            BLLocalDeviceManager.getInstance().addDeviceIntoSDK(deviceInfo);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        AppExitHelper.exit();
     }
 }

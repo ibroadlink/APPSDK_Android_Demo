@@ -9,5 +9,5 @@ import cn.com.broadlink.sdk.param.controller.BLDeviceConfigParam;
 public interface DevConfigModel {
     void startConfig(BLDeviceConfigParam deviceConfigParam, DevConfigListener devConfigListener);
 
-    void cancleConfig();
+    void cancelConfig();
 }

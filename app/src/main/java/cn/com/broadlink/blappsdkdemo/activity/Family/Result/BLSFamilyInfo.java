@@ -1,4 +1,4 @@
-package cn.com.broadlink.blappsdkdemo.activity.Family.Result;
+package cn.com.broadlink.blappsdkdemo.activity.family.result;
 
 public class BLSFamilyInfo {
 
@@ -10,6 +10,8 @@ public class BLSFamilyInfo {
     private String countryCode;
     private String provinceCode;
     private String cityCode;
+    private String version;
+    private String master;
 
     public String getFamilyid() {
         return familyid;
@@ -73,5 +75,21 @@ public class BLSFamilyInfo {
 
     public void setCreateUser(String createUser) {
         this.createUser = createUser;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getMaster() {
+        return master;
+    }
+
+    public void setMaster(String master) {
+        this.master = master;
     }
 }

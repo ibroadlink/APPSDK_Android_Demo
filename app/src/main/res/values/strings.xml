@@ -6,7 +6,7 @@
     <string name="cube_ptr_pull_down">Pull down</string>
     <string name="cube_ptr_pull_down_to_refresh">Pull down to refresh</string>
     <string name="cube_ptr_release_to_refresh">Release to refresh</string>
-    <string name="cube_ptr_refreshing">Loading...</string>
+    <string name="cube_ptr_refreshing">Loading…</string>
     <string name="cube_ptr_refresh_complete">Update is finished.</string>
     <string name="cube_ptr_last_update">Last update:&#160;</string>
     <string name="cube_ptr_seconds_ago">&#160;sec ago</string>
@@ -24,8 +24,8 @@
     <string name="str_common_quit">Exit</string>
     <string name="str_place_close">Close</string>
     <string name="update_title">Start to download updates</string>
-    <string name="update_content">Downloading updates...%1$d%%</string>
-    <string name="str_querying">Searching...</string>
+    <string name="update_content">Downloading updates…%1$d%%</string>
+    <string name="str_querying">Searching…</string>
     <string name="str_common_sure">OK</string>
     <string name="str_common_sure_delete">Confirm to delete?</string>
     <string name="str_common_ok">OK</string>
@@ -85,10 +85,10 @@
     <string name="str_cancel">Cancel</string>
     <string name="str_common_developing">Under development</string>
     <string name="str_common_action">Action</string>
-    <string name="str_common_loading_format">Loading(%1$d%%)...</string>
-    <string name="str_common_saving">Saving...</string>
-    <string name="str_common_loading">Loading...</string>
-    <string name="str_common_performing">Performing...</string>
+    <string name="str_common_loading_format">Loading(%1$d%%)…</string>
+    <string name="str_common_saving">Saving…</string>
+    <string name="str_common_loading">Loading…</string>
+    <string name="str_common_performing">Performing…</string>
     <string name="str_common_got_it">Got it</string>
 
     <!-- 网络库错误信息 -->
@@ -311,7 +311,7 @@
     <string name="str_place_click_to_cutover">Tap to switch homes</string>
     <string name="str_main_add_free_device">Please add this type of devices to your home for better use</string>
     <string name="str_appliances_other_room">Other rooms</string>
-    <string name="str_appliances_other">Others...</string>
+    <string name="str_appliances_other">Others…</string>
     <string name="str_appliances_rename_room">Edit room name</string>
     <string name="str_appliances_room_type">Room type: %1$s</string>
     <string name="str_appliances_room_name">Room name</string>
@@ -420,7 +420,7 @@
     <string name="scan_num">Scan the barcode on package to add device</string>
     <string name="no_num_or_fail">Add device by category</string>
     <string name="str_select_product">select the device type</string>
-    <string name="loading_info">Loading....Please wait.</string>
+    <string name="loading_info">Loading….Please wait.</string>
 
     <!-- 设备配置 -->
     <string name="str_devices_configure_guid_info">Power on the device with USB cable,If it is in first time use, the blue Wi-Fi LED will flash rapidly (about 2-3 times per second)indicating the device is in configuration mode (waiting to be added into network).</string>
@@ -536,7 +536,7 @@
     <string name="str_settings_no_device">No device</string>
     <string name="str_settings_add_a_room">Add a room</string>
     <string name="str_family_region">Family Region</string>
-    <string name="str_settings_my_place">My Place</string>
+    <string name="str_settings_my_place">My Family List</string>
 
     <!-- 家庭成员管理 -->
     <string name="str_settings_place_administrator">Owner</string>
@@ -558,7 +558,7 @@
     <string name="str_appliances_room">%1$s\&apos;s appliances</string>
     <string name="str_select_module_icon">Device icon</string>
     <string name="str_select_btn_icon">Button icon</string>
-    <string name="str_settings_place_add_new_room">Add new room...</string>
+    <string name="str_settings_place_add_new_room">Add new room…</string>
     <string name="str_select_radio_lamp">Choose the type of light</string>
     <string name="str_select_radio_curtain">Choose the type of curtain/blind/shade</string>
     <string name="str_select_radio_title">Choose RF remote</string>
@@ -696,7 +696,7 @@
     <string name="str_audio_execute_successfully">Done</string>
     <string name="str_audio_speak_out_order">What can we help?</string>
     <string name="str_audio_send_order">Sending command &quot;%1$s&quot;</string>
-    <string name="str_audio_stop_and_recognize">Voice end detected. Recognizing...</string>
+    <string name="str_audio_stop_and_recognize">Voice end detected. Recognizing…</string>
     <string name="str_audio_cannot_recognize_order">Unrecognized command</string>
     <string name="str_audio_cannot_find_devices">The specified device is not found</string>
     <string name="str_audio_choose_devices_to_execute">Please select the device</string>
@@ -755,7 +755,7 @@
     <string name="str_devices_ensure_air_conditioner_close_to_rm">Please make sure the RM is closed to the aircon during test.</string>
     <string name="str_devices_ensure_tv_close_to_rm">Please make sure the RM is closed to the TV during test.</string>
     <string name="str_devices_test">Test</string>
-    <string name="str_devices_testing">Testing...</string>
+    <string name="str_devices_testing">Testing…</string>
     <string name="str_devices_codes_test">Test remote %1$s/%2$s</string>
     <string name="str_devices_click_button_to_test_codes">Please tap this button to test cloud IR code</string>
     <string name="str_devices_turn_off_tv_using_box_remote_controller">Please use the physical remote to turn off your set-top box</string>
@@ -782,11 +782,11 @@
     <string name="str_devices_sweeping_failed">Failed to scan frequency. Do you want to try again?</string>
     <string name="str_devices_sweeping_success">Scan frequency successfully. Do you want to start learning?</string>
     <string name="str_ac_healthy_sleep">Healthy sleep</string>
-    <string name="str_rm_ac_sleep_delete_dialog">Delete healthy sleep...</string>
-    <string name="str_rm_ac_sleep_open_dialog">Enable healthy sleep...</string>
-    <string name="str_rm_ac_sleep_close_dialog">Disable healthy sleep...</string>
-    <string name="str_rm_ac_sleep_adding_dialog">Add healthy sleep...</string>
-    <string name="str_rm_ac_sleep_updating_dialog">Update healthy sleep...</string>
+    <string name="str_rm_ac_sleep_delete_dialog">Delete healthy sleep…</string>
+    <string name="str_rm_ac_sleep_open_dialog">Enable healthy sleep…</string>
+    <string name="str_rm_ac_sleep_close_dialog">Disable healthy sleep…</string>
+    <string name="str_rm_ac_sleep_adding_dialog">Add healthy sleep…</string>
+    <string name="str_rm_ac_sleep_updating_dialog">Update healthy sleep…</string>
     <string name="str_rm_ac_sleep_delete_succ">Delete healthy sleep successfully!</string>
     <string name="str_rm_ac_sleep_operate_failed">Healthy sleep operation failed</string>
     <string name="str_rm_ac_sleep_add_succ">Add healthy sleep successfully!</string>
@@ -998,7 +998,7 @@
     <string name="str_one_key_match_hint">If your air conditioner is working properly, choose here</string>
     <string name="str_ac_brand_match_hint">If you know your air-conditioner brand, please select the match here</string>
     <string name="str_custom_lean_hint">If there is no brand in the "air conditioning brand match" list, choose from learning remote control</string>
-    <string name="str_wating_lean">Waiting to learn...</string>
+    <string name="str_wating_lean">Waiting to learn…</string>
     <string name="str_study_one_match">One key match</string>
     <string name="str_study_one_match_hint">Please use your air-conditioner remote control to match any key to the smart remote control.</string>
     <string name="str_btn_study">Button learning</string>
@@ -1021,7 +1021,7 @@
     <!-- 家庭-->
     <string name="str_change_pic">Edit</string>
     <string name="str_input_invitation_code">Input invitation code to join the family</string>
-    <string name="str_create_family">Create home</string>
+    <string name="str_create_family">Create Home</string>
     <string name="str_join_family">Join the family</string>
     <string name="str_wifi_family_list">Homes in the same network</string>
     <string name="str_scan_family_qrcode">Align QR code of home within frame to scan</string>
@@ -1079,9 +1079,9 @@
     <string name="str_guide_ch_hint">You can add favorite channels here.</string>
 
     <string name="str_check_for_update">Check for updates</string>
-    <string name="str_check_for_updating">Checking for updates...</string>
+    <string name="str_check_for_updating">Checking for updates…</string>
     <string name="str_updating_fw_hint">Please keep the device powered on and connected to network during the updating</string>
-    <string name="str_device_updating">Updating...</string>
+    <string name="str_device_updating">Updating…</string>
     <string name="str_rm_function_dash_dot">Dash/Dot</string>
     <string name="str_tv_exit_add_channel_hint">If you have not added a channel, you will not be able to use Alexa to switch your TV channel.</string>
     <string name="str_add_channel_can_use_alex">Add a TV channel to be switched by Alexa</string>
@@ -1317,7 +1317,7 @@
     <string name="str_bind_now">Bind now</string>
     <string name="str_has_bind">Bound</string>
 
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
 
     <string name="Device_Control">Device Management</string>
     <string name="Account_Control">Account Management</string>
@@ -1326,12 +1326,12 @@
     <string name="Network_Check">Network Check</string>
 
     <string name="Login">Login</string>
-    <string name="Logining">Logining...</string>
+    <string name="Logining">Logining…</string>
     <string name="Register">Register</string>
-    <string name="Registering">Registering...</string>
+    <string name="Registering">Registering…</string>
     <string name="Oauth">Oauth</string>
-    <string name="Oauthing">Oauthing...</string>
-    <string name="Sending">Sending...</string>
+    <string name="Oauthing">Oauthing…</string>
+    <string name="Sending">Sending…</string>
     <string name="Logout">Logout</string>
 
     <string name="Login_Method_List">Login Method List</string>
@@ -1350,7 +1350,7 @@
     <string name="Send_Vcode_Success">Send Verification Code Success</string>
     <string name="Send_Vcode_Failed">Send Verification Code Failed</string>
 
-    <string name="Main_View">Main View</string>
+    <string name="Main_View">Main Menu</string>
     <string name="title_activity_my_device_list">MyDeviceListActivity</string>
 
     <string name="Device_Control_Main">Device Main</string>
@@ -1424,5 +1424,51 @@
     <string name="check_device">Device Check</string>
     <string name="check_start">Start Check</string>
     <string name="Service_list">Service List</string>
+    <string name="account_username_password_login"><![CDATA[Username & Password Login]]></string>
+    <string name="account_phone_verify_login"><![CDATA[Phone number & Verify code Login]]></string>
+    <string name="account_sign_up">Sign Up</string>
 
+    <string name="common_account_signup_second">Resend</string>
+    <string name="common_account_second">s</string>
+    <string name="common_account_input_verification_code">Please enter verification code</string>
+    <string name="account_username_or_password_err">Please check username or password</string>
+    <string name="account_title_manage">Account Manage</string>
+    <string name="common_general_click_again_to_exit">Press again to exit the program</string>
+    <string name="common_share_qrcode_valid_for_15min">This QR code is valid in 15 minutes</string>
+    <string name="select_param">Select \nParam</string>
+    <string name="add_param">Add \nParam</string>
+    <string name="paste_param">Paste \nParam</string>
+
+    <string name="str_common_authorize">Authorize</string>
+    <string name="str_authorize_centre">Permission center</string>
+    <string name="str_device_authorize_already">The following devices are granted with permissions:</string>
+    <string name="str_device_authority">Permission</string>
+    <string name="str_device_authorized">Permitted devices</string>
+    <string name="str_open_authority_hint">Allow %1$s?</string>
+    <string name="str_open_authority_hint2">Obtain permission?</string>
+    <string name="str_select_all">All</string>
+    <string name="str_authorize_hint">You can select permissions in the list to authorize devices.</string>
+    <string name="str_format_auth_size">%1$s permission</string>
+    <string name="str_no_auth_dev">Unauthorized devices</string>
+    <string name="str_device_select_authorized">You did not select permissions from the list to be authorized</string>
+    <string name="str_device_authorize">Authorize the device %1$s to obtain the following permissions</string>
+
+    <!--Rm设备名称-->
+    <string name="str_rm_device_projector">Projector</string>
+    <string name="str_rm_device_ott">Smart TV Box</string>
+    <string name="str_rm_device_dvd">DVD</string>
+    <string name="str_rm_device_amplifier">Amplifier</string>
+    <string name="str_rm_device_camera">Camera</string>
+    <string name="str_rm_device_heater">Water heater</string>
+    <string name="str_rm_device_air_purifier">Air purifier</string>
+    <string name="str_rm_device_door">Automatic door</string>
+    <string name="str_rm_device_audio">Audio</string>
+    <string name="str_rm_device_sweep_robot">Sweeping robot</string>
+    <string name="str_rm_device_humidifier">Humidifier</string>
+    <string name="str_rm_device_clothes_hanger">Drying rack</string>
+    <string name="str_rm_device_lamp">Lamp</string>
+    
+    <string name="version_info">Version Info</string>
+    <string name="add_parts">Add accessories</string>
+    <string name="str_official_cooperation">Official brand partnership</string>
 </resources>

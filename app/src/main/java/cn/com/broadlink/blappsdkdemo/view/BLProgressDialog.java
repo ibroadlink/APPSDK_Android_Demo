@@ -39,7 +39,7 @@ public class BLProgressDialog extends Dialog {
 
 	public static BLProgressDialog createDialog(Context context, String message) {
 	    BLProgressDialog customProgressDialog = new BLProgressDialog(context, R.style.CustomProgressDialog);
-		customProgressDialog.setContentView(R.layout.bl_progress_layout);
+		customProgressDialog.setContentView(R.layout.view_bl_progress);
 		LayoutParams layoutParams = customProgressDialog.getWindow().getAttributes();
 		layoutParams.gravity = Gravity.CENTER;
 		customProgressDialog.setCanceledOnTouchOutside(false);

@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-import cn.com.broadlink.blappsdkdemo.activity.Family.BLSFamilyHTTP;
+import com.alibaba.fastjson.JSON;
+
+import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyInfo;
+import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
 
 /**
  * 用户登录信息返回保存
@@ -85,8 +88,8 @@ public class BLUserInfoUnits {
         this.email = email;
         this.birthday = birthday;
 
-        BLSFamilyHTTP.getInstance().setUserid(userid);
-        BLSFamilyHTTP.getInstance().setLoginsession(loginsession);
+        BLSFamilyManager.getInstance().setUserid(userid);
+        BLSFamilyManager.getInstance().setLoginsession(loginsession);
     }
 
     public void loginOut(){
@@ -115,8 +118,8 @@ public class BLUserInfoUnits {
         this.email = null;
         this.birthday = null;
 
-        BLSFamilyHTTP.getInstance().setUserid(null);
-        BLSFamilyHTTP.getInstance().setLoginsession(null);
+        BLSFamilyManager.getInstance().setUserid(null);
+        BLSFamilyManager.getInstance().setLoginsession(null);
     }
 
     public Boolean checkAccountLogin() {
@@ -125,6 +128,17 @@ public class BLUserInfoUnits {
         } else {
             return true;
         }
+    }
+    
+    public void cacheFamilyInfo(BLSFamilyInfo familyInfo){
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString("family", JSON.toJSONString(familyInfo));
+        editor.commit();
+    }
+    
+    public BLSFamilyInfo getCachedFamilyInfo(){
+        final String family = mSharedPreferences.getString("family", null);
+        return JSON.parseObject(family, BLSFamilyInfo.class);
     }
 
     public String getUserid() {

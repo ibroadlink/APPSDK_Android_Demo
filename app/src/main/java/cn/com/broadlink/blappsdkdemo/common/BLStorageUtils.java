@@ -13,6 +13,8 @@ import cn.com.broadlink.sdk.BLLet;
 public class BLStorageUtils {
 	/**H5 html主页面**/
 	private static final String H5_INDEX_PAGE = "app.html";
+	/**H5 场景主页面**/
+	private static final String H5_CUSTOM_PAGE = "custom.html";
 	
 	/** APP根目录 **/
 	public static String BASE_PATH = "";
@@ -172,7 +174,24 @@ public class BLStorageUtils {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * 获取设备H5 custom.html文件目录
+	 *		此HTML可以选择设备的参数用来执行场景或者定时命名
+	 *		#创建场景：custom.html?type=scene
+	 *		#创建定时：custom.html?type=timer
+	 * @param pid
+	 * 			设备产品id
+	 * @return
+	 */
+	public static String getH5DeviceParamPath(String pid) {
+		String folderPath = languageFolder(pid);
+		if(folderPath != null){
+			return folderPath + File.separator + H5_CUSTOM_PAGE;
+		}
+		return null;
+	}
+	
 	/***
 	 * 返回语言包的文件夹夹
 	 * 	例如 sdcard/broadlink/pid/zh

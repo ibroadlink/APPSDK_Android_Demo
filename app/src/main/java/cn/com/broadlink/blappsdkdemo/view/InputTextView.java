@@ -62,6 +62,7 @@ public class InputTextView extends LinearLayout {
         mEditText.setGravity(Gravity.CENTER_VERTICAL);
         LayoutParams layoutParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
         layoutParams.weight = 1;
+        layoutParams.setMargins(0,16,0,0);
         mEditText.setTextColor(Color.rgb(108, 109, 104));
         mEditText.setSingleLine();
         mEditText.setLayoutParams(layoutParams);

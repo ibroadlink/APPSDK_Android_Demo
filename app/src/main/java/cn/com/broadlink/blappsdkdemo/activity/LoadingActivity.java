@@ -5,34 +5,30 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import java.io.File;
-import java.sql.SQLException;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.com.broadlink.account.BLAccount;
 import cn.com.broadlink.base.BLLoginResult;
-import cn.com.broadlink.blappsdkdemo.BLApplcation;
+import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.Family.BLSFamilyHTTP;
-import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfo;
-import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfoDao;
-import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
+import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
+import cn.com.broadlink.blappsdkdemo.activity.base.BaseActivity;
+import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.sdk.BLLet;
 
 import cn.com.broadlink.blappsdkdemo.common.BLFileUtils;
-import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
 /**
  * 启动页面
  * Created by YeJin on 2016/5/9.
  */
-public class LoadingActivity extends BaseActivity{
+public class LoadingActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.loading_layout);
+        setContentView(R.layout.activity_loading);
 
         new Timer().schedule(new TimerTask(){
 
@@ -46,22 +42,23 @@ public class LoadingActivity extends BaseActivity{
 
     private void toActivity(){
 
-        if(!TextUtils.isEmpty(BLApplcation.mBLUserInfoUnits.getUserid())
-               && !TextUtils.isEmpty(BLApplcation.mBLUserInfoUnits.getLoginsession())) {
+        if(!TextUtils.isEmpty(BLApplication.mBLUserInfoUnits.getUserid())
+               && !TextUtils.isEmpty(BLApplication.mBLUserInfoUnits.getLoginsession())) {
 
            //本地登录
            BLLoginResult loginResult = new BLLoginResult();
-           loginResult.setUserid(BLApplcation.mBLUserInfoUnits.getUserid());
-           loginResult.setLoginsession(BLApplcation.mBLUserInfoUnits.getLoginsession());
-           loginResult.setIconpath(BLApplcation.mBLUserInfoUnits.getIconpath());
-           loginResult.setNickname(BLApplcation.mBLUserInfoUnits.getNickname());
-           loginResult.setSex(BLApplcation.mBLUserInfoUnits.getSex());
-           loginResult.setLoginip(BLApplcation.mBLUserInfoUnits.getLoginip());
-           loginResult.setLogintime(BLApplcation.mBLUserInfoUnits.getLogintime());
+           loginResult.setUserid(BLApplication.mBLUserInfoUnits.getUserid());
+           loginResult.setLoginsession(BLApplication.mBLUserInfoUnits.getLoginsession());
+           loginResult.setIconpath(BLApplication.mBLUserInfoUnits.getIconpath());
+           loginResult.setNickname(BLApplication.mBLUserInfoUnits.getNickname());
+           loginResult.setSex(BLApplication.mBLUserInfoUnits.getSex());
+           loginResult.setLoginip(BLApplication.mBLUserInfoUnits.getLoginip());
+           loginResult.setLogintime(BLApplication.mBLUserInfoUnits.getLogintime());
 
            BLAccount.localLogin(loginResult);
-           BLSFamilyHTTP.getInstance().setUserid(BLApplcation.mBLUserInfoUnits.getUserid());
-           BLSFamilyHTTP.getInstance().setLoginsession(BLApplcation.mBLUserInfoUnits.getLoginsession());
+           BLSFamilyManager.getInstance().setUserid(BLApplication.mBLUserInfoUnits.getUserid());
+           BLSFamilyManager.getInstance().setLoginsession(BLApplication.mBLUserInfoUnits.getLoginsession());
+           BLLocalFamilyManager.getInstance().setCurrentFamilyInfo(BLApplication.mBLUserInfoUnits.getCachedFamilyInfo());
         }
 
         // 已登录用户直接跳转到主页面

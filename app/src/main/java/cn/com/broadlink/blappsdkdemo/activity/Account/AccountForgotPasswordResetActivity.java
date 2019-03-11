@@ -1,4 +1,4 @@
-package cn.com.broadlink.blappsdkdemo.activity.Account;
+package cn.com.broadlink.blappsdkdemo.activity.account;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -19,7 +19,7 @@ import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.base.BLLoginResult;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.MainActivity;
-import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.view.BLPasswordEditView;
@@ -60,14 +60,15 @@ public class AccountForgotPasswordResetActivity extends TitleActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        setContentView(R.layout.account_forgot_password_rest_layout);
+        setContentView(R.layout.activity_account_forgot_password_rest);
         setBackWhiteVisible();
 
         initData();
         
         findView();
 
+        initView();
+        
         setListener();
     }
 
@@ -99,7 +100,9 @@ public class AccountForgotPasswordResetActivity extends TitleActivity {
 
         mVerifyCodeBtn = (Button) findViewById(R.id.reget_verity_code);
         mTimeHintView = (TextView) findViewById(R.id.time_hint_view);
-        
+    }
+
+    private void initView() {
         if(mTaskType== TASK_TYPE.SET_PWD || mTaskType== TASK_TYPE.FORGET_PWD){
             mNextLayout.setVisibility(View.GONE);
             mTimeHintView.setVisibility(View.VISIBLE);
@@ -107,7 +110,6 @@ public class AccountForgotPasswordResetActivity extends TitleActivity {
             mNextLayout.setVisibility(View.VISIBLE);
             mTimeHintView.setVisibility(View.GONE);
         }
-    
     }
 
     private void setListener() {

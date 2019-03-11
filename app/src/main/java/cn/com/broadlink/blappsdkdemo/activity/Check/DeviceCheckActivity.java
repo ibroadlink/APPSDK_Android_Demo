@@ -1,6 +1,5 @@
-package cn.com.broadlink.blappsdkdemo.activity.Check;
+package cn.com.broadlink.blappsdkdemo.activity.check;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,9 +21,8 @@ import java.util.List;
 import cn.com.broadlink.base.BLApiUrls;
 import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.Device.DevMoreActivity;
-import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
-import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
+import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.data.BLServiceCheckInfo;
 import cn.com.broadlink.blappsdkdemo.view.BLProgressDialog;
 import cn.com.broadlink.sdk.BLLet;
@@ -46,12 +44,12 @@ public class DeviceCheckActivity extends TitleActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device);
+        setContentView(R.layout.activity_dev_check_dev_list);
 
         setTitle(R.string.check_device);
         setBackWhiteVisible();
 
-        mDNADevice = getIntent().getParcelableExtra("INTENT_DEV_ID");
+        mDNADevice = getIntent().getParcelableExtra(BLConstants.INTENT_DEVICE);
 
         findView();
         setListener();
@@ -181,7 +179,7 @@ public class DeviceCheckActivity extends TitleActivity {
             DeviceCheckActivity.ServerAdapter.ViewHolder viewHolder;
             if(convertView == null){
                 viewHolder = new DeviceCheckActivity.ServerAdapter.ViewHolder();
-                convertView = getLayoutInflater().inflate(R.layout.adapter_server_layout, null);
+                convertView = getLayoutInflater().inflate(R.layout.item_server, null);
                 viewHolder.host = (TextView) convertView.findViewById(R.id.tv_host);
                 viewHolder.ips = (TextView) convertView.findViewById(R.id.tv_address);
                 viewHolder.time = (TextView) convertView.findViewById(R.id.tv_time);

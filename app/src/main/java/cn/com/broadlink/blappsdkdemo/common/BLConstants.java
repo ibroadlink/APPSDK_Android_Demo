@@ -13,7 +13,14 @@ public class BLConstants {
     }
 
     public static final String BROADLINK_LOG_TAG = "BROADLINK_DEMO";
-
+    
+    /**MD5加密后缀*/
+    public static final String STR_BODY_ENCRYPT = "xgx3d*fe3478$ukx";
+    public static final String STR_RM_KEY_PF = "aas45^#*";
+    public static final byte[] BYTES_RM_CODE_IV = {(byte) 0xea, (byte) 0xa4, 0x7a, 0x3a, (byte) 0xeb, 0x08,
+            0x22, (byte) 0xa2, 0x19, 0x18, (byte) 0xc5, (byte) 0xd7, 0x1d, 0x36, 0x15, (byte) 0xaa};
+    
+    
     /** 文件夹名称 存放一些APP临时数据**/
     public static final String FILE_DATA = "data";
     //分享备份文件夹
@@ -52,11 +59,17 @@ public class BLConstants {
     public static final String INTENT_PHONE = "INTENT_PHONE";
     public static final String INTENT_EXTEND = "INTENT_EXTEND";
     public static final String INTENT_ID = "INTENT_ID";
-    public static final String INTENT_FAMILY_ID = "INTENT_FAMILY_ID";
+    public static final String INTENT_FAMILY_ID = BLConstants.INTENT_FAMILY_ID;
     public static final String INTENT_ACTION = "INTENT_ACTION";
     public static final String INTENT_URL = "INTENT_URL";
     public static final String INTENT_MODULE = "INTENT_MODULE";
     public static final String INTENT_DEVICE = "INTENT_DEVICE";
+    public static final String INTENT_PARCELABLE = "INTENT_PARCELABLE";
     public static final String INTENT_MODEL = "INTENT_MODEL";
+    public static final String INTENT_CLASS = "INTENT_CLASS";
+    public static final String INTENT_PARAM = "INTENT_PARAM";
+    public static final String INTENT_TYPE = "INTENT_TYPE";
+    public static final String INTENT_ARRAY = "INTENT_ARRAY";
+    public static final String INTENT_TITLE = "INTENT_TITLE";
 
 }

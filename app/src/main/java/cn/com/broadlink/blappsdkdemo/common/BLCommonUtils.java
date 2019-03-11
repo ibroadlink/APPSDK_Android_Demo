@@ -1,16 +1,33 @@
 package cn.com.broadlink.blappsdkdemo.common;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Parcelable;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
+import android.util.Base64;
 import android.widget.Toast;
 
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import cn.com.broadlink.base.BLBaseResult;
+import cn.com.broadlink.blappsdkdemo.BuildConfig;
 
 /**
  * Created by YeJin on 2016/5/9.
@@ -154,4 +171,298 @@ public class BLCommonUtils {
         return locale.getCountry();
     }
 
+    public static <T> void toActivity(Context context, Class<T> clazz) {
+        Intent intent = new Intent();
+        intent.setClass(context, clazz);
+        context.startActivity(intent);
+    }
+    
+    public static <T> void toActivity(Context context, Class<T> clazz, Parcelable obj) {
+        Intent intent = new Intent();
+        intent.setClass(context, clazz);
+        intent.putExtra(BLConstants.INTENT_PARCELABLE, obj);
+        context.startActivity(intent);
+    }
+    
+    public static <T> void toActivity(Context context, Class<T> clazz, int obj) {
+        Intent intent = new Intent();
+        intent.setClass(context, clazz);
+        intent.putExtra(BLConstants.INTENT_VALUE, obj);
+        context.startActivity(intent);
+    }
+    
+    public static <T> void toActivity(Context context, Class<T> clazz, String obj) {
+        Intent intent = new Intent();
+        intent.setClass(context, clazz);
+        intent.putExtra(BLConstants.INTENT_VALUE, obj);
+        context.startActivity(intent);
+    }
+    
+    public static <T> void toActivityForResult(Activity context, Class<T> clazz, int requestCode) {
+        Intent intent = new Intent();
+        intent.setClass(context, clazz);
+        context.startActivityForResult(intent, requestCode);
+    }
+    
+    public static <T> void toActivityForResult(Activity context, Class<T> clazz, int requestCode, String className) {
+        Intent intent = new Intent();
+        intent.setClass(context, clazz);
+        intent.putExtra(BLConstants.INTENT_CLASS, className);
+        context.startActivityForResult(intent, requestCode);
+    }
+    public static void toastErr(BLBaseResult result){
+        String msg = "return null!";
+        if(result != null && result.getMsg()!=null){
+            msg = String.format("%s [%d]", result.getMsg(), result.getStatus());
+        }
+        BLToastUtils.show(msg);
+    }
+
+    /***
+     * 字符传是否包含双字节字符
+     * @param str
+     * @return
+     */
+    public static boolean strContainCNChar(String str) {
+        Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+        for (int i = 0; i < str.length(); i++) {
+            if (p.matcher(String.valueOf(str.charAt(i))).matches()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * Regex of url.
+     */
+    public static boolean isURL(final CharSequence input) {
+        final String REGEX_URL           = "http(s)?://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?";
+        return isMatch(REGEX_URL, input);
+    }
+    public static boolean isMatch(final String regex, final CharSequence input) {
+        return input != null && input.length() > 0 && Pattern.matches(regex, input);
+    }
+
+    public static String Base64(byte[] data) {
+        return new String(Base64.encode(data, Base64.NO_WRAP));
+    }
+    public static String Base64(String data) {
+        return new String(Base64.encode(data.getBytes(), Base64.NO_WRAP));
+    }
+
+
+
+    public static String ints2HexString(Integer[] var0) {
+        StringBuffer var1 = new StringBuffer();
+
+        for(int var2 = 0; var2 < var0.length; ++var2) {
+            String var3;
+            if ((var3 = Integer.toHexString(255 & var0[var2])).length() < 2) {
+                var1.append(0);
+            }
+
+            var1.append(var3);
+        }
+
+        return var1.toString().toLowerCase();
+    }
+
+    /**
+     * 获取Url的域名
+     *
+     * @param urlString
+     *            Url地址
+     *
+     * @return String host 域名
+     *
+     */
+    public static String urlHost(String urlString) {
+        String host = null;
+        try {
+            URL url = new URL(urlString);
+            host = url.getHost();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return host;
+    }
+
+    /**
+     * 获取Url的协议
+     * @param urlString
+     * @return
+     */
+
+    public static String urlProtocol(String urlString){
+        String host = null;
+        try {
+            URL url = new URL(urlString);
+            host = url.getProtocol();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return host;
+    }
+
+    /**
+     * 域名转Ip地址
+     *
+     * @param host
+     *            域名
+     *
+     * @return ip地址
+     *
+     */
+    public static String hostInetAddress(String host) {
+        String IPAddress = null;
+        InetAddress ReturnStr1 = null;
+        try {
+            ReturnStr1 = java.net.InetAddress.getByName(host);
+            IPAddress = ReturnStr1.getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return IPAddress;
+    }
+
+
+    /**
+     * 16进制顺序颠倒
+     *
+     *
+     */
+    public static String Hexbackrow(String b) {
+        String c = "";
+        String d = "";
+        int b_len = b.length();
+        int b_len_t = b_len / 2;
+        if (b_len % 2 != 0) {
+            d = "0" + b.substring(0, 1);
+        }
+        for (int i = 0; i < b_len_t; i++) {
+            c = c + b.substring(b_len - 2, b_len);
+            b_len = b_len - 2;
+        }
+        return c + d;
+    }
+
+    
+    public static long hexto10(String b) {
+        return Long.parseLong(Hexbackrow(b), 16);
+    }
+
+    /**
+     * 将mac地址转为 b4:43:...:xx:xx格式
+     * @param mac
+     * @return
+     */
+    public static String formatMac(String mac) {
+        if (mac.length() == 12) {
+            StringBuffer sb = new StringBuffer(mac);
+            sb.insert(10, ':');
+            sb.insert(8, ':');
+            sb.insert(6, ':');
+            sb.insert(4, ':');
+            sb.insert(2, ':');
+            return sb.toString();
+        }
+        return "";
+    }
+
+    public static String dnaKitIconUrl(String fileId){
+        StringBuffer stringBuffer = new StringBuffer(BLApiUrlConstants.AppManager.PRODUCT_ICON());
+        stringBuffer.append(fileId);
+        return stringBuffer.toString();
+    }
+
+    public static String getVersionInfo(Context context) {
+        PackageManager manager = context.getPackageManager();
+        String name = null;
+        int code = 0;
+        try {
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+            name = info.versionName;
+            code = info.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return String.format("%s(%d)", name, code);
+    }
+
+    /**
+     * 判断app是否存在
+     * @param context
+     * @return
+     */
+
+    public static boolean isAppaLive(Context context) {
+        ActivityManager am = (ActivityManager) context
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
+        boolean isAppRunning = false;
+
+        for (ActivityManager.RunningTaskInfo info : list) {
+            if (info.topActivity.getPackageName().equals(BuildConfig.APPLICATION_ID)
+                    || info.baseActivity.getPackageName().equals(BuildConfig.APPLICATION_ID)) {
+                isAppRunning = true;
+                break;
+            }
+        }
+        return isAppRunning;
+    }
+
+    /**
+     * 获得本应用activity栈顶的activity名称
+     * @param context
+     * @return
+     */
+    public static String getPackageIopActivity(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
+        for (ActivityManager.RunningTaskInfo info : list) {
+            if (info.topActivity.getPackageName().equals(BuildConfig.APPLICATION_ID) || info.baseActivity.getPackageName().equals(BuildConfig.APPLICATION_ID)) {
+                return info.topActivity.getClassName();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 检测应用是否在前台
+     * @param context
+     * @return
+     */
+    public static boolean isRunningForeground(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+        String currentPackageName = cn.getPackageName();
+        if (!TextUtils.isEmpty(currentPackageName) && currentPackageName.equals(context.getPackageName())) {
+            return true;
+        }
+        return false;
+    }
+
+    public static String rmModuleType2Pid(long type){
+        type = type + 68000;
+        String pid =  "000000000000000000000000" + tenTo16_2(type) + "00000000";
+        return pid.substring(0, 32);
+    }
+
+    public static int  rmPid2ModuleType(String pid) {
+        pid = pid.substring(24, 30);
+        int moduleType = (int) (hexto10(pid) - 68000);
+        return moduleType;
+    }
+    public static String tenTo16_2(long i) {
+        String re = "";
+        re = Long.toHexString(i);
+        if (re.length() % 2 != 0) {
+            re = "0" + re;
+        }
+        re = Hexbackrow(re);
+        return re;
+    }
+
 }
+

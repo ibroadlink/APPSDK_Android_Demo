@@ -1,4 +1,4 @@
-package cn.com.broadlink.blappsdkdemo.activity.Device;
+package cn.com.broadlink.blappsdkdemo.activity.device;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 
 public class DeviceMainActivity extends TitleActivity {
 
@@ -16,10 +16,11 @@ public class DeviceMainActivity extends TitleActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.Device_Control_Main);
-        setContentView(R.layout.activity_device_main);
+        setContentView(R.layout.activity_dev_main);
         setBackWhiteVisible();
 
         findView();
+        
         setListener();
     }
 
@@ -53,7 +54,7 @@ public class DeviceMainActivity extends TitleActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(DeviceMainActivity.this, MyDeviceListActivity.class);
+                intent.setClass(DeviceMainActivity.this, DevMyDevListActivity.class);
                 startActivity(intent);
             }
         });

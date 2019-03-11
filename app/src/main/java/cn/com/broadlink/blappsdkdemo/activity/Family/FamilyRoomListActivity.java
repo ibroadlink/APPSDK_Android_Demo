@@ -1,4 +1,4 @@
-package cn.com.broadlink.blappsdkdemo.activity.Family;
+package cn.com.broadlink.blappsdkdemo.activity.family;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,13 +13,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSQueryRoomListResult;
-import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSRoomInfo;
-import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSQueryRoomListResult;
+import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSRoomInfo;
+import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
+import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 
 
@@ -46,7 +50,7 @@ public class FamilyRoomListActivity extends TitleActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            mFamilyId = getIntent().getStringExtra("INTENT_FAMILY_ID");
+            mFamilyId = getIntent().getStringExtra(BLConstants.INTENT_FAMILY_ID);
         }
     }
 
@@ -64,23 +68,18 @@ public class FamilyRoomListActivity extends TitleActivity {
         setRightButtonOnClickListener(R.drawable.btn_add_cycle_white, new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(FamilyRoomListActivity.this);
-                dialog.setTitle("Message");
-                dialog.setMessage("Add Room TestRoom ?");
-                dialog.setCancelable(false);
-                dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                BLAlert.showEditDilog(FamilyRoomListActivity.this, "Input name for the new room", null, new BLAlert.BLEditDialogOnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        addRoomIntoFamily("TestRoom");
+                    public void onClink(String value) {
+                        addRoomIntoFamily(value);
                     }
-                });
-                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClinkCacel(String value) {
 
                     }
-                });
-                dialog.show();
+                }, false);
             }
         });
 
@@ -148,7 +147,7 @@ public class FamilyRoomListActivity extends TitleActivity {
         protected BLSQueryRoomListResult doInBackground(String... strings) {
             String familyId = strings[0];
 
-            return BLSFamilyHTTP.getInstance().queryRoomList(familyId);
+            return BLSFamilyManager.getInstance().queryRoomList(familyId);
         }
 
         @Override
@@ -196,7 +195,7 @@ public class FamilyRoomListActivity extends TitleActivity {
             List<BLSRoomInfo> roomInfos = new ArrayList<>();
             roomInfos.add(info);
 
-            return BLSFamilyHTTP.getInstance().manageRooms(familyId, roomInfos);
+            return BLSFamilyManager.getInstance().manageRooms(familyId, roomInfos);
         }
 
         @Override
@@ -219,7 +218,7 @@ public class FamilyRoomListActivity extends TitleActivity {
             ViewHolder viewHolder;
             if(convertView == null){
                 viewHolder = new ViewHolder();
-                convertView = getLayoutInflater().inflate(R.layout.adapter_device, null);
+                convertView = getLayoutInflater().inflate(R.layout.item_family_room, null);
                 viewHolder.name = (TextView) convertView.findViewById(R.id.tv_name);
                 viewHolder.roomId = (TextView) convertView.findViewById(R.id.tv_mac);
                 convertView.setTag(viewHolder);
@@ -230,7 +229,7 @@ public class FamilyRoomListActivity extends TitleActivity {
             BLSRoomInfo info = getItem(position);
 
             viewHolder.name.setText(info.getName());
-            viewHolder.roomId.setText(info.getRoomid());
+            viewHolder.roomId.setText(JSON.toJSONString(info, true));
 
             return convertView;
         }

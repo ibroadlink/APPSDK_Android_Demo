@@ -5,14 +5,17 @@ import android.os.AsyncTask;
 
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.base.BLCommonTools;
-import cn.com.broadlink.blappsdkdemo.activity.Family.BLSFamilyHTTP;
-import cn.com.broadlink.blappsdkdemo.activity.Family.Params.BLSUpdateFamilyInfoParams;
-import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSFamilyInfo;
-import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSFamilyInfoResult;
-import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSFamilyUpdateResult;
-import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSFamilyListResult;
+import cn.com.broadlink.blappsdkdemo.BLApplication;
+import cn.com.broadlink.blappsdkdemo.activity.family.param.BLSUpdateFamilyInfoParams;
+import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyInfo;
+import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyInfoResult;
+import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyListResult;
+import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyUpdateResult;
+import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
+import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.intferfacer.FamilyInterface;
 import cn.com.broadlink.blappsdkdemo.intferfacer.FamilyListInterface;
+import cn.com.broadlink.blappsdkdemo.intferfacer.SimpleCallback;
 import cn.com.broadlink.ircode.BLIRCode;
 import cn.com.broadlink.sdk.BLLet;
 
@@ -25,6 +28,7 @@ public class BLLocalFamilyManager {
     private static BLLocalFamilyManager sharedInstance = null;
     private FamilyInterface familyInterface = null;
     private FamilyListInterface familyListInterface = null;
+    private SimpleCallback familyAddInterface = null;
 
     public static BLLocalFamilyManager getInstance() {
         synchronized (BLLocalFamilyManager.class) {
@@ -40,7 +44,13 @@ public class BLLocalFamilyManager {
     }
 
     public void setCurrentFamilyInfo(BLSFamilyInfo currentFamilyInfo) {
+        BLApplication.mBLUserInfoUnits.cacheFamilyInfo(currentFamilyInfo);
         this.currentFamilyInfo = currentFamilyInfo;
+        if(currentFamilyInfo != null){
+            this.setCurrentFamilyId(currentFamilyInfo.getFamilyid());
+        }else{
+            this.setCurrentFamilyId(null);
+        }
     }
 
     public void setCurrentFamilyId(String familyId) {
@@ -61,6 +71,9 @@ public class BLLocalFamilyManager {
     public void setFamilyListInterface(FamilyListInterface familyListInterface) {
         this.familyListInterface = familyListInterface;
     }
+    public void setFamilyAddInterface(SimpleCallback familyAddInterface) {
+        this.familyAddInterface = familyAddInterface;
+    }
 
     /**
      * 查询当前用户下所有家庭的基本信息
@@ -78,6 +91,21 @@ public class BLLocalFamilyManager {
             familyId = currentFamilyId;
         new FamilyAllInfoTask().execute(familyId);
     }
+    
+    public void deleteFamily(String familyId){
+        new FamilyDelTask().execute(familyId);
+    }
+    
+    public void addFamily(String... strings){
+        new CreateFamilyTask().execute(strings);
+    }
+    
+    public void modifyFamily(String familyId, BLSUpdateFamilyInfoParams params){
+        if(familyId == null){
+            familyId = currentFamilyId;
+        }
+        new FamilyModifyTask(familyId, params).execute();
+    }
 
     /**
      * 家庭信息列表获取
@@ -91,7 +119,7 @@ public class BLLocalFamilyManager {
 
         @Override
         protected BLSFamilyListResult doInBackground(String... params) {
-            return BLSFamilyHTTP.getInstance().queryFamilyList();
+            return BLSFamilyManager.getInstance().queryFamilyList();
         }
 
         @Override
@@ -137,7 +165,7 @@ public class BLLocalFamilyManager {
         @Override
         protected BLSFamilyInfoResult doInBackground(String... strings) {
             String familyId = strings[0];
-            return BLSFamilyHTTP.getInstance().queryFamilyInfo(familyId);
+            return BLSFamilyManager.getInstance().queryFamilyInfo(familyId);
         }
 
         @Override
@@ -152,7 +180,10 @@ public class BLLocalFamilyManager {
                     familyInterface.familyAllInfo(allInfo);
                 }
             } else {
-                BLCommonTools.debug(result.getMsg());
+                BLCommonUtils.toastErr(result);
+                if (familyInterface != null) {
+                    familyInterface.familyAllInfo(null);
+                }
             }
         }
     }
@@ -160,7 +191,7 @@ public class BLLocalFamilyManager {
     /**
      * 创建默认家庭
      */
-    private class CreateDefaultFamilyTask extends AsyncTask<String, Void, BLSFamilyUpdateResult> {
+    private class CreateFamilyTask extends AsyncTask<String, Void, BLSFamilyUpdateResult> {
 
         @Override
         protected void onPreExecute() {
@@ -169,20 +200,93 @@ public class BLLocalFamilyManager {
 
         @Override
         protected BLSFamilyUpdateResult doInBackground(String... strings) {
-            String name = strings[0];
-
+       
             BLSUpdateFamilyInfoParams params = new BLSUpdateFamilyInfoParams();
-            params.setName(name);
-
-            return BLSFamilyHTTP.getInstance().AddFamily(params);
+            params.setName(strings[0]);
+            if(strings.length>=2){
+                params.setCountryCode(strings[1]);
+            }
+            if(strings.length>=3){
+                params.setProvinceCode(strings[2]);
+            }
+            return BLSFamilyManager.getInstance().AddFamily(params);
         }
 
         @Override
         protected void onPostExecute(BLSFamilyUpdateResult result) {
             super.onPostExecute(result);
 
-            if (familyInterface != null) {
-                familyInterface.familyInfoChanged(result.succeed(), null, null);
+            if (result != null && result.succeed()) {
+                if(familyAddInterface != null){
+                    familyAddInterface.onResult(true);
+                }
+            } else {
+                BLCommonUtils.toastErr(result);
+                if(familyAddInterface != null){
+                    familyAddInterface.onResult(false);
+                }
+            }
+        }
+    }
+
+    /**
+     * 家庭详细信息获取
+     */
+    private class FamilyDelTask extends AsyncTask<String, Void, BLBaseResult> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected BLBaseResult doInBackground(String... strings) {
+            String familyId = strings[0];
+            return BLSFamilyManager.getInstance().delFamily(familyId);
+        }
+
+        @Override
+        protected void onPostExecute(BLBaseResult result) {
+            super.onPostExecute(result);
+
+            if (result != null && result.succeed()) {
+                queryAllFamilyBaseInfo();
+            } else {
+                BLCommonUtils.toastErr(result);
+            }
+        }
+    }
+    
+    /**
+     * 修改家庭信息
+     */
+    private class FamilyModifyTask extends AsyncTask<Void, Void, BLBaseResult> {
+        BLSUpdateFamilyInfoParams blFamilyInfo;
+        String familyId;
+
+        public FamilyModifyTask(String familyId, BLSUpdateFamilyInfoParams blFamilyInfo) {
+            this.blFamilyInfo = blFamilyInfo;
+            this.familyId = familyId;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected BLBaseResult doInBackground(Void... strings) {
+            return BLSFamilyManager.getInstance().updateFamilyInfo(familyId, blFamilyInfo);
+        }
+
+        @Override
+        protected void onPostExecute(BLBaseResult result) {
+            super.onPostExecute(result);
+
+            if (result != null && result.succeed()) {
+                queryFamilyAllInfo(familyId);
+            } else {
+                BLCommonUtils.toastErr(result);
             }
         }
     }

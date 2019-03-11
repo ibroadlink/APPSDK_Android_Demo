@@ -1,4 +1,4 @@
-package cn.com.broadlink.blappsdkdemo.activity.Account;
+package cn.com.broadlink.blappsdkdemo.activity.account;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,11 +12,11 @@ import android.widget.TextView;
 
 import com.broadlink.lib.imageloader.core.listener.SimpleImageLoadingListener;
 
-
-import cn.com.broadlink.blappsdkdemo.BLApplcation;
+import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLBitmapUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLImageLoaderUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLUserInfoUnits;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
@@ -29,7 +29,9 @@ public class AccountAndSecurityActivity extends TitleActivity {
     private TextView mNickNameView;
     private TextView mGenderView;
     private TextView mBirthdayView;
-    private TextView mPhoneNumView,mEmailView;
+    private TextView mPhoneNumView;
+    private TextView mEmailView;
+    private TextView mTvModifyPwd;
     private Button mLoginOutButton;
 
     private BLImageLoaderUtils mBlImageLoaderUtils;
@@ -38,20 +40,21 @@ public class AccountAndSecurityActivity extends TitleActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.account_and_security_layout);
+        setContentView(R.layout.activity_account_and_security);
         setTitle(R.string.str_settings_account_and_security);
         setBackWhiteVisible();
 
         mBlImageLoaderUtils = BLImageLoaderUtils.getInstence(AccountAndSecurityActivity.this);
 
         findView();
+        
         setListener();
+        
         initView();
     }
 
     private void findView() {
         mUserIconView = (ImageView) findViewById(R.id.user_icon_view);
-
         mNickNameView = (TextView) findViewById(R.id.user_nick_view);
         mGenderView = (TextView) findViewById(R.id.user_gender_view);
         mBirthdayView = (TextView) findViewById(R.id.user_birthday_view);
@@ -59,7 +62,7 @@ public class AccountAndSecurityActivity extends TitleActivity {
         mPhoneNumView = (TextView) findViewById(R.id.phone_num_tv);
         mEmailLayout = (RelativeLayout) findViewById(R.id.email_address_layout);
         mEmailView = (TextView) findViewById(R.id.email_address_tv);
-
+        mTvModifyPwd = (TextView) findViewById(R.id.tv_right);
         mLoginOutButton = (Button) findViewById(R.id.btn_loginout);
     }
 
@@ -69,7 +72,7 @@ public class AccountAndSecurityActivity extends TitleActivity {
 
             @Override
             public void doOnClick(View v) {
-                BLApplcation.mBLUserInfoUnits.loginOut();
+                BLApplication.mBLUserInfoUnits.loginOut();
 
                 Intent intent = new Intent();
                 intent.setClass(AccountAndSecurityActivity.this, AccountMainActivity.class);
@@ -79,10 +82,17 @@ public class AccountAndSecurityActivity extends TitleActivity {
 
         });
 
+        mTvModifyPwd.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                BLCommonUtils.toActivity(AccountAndSecurityActivity.this, AccountPasswordChangeActivity.class);
+            }
+        });
+
     }
 
     private void initView() {
-        BLUserInfoUnits blUserInfoUnits = BLApplcation.mBLUserInfoUnits;
+        BLUserInfoUnits blUserInfoUnits = BLApplication.mBLUserInfoUnits;
 
         String iconPath = blUserInfoUnits.getIconpath();
         if (!TextUtils.isEmpty(iconPath)) {
@@ -99,8 +109,8 @@ public class AccountAndSecurityActivity extends TitleActivity {
         try {
             mNickNameView.setText(blUserInfoUnits.getNickname().equals("") ? getString(R.string.str_settings_safety_unsetting) : blUserInfoUnits.getNickname());
 
-            mGenderView.setText(blUserInfoUnits.getSex().equals("") ? getString(R.string.str_settings_safety_unsetting) :
-                    (blUserInfoUnits.getSex().equals("male") ? getString(R.string.sex_male) : getString(R.string.sex_female)));
+            mGenderView.setText(blUserInfoUnits.getSex().equals("") ? getString(R.string.str_settings_safety_unsetting) : (blUserInfoUnits.getSex().equals("male") ?
+                    getString(R.string.sex_male) : getString(R.string.sex_female)));
 
             mBirthdayView.setText(blUserInfoUnits.getBirthday().equals("") ? getString(R.string.str_settings_safety_unsetting) : blUserInfoUnits.getBirthday().substring(0, 10));
         } catch (Exception e) {

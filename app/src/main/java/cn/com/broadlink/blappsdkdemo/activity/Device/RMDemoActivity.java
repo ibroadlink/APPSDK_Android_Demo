@@ -1,4 +1,4 @@
-package cn.com.broadlink.blappsdkdemo.activity.Device;
+package cn.com.broadlink.blappsdkdemo.activity.device;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import cn.com.broadlink.base.BLAppSdkErrCode;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.data.BLControlActConstans;
 import cn.com.broadlink.sdk.BLLet;
-
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.data.controller.BLStdData;
 import cn.com.broadlink.sdk.param.controller.BLStdControlParam;
@@ -31,9 +31,9 @@ public class RMDemoActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rm_demo_layout);
+        setContentView(R.layout.activity_dev_rm_demo);
 
-        mDNADevice = getIntent().getParcelableExtra("INTENT_DEV_ID");
+        mDNADevice = getIntent().getParcelableExtra(BLConstants.INTENT_DEVICE);
 
         mIrCodeView = (TextView) findViewById(R.id.ircode_view);
     }

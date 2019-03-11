@@ -25,7 +25,7 @@ public class DevConfigIModeImpl implements DevConfigModel{
                     }
                 });
 
-                BLDeviceConfigResult result = BLLet.Controller.deviceConfig(deviceConfigParam);
+                final BLDeviceConfigResult result = BLLet.Controller.deviceConfig(deviceConfigParam);
                 if (result.succeed()) {
                     Log.d("BROADLINK_LET_SDK_LOG", "DeviceIP: " + result.getDevaddr());
                     Log.d("BROADLINK_LET_SDK_LOG", "Did: " + result.getDid());
@@ -35,7 +35,7 @@ public class DevConfigIModeImpl implements DevConfigModel{
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        devConfigListener.configend();
+                        devConfigListener.configEnd(result);
                     }
                 });
             }
@@ -43,7 +43,7 @@ public class DevConfigIModeImpl implements DevConfigModel{
     }
 
     @Override
-    public void cancleConfig() {
+    public void cancelConfig() {
         BLLet.Controller.deviceConfigCancel();
     }
 }

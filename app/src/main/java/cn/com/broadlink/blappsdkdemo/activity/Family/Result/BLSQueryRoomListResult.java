@@ -1,4 +1,4 @@
-package cn.com.broadlink.blappsdkdemo.activity.Family.Result;
+package cn.com.broadlink.blappsdkdemo.activity.family.result;
 
 import java.util.List;
 

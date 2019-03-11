@@ -1,18 +1,15 @@
 package cn.com.broadlink.blappsdkdemo.data;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.Set;
 
 /***
  * 设备ProfileInfo
- * 
+ *
  * @author YeJin
- * 
  */
 public class BLDevProfileInfo {
 
@@ -22,12 +19,26 @@ public class BLDevProfileInfo {
 
 	private List<String> srvs = new ArrayList<String>();
 
-	private List<String> funcs = new ArrayList<String>();
-	
+//	private List<String> funcs = new ArrayList<String>();
+
 	private List<BLDevSuidInfo> suids = new ArrayList<BLDevSuidInfo>();
 
-	private JSONObject limits;
-	
+	private org.json.JSONObject limits;
+
+	private int issubdev;
+
+	private int subscribable;
+
+	private int wificonfigtype;
+
+	private String apprefix;
+
+	private List<String> protocol = new ArrayList<String>();
+
+	private ArrayList<BLDevParamsGroupInfo> groups = new ArrayList<>();
+
+	private int scan2add = 1;
+
 	public String getVer() {
 		return ver;
 	}
@@ -60,41 +71,101 @@ public class BLDevProfileInfo {
 		this.suids = suids;
 	}
 
-	public JSONObject getLimits() {
+	public org.json.JSONObject getLimits() {
 		return limits;
 	}
 
-	public void setLimits(JSONObject limits) {
+	public void setLimits(org.json.JSONObject limits) {
 		this.limits = limits;
 	}
 
-	public List<String> getLimtKeyList(){
-		if(limits != null){
+	public BLDevProfileInfo() {
+		setScan2add(1);
+	}
+
+	public List<String> getLimtKeyList() {
+		if (limits != null) {
 			List<String> keyList = new ArrayList<String>();
-			Set<Entry<String, Object>> it = limits.entrySet();
-			for(Entry<String, Object> entry : it){
-				keyList.add(entry.getKey());
+			Iterator<String> it = limits.keys();
+			while (it.hasNext()) {
+				keyList.add(it.next());
 			}
 
 			return keyList;
 		}
 		return null;
 	}
-	
-	public List<Integer> getLimitValue(String key){
-		if(key == null || limits.get(key) == null){
+
+	public List<Integer> getLimitValue(String key) {
+		if (key == null || limits.isNull(key)) {
 			return null;
 		}
-		
-		return JSON.parseArray(limits.get(key).toString(), 
+
+		return JSON.parseArray(limits.optJSONArray(key).toString(),
 				Integer.class);
 	}
 
-	public List<String> getFuncs() {
-		return funcs;
+//	public List<String> getFuncs() {
+//		return funcs;
+//	}
+//
+//	public void setFuncs(List<String> funcs) {
+//		this.funcs = funcs;
+//	}
+
+	public int getIssubdev() {
+		return issubdev;
 	}
 
-	public void setFuncs(List<String> funcs) {
-		this.funcs = funcs;
+	public void setIssubdev(int issubdev) {
+		this.issubdev = issubdev;
+	}
+
+	public List<String> getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(List<String> protocol) {
+		this.protocol = protocol;
+	}
+
+	public int getSubscribable() {
+		return subscribable;
+	}
+
+	public void setSubscribable(int subscribable) {
+		this.subscribable = subscribable;
+	}
+
+	public int getWificonfigtype() {
+		return wificonfigtype;
+	}
+
+	public void setWificonfigtype(int wificonfigtype) {
+		this.wificonfigtype = wificonfigtype;
+	}
+
+	public String getApprefix() {
+		return apprefix;
+	}
+
+	public void setApprefix(String apprefix) {
+		this.apprefix = apprefix;
+	}
+
+	public int getScan2add() {
+		return scan2add;
+	}
+
+	public void setScan2add(int scan2add) {
+		this.scan2add = scan2add;
+	}
+
+	public ArrayList<BLDevParamsGroupInfo> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(ArrayList<BLDevParamsGroupInfo> groups) {
+		this.groups = groups;
 	}
 }

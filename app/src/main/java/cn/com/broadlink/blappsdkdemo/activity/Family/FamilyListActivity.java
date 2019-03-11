@@ -1,10 +1,9 @@
-package cn.com.broadlink.blappsdkdemo.activity.Family;
+package cn.com.broadlink.blappsdkdemo.activity.family;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -12,17 +11,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.Device.MyDeviceListActivity;
-import cn.com.broadlink.blappsdkdemo.activity.Family.Result.BLSFamilyInfo;
-import cn.com.broadlink.blappsdkdemo.activity.TitleActivity;
-import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfo;
-import cn.com.broadlink.blappsdkdemo.db.BLDeviceInfoDao;
+import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyInfo;
+import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.intferfacer.FamilyListInterface;
+import cn.com.broadlink.blappsdkdemo.mvp.presenter.CountryContentProvider;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
+import cn.com.broadlink.blappsdkdemo.view.BLAlert;
+import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 
 
@@ -31,7 +32,6 @@ import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 public class FamilyListActivity extends TitleActivity implements FamilyListInterface {
 
     private ListView mFamilyIdListView;
-
     private List<BLSFamilyInfo> blsFamilyInfos = new ArrayList<>();
     private FamilyListAdapter mAdapter;
 
@@ -43,6 +43,7 @@ public class FamilyListActivity extends TitleActivity implements FamilyListInter
         setBackWhiteVisible();
 
         findView();
+        
         setListener();
 
         mAdapter  = new FamilyListAdapter(FamilyListActivity.this, blsFamilyInfos);
@@ -54,7 +55,6 @@ public class FamilyListActivity extends TitleActivity implements FamilyListInter
     @Override
     protected void onResume() {
         super.onResume();
-
         getFamilyListFormCloud();
     }
 
@@ -77,9 +77,23 @@ public class FamilyListActivity extends TitleActivity implements FamilyListInter
         setRightButtonOnClickListener(R.drawable.btn_add_cycle_white, new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(FamilyListActivity.this, FamilyAddActivity.class);
-                startActivity(intent);
+
+                BLListAlert.showAlert(FamilyListActivity.this, null, new String[]{"Create", "Scan"}, new BLListAlert.OnItemClickLister() {
+                    @Override
+                    public void onClick(int whichButton) {
+                       switch (whichButton){
+                           case 0:
+                               Intent intent = new Intent();
+                               intent.setClass(FamilyListActivity.this, FamilyAddActivity.class);
+                               startActivity(intent);
+                               break;
+                           case 1:
+                               BLCommonUtils.toActivity(FamilyListActivity.this, FamilyScanQrActivity.class);
+                               break;
+
+                       }
+                    }
+                });
             }
         });
 
@@ -90,9 +104,27 @@ public class FamilyListActivity extends TitleActivity implements FamilyListInter
                 String familyId = info.getFamilyid();
 
                 Intent intent = new Intent();
-                intent.putExtra("INTENT_FAMILY_ID", familyId);
+                intent.putExtra(BLConstants.INTENT_FAMILY_ID, familyId);
                 intent.setClass(FamilyListActivity.this, FamilyDetailActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        mFamilyIdListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l) {
+                BLAlert.showDialog(FamilyListActivity.this, "Confirm to delete this family?", new BLAlert.DialogOnClickListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        BLLocalFamilyManager.getInstance().deleteFamily(blsFamilyInfos.get(i).getFamilyid());
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+
+                    }
+                });
+                return true;
             }
         });
     }
@@ -106,8 +138,10 @@ public class FamilyListActivity extends TitleActivity implements FamilyListInter
     }
 
     private class FamilyListAdapter extends ArrayAdapter<BLSFamilyInfo> {
+        CountryContentProvider contentProvider;
         public FamilyListAdapter(Context context, List<BLSFamilyInfo> objects) {
             super(context, 0, objects);
+            contentProvider = CountryContentProvider.getInstance();
         }
 
         @Override
@@ -115,9 +149,11 @@ public class FamilyListActivity extends TitleActivity implements FamilyListInter
             ViewHolder viewHolder;
             if(convertView == null){
                 viewHolder = new ViewHolder();
-                convertView = getLayoutInflater().inflate(R.layout.adapter_device, null);
+                convertView = getLayoutInflater().inflate(R.layout.item_family, null);
                 viewHolder.name = (TextView) convertView.findViewById(R.id.tv_name);
                 viewHolder.familyId = (TextView) convertView.findViewById(R.id.tv_mac);
+                viewHolder.createUser = (TextView) convertView.findViewById(R.id.tv_create_user);
+                viewHolder.locate = (TextView) convertView.findViewById(R.id.tv_locate);
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
@@ -126,14 +162,18 @@ public class FamilyListActivity extends TitleActivity implements FamilyListInter
             BLSFamilyInfo info = getItem(position);
 
             viewHolder.name.setText(info.getName());
-            viewHolder.familyId.setText(info.getFamilyid());
-
+            viewHolder.familyId.setText("FamilyId: " + info.getFamilyid());
+            viewHolder.createUser.setText("Master: " + info.getMaster());
+            viewHolder.locate.setText(TextUtils.isEmpty(info.getCountryCode()) ? "Location: null" : String.format("Location: %s",
+                    contentProvider.findContryInfoByCode(info.getCountryCode(), null, null)));
             return convertView;
         }
 
         private class ViewHolder{
             TextView name;
             TextView familyId;
+            TextView createUser;
+            TextView locate;
         }
     }
 

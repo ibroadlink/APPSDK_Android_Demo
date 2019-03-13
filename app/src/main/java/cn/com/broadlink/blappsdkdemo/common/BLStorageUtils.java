@@ -12,9 +12,9 @@ import cn.com.broadlink.sdk.BLLet;
 
 public class BLStorageUtils {
 	/**H5 html主页面**/
-	private static final String H5_INDEX_PAGE = "app.html";
+	public static final String H5_INDEX_PAGE = "app.html";
 	/**H5 场景主页面**/
-	private static final String H5_CUSTOM_PAGE = "custom.html";
+	public static final String H5_CUSTOM_PAGE = "custom.html";
 	
 	/** APP根目录 **/
 	public static String BASE_PATH = "";

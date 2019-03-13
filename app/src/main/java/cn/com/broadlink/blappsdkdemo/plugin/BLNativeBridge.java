@@ -29,11 +29,11 @@ import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.base.BLFileUtils;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.activity.device.DevGatewayManageActivity;
 import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
 import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSEndpointInfo;
 import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSQueryRoomListResult;
 import cn.com.broadlink.blappsdkdemo.activity.h5.DeviceH5Activity;
-import cn.com.broadlink.blappsdkdemo.activity.product.GatewaySubProductCategoryListActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLApiUrlConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
@@ -161,11 +161,13 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer 
                 return false;
             }
 
-            Intent intent = new Intent();
-            intent.putExtra(BLConstants.INTENT_DEVICE, deviceInfo);
-            intent.putExtra(BLConstants.INTENT_TITLE,mBaseActivity.getString(R.string.add_parts));
-            intent.setClass(mBaseActivity, GatewaySubProductCategoryListActivity.class);
-            mBaseActivity.startActivity(intent);
+//            Intent intent = new Intent();
+//            intent.putExtra(BLConstants.INTENT_DEVICE, deviceInfo);
+//            intent.putExtra(BLConstants.INTENT_TITLE, mBaseActivity.getString(R.string.add_parts));
+//            intent.setClass(mBaseActivity, GatewaySubProductCategoryListActivity.class);
+//            mBaseActivity.startActivity(intent);
+
+            BLCommonUtils.toActivity(mBaseActivity, DevGatewayManageActivity.class, deviceInfo);
             return true;
         }
 

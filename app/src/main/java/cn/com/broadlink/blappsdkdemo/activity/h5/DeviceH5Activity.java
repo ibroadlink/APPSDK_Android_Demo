@@ -25,6 +25,7 @@ import cn.com.broadlink.blappsdkdemo.activity.base.BaseActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLStorageUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
+import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.BLProgressDialog;
@@ -33,6 +34,8 @@ import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.result.controller.BLDownloadScriptResult;
 import cn.com.broadlink.sdk.result.controller.BLDownloadUIResult;
+
+import static cn.com.broadlink.blappsdkdemo.common.BLStorageUtils.H5_CUSTOM_PAGE;
 
 /**
  * Created by zhujunjie on 2016/11/11.
@@ -237,9 +240,28 @@ public class DeviceH5Activity extends BaseActivity {
 
     public void openLinkagePage(CallbackContext callbackContext, String did, ArrayList<String> pidList, ArrayList<String> protocolList){
         mDeviceLinkageParamSelectCallback = callbackContext;
-        // TODO: 2019/3/8  ihg
+        if(!TextUtils.isEmpty(did)){
+            final BLDNADevice cachedDevice = BLLocalDeviceManager.getInstance().getCachedDevice(did);
+            if(cachedDevice != null){
+                if (selectSelectCmdAndExitSceneHtml(cachedDevice.getPid())) {
+                    Intent intent = new Intent();
+                    intent.putExtra(BLConstants.INTENT_DEVICE, cachedDevice);
+                    intent.putExtra(BLConstants.INTENT_PARAM, H5_CUSTOM_PAGE);
+                    intent.setClass(mActivity, DeviceH5Activity.class);
+                }
+            }
+        }else{
+
+        }
     }
 
+    //本地UI包有选择场景的html提供
+    private boolean selectSelectCmdAndExitSceneHtml(String pid){
+        String h5Path = BLStorageUtils.getH5DeviceParamPath(pid);
+        return h5Path != null && new File(h5Path).exists();
+    }
+    
+    
     class DownLoadResourceTask extends AsyncTask<Void, Void, Boolean> {
         BLProgressDialog dismissProgressDialog;
 

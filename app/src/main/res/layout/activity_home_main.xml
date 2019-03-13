@@ -59,6 +59,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:visibility="gone"
         android:text="@string/Network_Check"
         />
 

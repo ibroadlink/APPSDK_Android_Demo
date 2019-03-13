@@ -1,14 +1,15 @@
 package cn.com.broadlink.blappsdkdemo.activity.device;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.data.BLControlActConstans;
 import cn.com.broadlink.blappsdkdemo.data.BLDevProfileInfo;
+import cn.com.broadlink.blappsdkdemo.data.BLDevProfileInftsValueInfo;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
@@ -202,6 +204,8 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
     }
     
     private void showAddParamDialogV2(){
+        mAdapter.flushData();
+        
         if(mBlDevProfileInfo == null){
             BLProfileStringResult devProfileResult = BLLet.Controller.queryProfileByPid(mDNADevice.getPid());
             if(devProfileResult!=null && devProfileResult.succeed()){
@@ -217,8 +221,13 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
         BLListAlert.showAlert(mActivity, null, paramArray, new BLListAlert.OnItemClickLister() {
             @Override
             public void onClick(int whichButton) {
-                mDnaParams.add(new DnaParam(paramArray[whichButton], null));
-                mAdapter.notifyDataSetChanged();
+
+                final List<BLDevProfileInftsValueInfo> intfValue = mBlDevProfileInfo.getSuids().get(0).getIntfValue(paramArray[whichButton]);
+                if(intfValue != null && intfValue.size()>0){
+                    final List<Integer> in = intfValue.get(0).getIn();
+                    mDnaParams.add(new DnaParam(paramArray[whichButton], in));
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         });
     }
@@ -311,10 +320,18 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
     class DnaParam {
         public String param;
         public String val;
+        public List<Integer> in = new ArrayList<>();
 
         public DnaParam(String param, String val) {
             this.param = param;
             this.val = val;
+        }
+        public DnaParam(String param, List<Integer> in) {
+            this.param = param;
+            this.in.clear();
+            if(in != null){
+                this.in.addAll(in);
+            }
         }
 
         public DnaParam() {
@@ -326,7 +343,19 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
         public DnaParamAdapter() {
             super(mDnaParams, R.layout.item_dev_dna_std_param);
         }
+        
+        
+        public void flushData(){
+            for (int i=0; i< getItemCount(); i++){
+                final BLBaseViewHolder holder = (BLBaseViewHolder) mRvParams.getChildViewHolder(mRvParams.getChildAt(i));
+                final EditText etVal = holder.get(R.id.et_val);
+                if(etVal != null && !TextUtils.isEmpty(etVal.getText())){
+                    getItem(i).val = etVal.getText().toString();
+                }
+            }
+        }
 
+        @SuppressLint("ClickableViewAccessibility")
         @Override
         public void onBindViewHolder(BLBaseViewHolder holder, final int position) {
             super.onBindViewHolder(holder, position);
@@ -341,50 +370,60 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
             btDel.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void doOnClick(View v) {
+                    flushData();
                     mBeans.remove(position);
                     notifyDataSetChanged();
                 }
             });
+
             
-            etParam.addTextChangedListener(new TextWatcher() {
+            etVal.setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    if(etVal.getTag() != null){
+                        return true;
+                    }
                     
-                }
+                    List<Integer>  in = mBeans.get(position).in;
+                    if(in.get(0) == 1){ // 枚举
+                        final StringBuffer sb = new StringBuffer();
+                        final String[] selection = new String[in.size()-1];
+                        for (int i=1;i<in.size();i++){
+                            if(i!=1){
+                                sb.append("、");
+                            }
+                            sb.append(in.get(i));
+                            selection[i-1] = String.valueOf(in.get(i));
+                        }
+                        showResult(sb.toString());
 
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    if(TextUtils.isEmpty(editable)){
-                        //BLToastUtils.show("Should not be null!");
-                    }else{
-                        mBeans.get(position).param = etParam.getText().toString();
+                        BLListAlert.showAlert(mActivity, null, selection, new BLListAlert.OnItemClickLister() {
+                            @Override
+                            public void onClick(int whichButton) {
+                                etVal.setText(selection[whichButton]);
+                                etVal.setTag(null);
+                                mBeans.get(position).val = selection[whichButton];
+                            }
+                        }, new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialogInterface) {
+                                etVal.setTag(null);
+                            }
+                        });
+                        etVal.setTag(1);
+                        return true;
+                        
+                    }else if(in.get(0) == 2){ // 连续
+                        final StringBuffer sb = new StringBuffer();
+                        sb.append("Min: ").append(in.get(1)).append("\n");
+                        sb.append("Max: ").append(in.get(2)).append("\n");
+                        sb.append("Step: ").append(in.get(3)).append("\n");
+                        sb.append("Multiple: ").append(in.get(4)).append("\n");
+                        showResult(sb.toString());
+                    }else{ // 简单
+                        showResult("");
                     }
-                }
-            });
-
-            etVal.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    if(TextUtils.isEmpty(editable)){
-                        //BLToastUtils.show("Should not be null!");
-                    }else{
-                        mBeans.get(position).val = etVal.getText().toString();
-                    }
+                    return false;
                 }
             });
         }
@@ -408,13 +447,16 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
             for(DnaParam item : mDnaParams){
                 dnaParams.add(item.param);
                 BLStdData.Value value = new BLStdData.Value();
-                try {
-                    final int intVal = Integer.parseInt(item.val);
-                    value.setVal(intVal);
-                } catch (NumberFormatException e) {
-                    value.setVal(item.val);
+                if(item.val == null){
+                    value.setVal("");
+                }else{
+                    try {
+                        final int intVal = Integer.parseInt(item.val);
+                        value.setVal(intVal);
+                    } catch (NumberFormatException e) {
+                        value.setVal(item.val);
+                    }
                 }
-               
                 dnaVals.add(value);
             }
 

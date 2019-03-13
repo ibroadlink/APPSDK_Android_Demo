@@ -39,6 +39,11 @@ public class BLListAlert {
         mShowIconInfo = false;
         return showAlert(context, title, items, null, alertDo, null);
     }
+    
+    public static Dialog showAlert(Context context, String title, String[] items, final OnItemClickLister alertDo, OnCancelListener cancelListener) {
+        mShowIconInfo = false;
+        return showAlert(context, title, items, null, alertDo, cancelListener);
+    }
 
     public static Dialog showAlert(Context context, String title, String[] items, boolean showIconInfo, final OnItemClickLister alertDo) {
         mShowIconInfo = showIconInfo;

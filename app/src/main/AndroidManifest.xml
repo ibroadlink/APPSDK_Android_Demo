@@ -95,7 +95,7 @@
             android:name=".activity.irCode.IRCodeTvOrBoxPanelActivity"
             android:theme="@style/ActivityStyle"/>
         <activity
-            android:name=".activity.device.DeviceMainActivity"
+            android:name=".activity.device.DevMainActivity"
             android:theme="@style/ActivityStyle"/>
         <activity
             android:name=".activity.account.AccountSignUpActivity"

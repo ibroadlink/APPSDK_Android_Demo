@@ -14,7 +14,7 @@ import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.account.AccountAndSecurityActivity;
 import cn.com.broadlink.blappsdkdemo.activity.account.AccountMainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.check.NetworkCheckActivity;
-import cn.com.broadlink.blappsdkdemo.activity.device.DeviceMainActivity;
+import cn.com.broadlink.blappsdkdemo.activity.device.DevMainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.family.FamilyListActivity;
 import cn.com.broadlink.blappsdkdemo.activity.irCode.IRCodeMainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
@@ -69,7 +69,7 @@ public class MainActivity extends TitleActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this, DeviceMainActivity.class);
+                intent.setClass(MainActivity.this, DevMainActivity.class);
                 startActivity(intent);
             }
         });

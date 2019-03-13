@@ -8,7 +8,7 @@ import android.widget.Button;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 
-public class DeviceMainActivity extends TitleActivity {
+public class DevMainActivity extends TitleActivity {
 
     private Button mConfigBtn, mProbeBtn, mMyDeviceBtn;
 
@@ -36,7 +36,7 @@ public class DeviceMainActivity extends TitleActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(DeviceMainActivity.this, DevConfigActivity.class);
+                intent.setClass(DevMainActivity.this, DevConfigActivity.class);
                 startActivity(intent);
             }
         });
@@ -45,7 +45,7 @@ public class DeviceMainActivity extends TitleActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(DeviceMainActivity.this, DevListActivity.class);
+                intent.setClass(DevMainActivity.this, DevListActivity.class);
                 startActivity(intent);
             }
         });
@@ -54,7 +54,7 @@ public class DeviceMainActivity extends TitleActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(DeviceMainActivity.this, DevMyDevListActivity.class);
+                intent.setClass(DevMainActivity.this, DevMyDevListActivity.class);
                 startActivity(intent);
             }
         });

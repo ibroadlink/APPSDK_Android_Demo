@@ -6,13 +6,13 @@ public class BLConstants {
         /**app文件夹目录**/
         public static final String BASE_FILE_PATH = "broadlink/eControl";
         
-        /**app版本号**/
-        public static final int APP_VERSION = 6;
-        
         public static final String BROADLINK = "BroadLink";
     }
 
     public static final String BROADLINK_LOG_TAG = "BROADLINK_DEMO";
+    
+    public static final String SDK_PACKAGE = "com.broadlink.blappsdkdemo";
+    public static final String SDK_LICENSE = "4oQxAHVFYnnY7HPuDlYnm0I6pGcRvFTh/Ct2Vv+/5qZDpJJiIweBn2RUUA6oE8InRDV+XAAAAABz4LOxmXdGndIQ0J762DN4lXimLcoYN1h90T3OlpYrQrNgvm0/7+Kdmrgfawtr+QWBY+UBaf8hxk19tobFrLsFsEkbxXTfoUSQjDzWcfVjcAAAAAA=";
     
     /**MD5加密后缀*/
     public static final String STR_BODY_ENCRYPT = "xgx3d*fe3478$ukx";

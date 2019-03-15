@@ -25,6 +25,7 @@ import cn.com.broadlink.base.BLConfigParam;
 import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
 import cn.com.broadlink.blappsdkdemo.common.BLApiUrlConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLAppUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLSettings;
 import cn.com.broadlink.blappsdkdemo.common.BLStorageUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLUserInfoUnits;
@@ -104,9 +105,8 @@ public class BLApplication extends Application{
         blConfigParam.put(BLConfigParam.APP_SERVICE_ENABLE, "1");
         
         // 11. 设置认证包名，默认为APP自身包名
-        String packageName = PreferencesUtils.getString(this, "packageName", "cn.com.broadlink.econtrol.plus");
-        String license = PreferencesUtils.getString(this, "license", "0PlPqgTGPZt7CwNNz4lWVm7qQZqm8AdPyooafIrN9QX5UING6RYrag2V2nFqWRIQrFDxVgAAAADoWWz5UyBiHvQQIPyIUhi4XFSykPGAqniglnoIUWhvuHCgxWxDEyF0yb0xHzyz6V5BLR6D0KoiI6QqjWxRKs8JsEkbxXTfoUSQjDzWcfVjcA4AAADzeX7wfU+3ndxs2/3yXOnJrFAlYyFEltcuD9SloQA7kInW0ynCvel2PMHSm6RgRp/xNYhi5LPROx4fnr746yHD");
-        blConfigParam.put(BLConfigParam.CONTROLLER_AUTH_PACKAGE_NAME, packageName);
+        String packageName = PreferencesUtils.getString(this, "packageName", BLConstants.SDK_PACKAGE);
+        String license = PreferencesUtils.getString(this, "license", BLConstants.SDK_LICENSE);
         
         //blConfigParam.put(BLConfigParam.APP_SERVICE_HOST, "https://01e78622f3e6b3a861133fbc0690f4a9appservice.ibroadlink.com"); // test
         
@@ -114,11 +114,7 @@ public class BLApplication extends Application{
 //        blConfigParam.put(BLConfigParam.CONTROLLER_AUTH_PACKAGE_NAME, "cn.com.broadlink.econtrol.plus");
 //        String license = "0PlPqgTGPZt7CwNNz4lWVm7qQZqm8AdPyooafIrN9QX5UING6RYrag2V2nFqWRIQrFDxVgAAAADoWWz5UyBiHvQQIPyIUhi4XFSykPGAqniglnoIUWhvuHCgxWxDEyF0yb0xHzyz6V5BLR6D0KoiI6QqjWxRKs8JsEkbxXTfoUSQjDzWcfVjcA4AAADzeX7wfU+3ndxs2/3yXOnJrFAlYyFEltcuD9SloQA7kInW0ynCvel2PMHSm6RgRp/xNYhi5LPROx4fnr746yHD";
 
-         // 新包名和license
-//        blConfigParam.put(BLConfigParam.CONTROLLER_AUTH_PACKAGE_NAME, "com.broadlink.blappsdkdemo");
-//        String license = "4oQxAHVFYnnY7HPuDlYnm0I6pGcRvFTh/Ct2Vv+/5qZDpJJiIweBn2RUUA6oE8InRDV+XAAAAABz4LOxmXdGndIQ0J762DN4lXimLcoYN1h90T3OlpYrQrNgvm0/7+Kdmrgfawtr+QWBY+UBaf8hxk19tobFrLsFsEkbxXTfoUSQjDzWcfVjcAAAAAA=";
-
-
+        blConfigParam.put(BLConfigParam.CONTROLLER_AUTH_PACKAGE_NAME, packageName);
         BLLet.init(this, license, "", blConfigParam);
 
         // 初始化之后，获取 lid 和 companyId ，用于其他类库的初始化

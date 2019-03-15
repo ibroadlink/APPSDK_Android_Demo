@@ -54,6 +54,54 @@
             android:gravity="center_vertical|right"
             android:text="1.1 "/>
     </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginBottom="1dp"
+        android:background="@drawable/white_selector"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Sdk Lid: "
+            android:textColor="@color/textDark"/>
+
+        <TextView
+            android:id="@+id/tv_sdk_lid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|right"
+            android:text="1.1 "/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginBottom="1dp"
+        android:background="@drawable/white_selector"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Sdk Uid: "
+            android:textColor="@color/textDark"/>
+
+        <TextView
+            android:id="@+id/tv_sdk_uid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|right"
+            android:text="1.1 "/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cn.com.broadlink.blappsdkdemo.activity.device.DevFastconManageActivity"
-    android:padding="10dp">
+    android:padding="5dp">
     
 <LinearLayout
     android:layout_width="match_parent"
@@ -22,7 +21,7 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/shape_input_view_blue_bg"
         android:textColor="@color/textDark"
-        android:minHeight="200dp"
+        android:minHeight="100dp"
         android:gravity="start"
         android:textSize="12sp"
         android:digits="abcdefABCDEF0123456789 "

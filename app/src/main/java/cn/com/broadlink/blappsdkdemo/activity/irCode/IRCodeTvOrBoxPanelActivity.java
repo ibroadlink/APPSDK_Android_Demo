@@ -71,10 +71,7 @@ public class IRCodeTvOrBoxPanelActivity extends TitleActivity {
         if(mSavePath == null){
             BLToastUtils.show("Script path null!");
             back();
-        }
-        if(!getScriptContent()){
-            BLToastUtils.show("Script content read fail!");
-            back();
+            return;
         }
         
         mAdapter = new DevAdapter();
@@ -92,6 +89,12 @@ public class IRCodeTvOrBoxPanelActivity extends TitleActivity {
                 return builder.create();
             }
         });
+        
+        if(!getScriptContent()){
+            BLToastUtils.show("Script content read fail!");
+            back();
+            return;
+        }
     }
 
     private void setListener() {

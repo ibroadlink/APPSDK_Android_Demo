@@ -421,7 +421,7 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
                         sb.append("Multiple: ").append(in.get(4)).append("\n");
                         showResult(sb.toString());
                     }else{ // 简单
-                        showResult("");
+                        showResult("String");
                     }
                     return false;
                 }
@@ -439,16 +439,20 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
 
         @Override
         protected BLStdControlResult doInBackground(String... params) {
-            String setOrGet = params[0];
+            mAdapter.flushData();
             
-            ArrayList<BLStdData.Value> dnaVals = new ArrayList<>();
+            String setOrGet = params[0];
+
+            BLStdControlParam stdControlParam = new BLStdControlParam();
+            stdControlParam.setAct(setOrGet);
             final ArrayList<String> dnaParams = new ArrayList<>();
             
             for(DnaParam item : mDnaParams){
                 dnaParams.add(item.param);
+                ArrayList<BLStdData.Value> dnaVals = new ArrayList<>();
                 BLStdData.Value value = new BLStdData.Value();
                 if(item.val == null){
-                    value.setVal("");
+                    value.setVal("0");
                 }else{
                     try {
                         final int intVal = Integer.parseInt(item.val);
@@ -458,13 +462,10 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
                     }
                 }
                 dnaVals.add(value);
+                stdControlParam.getVals().add(dnaVals);
             }
-
-            BLStdControlParam stdControlParam = new BLStdControlParam();
-            stdControlParam.setAct(setOrGet);
             stdControlParam.getParams().addAll(dnaParams);
-            stdControlParam.getVals().add(dnaVals);
-
+            
             String devDid = TextUtils.isEmpty(mDNADevice.getpDid()) ? mDNADevice.getDid() : mDNADevice.getpDid();
            String subDid = TextUtils.isEmpty(mDNADevice.getpDid())  ? null : mDNADevice.getDid();
             

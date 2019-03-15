@@ -157,6 +157,7 @@
                 android:paddingRight="10dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|right"
+                android:inputType="number"
                 android:background="@drawable/shape_input_view_blue_bg"
                 android:text="26"
                 android:textColor="@color/textDark"/>
@@ -182,7 +183,8 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/shape_input_view_blue_bg"
             android:minHeight="200dp"
-            android:padding="10dp"
+            android:padding="5dp"
+            android:layout_margin="5dp"
             android:scrollbarStyle="insideOverlay"
             android:scrollbars="vertical"
             android:visibility="gone"
@@ -196,7 +198,8 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/shape_input_view_blue_bg"
             android:minHeight="200dp"
-            android:padding="10dp"
+            android:padding="5dp"
+            android:layout_margin="5dp"
             android:scrollbarStyle="insideOverlay"
             android:scrollbars="vertical"
             android:textColor="@color/textDark"/>

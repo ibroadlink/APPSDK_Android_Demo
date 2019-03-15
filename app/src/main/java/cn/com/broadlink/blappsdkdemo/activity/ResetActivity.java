@@ -10,6 +10,7 @@ import android.widget.EditText;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.common.PreferencesUtils;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
@@ -54,10 +55,10 @@ public class ResetActivity extends TitleActivity {
         mEtPackage = (EditText) findViewById(R.id.et_package);
         mEtLicense = (EditText) findViewById(R.id.et_license);
         mBtCommit = (Button) findViewById(R.id.bt_commit);
-        
-        String packageName = PreferencesUtils.getString(this, "packageName", "cn.com.broadlink.econtrol.plus");
-        String license = PreferencesUtils.getString(this, "license", "0PlPqgTGPZt7CwNNz4lWVm7qQZqm8AdPyooafIrN9QX5UING6RYrag2V2nFqWRIQrFDxVgAAAADoWWz5UyBiHvQQIPyIUhi4XFSykPGAqniglnoIUWhvuHCgxWxDEyF0yb0xHzyz6V5BLR6D0KoiI6QqjWxRKs8JsEkbxXTfoUSQjDzWcfVjcA4AAADzeX7wfU+3ndxs2/3yXOnJrFAlYyFEltcuD9SloQA7kInW0ynCvel2PMHSm6RgRp/xNYhi5LPROx4fnr746yHD");
 
+        String packageName = PreferencesUtils.getString(this, "packageName", BLConstants.SDK_PACKAGE);
+        String license = PreferencesUtils.getString(this, "license", BLConstants.SDK_LICENSE);
+        
         mEtPackage.setText(packageName);
         mEtLicense.setText(license);
     }

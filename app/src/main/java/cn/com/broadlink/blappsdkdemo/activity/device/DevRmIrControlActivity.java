@@ -24,6 +24,7 @@ import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.data.BLControlActConstans;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
+import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
@@ -56,6 +57,10 @@ public class DevRmIrControlActivity extends TitleActivity {
     
     /**RM 定时任务**/
     public static final String ITF_RM_TIMER = "rmtimer";
+    /**RM index**/
+    public static final String ITF_RM_TIMER_INDEX = "index";
+    /**RM count**/
+    public static final String ITF_RM_TIMER_COUNT = "count";
     /**RM 定时任务删除**/
     public static final String ITF_RM_TIMER_DEL = "delrmtimer";
     
@@ -112,8 +117,27 @@ public class DevRmIrControlActivity extends TitleActivity {
         mBtSend.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                if(!TextUtils.isEmpty(mEtInput.getText())){
+                if(!TextUtils.isEmpty(mEtInput.getText()) && !TextUtils.isEmpty(mEtUnitCode.getText())){
+                    BLListAlert.showAlert(mActivity, null, new String[]{"WaveCode", "UnitCode"}, new BLListAlert.OnItemClickLister() {
+                        @Override
+                        public void onClick(int whichButton) {
+                            String code = "";
+                            switch (whichButton){
+                                case 0:
+                                    code = mEtInput.getText().toString();
+                                    break;
+                                    
+                                case 1:
+                                    code = mEtUnitCode.getText().toString();
+                                    break;
+                            }
+                            new SendIrTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, code);
+                        }
+                    });
+                }else if(!TextUtils.isEmpty(mEtInput.getText())){
                     new SendIrTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, mEtInput.getText().toString());
+                }else if(!TextUtils.isEmpty(mEtUnitCode.getText())){
+                    new SendIrTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, mEtUnitCode.getText().toString());
                 }else{
                     BLCommonUtils.toastShow(mActivity, "Please learn or input ircode first!");
                 }
@@ -329,7 +353,8 @@ public class DevRmIrControlActivity extends TitleActivity {
 
     //查询定时列表
     private class QueryTimerListTask extends AsyncTask<String, Void, BLStdControlResult>{
-
+        ArrayList<String> timers = new ArrayList<>();
+        
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -338,12 +363,50 @@ public class DevRmIrControlActivity extends TitleActivity {
 
         @Override
         protected BLStdControlResult doInBackground(String... params) {
+            return  getTimer(0);
+        }
 
+        @Nullable
+        private BLStdControlResult getTimer(int index) {
             BLStdControlParam intoStudyParam = new BLStdControlParam();
             intoStudyParam.setAct(BLControlActConstans.ACT_GET);
             intoStudyParam.getParams().add(ITF_RM_TIMER);
+            intoStudyParam.getParams().add(ITF_RM_TIMER_INDEX);
+            intoStudyParam.getParams().add(ITF_RM_TIMER_COUNT);
 
-            return BLLet.Controller.dnaControl(mDNADevice.getDid(), null, intoStudyParam);
+            BLStdData.Value<String> timerVal = new BLStdData.Value<>();
+            timerVal.setVal("0");
+            ArrayList<BLStdData.Value> timerValList = new ArrayList<>();
+            timerValList.add(timerVal);
+            intoStudyParam.getVals().add(timerValList);
+
+            BLStdData.Value<Integer> indexVal = new BLStdData.Value<>();
+            indexVal.setVal(index);
+            ArrayList<BLStdData.Value> indexValList = new ArrayList<>();
+            indexValList.add(indexVal);
+            intoStudyParam.getVals().add(indexValList);
+
+            BLStdData.Value<Integer> countVal = new BLStdData.Value<>();
+            countVal.setVal(5);
+            ArrayList<BLStdData.Value> countValList = new ArrayList<>();
+            countValList.add(countVal);
+            intoStudyParam.getVals().add(countValList);
+
+            final BLStdControlResult stdControlResult = BLLet.Controller.dnaControl(mDNADevice.getDid(), null, intoStudyParam);
+            if(stdControlResult != null && stdControlResult.getStatus() == BLAppSdkErrCode.SUCCESS && stdControlResult.getData()!=null){
+                if(stdControlResult.getData().getVals().size()==3){
+                    final ArrayList<BLStdData.Value> values = stdControlResult.getData().getVals().get(0);
+                    int total = (int) stdControlResult.getData().getVals().get(2).get(0).getVal();
+                    for (BLStdData.Value item : values){
+                        timers.add((String) item.getVal());
+                    }
+                    int indexQuery = timers.size();
+                    if(indexQuery<total){
+                        return  getTimer(indexQuery);
+                    }
+                }
+            }
+            return stdControlResult;
         }
 
         @Override
@@ -352,14 +415,9 @@ public class DevRmIrControlActivity extends TitleActivity {
             dismissProgressDialog();
             
             if(stdControlResult != null && stdControlResult.getStatus() == BLAppSdkErrCode.SUCCESS && stdControlResult.getData()!=null){
-                final ArrayList<BLStdData.Value> values = stdControlResult.getData().getVals().get(0);
-                if(values != null){
-                    mTimers.clear();
-                    for (BLStdData.Value item : values){
-                        mTimers.add((String) item.getVal());
-                    }
-                    mAdapter.notifyDataSetChanged();
-                }
+                mTimers.clear();
+                mTimers.addAll(timers);
+                mAdapter.notifyDataSetChanged();
             } else {
                 BLCommonUtils.toastErr(stdControlResult);
             }

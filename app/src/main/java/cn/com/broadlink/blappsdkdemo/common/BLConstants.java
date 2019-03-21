@@ -11,8 +11,12 @@ public class BLConstants {
 
     public static final String BROADLINK_LOG_TAG = "BROADLINK_DEMO";
     
-    public static final String SDK_PACKAGE = "com.broadlink.blappsdkdemo";
-    public static final String SDK_LICENSE = "4oQxAHVFYnnY7HPuDlYnm0I6pGcRvFTh/Ct2Vv+/5qZDpJJiIweBn2RUUA6oE8InRDV+XAAAAABz4LOxmXdGndIQ0J762DN4lXimLcoYN1h90T3OlpYrQrNgvm0/7+Kdmrgfawtr+QWBY+UBaf8hxk19tobFrLsFsEkbxXTfoUSQjDzWcfVjcAAAAAA=";
+    // ihc
+    public static final String SDK_PACKAGE = "cn.com.broadlink.econtrol.plus";
+    public static final String SDK_LICENSE = "0PlPqgTGPZt7CwNNz4lWVm7qQZqm8AdPyooafIrN9QX5UING6RYrag2V2nFqWRIQrFDxVgAAAADoWWz5UyBiHvQQIPyIUhi4XFSykPGAqniglnoIUWhvuHCgxWxDEyF0yb0xHzyz6V5BLR6D0KoiI6QqjWxRKs8JsEkbxXTfoUSQjDzWcfVjcA4AAADzeX7wfU+3ndxs2/3yXOnJrFAlYyFEltcuD9SloQA7kInW0ynCvel2PMHSm6RgRp/xNYhi5LPROx4fnr746yHD";
+    
+//    public static final String SDK_PACKAGE = "com.broadlink.blappsdkdemo";
+//    public static final String SDK_LICENSE = "4oQxAHVFYnnY7HPuDlYnm0I6pGcRvFTh/Ct2Vv+/5qZDpJJiIweBn2RUUA6oE8InRDV+XAAAAABz4LOxmXdGndIQ0J762DN4lXimLcoYN1h90T3OlpYrQrNgvm0/7+Kdmrgfawtr+QWBY+UBaf8hxk19tobFrLsFsEkbxXTfoUSQjDzWcfVjcAAAAAA=";
     
     /**MD5加密后缀*/
     public static final String STR_BODY_ENCRYPT = "xgx3d*fe3478$ukx";
@@ -65,6 +69,7 @@ public class BLConstants {
     public static final String INTENT_MODULE = "INTENT_MODULE";
     public static final String INTENT_DEVICE = "INTENT_DEVICE";
     public static final String INTENT_PARCELABLE = "INTENT_PARCELABLE";
+    public static final String INTENT_SERIALIZABLE = "INTENT_SERIALIZABLE";
     public static final String INTENT_MODEL = "INTENT_MODEL";
     public static final String INTENT_CLASS = "INTENT_CLASS";
     public static final String INTENT_PARAM = "INTENT_PARAM";

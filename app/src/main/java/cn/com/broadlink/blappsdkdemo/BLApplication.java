@@ -100,13 +100,14 @@ public class BLApplication extends Application{
         // 9. 批量查询设备在线状态最小设备数
         blConfigParam.put(BLConfigParam.CONTROLLER_QUERY_COUNT, "8");
         blConfigParam.put(BLConfigParam.CONTROLLER_RESEND_MODE, "0");
-
-        // 10. 使用APPService服务
-        blConfigParam.put(BLConfigParam.APP_SERVICE_ENABLE, "1");
         
-        // 11. 设置认证包名，默认为APP自身包名
+        // 10. 设置认证包名，默认为APP自身包名
         String packageName = PreferencesUtils.getString(this, "packageName", BLConstants.SDK_PACKAGE);
         String license = PreferencesUtils.getString(this, "license", BLConstants.SDK_LICENSE);
+        boolean useCluster = PreferencesUtils.getBoolean(this, "cluster",true);
+
+        // 11. 使用APPService服务
+        blConfigParam.put(BLConfigParam.APP_SERVICE_ENABLE, useCluster ? "1" : "0");
         
         //blConfigParam.put(BLConfigParam.APP_SERVICE_HOST, "https://01e78622f3e6b3a861133fbc0690f4a9appservice.ibroadlink.com"); // test
         

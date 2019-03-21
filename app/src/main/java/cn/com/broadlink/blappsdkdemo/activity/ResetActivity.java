@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
@@ -21,6 +22,7 @@ public class ResetActivity extends TitleActivity {
     private EditText mEtPackage;
     private EditText mEtLicense;
     private Button mBtCommit;
+    private Switch mSwtCluster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class ResetActivity extends TitleActivity {
                 BLLocalFamilyManager.getInstance().setCurrentFamilyInfo(null);
                 PreferencesUtils.putString(mActivity, "packageName", mEtPackage.getText().toString());
                 PreferencesUtils.putString(mActivity, "license", mEtLicense.getText().toString());
+                PreferencesUtils.putBoolean(mActivity, "cluster", mSwtCluster.isChecked());
                 
                 Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -55,11 +58,14 @@ public class ResetActivity extends TitleActivity {
         mEtPackage = (EditText) findViewById(R.id.et_package);
         mEtLicense = (EditText) findViewById(R.id.et_license);
         mBtCommit = (Button) findViewById(R.id.bt_commit);
+        mSwtCluster = (Switch) findViewById(R.id.swt_cluster);
 
         String packageName = PreferencesUtils.getString(this, "packageName", BLConstants.SDK_PACKAGE);
         String license = PreferencesUtils.getString(this, "license", BLConstants.SDK_LICENSE);
+        boolean useCluster = PreferencesUtils.getBoolean(this, "cluster",true);
         
         mEtPackage.setText(packageName);
         mEtLicense.setText(license);
+        mSwtCluster.setChecked(useCluster);
     }
 }

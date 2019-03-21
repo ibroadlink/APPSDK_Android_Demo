@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -181,6 +182,13 @@ public class BLCommonUtils {
         Intent intent = new Intent();
         intent.setClass(context, clazz);
         intent.putExtra(BLConstants.INTENT_PARCELABLE, obj);
+        context.startActivity(intent);
+    }
+    
+    public static <T> void toActivity(Context context, Class<T> clazz, Serializable obj) {
+        Intent intent = new Intent();
+        intent.setClass(context, clazz);
+        intent.putExtra(BLConstants.INTENT_SERIALIZABLE, obj);
         context.startActivity(intent);
     }
     

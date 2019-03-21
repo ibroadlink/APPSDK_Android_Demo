@@ -16,7 +16,7 @@
         android:text="Device Info:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    <TextView
+    <EditText
         android:id="@+id/tv_dev_info"
         android:padding="5dp"
         android:layout_margin="5dp"
@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="100dp"
+        android:textSize="13sp"
         android:scrollbarStyle="insideOverlay"
         android:background="@drawable/shape_input_view_blue_bg"
         android:scrollbars="vertical"/>

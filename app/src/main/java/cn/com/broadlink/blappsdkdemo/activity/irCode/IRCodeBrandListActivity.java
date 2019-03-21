@@ -1,5 +1,6 @@
 package cn.com.broadlink.blappsdkdemo.activity.irCode;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,11 +19,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLLog;
+import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.data.BLIRCodeArea;
+import cn.com.broadlink.blappsdkdemo.data.CloudAcBrandResponse;
+import cn.com.broadlink.blappsdkdemo.data.RmIrTreeResult;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerBuilder;
@@ -50,6 +56,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
     private Boolean mIsLeaf = false;
     private String mProviderId = null;
     private String mSavePath = null;
+    private boolean mIsMatchTree = false;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +66,8 @@ public class IRCodeBrandListActivity extends TitleActivity {
         setBackWhiteVisible();
         
         mDeviceType = getIntent().getIntExtra(BLConstants.INTENT_VALUE, BLConstants.BL_IRCODE_DEVICE_AC);
+        mIsMatchTree = getIntent().getBooleanExtra(BLConstants.INTENT_TYPE, false);
+        
         if (mDeviceType == BLConstants.BL_IRCODE_DEVICE_TV_BOX) {
             mSubAreaId = "0";
         }
@@ -113,29 +122,33 @@ public class IRCodeBrandListActivity extends TitleActivity {
                     }
                     queryIRCodeArea();
                 } else {
-                    if (!mIsLeaf) {
+                    if(mIsMatchTree){
+                        mBrandID = area.getAreaId();
+                        queryIRCodeArea(); 
+                    }else{
+                        if (!mIsLeaf) {
+                            mSubAreaId = area.getAreaId();
+                            mIsLeaf = area.isleaf();
 
-                        mSubAreaId = area.getAreaId();
-                        mIsLeaf = area.isleaf();
+                            if (mIsLeaf) {
+                                //已经是最后一层叶子支点, 查询当地运营商ID
+                                Log.d(BLConstants.BROADLINK_LOG_TAG, area.getAreaName() + " is leaf");
+                                querySTBSubAreaProvider();
+                            } else {
+                                queryIRCodeArea();
+                            }
 
-                        if (mIsLeaf) {
-                            //已经是最后一层叶子支点, 查询当地运营商ID
-                            Log.d(BLConstants.BROADLINK_LOG_TAG, area.getAreaName() + " is leaf");
-                            querySTBSubAreaProvider();
                         } else {
-                            queryIRCodeArea();
-                        }
+                            if (mProviderId == null) {
+                                mProviderId = area.getAreaId();
+                            } else if (mDownloadUrl == null) {
+                                mDownloadUrl = area.getDownloadUrl();
+                                mScriptRandkey = area.getAreaId();
+                                mScriptName = area.getAreaName();
+                            }
 
-                    } else {
-                        if (mProviderId == null) {
-                            mProviderId = area.getAreaId();
-                        } else if (mDownloadUrl == null) {
-                            mDownloadUrl = area.getDownloadUrl();
-                            mScriptRandkey = area.getAreaId();
-                            mScriptName = area.getAreaName();
+                            querySTBIRCodeScriptDownloadUrl();
                         }
-
-                        querySTBIRCodeScriptDownloadUrl();
                     }
                 }
             }
@@ -173,6 +186,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
 
     private void queryIRCodeArea() {
         if (mDeviceType == BLConstants.BL_IRCODE_DEVICE_AC) {
+            
             // 空调设备需要查询 Brand 和 Version
             if (mBrandID == null) {
                 new QueryIRCodeBrandTask().execute(String.valueOf(mDeviceType));
@@ -182,16 +196,34 @@ public class IRCodeBrandListActivity extends TitleActivity {
                 downloadScript();
             }
         } else if (mDeviceType == BLConstants.BL_IRCODE_DEVICE_TV) {
+            
             // 电视设备只需要查询 Brand 即可，Version 都为 0
             if (mBrandID == null) {
                 new QueryIRCodeBrandTask().execute(String.valueOf(mDeviceType));
-            } else if(mDownloadUrl == null) {
-                new QueryTvScriptDownloadUrlTask().execute(mBrandID);
-            } else {
-                downloadScript();
+            }else{
+
+                if (mDownloadUrl == null) {
+                    if(mIsMatchTree){
+                        new GetMatchTreeTask(mDeviceType, Integer.parseInt(mBrandID)).executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR);
+                    }else{
+                        new QueryTvScriptDownloadUrlTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR,mBrandID);
+                    }
+                }else{
+                    downloadScript();
+                }
+
             }
+
         } else if (mDeviceType == BLConstants.BL_IRCODE_DEVICE_TV_BOX) {
-            new QuerySubAreaTask().execute(mSubAreaId);
+            if(mIsMatchTree){
+                if (mBrandID == null) {
+                    new QueryTvBoxBrandTask().execute();
+                }else{
+                    new GetMatchTreeTask(mDeviceType, Integer.parseInt(mBrandID)).executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR);
+                }
+            }else{
+                new QuerySubAreaTask().execute(mSubAreaId); 
+            }
         }
     }
     
@@ -240,6 +272,62 @@ public class IRCodeBrandListActivity extends TitleActivity {
             }
         }
     }
+    
+    class QueryTvBoxBrandTask extends AsyncTask<String, Void, CloudAcBrandResponse> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("Querying Brand List...");
+        }
+        @Override
+        protected CloudAcBrandResponse doInBackground(String... strings) {
+            final BLResponseResult result = BLIRCode.requestStbBrands();
+            if(result != null && result.succeed() && result.getResponseBody() != null){
+
+                final CloudAcBrandResponse.RespbodyBean respBody = JSON.parseObject(result.getResponseBody(), CloudAcBrandResponse.RespbodyBean.class);
+                
+                if(respBody.getBrand() != null){
+                    
+                    CloudAcBrandResponse rmIrTreeResult = new CloudAcBrandResponse();
+                    rmIrTreeResult.setStatus(result.getStatus());
+                    rmIrTreeResult.setMsg(result.getMsg());
+                    rmIrTreeResult.setRespbody(respBody);
+                    return rmIrTreeResult;
+                }
+            }
+            return null;
+        }
+        
+        @Override
+        protected void onPostExecute(CloudAcBrandResponse blBaseBodyResult) {
+            super.onPostExecute(blBaseBodyResult);
+            dismissProgressDialog();
+
+            if (blBaseBodyResult.isSuccess()) {
+                try {
+                    mAreas.clear();
+                    for (int i = 0; i < blBaseBodyResult.getBrand().size(); i++) {
+                        BLIRCodeArea area = new BLIRCodeArea();
+                        area.setAreaName(blBaseBodyResult.getBrand().get(i).getBrand());
+                        area.setAreaId(String.valueOf(blBaseBodyResult.getBrand().get(i).getBrandid()));
+                        mAreas.add(area);
+                    }
+                    mAdapter.notifyDataSetChanged();
+
+                } catch (Exception e) {
+
+                }
+            } else {
+                if(blBaseBodyResult != null){
+                    BLToastUtils.show("Fail: " + blBaseBodyResult.getMsg());
+                }else{
+                    BLToastUtils.show("Fail");
+                }
+            }
+        }
+    }
+
 
     class QueryAcScriptDownloadUrlTask extends AsyncTask<String, Void, BLResponseResult> {
 
@@ -534,5 +622,60 @@ public class IRCodeBrandListActivity extends TitleActivity {
             holder.setText(R.id.tv_name, mBeans.get(position).getAreaName());
             holder.setText(R.id.tv_mac, JSON.toJSONString(mBeans.get(position), true));
         }
+    }
+    
+    
+    class GetMatchTreeTask extends AsyncTask<Void , Void , RmIrTreeResult>{
+        private int brandId;
+        private int typeId;
+
+        public GetMatchTreeTask(int typeId, int brandId) {
+            this.brandId = brandId;
+            this.typeId = typeId;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("Get Match Tree...");
+        }
+
+        @Override
+        protected RmIrTreeResult doInBackground(Void... voids) {
+            final BLResponseResult matchTree = BLIRCode.getMatchTree("1", typeId, brandId);
+            if(matchTree != null && matchTree.succeed() && matchTree.getResponseBody() != null){
+                final RmIrTreeResult rmIrTreeResult = new RmIrTreeResult();
+
+                final RmIrTreeResult.RespBody respBody = JSON.parseObject(matchTree.getResponseBody(), RmIrTreeResult.RespBody.class);
+                if(respBody.getHotircode().getIrcodeid() != null && respBody.getHotircode().getIrcodeid().size() > 0){
+
+                    rmIrTreeResult.setStatus(matchTree.getStatus());
+                    rmIrTreeResult.setMsg(matchTree.getMsg());
+                    rmIrTreeResult.setRespbody(respBody);
+                    return rmIrTreeResult;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(RmIrTreeResult blResponseResult) {
+            super.onPostExecute(blResponseResult);
+            dismissProgressDialog();
+            if(blResponseResult != null && blResponseResult.isSuccess()){
+                BLLog.d("match tree", JSON.toJSONString(blResponseResult, true));
+                
+                gotoNextActivity(blResponseResult);
+            }else{
+                BLToastUtils.show("Get Match Tree Fail.");
+            }
+        }
+    }
+
+    private void gotoNextActivity(RmIrTreeResult blResponseResult) {
+        final Intent intent = new Intent(mActivity, IRMatchTreeMainActivity.class);
+        intent.putExtra(BLConstants.INTENT_SERIALIZABLE, blResponseResult);
+        intent.putExtra(BLConstants.INTENT_VALUE, mDeviceType);
+        startActivity(intent);
     }
 }

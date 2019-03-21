@@ -1,49 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
+    android:paddingTop="20dp"
     tools:context="cn.com.broadlink.blappsdkdemo.activity.ResetActivity">
+
+    <TextView
+        android:id="@+id/tv_cluster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Use Cluster"/>
+
+    <Switch
+        android:id="@+id/swt_cluster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"/>
+
 
     <EditText
         android:id="@+id/et_package"
-        android:padding="5dp"
-        android:layout_below="@+id/tv_output"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbarStyle="insideOverlay"
-        android:textColor="@color/textDark"
-        android:layout_marginTop="5dp"
-        android:minHeight="50dp"
-        android:hint="package name"
-        android:textSize="13sp"
+        android:layout_below="@+id/tv_cluster"
+        android:layout_marginTop="20dp"
         android:background="@drawable/shape_input_view_blue_bg"
-        android:scrollbars="vertical"/>
+        android:hint="package name"
+        android:minHeight="50dp"
+        android:padding="5dp"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="vertical"
+        android:textColor="@color/textDark"
+        android:textSize="13sp"/>
 
     <EditText
         android:id="@+id/et_license"
-        android:padding="5dp"
-        android:layout_below="@+id/et_package"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbarStyle="insideOverlay"
-        android:textColor="@color/textDark"
+        android:layout_below="@+id/et_package"
         android:layout_marginTop="20dp"
-        android:minHeight="300dp"
+        android:background="@drawable/shape_input_view_blue_bg"
         android:gravity="start"
         android:hint="license"
-        android:textSize="13sp"
-        android:background="@drawable/shape_input_view_blue_bg"
-        android:scrollbars="vertical"/>
-    
+        android:minHeight="300dp"
+        android:padding="5dp"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="vertical"
+        android:textColor="@color/textDark"
+        android:textSize="13sp"/>
+
     <Button
         android:id="@+id/bt_commit"
-        android:text="Reset"
+        style="@style/commitBtn"
         android:layout_alignParentBottom="true"
-        style="@style/commitBtn"/>
+        android:text="Reset"/>
 
 </RelativeLayout>

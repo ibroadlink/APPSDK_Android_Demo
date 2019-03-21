@@ -1,5 +1,6 @@
 package cn.com.broadlink.blappsdkdemo.activity.irCode;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -38,7 +39,7 @@ public class IRCodeMainActivity extends TitleActivity {
         mBtAir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BLListAlert.showAlert(mActivity, "Choose the way to add air condition", new String[]{"One Key Recognize", "By Brand"}, new BLListAlert.OnItemClickLister() {
+                BLListAlert.showAlert(mActivity, null, new String[]{"One Key Recognize", "By Brand"}, new BLListAlert.OnItemClickLister() {
                     @Override
                     public void onClick(int whichButton) {
                         switch (whichButton){
@@ -59,18 +60,29 @@ public class IRCodeMainActivity extends TitleActivity {
         mBtTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BLCommonUtils.toActivity(mActivity, IRCodeBrandListActivity.class,  BLConstants.BL_IRCODE_DEVICE_TV);
+                gotoNextPage(BLConstants.BL_IRCODE_DEVICE_TV);
             }
         });
 
         mBtBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BLCommonUtils.toActivity(mActivity, IRCodeBrandListActivity.class,  BLConstants.BL_IRCODE_DEVICE_TV_BOX);
+                gotoNextPage(BLConstants.BL_IRCODE_DEVICE_TV_BOX);
             }
         });
 
     }
 
+    private void gotoNextPage(final int PanelTypeId){
+        BLListAlert.showAlert(mActivity, null, new String[]{"Choose Brand Model", "Match Tree"}, new BLListAlert.OnItemClickLister() {
+            @Override
+            public void onClick(int whichButton) {
+                final Intent intent = new Intent(mActivity, IRCodeBrandListActivity.class);
+                intent.putExtra(BLConstants.INTENT_TYPE, whichButton==1);
+                intent.putExtra(BLConstants.INTENT_VALUE, PanelTypeId);
+                startActivity(intent);
+            }
+        });
+    }
 
 }

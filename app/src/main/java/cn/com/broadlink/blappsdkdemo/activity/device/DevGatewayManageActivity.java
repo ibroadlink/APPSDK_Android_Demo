@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -19,6 +21,7 @@ import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
@@ -38,11 +41,13 @@ public class DevGatewayManageActivity extends TitleActivity {
     private Button mBtGetScanNewList;
     private Button mBtGetList;
     private RecyclerView mRvList;
+    private EditText mEtPid;
     
     private BLDNADevice mDNADevice;
     private List<BLDNADevice> mSubDeviceList = new ArrayList<>();
     private SubDevAdapter mAdapter;
     private boolean mIsNewSubListType = true;
+    private String mPid = null;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,36 +65,42 @@ public class DevGatewayManageActivity extends TitleActivity {
         setListener();
     }
 
+    private boolean checkPid(){
+        final boolean ret = !TextUtils.isEmpty(mEtPid.getText());
+        
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(!ret){
+                        BLToastUtils.show("Input the pid to add first!");
+                        mEtPid.requestFocus();
+                    }else{
+                        mPid = mEtPid.getText().toString();
+                    }
+                }
+            });
+        return ret;
+    }
+    
     private void setListener() {
         mBtScanStart.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                new StartScanTask().execute();
+                if (checkPid())new StartScanTask().execute();
             }
         });
 
         mBtScanStop.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                new StopScanTask().execute();
+                if (checkPid())new StopScanTask().execute();
             }
         });
 
         mBtGetScanNewList.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-
-                BLAlert.showEditDilog(mActivity, "Please input the target sub device's pid", null, new BLAlert.BLEditDialogOnClickListener() {
-                    @Override
-                    public void onClink(String value) {
-                        new GetNewSubDevsTask().execute(value);
-                    }
-
-                    @Override
-                    public void onClinkCacel(String value) {
-
-                    }
-                }, false);
+                if (checkPid()) new GetNewSubDevsTask().execute();
             }
         });
 
@@ -104,7 +115,7 @@ public class DevGatewayManageActivity extends TitleActivity {
             @Override
             public void onClick(int position, int viewType) {
                 if(mIsNewSubListType){
-                    new AddSubDevTask().execute(position);
+                    if (checkPid())  new AddSubDevTask().execute(position);
                 }else{
                     BLCommonUtils.toActivity(mActivity, DevDnaStdControlActivity.class, mSubDeviceList.get(position));
                 }
@@ -172,6 +183,7 @@ public class DevGatewayManageActivity extends TitleActivity {
         mBtGetScanNewList = (Button) findViewById(R.id.bt_get_scan_new_list);
         mBtGetList = (Button) findViewById(R.id.bt_get_list);
         mRvList = (RecyclerView) findViewById(R.id.rv_list);
+        mEtPid = (EditText) findViewById(R.id.et_pid);
     }
 
     class SubDevAdapter extends BLBaseRecyclerAdapter<BLDNADevice> {
@@ -198,7 +210,7 @@ public class DevGatewayManageActivity extends TitleActivity {
 
         @Override
         protected BLBaseResult doInBackground(String... params) {
-            return BLLet.Controller.subDevScanStart(mDNADevice.getDid(), null);
+            return BLLet.Controller.subDevScanStart(mDNADevice.getDid(), mPid);
         }
 
         @Override
@@ -240,7 +252,7 @@ public class DevGatewayManageActivity extends TitleActivity {
 
         @Override
         protected BLSubDevListResult doInBackground(String... params) {
-            return BLLet.Controller.devSubDevNewListQuery(mDNADevice.getDid(), params[0],0, 5);
+            return BLLet.Controller.devSubDevNewListQuery(mDNADevice.getDid(), mPid,0, 5);
         }
 
         @Override
@@ -373,6 +385,9 @@ public class DevGatewayManageActivity extends TitleActivity {
             super.onPostExecute(blBaseResult);
             dismissProgressDialog();
             showResult(blBaseResult);
+            if(blBaseResult != null && blBaseResult.succeed()){
+                new GetAddedSubDevsTask().execute();
+            }
         }
     }
 

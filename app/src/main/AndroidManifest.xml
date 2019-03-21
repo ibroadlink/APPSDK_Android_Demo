@@ -49,7 +49,7 @@
                 <action android:name="com.alibaba.sdk.android.push.RECEIVE"/>
             </intent-filter>
         </receiver>
-        
+
         <activity
             android:name=".activity.device.DevListActivity"
             android:launchMode="singleTask"
@@ -202,6 +202,12 @@
             android:theme="@style/ActivityStyle"/>
         <activity
             android:name=".activity.product.GatewaySubProductCategoryListActivity"
+            android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.irCode.IRMatchTreeMainActivity"
+            android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.irCode.IRMatchTreeDetailActivity"
             android:theme="@style/ActivityStyle"/>
     </application>
 

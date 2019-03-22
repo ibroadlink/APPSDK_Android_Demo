@@ -79,20 +79,26 @@ public class IRMatchTreeDetailActivity extends TitleActivity {
         mAdapter.setOnItemClickListener(new BLBaseRecyclerAdapter.OnClickListener() {
             @Override
             public void onClick(int position, int viewType) {
-                if( mData.get(position).getCode()==null || mData.get(position).getCode().length==0){
-                    if(mData.get(position).getChirdren().getCodeList()!=null){
-                        gotoMatchTreePage( mData.get(position).getChirdren());
+                
+                final RmIrTreeResult.IrCode irCode = mData.get(position);
+                
+                if( irCode.getCode()==null || irCode.getCode().length==0){
+                    if(irCode.getChirdren().getCodeList()!=null){
+                        gotoMatchTreePage( irCode.getChirdren());
                     }else{
-                        BLToastUtils.show("No Content!");
+                        if(!TextUtils.isEmpty(irCode.getIrcodeid())){
+                            downloadScript(irCode.getIrcodeid());
+                        }else{
+                            BLToastUtils.show("No Ircode Content!");
+                        }
                     }
                 }else{
-                    new DnaControlTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, mData.get(position));
+                    new DnaControlTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, irCode);
                 }
             }
         });
 
     }
-
     
     private void initView() {
         mAdapter = new DnaParamAdapter();
@@ -248,5 +254,4 @@ public class IRMatchTreeDetailActivity extends TitleActivity {
             }
         }
     }
-    
 }

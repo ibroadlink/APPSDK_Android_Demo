@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.BuildConfig;
+import cn.com.broadlink.blappsdkdemo.data.BaseResult;
 
 /**
  * Created by YeJin on 2016/5/9.
@@ -218,7 +219,16 @@ public class BLCommonUtils {
         intent.putExtra(BLConstants.INTENT_CLASS, className);
         context.startActivityForResult(intent, requestCode);
     }
+    
     public static void toastErr(BLBaseResult result){
+        String msg = "return null!";
+        if(result != null && result.getMsg()!=null){
+            msg = String.format("%s [%d]", result.getMsg(), result.getStatus());
+        }
+        BLToastUtils.show(msg);
+    }
+    
+    public static void toastErr(BaseResult result){
         String msg = "return null!";
         if(result != null && result.getMsg()!=null){
             msg = String.format("%s [%d]", result.getMsg(), result.getStatus());

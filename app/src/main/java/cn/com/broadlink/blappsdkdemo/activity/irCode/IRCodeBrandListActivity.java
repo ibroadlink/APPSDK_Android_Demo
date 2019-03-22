@@ -69,7 +69,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
         mIsMatchTree = getIntent().getBooleanExtra(BLConstants.INTENT_TYPE, false);
         
         if (mDeviceType == BLConstants.BL_IRCODE_DEVICE_TV_BOX) {
-            mSubAreaId = "0";
+            mSubAreaId = "0"; // 默认国内
         }
 
         findView();
@@ -282,21 +282,21 @@ public class IRCodeBrandListActivity extends TitleActivity {
         }
         @Override
         protected CloudAcBrandResponse doInBackground(String... strings) {
+            
             final BLResponseResult result = BLIRCode.requestStbBrands();
+            
+            CloudAcBrandResponse rmIrTreeResult = new CloudAcBrandResponse();
+            rmIrTreeResult.setStatus(result.getStatus());
+            rmIrTreeResult.setMsg(result.getMsg());
+            
             if(result != null && result.succeed() && result.getResponseBody() != null){
-
                 final CloudAcBrandResponse.RespbodyBean respBody = JSON.parseObject(result.getResponseBody(), CloudAcBrandResponse.RespbodyBean.class);
-                
                 if(respBody.getBrand() != null){
-                    
-                    CloudAcBrandResponse rmIrTreeResult = new CloudAcBrandResponse();
-                    rmIrTreeResult.setStatus(result.getStatus());
-                    rmIrTreeResult.setMsg(result.getMsg());
                     rmIrTreeResult.setRespbody(respBody);
                     return rmIrTreeResult;
                 }
             }
-            return null;
+            return rmIrTreeResult;
         }
         
         @Override
@@ -304,8 +304,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
             super.onPostExecute(blBaseBodyResult);
             dismissProgressDialog();
 
-            if (blBaseBodyResult.isSuccess()) {
-                try {
+            if (blBaseBodyResult != null && blBaseBodyResult.isSuccess()) {
                     mAreas.clear();
                     for (int i = 0; i < blBaseBodyResult.getBrand().size(); i++) {
                         BLIRCodeArea area = new BLIRCodeArea();
@@ -314,16 +313,8 @@ public class IRCodeBrandListActivity extends TitleActivity {
                         mAreas.add(area);
                     }
                     mAdapter.notifyDataSetChanged();
-
-                } catch (Exception e) {
-
-                }
             } else {
-                if(blBaseBodyResult != null){
-                    BLToastUtils.show("Fail: " + blBaseBodyResult.getMsg());
-                }else{
-                    BLToastUtils.show("Fail");
-                }
+                BLCommonUtils.toastErr(blBaseBodyResult);
             }
         }
     }

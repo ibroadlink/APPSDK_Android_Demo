@@ -3,7 +3,6 @@ package cn.com.broadlink.blappsdkdemo.activity.irCode;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -28,15 +27,13 @@ import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
-import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerBuilder;
-import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerItemDecoration;
-import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.Divider;
+import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
 import cn.com.broadlink.ircode.BLIRCode;
 import cn.com.broadlink.ircode.result.BLDownLoadIRCodeResult;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
-public class IRMatchTreeMainActivity extends TitleActivity {
+public class IRCodeMatchTreeMainActivity extends TitleActivity {
     private RecyclerView mRvContent;
     private TextView mTvDevice;
     private Button mBtMatchTree;
@@ -119,7 +116,7 @@ public class IRMatchTreeMainActivity extends TitleActivity {
 
 
     private void gotoMatchTreePage() {
-        final Intent intent = new Intent(mActivity, IRMatchTreeDetailActivity.class);
+        final Intent intent = new Intent(mActivity, IRCodeMatchTreeDetailActivity.class);
         intent.putExtra(BLConstants.INTENT_SERIALIZABLE, mIrTreeResult.getRespbody().getMatchtree());
         intent.putExtra(BLConstants.INTENT_VALUE, mDeviceType);
         intent.putExtra(BLConstants.INTENT_DEVICE, mDev);
@@ -130,18 +127,7 @@ public class IRMatchTreeMainActivity extends TitleActivity {
         mAdapter = new DnaParamAdapter();
         mRvContent.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvContent.setAdapter(mAdapter);
-        mRvContent.addItemDecoration(new BLDividerItemDecoration(mActivity) {
-
-            @Nullable
-            @Override
-            public Divider getDivider(int itemPosition) {
-                BLDividerBuilder builder = new BLDividerBuilder();
-                if (itemPosition != mAdapter.getItemCount() - 1) {
-                    builder.setBottomSideLine(true, getResources().getColor(R.color.gray), 1, 0, 0);
-                }
-                return builder.create();
-            }
-        });
+        mRvContent.addItemDecoration(BLDividerUtil.getDefault(mActivity, mData));
 
         mTvDevice.setText(JSON.toJSONString(mIrTreeResult, true));
     }

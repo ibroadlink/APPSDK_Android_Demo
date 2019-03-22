@@ -28,9 +28,7 @@ import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
-import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerBuilder;
-import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerItemDecoration;
-import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.Divider;
+import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
 import cn.com.broadlink.ircode.BLIRCode;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
@@ -86,17 +84,7 @@ public class DevRmIrControlActivity extends TitleActivity {
         mAdapter = new StringAdapter();
         mRvContent.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvContent.setAdapter(mAdapter);
-        mRvContent.addItemDecoration(new BLDividerItemDecoration(mActivity) {
-            @Nullable
-            @Override
-            public Divider getDivider(int itemPosition) {
-                BLDividerBuilder builder = new BLDividerBuilder();
-                if(itemPosition != mTimers.size()-1){
-                    builder.setBottomSideLine(true, getResources().getColor(R.color.gray), 1, 0, 0);
-                }
-                return builder.create();
-            }
-        });
+        mRvContent.addItemDecoration(BLDividerUtil.getDefault(mActivity, mTimers));
     }
 
     private void setListener() {

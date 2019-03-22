@@ -3,7 +3,6 @@ package cn.com.broadlink.blappsdkdemo.activity.irCode;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,9 +30,7 @@ import cn.com.broadlink.blappsdkdemo.data.CloudAcBrandResponse;
 import cn.com.broadlink.blappsdkdemo.data.RmIrTreeResult;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
-import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerBuilder;
-import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerItemDecoration;
-import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.Divider;
+import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
 import cn.com.broadlink.ircode.BLIRCode;
 import cn.com.broadlink.ircode.result.BLDownLoadIRCodeResult;
 import cn.com.broadlink.ircode.result.BLResponseResult;
@@ -85,18 +82,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
         mAdapter = new DevAdapter();
         mRvContent.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvContent.setAdapter(mAdapter);
-        mRvContent.addItemDecoration(new BLDividerItemDecoration(mActivity){
-
-            @Nullable
-            @Override
-            public Divider getDivider(int itemPosition) {
-                BLDividerBuilder builder = new BLDividerBuilder();
-                if(itemPosition != mAdapter.getItemCount()-1){
-                    builder.setBottomSideLine(true, getResources().getColor(R.color.gray), 1, 0, 0);
-                }
-                return builder.create();
-            }
-        });
+        mRvContent.addItemDecoration(BLDividerUtil.getDefault(mActivity, mAreas));
     }
 
     private void findView() {
@@ -664,7 +650,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
     }
 
     private void gotoNextActivity(RmIrTreeResult blResponseResult) {
-        final Intent intent = new Intent(mActivity, IRMatchTreeMainActivity.class);
+        final Intent intent = new Intent(mActivity, IRCodeMatchTreeMainActivity.class);
         intent.putExtra(BLConstants.INTENT_SERIALIZABLE, blResponseResult);
         intent.putExtra(BLConstants.INTENT_VALUE, mDeviceType);
         startActivity(intent);

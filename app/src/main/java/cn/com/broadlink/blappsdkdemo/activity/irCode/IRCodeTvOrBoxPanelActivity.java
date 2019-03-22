@@ -1,7 +1,6 @@
 package cn.com.broadlink.blappsdkdemo.activity.irCode;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
@@ -23,9 +22,7 @@ import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.data.BLIrTvOrSTBInfo;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
-import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerBuilder;
-import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerItemDecoration;
-import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.Divider;
+import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
 
 public class IRCodeTvOrBoxPanelActivity extends TitleActivity {
 
@@ -77,18 +74,7 @@ public class IRCodeTvOrBoxPanelActivity extends TitleActivity {
         mAdapter = new DevAdapter();
         mRvContent.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvContent.setAdapter(mAdapter);
-        mRvContent.addItemDecoration(new BLDividerItemDecoration(mActivity){
-
-            @Nullable
-            @Override
-            public Divider getDivider(int itemPosition) {
-                BLDividerBuilder builder = new BLDividerBuilder();
-                if(itemPosition != mAdapter.getItemCount()-1){
-                    builder.setBottomSideLine(true, getResources().getColor(R.color.gray), 1, 0, 0);
-                }
-                return builder.create();
-            }
-        });
+        mRvContent.addItemDecoration(BLDividerUtil.getDefault(mActivity, mFuncList));
         
         if(!getScriptContent()){
             BLToastUtils.show("Script content read fail!");

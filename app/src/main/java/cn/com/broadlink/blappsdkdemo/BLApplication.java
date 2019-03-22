@@ -43,8 +43,7 @@ public class BLApplication extends Application{
     public static ExecutorService FULL_TASK_EXECUTOR;
 
     public CloudPushService mAliPushService;
-
-    // 启动的Activity集合
+    
     public List<Activity> mActivityList = new ArrayList<Activity>();
     
     @Override
@@ -52,15 +51,15 @@ public class BLApplication extends Application{
         super.onCreate();
         
         FULL_TASK_EXECUTOR = Executors.newCachedThreadPool();
-        
-        queryPhoneWindowInfo();
-        
-        SQLiteDatabase.loadLibs(this);
-        
+
         mBLUserInfoUnits = new BLUserInfoUnits(this);
 
         sdkInit();
         
+        queryPhoneWindowInfo();
+        
+        SQLiteDatabase.loadLibs(this);
+
         BLLocalDeviceManager.getInstance();
 
         CountryContentProvider.getInstance().initData(null);
@@ -68,7 +67,13 @@ public class BLApplication extends Application{
         BLAppUtils.init(this);
 
         BLStorageUtils.init(this);
-        
+
+        initDoraKit();
+
+        initPushService(this);
+    }
+
+    private void initDoraKit() {
         final ArrayList<IKit> kits = new ArrayList<>();
         kits.add(new ShowVersionInfoKit());
         DoraemonKit.install(this, kits);
@@ -79,43 +84,51 @@ public class BLApplication extends Application{
      */
     public void sdkInit(){
 
+        String packageName = PreferencesUtils.getString(this, "packageName", BLConstants.SDK_PACKAGE);
+        String license = PreferencesUtils.getString(this, "license", BLConstants.SDK_LICENSE);
+        boolean useCluster = PreferencesUtils.getBoolean(this, "cluster",true);
+
         // 初始化核心库
         BLConfigParam blConfigParam = new BLConfigParam();
+        
         // 1. 设置日志级别，默认为 4 全部打印
         blConfigParam.put(BLConfigParam.CONTROLLER_LOG_LEVEL, "4");
+        
         // 2. 设置底层打印日志级别，默认为 4 全部打印
         blConfigParam.put(BLConfigParam.CONTROLLER_JNI_LOG_LEVEL, "4");
+        
         // 3. 设置脚本保存目录, 默认在 ../let/ 目录下
         // blConfigParam.put(BLConfigParam.SDK_FILE_PATH, "");
+        
         // 4. 设置本地控制超时时间，默认 3000ms
         blConfigParam.put(BLConfigParam.CONTROLLER_LOCAL_TIMEOUT, "3000");
+        
         // 5. 设置远程控制超时时间，默认 5000ms
         blConfigParam.put(BLConfigParam.CONTROLLER_REMOTE_TIMEOUT, "8000");
+        
         // 6. 设置控制重试次数，默认 1
         blConfigParam.put(BLConfigParam.CONTROLLER_SEND_COUNT, "1");
+        
         // 7. 设置设备控制支持的网络模式，默认 -1 都支持。  0 - 局域网控制，非0 - 局域网/远程都支持。
         blConfigParam.put(BLConfigParam.CONTROLLER_NETMODE, "-1");
+        
         // 8. 设置脚本和UI文件下载资源平台。 默认 0 老平台。  1 - 新平台
         blConfigParam.put(BLConfigParam.CONTROLLER_SCRIPT_DOWNLOAD_VERSION, "1");
+        
         // 9. 批量查询设备在线状态最小设备数
         blConfigParam.put(BLConfigParam.CONTROLLER_QUERY_COUNT, "8");
         blConfigParam.put(BLConfigParam.CONTROLLER_RESEND_MODE, "0");
         
         // 10. 设置认证包名，默认为APP自身包名
-        String packageName = PreferencesUtils.getString(this, "packageName", BLConstants.SDK_PACKAGE);
-        String license = PreferencesUtils.getString(this, "license", BLConstants.SDK_LICENSE);
-        boolean useCluster = PreferencesUtils.getBoolean(this, "cluster",true);
-
+        blConfigParam.put(BLConfigParam.CONTROLLER_AUTH_PACKAGE_NAME, packageName);
+        
         // 11. 使用APPService服务
         blConfigParam.put(BLConfigParam.APP_SERVICE_ENABLE, useCluster ? "1" : "0");
         
-        //blConfigParam.put(BLConfigParam.APP_SERVICE_HOST, "https://01e78622f3e6b3a861133fbc0690f4a9appservice.ibroadlink.com"); // test
+        // 12. for test, 设置集群域名
+        //blConfigParam.put(BLConfigParam.APP_SERVICE_HOST, "https://01e78622f3e6b3a861133fbc0690f4a9appservice.ibroadlink.com"); 
+        //BLApiUrlConstants.init("01e78622f3e6b3a861133fbc0690f4a9"); 
         
-//        // 11. 设置认证包名，默认为APP自身包名
-//        blConfigParam.put(BLConfigParam.CONTROLLER_AUTH_PACKAGE_NAME, "cn.com.broadlink.econtrol.plus");
-//        String license = "0PlPqgTGPZt7CwNNz4lWVm7qQZqm8AdPyooafIrN9QX5UING6RYrag2V2nFqWRIQrFDxVgAAAADoWWz5UyBiHvQQIPyIUhi4XFSykPGAqniglnoIUWhvuHCgxWxDEyF0yb0xHzyz6V5BLR6D0KoiI6QqjWxRKs8JsEkbxXTfoUSQjDzWcfVjcA4AAADzeX7wfU+3ndxs2/3yXOnJrFAlYyFEltcuD9SloQA7kInW0ynCvel2PMHSm6RgRp/xNYhi5LPROx4fnr746yHD";
-
-        blConfigParam.put(BLConfigParam.CONTROLLER_AUTH_PACKAGE_NAME, packageName);
         BLLet.init(this, license, "", blConfigParam);
 
         // 初始化之后，获取 lid 和 companyId ，用于其他类库的初始化
@@ -124,8 +137,10 @@ public class BLApplication extends Application{
 
         // 初始化账户库
         BLAccount.init(companyId, lid);
+        
         // 初始化红外码库
         BLIRCode.init(lid, blConfigParam);
+        
         // 注册红外callback
         BLIRCode.startRMSubDeviceWork();
         
@@ -138,11 +153,11 @@ public class BLApplication extends Application{
         familyHTTP.setServerHost(String.format("https://%sappservice.ibroadlink.com", lid));
 
         BLApiUrlConstants.init(lid);
-        //BLApiUrlConstants.init("01e78622f3e6b3a861133fbc0690f4a9"); // test
-
-        initPushService(this);
     }
 
+    /**
+     * 结束app
+     */
     public void appFinish(){
         BLLet.finish();
         
@@ -152,7 +167,11 @@ public class BLApplication extends Application{
 
         System.exit(0);
     }
-    
+
+
+    /**
+     * 获得栈顶的activity
+     */
     public Activity getTopActivity(){
         return mActivityList.get(mActivityList.size()-1);
     }
@@ -183,7 +202,9 @@ public class BLApplication extends Application{
         return resources.getDimensionPixelSize(resourceId);
     }
 
-    //获取状态栏高度
+    /**
+     * 获取状态栏高度
+     */
     private int getStatusBarHeight() {
         try {
             Class<?> cls = Class.forName("com.android.internal.R$dimen");
@@ -195,9 +216,9 @@ public class BLApplication extends Application{
         }
         return 0;
     }
+    
     /**
      * 初始化云推送通道
-     * @param applicationContext
      */
     private void initPushService(final Context applicationContext) {
         PushServiceFactory.init(applicationContext);

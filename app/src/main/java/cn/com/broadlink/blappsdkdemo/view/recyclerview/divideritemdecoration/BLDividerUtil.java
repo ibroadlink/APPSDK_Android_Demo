@@ -16,6 +16,7 @@ import cn.com.broadlink.blappsdkdemo.R;
 public class BLDividerUtil {
     
     public static BLDividerItemDecoration getDefault(final Context context, final List< ? extends Object> data) {
+
         return new BLDividerItemDecoration(context) {
 
             @Nullable

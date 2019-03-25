@@ -25,10 +25,12 @@ import cn.com.broadlink.account.params.BLRegistParam;
 import cn.com.broadlink.base.BLAppSdkErrCode;
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.base.BLLoginResult;
+import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.BaseFragment;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.view.BLPasswordEditView;
 import cn.com.broadlink.blappsdkdemo.view.BLProgressDialog;
 import cn.com.broadlink.blappsdkdemo.view.InputTextView;
@@ -262,15 +264,14 @@ public class AccountSignUpInfoCompleteFragment extends BaseFragment {
             registParam.setNickname(mAccount);
             registParam.setPhoneOrEmail(mAccount);
             registParam.setPassword(uerPassword);
+
+            boolean isPhoneType = BLCommonUtils.isPhone(mAccount);
+            
             BLLoginResult result = BLAccount.regist(registParam, null);
             if (result != null && result.getError() == BLAppSdkErrCode.SUCCESS) {
-//                AppContents.getUserInfo().login(result.getUserid(), mAccount, uerPassword,
-//                        result.getNickname(), result.getIconpath(), result.getSex(), result.getBirthday(),
-//                        result.getLoginsession(), result.getPwdflag(), mCountryCode);
-//
-//                mApplication.mBLFamilyManager.init(getHelper(), result.getUserid());
-//                mApplication.mBLFamilyManager.deleteAllFamilyUserFamilyRelation(getHelper());
-//                createFamilyId = mApplication.mBLFamilyManager.createDefaultFamilyInfo(getHelper());
+                BLApplication.mBLUserInfoUnits.login(result.getUserid(), result.getLoginsession(),
+                        mAccount, result.getIconpath(), result.getLoginip(),
+                        result.getLogintime(), result.getSex(), null, isPhoneType ? mAccount : null, isPhoneType ? null : mAccount, result.getBirthday());
             }
             return result;
         }
@@ -280,17 +281,9 @@ public class AccountSignUpInfoCompleteFragment extends BaseFragment {
             super.onPostExecute(result);
             blProgressDialog.dismiss();
             if (result != null && result.getError() == BLAppSdkErrCode.SUCCESS) {
-//                mApplication.mBLFamilyManager.init(getHelper(), result.getUserid());
-//                Intent intent = new Intent();
-//                if(createFamilyId != null){
-//                    intent.putExtra(BLConstants.INTENT_PAGE_ID, HomePageActivity.PAGE_HOME);
-//                    intent.setClass(getActivity(), HomePageActivity.class);
-//                }else{
-//                    intent.setClass(getActivity(), WelcomeHomePageActivity.class);
-//                }
-//
-//                startActivity(intent);
-//                getActivity().finish();
+                BLToastUtils.show("Sign up success, auto login.");
+                BLCommonUtils.toActivity(getActivity(), AccountAndSecurityActivity.class);
+                getActivity().finish();
             } else if (result != null) {
                 BLCommonUtils.toastShow(getActivity(), result.getMsg());
             } else {

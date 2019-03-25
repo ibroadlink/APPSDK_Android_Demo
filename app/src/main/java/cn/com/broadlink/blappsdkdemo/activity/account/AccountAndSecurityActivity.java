@@ -88,6 +88,24 @@ public class AccountAndSecurityActivity extends TitleActivity {
                 BLCommonUtils.toActivity(AccountAndSecurityActivity.this, AccountPasswordChangeActivity.class);
             }
         });
+        
+        mPhoneLayout.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                if(!TextUtils.isEmpty( BLApplication.mBLUserInfoUnits.getPhone())){
+                    BLCommonUtils.toActivity(mActivity, AccountModifyPhoneOrEmailActivity.class, BLApplication.mBLUserInfoUnits.getPhone());
+                }
+            }
+        });
+        
+        mEmailLayout.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                if(!TextUtils.isEmpty( BLApplication.mBLUserInfoUnits.getEmail())){
+                    BLCommonUtils.toActivity(mActivity, AccountModifyPhoneOrEmailActivity.class, BLApplication.mBLUserInfoUnits.getEmail());
+                }
+            }
+        });
 
     }
 

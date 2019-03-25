@@ -60,7 +60,7 @@ public class DevConfigActivity extends TitleActivity implements DevConfigListene
     }
 
     public void apConfig(View view){
-        BLAlert.showDialog(DevConfigActivity.this, "Please make sure you have connect to the device's Ap", new BLAlert.DialogOnClickListener() {
+        BLAlert.showDialog(DevConfigActivity.this, "Make sure you have connect to the device's Ap (maybe like \"BroadlinkProv\")", new BLAlert.DialogOnClickListener() {
             @Override
             public void onPositiveClick() {
                 BLCommonUtils.toActivity(DevConfigActivity.this, DevApPairActivity.class);

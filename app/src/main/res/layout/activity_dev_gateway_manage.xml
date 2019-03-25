@@ -54,6 +54,11 @@
         android:text="Query Scanned Sub Devices"/>
 
     <Button
+        android:id="@+id/bt_query_add_result"
+        style="@style/commonBtn"
+        android:text="Query Sub Device Add Result"/>
+
+    <Button
         android:id="@+id/bt_get_list"
         style="@style/commonBtn"
         android:text="Query Added Sub Devices"/>

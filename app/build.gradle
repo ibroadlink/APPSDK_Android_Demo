@@ -6,7 +6,7 @@ android {
         config {
             keyAlias 'broadlink_sdk'
             keyPassword 'qwerasdf'
-            storeFile file('E:/Projects_sdk/broadlink_sdk.jks')
+            storeFile file('./broadlink_sdk.jks')
             storePassword 'qwerasdf'
         }
     }

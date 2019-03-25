@@ -157,6 +157,7 @@ public class AccountSignUpByPhoneFragment extends BaseFragment {
                 ((AccountSignUpActivity) getActivity()).addFragment(fragmnet, true);
             } else if (result != null) {
                 mPhoneNumLayout.setBackgroundResource(R.drawable.input_bg_round_tran_red);
+                BLCommonUtils.toastErr(result);
             } else {
                 BLCommonUtils.toastShow(getActivity(), R.string.str_err_network);
             }

@@ -2,6 +2,7 @@ package cn.com.broadlink.blappsdkdemo.activity.device;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.broadlink.base.BLBaseResult;
+import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
@@ -28,6 +30,7 @@ import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
+import cn.com.broadlink.sdk.result.controller.BLSubDevAddResult;
 import cn.com.broadlink.sdk.result.controller.BLSubDevListResult;
 
 public class DevGatewayManageActivity extends TitleActivity {
@@ -37,6 +40,7 @@ public class DevGatewayManageActivity extends TitleActivity {
     private Button mBtScanStop;
     private Button mBtGetScanNewList;
     private Button mBtGetList;
+    private Button mBtQueryAddResult;
     private RecyclerView mRvList;
     private EditText mEtPid;
     
@@ -45,6 +49,7 @@ public class DevGatewayManageActivity extends TitleActivity {
     private SubDevAdapter mAdapter;
     private boolean mIsNewSubListType = true;
     private String mPid = null;
+    private int mSelectedIndex = -1;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,11 +113,26 @@ public class DevGatewayManageActivity extends TitleActivity {
             }
         });
 
+        mBtQueryAddResult.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                if(mSelectedIndex >=0 && mSelectedIndex < mSubDeviceList.size()){
+                    new QueryAddResult().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, mSelectedIndex);
+                }else{
+                    final String msg = "Scan Sub Devices List, Click One Of Them To Add, Then You Can Query The Add Result.";
+                    BLToastUtils.show(msg);
+                }
+            }
+        });
+
         mAdapter.setOnItemClickListener(new BLBaseRecyclerAdapter.OnClickListener() {
             @Override
             public void onClick(int position, int viewType) {
                 if(mIsNewSubListType){
-                    if (checkPid())  new AddSubDevTask().execute(position);
+                    if (checkPid()) {
+                        mSelectedIndex = position;
+                        new AddSubDevTask().execute(position);
+                    }
                 }else{
                     BLCommonUtils.toActivity(mActivity, DevDnaStdControlActivity.class, mSubDeviceList.get(position));
                 }
@@ -166,6 +186,7 @@ public class DevGatewayManageActivity extends TitleActivity {
         mTvResult = (TextView) findViewById(R.id.tv_result);
         mBtScanStart = (Button) findViewById(R.id.bt_scan_start);
         mBtScanStop = (Button) findViewById(R.id.bt_scan_stop);
+        mBtQueryAddResult = (Button) findViewById(R.id.bt_query_add_result);
         mBtGetScanNewList = (Button) findViewById(R.id.bt_get_scan_new_list);
         mBtGetList = (Button) findViewById(R.id.bt_get_list);
         mRvList = (RecyclerView) findViewById(R.id.rv_list);
@@ -206,6 +227,7 @@ public class DevGatewayManageActivity extends TitleActivity {
             showResult(blBaseResult);
         }
     }
+    
     private class StopScanTask extends AsyncTask<String, Void, BLBaseResult> {
 
         @Override
@@ -226,7 +248,6 @@ public class DevGatewayManageActivity extends TitleActivity {
             showResult(blBaseResult);
         }
     }
-    
     
     private class GetNewSubDevsTask extends AsyncTask<String, Void, BLSubDevListResult> {
 
@@ -315,15 +336,18 @@ public class DevGatewayManageActivity extends TitleActivity {
             dismissProgressDialog();
             showResult(blBaseResult);
 
-            if (blBaseResult != null && blBaseResult.succeed() && blBaseResult.getData() != null) {
+            if (blBaseResult != null && blBaseResult.succeed()) {
                 mIsNewSubListType = false;
                 mSubDeviceList.clear();
-
-                for (BLDNADevice dev  : blBaseResult.getData().getList() ) {
-                    dev.setpDid(mDNADevice.getDid());
-                    mSubDeviceList.add(dev);
-                    BLLet.Controller.addDevice(dev);
+                
+                if(blBaseResult.getData() != null){
+                    for (BLDNADevice dev  : blBaseResult.getData().getList() ) {
+                        dev.setpDid(mDNADevice.getDid());
+                        mSubDeviceList.add(dev);
+                        BLLet.Controller.addDevice(dev);
+                    } 
                 }
+              
                 mAdapter.notifyDataSetChanged();
             }
         }
@@ -377,4 +401,36 @@ public class DevGatewayManageActivity extends TitleActivity {
         }
     }
 
+    private class QueryAddResult extends AsyncTask<Integer, Void, BLSubDevAddResult> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("Query Add Result...");
+        }
+
+        @Override
+        protected BLSubDevAddResult doInBackground(Integer... params) {
+            BLSubDevAddResult downloadResult = new BLSubDevAddResult();
+            
+            for (int i = 0; i < 10; i++) {
+                SystemClock.sleep(1000);
+                downloadResult = BLLet.Controller.devSubDevAddResultQuery(mDNADevice.getDid(), mSubDeviceList.get(params[0]).getDid());
+                if(downloadResult != null && downloadResult.succeed() && downloadResult.getSubdevStatus() == 0 && downloadResult.getDownload_status() == 0){
+                    BLLet.Controller.subDevScanStop(mDNADevice.getDid());
+
+                    return downloadResult;
+                }
+            }
+            return downloadResult;
+        }
+
+        @Override
+        protected void onPostExecute(BLSubDevAddResult downloadResult) {
+            super.onPostExecute(downloadResult);
+            dismissProgressDialog();
+            showResult(downloadResult);
+        }
+    }
+    
 }

@@ -212,6 +212,9 @@
         <activity
             android:name=".activity.irCode.IRCodeMatchTreeDetailActivity"
             android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.account.AccountModifyPhoneOrEmailActivity"
+            android:theme="@style/ActivityStyle"/>
     </application>
 
 </manifest>

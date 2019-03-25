@@ -6,9 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.alibaba.fastjson.JSON;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +13,7 @@ import java.util.List;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLKeyboardUtils;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
@@ -36,7 +34,6 @@ public class DevApPairActivity extends TitleActivity {
     private BLAPInfo mSelectAPInfo;
     private RecyclerView mRvContent;
     private ImageView mIvRefresh;
-    private TextView mTvResult;
     private LinearLayoutManager manager;
 
     @Override
@@ -55,7 +52,6 @@ public class DevApPairActivity extends TitleActivity {
     
     private void findView() {
         mRvContent = (RecyclerView) findViewById(R.id.rv_content);
-        mTvResult = (TextView) findViewById(R.id.tv_result);
         mIvRefresh = findViewById(R.id.iv_refresh);
     }
 
@@ -114,6 +110,7 @@ public class DevApPairActivity extends TitleActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             showProgressDialog("Config...");
+            BLKeyboardUtils.hideKeyboard(mIvRefresh);
         }
 
         @Override
@@ -128,8 +125,17 @@ public class DevApPairActivity extends TitleActivity {
         protected void onPostExecute(BLAPConfigResult result) {
             super.onPostExecute(result);
             dismissProgressDialog();
-            mTvResult.setText(JSON.toJSONString(result, true));
-            mTvResult.requestFocus();
+            
+            if(result !=null && result.succeed()){
+                BLAlert.showAlert(mActivity, null, "Config send success, please check the device's state.", new OnSingleClickListener() {
+                    @Override
+                    public void doOnClick(View v) {
+                        back();
+                    }
+                });
+            }else{
+                BLCommonUtils.toastErr(result);
+            }
         }
 
     }

@@ -126,7 +126,7 @@
             android:id="@+id/bt_fastcon"
             style="@style/commonBtn"
             android:layout_weight="1"
-            android:text="Fastcon Managet"/>
+            android:text="Fastcon Manage"/>
         <Button
             android:id="@+id/bt_rm"
             style="@style/commonBtn"

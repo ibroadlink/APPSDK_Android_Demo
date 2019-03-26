@@ -75,6 +75,13 @@ public class DevFastconManageActivity extends TitleActivity {
                 getConfigStatus();
             }
         });
+
+        mAdapter.setOnItemClickListener(new BLBaseRecyclerAdapter.OnClickListener() {
+            @Override
+            public void onClick(int position, int viewType) {
+                config(mDeviceList.get(position).did);
+            }
+        });
     }
 
     private void initView() {
@@ -108,6 +115,19 @@ public class DevFastconManageActivity extends TitleActivity {
             dids.add(item.did);
         }
 
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("did", mDNADevice.getDid());
+        jsonObject.put("act", BLFastconConstans.ACT.BATCH_CONFIG);
+        jsonObject.put("devlist", dids);
+        
+        new FastConCtrlTask().execute(BLFastconConstans.ITF_MARST, jsonObject.toJSONString());
+    }
+    
+    private void config(String did){
+
+        final ArrayList<String> dids = new ArrayList<>();
+        dids.add(did);
+        
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("did", mDNADevice.getDid());
         jsonObject.put("act", BLFastconConstans.ACT.BATCH_CONFIG);

@@ -148,9 +148,8 @@ public class BLApplication extends Application{
         BLAccount.addLoginListener(BLLet.Controller.getLoginListener());
         BLAccount.addLoginListener(BLIRCode.getLoginListener());
 
-        BLSFamilyManager familyHTTP = BLSFamilyManager.getInstance();
-        familyHTTP.setLicenseid(lid);
-        familyHTTP.setServerHost(String.format("https://%sappservice.ibroadlink.com", lid));
+        // 初始化家庭管理接口
+        BLSFamilyManager.getInstance().init(lid);
 
         BLApiUrlConstants.init(lid);
     }

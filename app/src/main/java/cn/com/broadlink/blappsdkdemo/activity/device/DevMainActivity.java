@@ -45,7 +45,7 @@ public class DevMainActivity extends TitleActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(DevMainActivity.this, DevListActivity.class);
+                intent.setClass(DevMainActivity.this, DevProbeListActivity.class);
                 startActivity(intent);
             }
         });

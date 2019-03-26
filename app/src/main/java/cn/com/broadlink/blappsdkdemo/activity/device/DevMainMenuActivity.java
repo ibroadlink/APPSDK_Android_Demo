@@ -1,7 +1,9 @@
 package cn.com.broadlink.blappsdkdemo.activity.device;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -101,7 +103,27 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
                 break;
                 
             case R.id.bt_timer:
-                BLCommonUtils.toActivity(mActivity, DevTimerManageActivity.class, mDNADevice);
+                BLAlert.showEditDilog(mActivity, null, "If you mean to manage sub device's timer, input subDid", null, "subDid", "Sub device", "Gageway device",
+                        new BLAlert.BLEditDialogOnClickListener() {
+                            @Override
+                            public void onClink(String value) {
+                                if(TextUtils.isEmpty(value) || value.length() != 32){
+                                    BLToastUtils.show("Did invalid!");
+                                    return;
+                                }
+                                
+                                final Intent intent = new Intent(mActivity, DevTimerManageActivity.class);
+                                intent.putExtra(BLConstants.INTENT_ID, value);
+                                intent.putExtra(BLConstants.INTENT_PARCELABLE, mDNADevice);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onClinkCacel(String value) {
+                                BLCommonUtils.toActivity(mActivity, DevTimerManageActivity.class, mDNADevice);
+                            }
+                        }, false);
+               
                 break;
                 
             case R.id.bt_gateway:

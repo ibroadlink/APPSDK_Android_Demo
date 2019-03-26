@@ -2,6 +2,9 @@ package cn.com.broadlink.blappsdkdemo.activity.family.constant;
 
 final public class BLSFamilyConstants {
 
+    /**域名**/
+    public static final String BASE_DOMAIN = "appservice.ibroadlink.com";
+
     /**家庭自身信息接口**/
     //新增家庭
     public static final String ADD_FAMILY = "/appsync/group/family/add";

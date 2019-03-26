@@ -28,7 +28,7 @@ import java.util.List;
 
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.device.DevListActivity;
+import cn.com.broadlink.blappsdkdemo.activity.device.DevProbeListActivity;
 import cn.com.broadlink.blappsdkdemo.activity.h5.DeviceH5Activity;
 import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSEndpointInfo;
 import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSQueryEndpointListResult;
@@ -93,7 +93,7 @@ public class FamilyModuleListActivity extends TitleActivity {
                         Intent intent = new Intent();
                         intent.putExtra(BLConstants.INTENT_FAMILY_ID, mFamilyId);
                         intent.putExtra(BLConstants.INTENT_CLASS, FamilyModuleListActivity.class.getSimpleName());
-                        intent.setClass(FamilyModuleListActivity.this, DevListActivity.class);
+                        intent.setClass(FamilyModuleListActivity.this, DevProbeListActivity.class);
                         startActivity(intent);
                     }
                 });

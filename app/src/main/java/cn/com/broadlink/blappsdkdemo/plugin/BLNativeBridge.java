@@ -792,7 +792,6 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer 
 
                 BLHttpPostAccessor httpAccessor = new BLHttpPostAccessor(activity);
 
-                //final String authUrl =  String.format("https://%sappservice.ibroadlink.com/ec4/v1/auth/query", BLLet.getLicenseId());
                 AuthQueryDevInfoListResult result = httpAccessor.execute(BLApiUrlConstants.AppManager.DEVICE_AUTH_LIST(), baseHeadParam, loginBytes,
 						AuthQueryDevInfoListResult.class);
                 if (result != null && result.succeed() && result.getData() != null) {
@@ -881,7 +880,6 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer 
             BLHttpPostAccessor httpPostAccessor = new BLHttpPostAccessor(context);
             httpPostAccessor.setToastError(false);
 
-            //final String authUrl =  String.format("https://%srtasquery.ibroadlink.com/dataservice/v1/device/status", BLLet.getLicenseId());
             return httpPostAccessor.execute(String.format(BLApiUrlConstants.QUERY_DEV_HISTORY, deviceInfo.getPid()), headParam, requestStr, String.class);
         }
 

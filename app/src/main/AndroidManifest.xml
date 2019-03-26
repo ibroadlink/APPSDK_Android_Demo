@@ -54,7 +54,7 @@
         </receiver>
 
         <activity
-            android:name=".activity.device.DevListActivity"
+            android:name=".activity.device.DevProbeListActivity"
             android:launchMode="singleTask"
             android:theme="@style/ActivityStyle"/>
         <activity

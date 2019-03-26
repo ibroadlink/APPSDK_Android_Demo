@@ -49,6 +49,12 @@ public class BLSFamilyManager {
         }
         return instance;
     }
+    
+    public BLSFamilyManager init(String licenseid){
+        this.setLicenseid(licenseid);
+        this.setServerHost(String.format("https://%s%s", licenseid, BLSFamilyConstants.BASE_DOMAIN));
+        return this;
+    } 
 
     private Map<String, String> generateHead(Map<String, String> head) {
 

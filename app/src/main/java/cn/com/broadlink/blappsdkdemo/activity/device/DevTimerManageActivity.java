@@ -49,6 +49,7 @@ public class DevTimerManageActivity extends TitleActivity {
     private BLDNADevice mDNADevice;
     private DnaParamAdapter mAdapter;
     private ImageView mIvRefresh;
+    private String mSubDid;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class DevTimerManageActivity extends TitleActivity {
         setTitle("Timer Management");
         
         mDNADevice = getIntent().getParcelableExtra(BLConstants.INTENT_PARCELABLE);
+        mSubDid = getIntent().getStringExtra(BLConstants.INTENT_ID);
         
         findView();
 
@@ -116,7 +118,7 @@ public class DevTimerManageActivity extends TitleActivity {
         etParam.setHint("Time: S_M_H_D_M_W_Y");
         final Date date = new Date();
         etParam.setText(String.format("10_10_10_%d_%d_*_%d", date.getDate(),date.getMonth(), date.getYear()+1900));
-        etVal.setHint("Cmd: { \"pwr\": 1 }");
+        etVal.setText("{ \"pwr\":1}");
 
         BLAlert.showCustomViewDilog(mActivity, dialog, "Ok", "Cancel", new BLAlert.DialogOnClickListener() {
             @Override
@@ -200,8 +202,10 @@ public class DevTimerManageActivity extends TitleActivity {
 
         @Override
         protected String doInBackground(Void... params) {
+            
             final BLTimerGetListParamV2 blTimerGetListParamV2 = new BLTimerGetListParamV2();
-            blTimerGetListParamV2.setDid(mDNADevice.getDid());
+            
+            blTimerGetListParamV2.setDid(getDid());
             blTimerGetListParamV2.setCount(10);
             blTimerGetListParamV2.setIndex(0);
             blTimerGetListParamV2.setAct(BLTimerConstants.ACT.GET_LIST);
@@ -244,7 +248,7 @@ public class DevTimerManageActivity extends TitleActivity {
             blTimerInfoV2 = params[0];
             
             final BLTimerAddOrEditParamV2 blTimerGetListParamV2 = new BLTimerAddOrEditParamV2();
-            blTimerGetListParamV2.setDid(mDNADevice.getDid());
+            blTimerGetListParamV2.setDid(getDid());
             blTimerGetListParamV2.setAct(BLTimerConstants.ACT.ADD);
             blTimerGetListParamV2.getTimerlist().add(params[0]);
             
@@ -266,6 +270,9 @@ public class DevTimerManageActivity extends TitleActivity {
         }
     }
 
+    private String getDid() {
+        return TextUtils.isEmpty(mSubDid) ? mDNADevice.getDid() : mSubDid;
+    }
 
     class DelTimerTask extends AsyncTask<Integer, Void, String> {
         int pos;
@@ -281,7 +288,7 @@ public class DevTimerManageActivity extends TitleActivity {
             pos = params[0];
             
             final BLTimerDelParamV2 blTimerGetListParamV2 = new BLTimerDelParamV2();
-            blTimerGetListParamV2.setDid(mDNADevice.getDid());
+            blTimerGetListParamV2.setDid(getDid());
             blTimerGetListParamV2.setAct(BLTimerConstants.ACT.DEL);
 
             final BLTimerInfoV2 blTimerInfoV2 = mTimerList.get(params[0]);

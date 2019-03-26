@@ -75,8 +75,8 @@ public class BLStorageUtils {
 	public static void init(Context context) {
 		String rootPath = null;
 		String appPath = null;
-		String fileName = BLConstants.APPConfigInfo.BASE_FILE_PATH;
-
+		String fileName = BLConstants.BASE_FILE_PATH;
+		
 		// 存在SDCARD的时候，路径设置到SDCARD
 		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
 			rootPath = Environment.getExternalStorageDirectory().getPath();

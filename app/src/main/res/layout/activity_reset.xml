@@ -21,12 +21,35 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"/>
 
-
+    <RadioGroup
+        android:id="@+id/rg_server_list"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/tv_cluster"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/rb_baidu"
+            android:text="Baidu Cluster"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <RadioButton
+            android:id="@+id/rb_international_china"
+            android:text="Internatinal China Cluster"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <RadioButton
+            android:id="@+id/rb_custom"
+            android:text="Custom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RadioGroup>
+    
+    
     <EditText
         android:id="@+id/et_package"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_cluster"
+        android:layout_below="@+id/rg_server_list"
         android:layout_marginTop="20dp"
         android:background="@drawable/shape_input_view_blue_bg"
         android:hint="package name"
@@ -46,7 +69,7 @@
         android:background="@drawable/shape_input_view_blue_bg"
         android:gravity="start"
         android:hint="license"
-        android:minHeight="300dp"
+        android:minHeight="200dp"
         android:padding="5dp"
         android:scrollbarStyle="insideOverlay"
         android:scrollbars="vertical"

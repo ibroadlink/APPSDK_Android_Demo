@@ -2,28 +2,22 @@ package cn.com.broadlink.blappsdkdemo.common;
 
 public class BLConstants {
 
-    public static class APPConfigInfo{
-        /**app文件夹目录**/
-        public static final String BASE_FILE_PATH = "broadlink/eControl";
-        
-        public static final String BROADLINK = "BroadLink";
-    }
-
+    /**app文件夹目录**/
+    public static final String BASE_FILE_PATH = "broadlink/blTool";
+    
     public static final String BROADLINK_LOG_TAG = "BROADLINK_DEMO";
     
     // ihc
-    public static final String SDK_PACKAGE = "cn.com.broadlink.econtrol.plus";
-    public static final String SDK_LICENSE = "0PlPqgTGPZt7CwNNz4lWVm7qQZqm8AdPyooafIrN9QX5UING6RYrag2V2nFqWRIQrFDxVgAAAADoWWz5UyBiHvQQIPyIUhi4XFSykPGAqniglnoIUWhvuHCgxWxDEyF0yb0xHzyz6V5BLR6D0KoiI6QqjWxRKs8JsEkbxXTfoUSQjDzWcfVjcA4AAADzeX7wfU+3ndxs2/3yXOnJrFAlYyFEltcuD9SloQA7kInW0ynCvel2PMHSm6RgRp/xNYhi5LPROx4fnr746yHD";
+    public static final String SDK_PACKAGE_BAIDU = "cn.com.broadlink.econtrol.plus";
+    public static final String SDK_LICENSE_BAIDU = 
+            "0PlPqgTGPZt7CwNNz4lWVm7qQZqm8AdPyooafIrN9QX5UING6RYrag2V2nFqWRIQrFDxVgAAAADoWWz5UyBiHvQQIPyIUhi4XFSykPGAqniglnoIUWhvuHCgxWxDEyF0yb0xHzyz6V5BLR6D0KoiI6QqjWxRKs8JsEkbxXTfoUSQjDzWcfVjcA4AAADzeX7wfU+3ndxs2/3yXOnJrFAlYyFEltcuD9SloQA7kInW0ynCvel2PMHSm6RgRp/xNYhi5LPROx4fnr746yHD";
 
-//    public static final String SDK_PACKAGE = "com.broadlink.blappsdkdemo";
-//    public static final String SDK_LICENSE = "4oQxAHVFYnnY7HPuDlYnm0I6pGcRvFTh/Ct2Vv+/5qZDpJJiIweBn2RUUA6oE8InRDV+XAAAAABz4LOxmXdGndIQ0J762DN4lXimLcoYN1h90T3OlpYrQrNgvm0/7+Kdmrgfawtr+QWBY+UBaf8hxk19tobFrLsFsEkbxXTfoUSQjDzWcfVjcAAAAAA=";
-//    
+     // international
+    public static final String SDK_PACKAGE = "com.broadlink.blappsdkdemo";
+    public static final String SDK_LICENSE = "4oQxAHVFYnnY7HPuDlYnm0I6pGcRvFTh/Ct2Vv+/5qZDpJJiIweBn2RUUA6oE8InRDV+XAAAAABz4LOxmXdGndIQ0J762DN4lXimLcoYN1h90T3OlpYrQrNgvm0/7+Kdmrgfawtr+QWBY+UBaf8hxk19tobFrLsFsEkbxXTfoUSQjDzWcfVjcAAAAAA=";
+    
     /**MD5加密后缀*/
     public static final String STR_BODY_ENCRYPT = "xgx3d*fe3478$ukx";
-    public static final String STR_RM_KEY_PF = "aas45^#*";
-    public static final byte[] BYTES_RM_CODE_IV = {(byte) 0xea, (byte) 0xa4, 0x7a, 0x3a, (byte) 0xeb, 0x08,
-            0x22, (byte) 0xa2, 0x19, 0x18, (byte) 0xc5, (byte) 0xd7, 0x1d, 0x36, 0x15, (byte) 0xaa};
-    
     
     /** 文件夹名称 存放一些APP临时数据**/
     public static final String FILE_DATA = "data";
@@ -51,11 +45,12 @@ public class BLConstants {
     /** 隐藏文件夹 存放S1的传感器信息文件 **/
     public static final String FILE_S1 = ".S1";
 
-    //IRCode Device type
+    /** IRCode Device type **/
     public static final int BL_IRCODE_DEVICE_TV = 1;
     public static final int BL_IRCODE_DEVICE_TV_BOX = 2;
     public static final int BL_IRCODE_DEVICE_AC = 3;
 
+    /** Intent Buddle-key **/
     public static final String INTENT_NAME = "INTENT_NAME";
     public static final String INTENT_CODE = "INTENT_CODE";
     public static final String INTENT_VALUE = "INTENT_VALUE";
@@ -63,7 +58,7 @@ public class BLConstants {
     public static final String INTENT_PHONE = "INTENT_PHONE";
     public static final String INTENT_EXTEND = "INTENT_EXTEND";
     public static final String INTENT_ID = "INTENT_ID";
-    public static final String INTENT_FAMILY_ID = BLConstants.INTENT_FAMILY_ID;
+    public static final String INTENT_FAMILY_ID = "INTENT_FAMILY_ID";
     public static final String INTENT_ACTION = "INTENT_ACTION";
     public static final String INTENT_URL = "INTENT_URL";
     public static final String INTENT_MODULE = "INTENT_MODULE";

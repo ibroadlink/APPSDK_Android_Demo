@@ -62,8 +62,10 @@
         android:visibility="gone"
         android:textColor="@color/textDark"/>
 
-    <TextView
-        android:id="@+id/tv_result"
+    <EditText
+        android:id="@+id/et_result"
+        android:textSize="13sp"
+        android:gravity="top|left"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

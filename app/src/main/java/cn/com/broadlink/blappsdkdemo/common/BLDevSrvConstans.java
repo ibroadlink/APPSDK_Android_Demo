@@ -23,8 +23,6 @@ import cn.com.broadlink.blappsdkdemo.data.BLDevProfileInfo;
  */
 public class BLDevSrvConstans {
 
-    /**子设备添加 方式 先扫描在添加**/
-    public static final int SUB_DEV_ADD_TYPE_SCAN2ADD = 1;
 
     /**添加子设备**/
     public static final int TYPE_SUB_DEV = 1;
@@ -289,14 +287,6 @@ public class BLDevSrvConstans {
         return profileInfo.getIssubdev() == BLDevSrvConstans.TYPE_SUB_DEV;
     }
 
-    /**是否是虚拟子设备*/
-//    public static boolean isVirtueSubDev(BLDevProfileInfo profileInfo){
-//        if(profileInfo != null){
-//            String protocol = getDevProtocol(profileInfo.getSrvs());
-//            return protocol.equals(BLDevSrvConstans.Protocol.RM_IR) || protocol.equals(BLDevSrvConstans.Protocol.RM_315) || protocol.equals(BLDevSrvConstans.Protocol.RM_433);
-//        }
-//        return false;
-//    }
 
     /**是否是网关设备*/
     public static boolean isGetway(String pid){

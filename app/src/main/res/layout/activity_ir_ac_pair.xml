@@ -49,11 +49,12 @@
         style="@style/commonBtn"
         android:text="Generate IR Code"/>
 
-    <TextView
-        android:id="@+id/tv_result"
+    <EditText
+        android:id="@+id/et_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bt_get_ir_code"
+        android:textSize="13sp"
+        android:gravity="top|left"
         android:layout_marginTop="10dp"
         android:background="@drawable/shape_input_view_blue_bg"
         android:minHeight="200dp"

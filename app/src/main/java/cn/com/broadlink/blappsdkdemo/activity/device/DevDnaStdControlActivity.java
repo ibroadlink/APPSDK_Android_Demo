@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -61,7 +60,7 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
     private Button mBtUiDownload;
     private Button mQueryProfile;
     private Button mBtWebContorl;
-    private TextView mTvInput;
+    private EditText mTvInput;
     private BLDNADevice mDNADevice;
 
     private List<DnaParam> mDnaParams = new ArrayList<>();
@@ -166,7 +165,7 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
         mBtUiDownload = (Button) findViewById(R.id.bt_ui_download);
         mQueryProfile = (Button) findViewById(R.id.query_profile);
         mBtWebContorl = (Button) findViewById(R.id.bt_web_contorl);
-        mTvInput = findViewById(R.id.tv_input);
+        mTvInput = (EditText) findViewById(R.id.et_input);
     }
 
     public void webControl() {

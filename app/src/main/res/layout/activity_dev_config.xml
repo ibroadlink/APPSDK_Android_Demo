@@ -95,8 +95,10 @@
             android:textColor="#272a29"/>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_result"
+    <EditText
+        android:id="@+id/et_result"
+        android:textSize="13sp"
+        android:gravity="top|left"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"/>

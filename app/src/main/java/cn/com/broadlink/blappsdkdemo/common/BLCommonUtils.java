@@ -481,6 +481,16 @@ public class BLCommonUtils {
         re = Hexbackrow(re);
         return re;
     }
-
+    
+    public static String deviceType2Pid(String deviceType){
+        try {
+            final int deviceTypeInt = Integer.parseInt(deviceType);
+            final String deviceTypeHex = tenTo16_2(deviceTypeInt);
+            return "000000000000000000000000" + deviceTypeHex + "00000000";
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
 

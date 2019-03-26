@@ -13,10 +13,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
     
-    <TextView
-        android:id="@+id/tv_result"
+    <EditText
+        android:id="@+id/et_result"
         android:padding="10dp"
-        android:layout_below="@+id/rv_content"
+        android:textSize="13sp"
+        android:gravity="top|left"
         android:layout_width="match_parent"
         android:scrollbarStyle="insideOverlay"
         android:layout_height="wrap_content"

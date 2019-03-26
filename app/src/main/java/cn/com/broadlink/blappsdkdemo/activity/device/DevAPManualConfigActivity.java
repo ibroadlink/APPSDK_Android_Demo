@@ -26,7 +26,7 @@ public class DevAPManualConfigActivity extends TitleActivity {
     private TextView mTvTip;
     private Spinner mSpType;
     private Button mBtCommit;
-    private TextView mTvResult;
+    private EditText mTvResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class DevAPManualConfigActivity extends TitleActivity {
         mTvTip = (TextView) findViewById(R.id.tv_tip);
         mSpType = (Spinner) findViewById(R.id.sp_type);
         mBtCommit = (Button) findViewById(R.id.bt_commit);
-        mTvResult = (TextView) findViewById(R.id.tv_result);
+        mTvResult = (EditText) findViewById(R.id.et_result);
     }
 
     private void initView() {

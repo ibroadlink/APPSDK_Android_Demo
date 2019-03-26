@@ -20,15 +20,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/textDark"
-        android:hint="pid to add"
+        android:hint="pid or device-type to add"
         android:textSize="13sp"
         android:layout_marginBottom="10dp"
         android:digits="abcdefABCDEF0123456789 "
         android:background="@drawable/shape_input_view_blue_bg"/>
     
-    <TextView
-        android:id="@+id/tv_result"
+    <EditText
+        android:id="@+id/et_result"
         android:padding="10dp"
+        android:textSize="13sp"
+        android:gravity="top|left"
         android:layout_width="match_parent"
         android:scrollbarStyle="insideOverlay"
         android:layout_height="wrap_content"

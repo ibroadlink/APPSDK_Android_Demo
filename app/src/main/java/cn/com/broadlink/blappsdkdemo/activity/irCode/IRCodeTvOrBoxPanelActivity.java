@@ -32,7 +32,7 @@ public class IRCodeTvOrBoxPanelActivity extends TitleActivity {
     private Button mBtGetIrCode;
     private RecyclerView mRvContent;
     private String mSavePath;
-    private TextView mTvResult;
+    private EditText mTvResult;
     private TextView mTvDev;
     private BLIrTvOrSTBInfo mScriptContent;
     private List<BLIrTvOrSTBInfo.FunctionListBean> mFuncList = new ArrayList<>();
@@ -59,7 +59,7 @@ public class IRCodeTvOrBoxPanelActivity extends TitleActivity {
         mBtSend = (Button) findViewById(R.id.bt_send);
         mBtGetIrCode = (Button) findViewById(R.id.bt_get_ir_code);
         mRvContent = (RecyclerView) findViewById(R.id.rv_params);
-        mTvResult = (TextView) findViewById(R.id.tv_result);
+        mTvResult = (EditText) findViewById(R.id.et_result);
         mTvDev = (TextView) findViewById(R.id.tv_dev);
     }
 

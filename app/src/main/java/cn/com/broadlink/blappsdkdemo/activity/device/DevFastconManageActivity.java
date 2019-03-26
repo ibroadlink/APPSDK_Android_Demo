@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -28,7 +29,7 @@ import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
 public class DevFastconManageActivity extends TitleActivity {
 
-    private TextView mTvResult;
+    private EditText mTvResult;
     private Button mBtGetList;
     private Button mBtFastcon;
     private Button mBtGetFastconResult;
@@ -92,7 +93,7 @@ public class DevFastconManageActivity extends TitleActivity {
     }
 
     private void findView() {
-        mTvResult = (TextView) findViewById(R.id.tv_result);
+        mTvResult = (EditText) findViewById(R.id.et_result);
         mBtGetList = (Button) findViewById(R.id.bt_get_list);
         mBtFastcon = (Button) findViewById(R.id.bt_fastcon);
         mBtGetFastconResult = (Button) findViewById(R.id.bt_get_fastcon_result);

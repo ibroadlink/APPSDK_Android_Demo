@@ -49,7 +49,7 @@ public class IRCodeAcPanelActivity extends TitleActivity implements View.OnClick
     private EditText mEtTemp;
     private Button mBtGenIrCode;
     private Button mBtSendIrCode;
-    private TextView mTvResult;
+    private EditText mTvResult;
     private TextView mTvDev;
     private String mSavePath;
     private BLIrdaConProductResult mScriptContent;
@@ -96,7 +96,7 @@ public class IRCodeAcPanelActivity extends TitleActivity implements View.OnClick
         mEtTemp = (EditText) findViewById(R.id.et_temp);
         mBtGenIrCode = (Button) findViewById(R.id.bt_gen_ir);
         mBtSendIrCode = (Button) findViewById(R.id.bt_send_ir);
-        mTvResult = (TextView) findViewById(R.id.tv_result);
+        mTvResult = (EditText) findViewById(R.id.et_result);
         mTvDev = (TextView) findViewById(R.id.tv_dev);
     }
 

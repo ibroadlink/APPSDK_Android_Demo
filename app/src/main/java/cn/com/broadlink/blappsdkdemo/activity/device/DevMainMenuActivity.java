@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 
@@ -26,7 +25,7 @@ import cn.com.broadlink.sdk.result.controller.BLDeviceTimeResult;
 public class DevMainMenuActivity extends TitleActivity implements View.OnClickListener {
 
     private EditText mTvDevInfo;
-    private TextView mTvResult;
+    private EditText mTvResult;
     private Button mBtPassthrough;
     private Button mBtStd;
     private Button mBtTimer;
@@ -77,7 +76,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
 
     private void findView() {
         mTvDevInfo = (EditText) findViewById(R.id.tv_dev_info);
-        mTvResult = (TextView) findViewById(R.id.tv_result);
+        mTvResult = (EditText) findViewById(R.id.et_result);
         mBtPassthrough = (Button) findViewById(R.id.bt_passthrough);
         mBtStd = (Button) findViewById(R.id.bt_std);
         mBtTimer = (Button) findViewById(R.id.bt_timer);

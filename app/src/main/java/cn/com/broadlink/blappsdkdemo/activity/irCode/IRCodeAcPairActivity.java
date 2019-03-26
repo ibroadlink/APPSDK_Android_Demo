@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 
@@ -34,7 +33,7 @@ public class IRCodeAcPairActivity extends TitleActivity {
     private Button mBtDownloadScript;
     private Button mBtGetScriptInfo;
     private Button mBtGetIrCode;
-    private TextView mTvResult;
+    private EditText mTvResult;
     private String mTextIrCode = 
             "2600ca008d950c3b0f1410380e3a0d160e160d3b0d150e150e3910150d160d3a0f36101411380d150f3a0e390d3910370f150f38103a0d3a0e1211140f1411121038101310150f3710380e390e150f160d160e1410140f131113101310380e3b0f351137123611ad8e9210370f1511370e390f140f1410380f1311130f39101211130f390f380f150f390f1310380f3810380f380f141038103710380f1411121014101310380f14101310380f3810381013101311121014101211131014101310370f3910361138103710000d05";
     private String mDownloadUrl;
@@ -62,7 +61,7 @@ public class IRCodeAcPairActivity extends TitleActivity {
         mBtDownloadScript = (Button) findViewById(R.id.bt_download_script);
         mBtGetScriptInfo = (Button) findViewById(R.id.bt_get_script_info);
         mBtGetIrCode = (Button) findViewById(R.id.bt_get_ir_code);
-        mTvResult = (TextView) findViewById(R.id.tv_result);
+        mTvResult = (EditText) findViewById(R.id.et_result);
     }
 
     private void initView() {

@@ -42,9 +42,11 @@
         android:text="config"
         android:id="@+id/bt_commit"/>
     
-    <TextView
-        android:id="@+id/tv_result"
+    <EditText
+        android:id="@+id/et_result"
         android:padding="10dp"
+        android:textSize="13sp"
+        android:gravity="top|left"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/bt_commit"
         android:layout_width="match_parent"

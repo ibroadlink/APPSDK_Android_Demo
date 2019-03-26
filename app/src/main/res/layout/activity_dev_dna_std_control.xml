@@ -117,15 +117,16 @@
             />
 
 
-        <TextView
-            android:id="@+id/tv_input"
+        <EditText
+            android:id="@+id/et_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/query_profile"
             android:layout_marginTop="10dp"
             android:background="@drawable/shape_input_view_blue_bg"
             android:minHeight="200dp"
-            android:padding="10dp"
+            android:textSize="13sp"
+            android:gravity="start"
             android:scrollbarStyle="insideOverlay"
             android:scrollbars="vertical"
             android:textColor="@color/textDark"/>

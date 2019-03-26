@@ -6,10 +6,10 @@ import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 
@@ -35,7 +35,7 @@ import cn.com.broadlink.sdk.result.controller.BLSubDevListResult;
 
 public class DevGatewayManageActivity extends TitleActivity {
 
-    private TextView mTvResult;
+    private EditText mTvResult;
     private Button mBtScanStart;
     private Button mBtScanStop;
     private Button mBtGetScanNewList;
@@ -77,8 +77,13 @@ public class DevGatewayManageActivity extends TitleActivity {
                         BLToastUtils.show("Input the pid to add first!");
                         mEtPid.requestFocus();
                     }else{
-                        mPid = mEtPid.getText().toString();
+                        if(mEtPid.getText().length()==32){
+                            mPid = mEtPid.getText().toString();
+                        }else{
+                            mPid = BLCommonUtils.deviceType2Pid(mEtPid.getText().toString());
+                        }
                     }
+                    Log.d("mPid", mPid);
                 }
             });
         return ret;
@@ -183,7 +188,7 @@ public class DevGatewayManageActivity extends TitleActivity {
     }
     
     private void findView() {
-        mTvResult = (TextView) findViewById(R.id.tv_result);
+        mTvResult = (EditText) findViewById(R.id.et_result);
         mBtScanStart = (Button) findViewById(R.id.bt_scan_start);
         mBtScanStop = (Button) findViewById(R.id.bt_scan_stop);
         mBtQueryAddResult = (Button) findViewById(R.id.bt_query_add_result);

@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 
@@ -38,7 +37,7 @@ public class DevConfigActivity extends TitleActivity implements DevConfigListene
     private EditText mPasswordView;
     private SharedPreferences mWiFiPreferences;
     private DevConfigModel mDevConfigModel;
-    private TextView mTvResult;
+    private EditText mTvResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,7 @@ public class DevConfigActivity extends TitleActivity implements DevConfigListene
     private void findView() {
         mSSIDView = findViewById(R.id.ssid_view);
         mPasswordView =  findViewById(R.id.password);
-        mTvResult = findViewById(R.id.tv_result);
+        mTvResult = findViewById(R.id.et_result);
         mPasswordView.requestFocus();
     }
 

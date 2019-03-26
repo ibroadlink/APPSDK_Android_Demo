@@ -60,7 +60,6 @@
         android:textColor="@color/textDark"
         android:layout_marginTop="5dp"
         android:minHeight="200dp"
-        android:enabled="false"
         android:gravity="start"
         android:textSize="12sp"
         android:background="@drawable/shape_input_view_blue_bg"

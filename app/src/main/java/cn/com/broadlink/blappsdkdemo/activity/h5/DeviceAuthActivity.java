@@ -34,6 +34,7 @@ import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.common.BLApiUrlConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.data.RequestTimestampResult;
@@ -199,7 +200,7 @@ public class DeviceAuthActivity extends TitleActivity {
                 httpAccessor =  new BLHttpPostAccessor(DeviceAuthActivity.this);
                 httpAccessor.setToastError(false);
                 
-                final String authUrl =  String.format("https://%sappservice.ibroadlink.com/ec4/v1/auth/add", BLLet.getLicenseId());
+                final String authUrl = BLApiUrlConstants.AppManager.DEVICE_AUTH();
                 return httpAccessor.execute(authUrl, baseHeadParam, loginBytes, DeviceAuthResult.class);
             }
             return null;

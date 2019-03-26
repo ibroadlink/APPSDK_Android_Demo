@@ -388,13 +388,6 @@ public class BLDevSrvConstans {
         return false;
     }
 
-    /**是否是MS1 品类*/
-    public static boolean isMS1Category(List<String> srvStrList){
-        if(srvStrList.isEmpty()) return false;
-
-        String category = getDevCategory(srvStrList.get(0));
-        return category != null && category.equals(Category.SMART_MS1);
-    }
 
     /**
      * 通过SRV 第二位获取到设备的协议信息

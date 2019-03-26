@@ -583,8 +583,9 @@ public class BLPushServicePresenter implements PushModel {
           if(target.equals("common") && action.equals("web")){
               mPushUrl  = actionUri.getQueryParameter("url");
           }else if(target.equals("device") && action.equals("fastconConfig")){
-              String baseurl = "https://d0f94faa04c63d9b7b0b034dcf895656appfront.ibroadlink.com/appfront/v1/webui/fastcon/?" +
-                      "familyId=%1$s&masterDid=%2$s&clientInfo=%3$s";
+              
+              // fastcon配置推送url，暂时保留
+              String baseurl = BLApiUrlConstants.FASTCON_CONFIG_URL + "familyId=%1$s&masterDid=%2$s&clientInfo=%3$s";
               mFamilyId = actionUri.getQueryParameter(FAMILY_ID_KEY);
               String masterDid = actionUri.getQueryParameter("masterDid");
               String clientInfoStr = actionUri.getQueryParameter("clientInfo");

@@ -10,20 +10,42 @@ android {
             storePassword 'qwerasdf'
         }
     }
+    
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
+    
     defaultConfig {
         applicationId "com.broadlink.blappsdkdemo"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.1"
-
+        flavorDimensions "default"
+        
         ndk {
             abiFilters 'armeabi'
             moduleName "app"
         }
     }
+
+//    productFlavors{
+//        baidu{
+//            
+//        }
+//        intl{
+//            
+//        }
+//    }
+//    applicationVariants.all { variant ->
+//        if (variant.flavorName.equals('baidu')) {
+//            variant.buildConfigField "boolean", "isBaidu", "true"
+//        }
+//        if (variant.flavorName.equals('intl')) {
+//            variant.buildConfigField "boolean", "isBaidu", "false"
+//        }
+//    }
+//    
+    
     buildTypes {
         release {
             minifyEnabled false

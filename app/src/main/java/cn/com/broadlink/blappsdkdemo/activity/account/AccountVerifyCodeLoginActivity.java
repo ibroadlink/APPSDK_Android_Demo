@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import java.util.List;
+
 import cn.com.broadlink.account.BLAccount;
 import cn.com.broadlink.base.BLAppSdkErrCode;
 import cn.com.broadlink.base.BLBaseResult;
@@ -14,8 +16,12 @@ import cn.com.broadlink.base.BLLoginResult;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
+import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyInfo;
+import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyListResult;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
+import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.BLInputCountdownView;
 import cn.com.broadlink.blappsdkdemo.view.BLProgressDialog;
@@ -159,7 +165,24 @@ public class AccountVerifyCodeLoginActivity extends TitleActivity {
         protected BLLoginResult doInBackground(String... params) {
             account = params[0];
             verifyCode = params[1];
-            return BLAccount.fastLogin(account, "+" + mCountryCode, verifyCode);
+            final BLLoginResult loginResult = BLAccount.fastLogin(account, "+" + mCountryCode, verifyCode);
+            if (loginResult!=null && loginResult.succeed()) {
+                
+                //存储登陆成功返回的 userId 和 loginSession ，便于下次直接登陆使用
+                BLApplication.mBLUserInfoUnits.login(loginResult.getUserid(), loginResult.getLoginsession(),
+                        loginResult.getNickname(), loginResult.getIconpath(), loginResult.getLoginip(),
+                        loginResult.getLogintime(), loginResult.getSex(), null, loginResult.getPhone(), loginResult.getEmail(), loginResult.getBirthday());
+                
+                // 默认取得家庭列表第一个家庭
+                BLSFamilyListResult result = BLSFamilyManager.getInstance().queryFamilyList();
+                if (result != null && result.succeed() && result.getData() != null) {
+                    final List<BLSFamilyInfo> familyList = result.getData().getFamilyList();
+                    if (familyList != null && familyList.size() > 0) {
+                        BLLocalFamilyManager.getInstance().setCurrentFamilyInfo(familyList.get(0));
+                    }
+                }
+            }
+            return loginResult;
         }
 
         @Override
@@ -169,11 +192,6 @@ public class AccountVerifyCodeLoginActivity extends TitleActivity {
             
             if (loginResult != null && loginResult.getError() == BLAppSdkErrCode.SUCCESS) {
 
-                //存储登陆成功返回的 userId 和 loginSession ，便于下次直接登陆使用
-                BLApplication.mBLUserInfoUnits.login(loginResult.getUserid(), loginResult.getLoginsession(),
-                        loginResult.getNickname(), loginResult.getIconpath(), loginResult.getLoginip(),
-                        loginResult.getLogintime(), loginResult.getSex(), null, loginResult.getPhone(), loginResult.getEmail(), loginResult.getBirthday());
-                
                 setResult(RESULT_OK);
                 AccountVerifyCodeLoginActivity.this.finish();
             } else if (loginResult != null && loginResult.getError() != BLAppSdkErrCode.SUCCESS) {

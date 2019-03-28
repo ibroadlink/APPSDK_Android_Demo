@@ -19,6 +19,7 @@ import cn.com.broadlink.blappsdkdemo.common.BLBitmapUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLImageLoaderUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLUserInfoUnits;
+import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 
 
@@ -73,7 +74,8 @@ public class AccountAndSecurityActivity extends TitleActivity {
             @Override
             public void doOnClick(View v) {
                 BLApplication.mBLUserInfoUnits.loginOut();
-
+                BLLocalFamilyManager.getInstance().setCurrentFamilyInfo(null);
+                
                 Intent intent = new Intent();
                 intent.setClass(AccountAndSecurityActivity.this, AccountMainActivity.class);
                 startActivity(intent);

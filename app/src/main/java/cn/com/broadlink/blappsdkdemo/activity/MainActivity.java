@@ -13,18 +13,19 @@ import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.account.AccountAndSecurityActivity;
 import cn.com.broadlink.blappsdkdemo.activity.account.AccountMainActivity;
+import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.check.NetworkCheckActivity;
 import cn.com.broadlink.blappsdkdemo.activity.device.DevMainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.family.FamilyListActivity;
 import cn.com.broadlink.blappsdkdemo.activity.irCode.IRCodeMainActivity;
-import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.product.ProductCategoryListActivity;
 import cn.com.broadlink.blappsdkdemo.common.AppExitHelper;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
-import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
+import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.mvp.presenter.BLPushServicePresenter;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
+import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
@@ -39,9 +40,9 @@ public class MainActivity extends TitleActivity {
         setTitle(R.string.Main_View);
 
         addDevice();
-        
+
         findView();
-        
+
         setListener();
 
         BLPushServicePresenter.getInstance(mActivity).reportPushServiceToken();
@@ -56,8 +57,8 @@ public class MainActivity extends TitleActivity {
         mProductManageBtn = (Button) findViewById(R.id.btn_product_manage);
     }
 
-    private void setListener(){
-        
+    private void setListener() {
+
         setRightButtonOnClickListener("Reset", getResources().getColor(R.color.bl_yellow_main_color), new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
@@ -68,9 +69,9 @@ public class MainActivity extends TitleActivity {
         mDeviceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, DevMainActivity.class);
-                startActivity(intent);
+                if (checkLoginAndFamily(true)) {
+                    BLCommonUtils.toActivity(MainActivity.this, DevMainActivity.class);
+                }
             }
         });
 
@@ -95,12 +96,8 @@ public class MainActivity extends TitleActivity {
             @Override
             public void onClick(View v) {
 
-                if (BLApplication.mBLUserInfoUnits.checkAccountLogin()) {
-                    Intent intent = new Intent();
-                    intent.setClass(MainActivity.this, FamilyListActivity.class);
-                    startActivity(intent);
-                } else {
-                    BLCommonUtils.toastShow(MainActivity.this, "Please Login First!");
+                if (checkLoginAndFamily(false)) {
+                    BLCommonUtils.toActivity(MainActivity.this, FamilyListActivity.class);
                 }
             }
         });
@@ -109,12 +106,8 @@ public class MainActivity extends TitleActivity {
             @Override
             public void onClick(View v) {
 
-                if (BLApplication.mBLUserInfoUnits.checkAccountLogin()) {
-                    Intent intent = new Intent();
-                    intent.setClass(MainActivity.this, IRCodeMainActivity.class);
-                    startActivity(intent);
-                } else {
-                    BLCommonUtils.toastShow(MainActivity.this, "Please Login First!");
+                if (checkLoginAndFamily(true)) {
+                    BLCommonUtils.toActivity(MainActivity.this, IRCodeMainActivity.class);
                 }
             }
         });
@@ -122,9 +115,7 @@ public class MainActivity extends TitleActivity {
         mNetworkCheckBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, NetworkCheckActivity.class);
-                startActivity(intent);
+                BLCommonUtils.toActivity(MainActivity.this, NetworkCheckActivity.class);
             }
         });
 
@@ -134,6 +125,19 @@ public class MainActivity extends TitleActivity {
                 BLCommonUtils.toActivity(mActivity, ProductCategoryListActivity.class);
             }
         });
+    }
+
+    private boolean checkLoginAndFamily(boolean needFamily) {
+        final boolean isLogin = BLApplication.mBLUserInfoUnits.checkAccountLogin();
+        final boolean isFamilySelect = BLLocalFamilyManager.getInstance().getCurrentFamilyId() != null;
+        if (!isLogin) {
+            BLCommonUtils.toastShow(MainActivity.this, "Please login first!");
+            return false;
+        }else if(needFamily && !isFamilySelect){
+            BLCommonUtils.toastShow(MainActivity.this, "Please select a family first!");
+            return false;
+        }
+        return true;
     }
 
     private void addDevice() {

@@ -83,7 +83,7 @@ public class DevGatewayManageActivity extends TitleActivity {
                             mPid = BLCommonUtils.deviceType2Pid(mEtPid.getText().toString());
                         }
                     }
-                    Log.d("mPid", mPid);
+                    Log.d("mPid", JSON.toJSONString(mPid, true));
                 }
             });
         return ret;

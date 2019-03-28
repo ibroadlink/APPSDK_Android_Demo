@@ -6,14 +6,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.List;
+
 import cn.com.broadlink.account.BLAccount;
 import cn.com.broadlink.base.BLAppSdkErrCode;
 import cn.com.broadlink.base.BLLoginResult;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
+import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyInfo;
+import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyListResult;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
+import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.BLProgressDialog;
 import cn.com.broadlink.blappsdkdemo.view.InputTextView;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
@@ -99,6 +105,20 @@ public class AccountUserNameLoginActivity extends TitleActivity {
 
             loginResult = BLAccount.login(userName, userPassword);
             if (loginResult != null) {
+                
+                //存储登陆成功返回的 userId 和 loginSession ，便于下次直接登陆使用
+                BLApplication.mBLUserInfoUnits.login(loginResult.getUserid(), loginResult.getLoginsession(),
+                        loginResult.getNickname(), loginResult.getIconpath(), loginResult.getLoginip(),
+                        loginResult.getLogintime(), loginResult.getSex(), null, loginResult.getPhone(), loginResult.getEmail(), loginResult.getBirthday());
+                
+                // 默认取得家庭列表第一个家庭
+                BLSFamilyListResult result = BLSFamilyManager.getInstance().queryFamilyList();
+                if (result != null && result.succeed() && result.getData() != null) {
+                    final List<BLSFamilyInfo> familyList = result.getData().getFamilyList();
+                    if (familyList != null && familyList.size() > 0) {
+                        BLLocalFamilyManager.getInstance().setCurrentFamilyInfo(familyList.get(0));
+                    }
+                }
                 return true;
             }
             return false;
@@ -111,11 +131,6 @@ public class AccountUserNameLoginActivity extends TitleActivity {
 
             mBLProgressDialog.dismiss();
             if (loginResult != null && loginResult.getError() == BLAppSdkErrCode.SUCCESS && hasData != null) {
-
-                //存储登陆成功返回的 userId 和 loginSession ，便于下次直接登陆使用
-                BLApplication.mBLUserInfoUnits.login(loginResult.getUserid(), loginResult.getLoginsession(),
-                        loginResult.getNickname(), loginResult.getIconpath(), loginResult.getLoginip(),
-                        loginResult.getLogintime(), loginResult.getSex(), null, loginResult.getPhone(), loginResult.getEmail(), loginResult.getBirthday());
                 
                 setResult(RESULT_OK);
                 AccountUserNameLoginActivity.this.finish();

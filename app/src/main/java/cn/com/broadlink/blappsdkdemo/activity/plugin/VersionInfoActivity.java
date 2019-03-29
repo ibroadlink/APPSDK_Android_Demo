@@ -7,6 +7,7 @@ import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLLog;
 import cn.com.broadlink.sdk.BLLet;
 
 public class VersionInfoActivity extends TitleActivity {
@@ -34,6 +35,9 @@ public class VersionInfoActivity extends TitleActivity {
         mTvCloudVersion.setText("5.2.1");
         mTvSdkLid.setText(BLLet.getLicenseId());
         mTvSdkUid.setText(BLApplication.mBLUserInfoUnits.getUserid());
+
+        BLLog.d("version-lid", BLLet.getLicenseId());
+        BLLog.d("version-uid", BLApplication.mBLUserInfoUnits.getUserid());
     }
 
     private void initView() {

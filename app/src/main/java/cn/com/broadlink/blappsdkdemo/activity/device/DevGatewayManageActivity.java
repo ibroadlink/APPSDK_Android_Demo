@@ -13,8 +13,10 @@ import android.widget.EditText;
 
 import com.alibaba.fastjson.JSON;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
@@ -22,8 +24,11 @@ import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLFileUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLStorageUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
+import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
@@ -31,7 +36,11 @@ import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLD
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.result.controller.BLSubDevAddResult;
+import cn.com.broadlink.sdk.result.controller.BLSubDevBackupResult;
 import cn.com.broadlink.sdk.result.controller.BLSubDevListResult;
+import cn.com.broadlink.sdk.result.controller.BLSubDevRestoreParam;
+import cn.com.broadlink.sdk.result.controller.BLSubDevRestoreResult;
+import cn.com.broadlink.sdk.result.controller.BLSubSevBackupInfo;
 
 public class DevGatewayManageActivity extends TitleActivity {
 
@@ -41,6 +50,8 @@ public class DevGatewayManageActivity extends TitleActivity {
     private Button mBtGetScanNewList;
     private Button mBtGetList;
     private Button mBtQueryAddResult;
+    private Button mBtSubdevBackup;
+    private Button mBtSubdevRestore;
     private RecyclerView mRvList;
     private EditText mEtPid;
     
@@ -165,6 +176,33 @@ public class DevGatewayManageActivity extends TitleActivity {
                 return false;
             }
         });
+        
+        mBtSubdevBackup.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                new SubDevBackupTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, 100, 0);
+            }
+        });
+        
+        mBtSubdevRestore.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                final ArrayList<String> backupDidList = BLCommonUtils.readFileNameList(BLStorageUtils.TEMP_PATH);
+                if (backupDidList.size() == 0) {
+                    BLToastUtils.show("No backup file found!");
+                    return;
+                }
+                
+                String[] items = backupDidList.toArray(new String[backupDidList.size()]);
+                BLListAlert.showAlert(mActivity, "Select the did to restore", items, new BLListAlert.OnItemClickLister() {
+                    @Override
+                    public void onClick(int whichButton) {
+                        new SubDevRestoreTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, backupDidList.get(whichButton));
+                    }
+                });
+            }
+            
+        });
     }
 
     private void initView() {
@@ -183,7 +221,6 @@ public class DevGatewayManageActivity extends TitleActivity {
             }else{
                 mTvResult.setText(JSON.toJSONString(result, true));
             }
-
         }
     }
     
@@ -194,6 +231,8 @@ public class DevGatewayManageActivity extends TitleActivity {
         mBtQueryAddResult = (Button) findViewById(R.id.bt_query_add_result);
         mBtGetScanNewList = (Button) findViewById(R.id.bt_get_scan_new_list);
         mBtGetList = (Button) findViewById(R.id.bt_get_list);
+        mBtSubdevBackup = (Button) findViewById(R.id.bt_subdev_backup);
+        mBtSubdevRestore = (Button) findViewById(R.id.bt_subdev_restore);
         mRvList = (RecyclerView) findViewById(R.id.rv_list);
         mEtPid = (EditText) findViewById(R.id.et_pid);
     }
@@ -437,5 +476,132 @@ public class DevGatewayManageActivity extends TitleActivity {
             showResult(downloadResult);
         }
     }
+
+
+    private class SubDevBackupTask extends AsyncTask<Integer, Void, BLSubDevBackupResult> {
+        
+        String fileName = BLStorageUtils.TEMP_PATH + File.separator + mDNADevice.getDid();
+        
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("Backup Sub Devices...");
+        }
+
+        @Override
+        protected BLSubDevBackupResult doInBackground(Integer... params) {
+            final ArrayList<BLSubSevBackupInfo> blSubSevBackupInfos = new ArrayList<>();
+            
+            int count = params[0];
+            int index = params[1];
+            final BLSubDevBackupResult blSubDevBackupResult = exportSubList(blSubSevBackupInfos, count, index);
+            if(blSubDevBackupResult !=null && blSubDevBackupResult.succeed()){
+                blSubDevBackupResult.list.addAll(blSubSevBackupInfos);
+            }
+
+            BLFileUtils.saveStringToFile(JSON.toJSONString(blSubSevBackupInfos, true), fileName);
+            
+            return blSubDevBackupResult;
+        }
+
+        private BLSubDevBackupResult exportSubList(ArrayList<BLSubSevBackupInfo> blSubSevBackupInfos, int count, int index) {
+            final BLSubDevBackupResult blSubDevBackupResult = BLLet.Controller.subDevBackup(mDNADevice.getDid(), count, index);
+            if(blSubDevBackupResult !=null && blSubDevBackupResult.succeed()){
+                if(blSubDevBackupResult.list != null){
+                    final int size = blSubDevBackupResult.list.size();
+                    
+                    if(index + size < count && size==8){
+                        blSubSevBackupInfos.addAll(blSubDevBackupResult.list);
+                        exportSubList(blSubSevBackupInfos, count - size, index + size);
+                    }
+                }
+            }
+            return blSubDevBackupResult;
+        }
+
+        @Override
+        protected void onPostExecute(BLSubDevBackupResult result) {
+            super.onPostExecute(result);
+            dismissProgressDialog();
+
+            if(result !=null && result.succeed()){
+                BLToastUtils.show("Backup file: " + fileName);
+            }
+            
+            showResult(result);
+        }
+    }
+
+    private class SubDevRestoreTask extends AsyncTask<String, Void, BLSubDevRestoreResult> {
+
+        String fileName = null;
+        int msgid = new Random().nextInt(99999);
+        int index = 0;
+        int total = 0;
+        
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("Restore Sub Devices...");
+        }
+
+        @Override
+        protected BLSubDevRestoreResult doInBackground(String... params) {
+
+            String did = params[0];
+            fileName = BLStorageUtils.TEMP_PATH + File.separator + did;
+            final String data = BLFileUtils.readTextFileContent(fileName);
+
+            final List<BLSubSevBackupInfo> subList = JSON.parseArray(data, BLSubSevBackupInfo.class);
+            if (subList != null) {
+                total = subList.size();
+                return importSubList(subList, 0, total);
+            }
+
+            return null;
+        }
+
+        private BLSubDevRestoreResult importSubList(List<BLSubSevBackupInfo> blSubSevBackupInfos, int index, int total) {
+            final BLSubDevRestoreParam blSubDevRestoreParam = new BLSubDevRestoreParam();
+            blSubDevRestoreParam.msgid = msgid;
+            blSubDevRestoreParam.index = index;
+            blSubDevRestoreParam.total = total;
+
+            final ArrayList<BLSubSevBackupInfo> realSendList = new ArrayList<>();
+            int realSendCnt = 0;
+            
+            if (index + 8 < total) {
+                realSendCnt = 8;
+            }else{
+                realSendCnt = total - index;
+            }
+            
+            for (int i = 0; i < realSendCnt; i++) {
+                realSendList.add(blSubSevBackupInfos.get(index + i));
+            }
+            
+            blSubDevRestoreParam.list.addAll(realSendList);
+            
+            final BLSubDevRestoreResult blSubDevBackupResult = BLLet.Controller.subDevRestore(mDNADevice.getDid(), blSubDevRestoreParam);
+            if(blSubDevBackupResult !=null && blSubDevBackupResult.succeed()){
+                if(realSendCnt + index < total){
+                    importSubList(blSubSevBackupInfos, realSendCnt + index, total);
+                }
+            }
+            return blSubDevBackupResult;
+        }
+
+        @Override
+        protected void onPostExecute(BLSubDevRestoreResult result) {
+            super.onPostExecute(result);
+            dismissProgressDialog();
+            if(result == null){
+                showResult("restore failed, please check file: " + fileName);
+            }else{
+                showResult(result);
+            }
+        }
+    }
+    
     
 }

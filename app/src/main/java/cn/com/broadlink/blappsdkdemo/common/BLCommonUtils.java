@@ -17,11 +17,13 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -491,6 +493,20 @@ public class BLCommonUtils {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    /** 读出目录下所有文件（不递归） **/
+    public static ArrayList<String> readFileNameList(String folderPath){
+        final ArrayList<String> ret = new ArrayList<>();
+        final File folderFile = new File(folderPath);
+        if(!folderFile.isDirectory()){
+            return ret;
+        }
+        
+        for(File item : folderFile.listFiles()){
+            ret.add(item.getName());
+        }
+        return ret;
     }
 }
 

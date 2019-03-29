@@ -64,6 +64,16 @@
         android:id="@+id/bt_get_list"
         style="@style/commonBtn"
         android:text="Query Added Sub Devices"/>
+    
+    <Button
+        android:id="@+id/bt_subdev_backup"
+        style="@style/commonBtn"
+        android:text="Sub Device Backup"/>
+    
+    <Button
+        android:id="@+id/bt_subdev_restore"
+        style="@style/commonBtn"
+        android:text="Sub Device Restore"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_list"

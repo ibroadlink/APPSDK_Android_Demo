@@ -91,9 +91,13 @@ public class ResetActivity extends TitleActivity {
                 PreferencesUtils.putString(mActivity, "license", license);
                 PreferencesUtils.putBoolean(mActivity, "cluster", mSwtCluster.isChecked());
 
+                //重新初始化sdk
+                mApplication.sdkInit();
+                
                 Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                startActivity(intent); 
+                
             }
         });
     }

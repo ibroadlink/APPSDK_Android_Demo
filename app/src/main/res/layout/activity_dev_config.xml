@@ -101,6 +101,9 @@
         android:gravity="top|left"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"/>
+        android:minHeight="100dp"
+        android:background="@drawable/shape_input_view_blue_bg"
+        android:textColor="#333"
+        android:layout_margin="10dp"/>
 
 </LinearLayout>

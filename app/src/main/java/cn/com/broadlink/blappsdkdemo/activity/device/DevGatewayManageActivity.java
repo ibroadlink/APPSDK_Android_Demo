@@ -187,14 +187,14 @@ public class DevGatewayManageActivity extends TitleActivity {
         mBtSubdevRestore.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                final ArrayList<String> backupDidList = BLCommonUtils.readFileNameList(BLStorageUtils.TEMP_PATH);
+                final ArrayList<String> backupDidList = BLCommonUtils.readFileNameList(BLStorageUtils.SUB_DEV_BACKUP_PATH);
                 if (backupDidList.size() == 0) {
                     BLToastUtils.show("No backup file found!");
                     return;
                 }
                 
                 String[] items = backupDidList.toArray(new String[backupDidList.size()]);
-                BLListAlert.showAlert(mActivity, "Select the did to restore", items, new BLListAlert.OnItemClickLister() {
+                BLListAlert.showAlert(mActivity, "Select the did to restore. File in /sdcard/broadlink/blTool/SharedData/SubdevBackup", items, new BLListAlert.OnItemClickLister() {
                     @Override
                     public void onClick(int whichButton) {
                         new SubDevRestoreTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, backupDidList.get(whichButton));
@@ -480,7 +480,7 @@ public class DevGatewayManageActivity extends TitleActivity {
 
     private class SubDevBackupTask extends AsyncTask<Integer, Void, BLSubDevBackupResult> {
         
-        String fileName = BLStorageUtils.TEMP_PATH + File.separator + mDNADevice.getDid();
+        String fileName = BLStorageUtils.SUB_DEV_BACKUP_PATH + File.separator + mDNADevice.getDid();
         
         @Override
         protected void onPreExecute() {
@@ -549,7 +549,7 @@ public class DevGatewayManageActivity extends TitleActivity {
         protected BLSubDevRestoreResult doInBackground(String... params) {
 
             String did = params[0];
-            fileName = BLStorageUtils.TEMP_PATH + File.separator + did;
+            fileName = BLStorageUtils.SUB_DEV_BACKUP_PATH + File.separator + did;
             final String data = BLFileUtils.readTextFileContent(fileName);
 
             final List<BLSubSevBackupInfo> subList = JSON.parseArray(data, BLSubSevBackupInfo.class);

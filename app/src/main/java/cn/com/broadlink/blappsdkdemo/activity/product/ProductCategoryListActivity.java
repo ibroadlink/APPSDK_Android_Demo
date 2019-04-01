@@ -9,16 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import cn.com.broadlink.blappsdkdemo.R;
@@ -36,21 +33,20 @@ import cn.com.broadlink.blappsdkdemo.db.data.DNAKitDirInfo;
 import cn.com.broadlink.blappsdkdemo.mvp.presenter.BLProductPresenter;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.utils.http.BLHttpErrCode;
+import cn.com.broadlink.blappsdkdemo.view.BLNoScrollGridView;
 import cn.com.broadlink.blappsdkdemo.view.BLProgressDialog;
-
-import static cn.com.broadlink.blappsdkdemo.common.BLDevSrvConstans.Protocol.RM_CLOUD_IRCODE_PRODUCT;
 
 
 public class ProductCategoryListActivity extends TitleActivity {
     //常用产品列表保存SD卡文件名称
     private static final String OFTEN_DEVICE_LIST_FILE = "OftenProduct";
 
-    private LinearLayout mOftenLayout;
-    private GridView mOftenGridView, mProduceListGridView;
+    private TextView mTvOften;
+    private BLNoScrollGridView mOftenGridView, mProduceListGridView;
     private TextView mProductTitle;
 
     private BLProductPresenter mProductManager;
-    private List<ProductInfoResult.ProductDninfo> mOftemList = new ArrayList<>();
+    private List<ProductInfoResult.ProductDninfo> mOftenList = new ArrayList<>();
     private List<DNAKitDirInfo> mAddDeviceList = new ArrayList<>();
 
     private ClassifyAdapter mClassifyAdapter;
@@ -87,16 +83,16 @@ public class ProductCategoryListActivity extends TitleActivity {
         mClassifyAdapter = new ClassifyAdapter(ProductCategoryListActivity.this, mAddDeviceList);
         mProduceListGridView.setAdapter(mClassifyAdapter);
 
-        mOftenAdapter = new ProductAdapter(ProductCategoryListActivity.this, mOftemList);
+        mOftenAdapter = new ProductAdapter(ProductCategoryListActivity.this, mOftenList);
         mOftenGridView.setAdapter(mOftenAdapter);
 
         queryColumnList();
     }
 
     private void finView() {
-        mOftenLayout = (LinearLayout) findViewById(R.id.often_layout);
-        mProduceListGridView = (GridView) findViewById(R.id.product_listview);
-        mOftenGridView = (GridView) findViewById(R.id.often_listview);
+        mTvOften = (TextView) findViewById(R.id.tv_often);
+        mProduceListGridView = (BLNoScrollGridView) findViewById(R.id.product_listview);
+        mOftenGridView = (BLNoScrollGridView) findViewById(R.id.often_listview);
         mProductTitle = (TextView) findViewById(R.id.tv_product_title);
     }
 
@@ -112,7 +108,7 @@ public class ProductCategoryListActivity extends TitleActivity {
         mOftenGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                new QueryModelDetailTask().execute(mOftemList.get(position).getPid());
+                new QueryModelDetailTask().execute(mOftenList.get(position).getPid());
             }
         });
     }
@@ -160,14 +156,17 @@ public class ProductCategoryListActivity extends TitleActivity {
                     String content = "";
                     List<ProductInfoResult.ProductDninfo> hotProdcuts = new ArrayList<>();
                     if (result.getHotproducts() != null) {
-                        //过滤pid和保存映射列表
-                        for (ProductInfoResult.ProductDninfo productDninfo : result.getHotproducts()) {
-                            if (TextUtils.isEmpty(productDninfo.getMappid())) {
-                                hotProdcuts.add(productDninfo);
-                            } else if (productDninfo.getMappid().equals(productDninfo.getPid())) {
-                                hotProdcuts.add(productDninfo);
-                            }
-                        }
+                        
+//                        //过滤pid和保存映射列表
+//                        for (ProductInfoResult.ProductDninfo productDninfo : result.getHotproducts()) {
+//                            if (TextUtils.isEmpty(productDninfo.getMappid())) {
+//                                hotProdcuts.add(productDninfo);
+//                            } else if (productDninfo.getMappid().equals(productDninfo.getPid())) {
+//                                hotProdcuts.add(productDninfo);
+//                            }
+//                        }
+
+                        hotProdcuts.addAll(result.getHotproducts());
                     }
                     content = JSON.toJSONString(hotProdcuts);
 
@@ -247,20 +246,20 @@ public class ProductCategoryListActivity extends TitleActivity {
         }
 
         //刷新常用设备
-        mOftemList.clear();
+        mOftenList.clear();
         String filePath = BLStorageUtils.PRODUCT_LIST_PATH + OFTEN_DEVICE_LIST_FILE + BLCommonUtils.getLanguage();
         String content = BLFileUtils.getStringByFile(filePath);
         if (!TextUtils.isEmpty(content)) {
            List oftemProductsList =  JSON.parseArray(content, ProductInfoResult.ProductDninfo.class);
-           //去除协议为14的设备
-            Iterator<ProductInfoResult.ProductDninfo> iteator = oftemProductsList.iterator();
-            while(iteator.hasNext()){
-                ProductInfoResult.ProductDninfo productDninfo = iteator.next();
-                if(RM_CLOUD_IRCODE_PRODUCT.equals(productDninfo.getProtocol())){
-                    iteator.remove();
-                }
-            }
-            mOftemList.addAll(oftemProductsList);
+//           //去除协议为14的设备
+//            Iterator<ProductInfoResult.ProductDninfo> iteator = oftemProductsList.iterator();
+//            while(iteator.hasNext()){
+//                ProductInfoResult.ProductDninfo productDninfo = iteator.next();
+//                if(RM_CLOUD_IRCODE_PRODUCT.equals(productDninfo.getProtocol())){
+//                    iteator.remove();
+//                }
+//            }
+            mOftenList.addAll(oftemProductsList);
         }
 
 
@@ -268,11 +267,13 @@ public class ProductCategoryListActivity extends TitleActivity {
     }
 
     private void refreshView() {
-        mOftenLayout.setVisibility(!mOftemList.isEmpty() ? View.VISIBLE : View.GONE);
+        mTvOften.setVisibility(!mOftenList.isEmpty() ? View.VISIBLE : View.GONE);
 
         mOftenAdapter.notifyDataSetChanged();
         mClassifyAdapter.notifyDataSetChanged();
     }
+    
+    
 
     //添加设备的适配器
     private class ClassifyAdapter extends ArrayAdapter<DNAKitDirInfo> {

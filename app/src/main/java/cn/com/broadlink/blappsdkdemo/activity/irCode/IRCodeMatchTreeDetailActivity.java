@@ -217,6 +217,8 @@ public class IRCodeMatchTreeDetailActivity extends TitleActivity {
 
                     }
                 });
+            }else{
+                BLCommonUtils.toastErr(result);
             }
         }
     }

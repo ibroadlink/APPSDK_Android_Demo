@@ -37,6 +37,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
     private Button mBtRm;
     private Button mBtServeTime;
     private Button mBtQueryConnectServer;
+    private Button mBtStressTest;
 
     private BLDNADevice mDNADevice;
     
@@ -68,6 +69,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         mBtRm.setOnClickListener(this);
         mBtServeTime.setOnClickListener(this);
         mBtQueryConnectServer.setOnClickListener(this);
+        mBtStressTest.setOnClickListener(this);
     }
 
     private void initView() {
@@ -88,6 +90,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         mBtRm = (Button) findViewById(R.id.bt_rm);
         mBtServeTime = (Button) findViewById(R.id.bt_query_sever_time);
         mBtQueryConnectServer = (Button) findViewById(R.id.bt_server);
+        mBtStressTest = (Button) findViewById(R.id.bt_stress_test);
     }
 
     @Override
@@ -170,6 +173,10 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
                 
             case R.id.bt_rm:
                 BLCommonUtils.toActivity(mActivity, DevRmIrControlActivity.class, mDNADevice);
+                break;
+                
+            case R.id.bt_stress_test:
+                BLCommonUtils.toActivity(mActivity, DevStressTestActivity.class, mDNADevice);
                 break;
         }
     }

@@ -127,6 +127,31 @@ public class BLFileUtils {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * 写文件
+	 * @param fileName
+	 * @param content
+	 * @param isAppend true表示以追加形式写文件
+	 * @return
+	 */
+	public static int writeFile(String fileName, String content, Boolean isAppend ) {
+		try {
+			File file = new File(fileName);
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+			FileWriter writer = new FileWriter(fileName, isAppend);
+			writer.write(content);
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return -1;
+		}
+		return 0;
+	}
 	
 	/**
 	 * 从文件读取字符串

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:padding="10dp"
+              android:layout_height="match_parent">
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:id="@+id/et_cmd"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="Cmd. default: dev_ctrl"
+        android:background="@drawable/input_bg_round_tran_gray" />
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="@string/str_data_example"
+        app:text="@string/str_data"
+        android:background="@drawable/input_bg_round_tran_gray" />
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_send_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="Send Count. Default: 1"
+        android:background="@drawable/input_bg_round_tran_gray" />
+
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_interval"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="Interval(/ms). Default: 1000"
+        android:background="@drawable/input_bg_round_tran_gray" />
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_delay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="Delay(/ms). Default: 1000"
+        android:background="@drawable/input_bg_round_tran_gray" />
+</LinearLayout>

@@ -1471,4 +1471,6 @@
     <string name="version_info">Version Info</string>
     <string name="add_parts">Add accessories</string>
     <string name="str_official_cooperation">Official brand partnership</string>
+    <string name="str_data_example">Data. eg: {\"prop\":\"stdctrl\",\"act\":\"set\",\"params\":[\"pwr\"],\"vals\":[[{\"val\":1,\"idx\":1}]]}</string>
+    <string name="str_data">{\"prop\":\"stdctrl\",\"act\":\"set\",\"params\":[\"pwr\"],\"vals\":[[{\"val\":1,\"idx\":1}]]}</string>
 </resources>

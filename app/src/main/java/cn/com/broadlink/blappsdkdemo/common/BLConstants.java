@@ -39,6 +39,8 @@ public class BLConstants {
     public static final String FILE_MS1 = "MS1";
     //子设备备份
     public static final String FILE_SUB_DEV_BACKUP = "SubdevBackup";
+    //子设备备份
+    public static final String FILE_STRESS_TEST_LOG_PATH = "StressTestLog";
     //家庭文件夹名称
     public static final String FILE_FAMILY = "Family";
     //离线图标

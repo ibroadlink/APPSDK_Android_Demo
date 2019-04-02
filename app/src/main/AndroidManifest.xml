@@ -215,6 +215,9 @@
         <activity
             android:name=".activity.account.AccountModifyPhoneOrEmailActivity"
             android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.device.DevStressTestActivity"
+            android:theme="@style/ActivityStyle"/>
     </application>
 
 </manifest>

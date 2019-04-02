@@ -29,6 +29,7 @@ import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 public class InputTextView extends LinearLayout {
     private EditText mEditText;
     private String mEditHint;
+    private String mEditValue;
     private TextWatcher mTextWatcher;
     
     public InputTextView(Context context) {
@@ -51,6 +52,7 @@ public class InputTextView extends LinearLayout {
     private void getAttrs(Context context, AttributeSet attrs){
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.InputTextView);
         mEditHint = array.getString(R.styleable.InputTextView_hint);
+        mEditValue = array.getString(R.styleable.InputTextView_text);
     }
 
     private void init(Context context) {
@@ -64,11 +66,13 @@ public class InputTextView extends LinearLayout {
         layoutParams.weight = 1;
         layoutParams.setMargins(0,16,0,0);
         mEditText.setTextColor(Color.rgb(108, 109, 104));
-        mEditText.setSingleLine();
+        //mEditText.setSingleLine();
         mEditText.setLayoutParams(layoutParams);
         mEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         if(mEditHint != null && !mEditHint.equals(""))
             mEditText.setHint(mEditHint);
+        if(mEditValue != null && !mEditValue.equals(""))
+            mEditText.setText(mEditValue);
         addView(mEditText);
 
         final ImageView deleteButton = new ImageView(context);

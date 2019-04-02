@@ -55,6 +55,9 @@ public class BLStorageUtils {
 	/** 子设备备份路径 **/
 	public static String SUB_DEV_BACKUP_PATH = "";
 
+	/** 压力测试日志路径 **/
+	public static String STRESS_TEST_LOG_PATH = "";
+
 	/** 离线图标 **/
 	public static String OFF_LINE_ICON = "";
 
@@ -126,6 +129,7 @@ public class BLStorageUtils {
 //		SCRIPTS_PATH = SHARED_PATH + File.separator + BLConstants.FILE_SCRIPTS;
 		MS1_PATH = SHARED_PATH + File.separator + BLConstants.FILE_MS1;
 		SUB_DEV_BACKUP_PATH = SHARED_PATH + File.separator + BLConstants.FILE_SUB_DEV_BACKUP;
+		STRESS_TEST_LOG_PATH = SHARED_PATH + File.separator + BLConstants.FILE_STRESS_TEST_LOG_PATH;
 //		DRPS_PATH = SHARED_PATH + File.separator + BLConstants.FILE_DRPS;
 		FAMILY_PATH = SHARED_PATH + File.separator + BLConstants.FILE_FAMILY;
 
@@ -150,6 +154,7 @@ public class BLStorageUtils {
 //		new File(SCRIPTS_PATH).mkdirs();
 		new File(MS1_PATH).mkdirs();
 		new File(SUB_DEV_BACKUP_PATH).mkdirs();
+		new File(STRESS_TEST_LOG_PATH).mkdirs();
 //		new File(DRPS_PATH).mkdirs();
 		new File(FAMILY_PATH).mkdirs();
 	}

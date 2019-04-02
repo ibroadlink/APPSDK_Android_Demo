@@ -35,10 +35,10 @@ import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
+import cn.com.broadlink.sdk.param.controller.BLSubDevRestoreParam;
 import cn.com.broadlink.sdk.result.controller.BLSubDevAddResult;
 import cn.com.broadlink.sdk.result.controller.BLSubDevBackupResult;
 import cn.com.broadlink.sdk.result.controller.BLSubDevListResult;
-import cn.com.broadlink.sdk.result.controller.BLSubDevRestoreParam;
 import cn.com.broadlink.sdk.result.controller.BLSubDevRestoreResult;
 import cn.com.broadlink.sdk.result.controller.BLSubSevBackupInfo;
 
@@ -251,6 +251,7 @@ public class DevGatewayManageActivity extends TitleActivity {
         }
     }
 
+    /** 开始扫描子设备 **/
     private class StartScanTask extends AsyncTask<String, Void, BLBaseResult> {
 
         @Override
@@ -272,6 +273,7 @@ public class DevGatewayManageActivity extends TitleActivity {
         }
     }
     
+    /** 停止扫描子设备 **/
     private class StopScanTask extends AsyncTask<String, Void, BLBaseResult> {
 
         @Override
@@ -293,6 +295,7 @@ public class DevGatewayManageActivity extends TitleActivity {
         }
     }
     
+    /** 查询扫描到的待添加设备 **/
     private class GetNewSubDevsTask extends AsyncTask<String, Void, BLSubDevListResult> {
 
         @Override
@@ -322,6 +325,7 @@ public class DevGatewayManageActivity extends TitleActivity {
         }
     }
     
+    /** 查询已添加的子设备列表 **/
     private class GetAddedSubDevsTask extends AsyncTask<String, Void, BLSubDevListResult> {
 
         @Override
@@ -397,7 +401,7 @@ public class DevGatewayManageActivity extends TitleActivity {
         }
     }
     
-    
+    /** 添加子设备 **/
     private class AddSubDevTask extends AsyncTask<Integer, Void, BLBaseResult> {
 
         @Override
@@ -420,7 +424,7 @@ public class DevGatewayManageActivity extends TitleActivity {
         }
     }
     
-    
+    /** 删除子设备 **/
     private class DelSubDevTask extends AsyncTask<Integer, Void, BLBaseResult> {
 
         @Override
@@ -445,6 +449,7 @@ public class DevGatewayManageActivity extends TitleActivity {
         }
     }
 
+    /** 查询添加结果（固件中异步去下载脚本，所以要主动轮询） **/
     private class QueryAddResult extends AsyncTask<Integer, Void, BLSubDevAddResult> {
 
         @Override
@@ -477,7 +482,7 @@ public class DevGatewayManageActivity extends TitleActivity {
         }
     }
 
-
+    /** 备份子设备列表 **/
     private class SubDevBackupTask extends AsyncTask<Integer, Void, BLSubDevBackupResult> {
         
         String fileName = BLStorageUtils.SUB_DEV_BACKUP_PATH + File.separator + mDNADevice.getDid();
@@ -496,22 +501,21 @@ public class DevGatewayManageActivity extends TitleActivity {
             int index = params[1];
             final BLSubDevBackupResult blSubDevBackupResult = exportSubList(blSubSevBackupInfos, count, index);
             if(blSubDevBackupResult !=null && blSubDevBackupResult.succeed()){
-                blSubDevBackupResult.list.addAll(blSubSevBackupInfos);
+                blSubDevBackupResult.getList().addAll(blSubSevBackupInfos);
+                BLFileUtils.saveStringToFile(JSON.toJSONString(blSubSevBackupInfos, true), fileName);
             }
 
-            BLFileUtils.saveStringToFile(JSON.toJSONString(blSubSevBackupInfos, true), fileName);
-            
             return blSubDevBackupResult;
         }
 
         private BLSubDevBackupResult exportSubList(ArrayList<BLSubSevBackupInfo> blSubSevBackupInfos, int count, int index) {
             final BLSubDevBackupResult blSubDevBackupResult = BLLet.Controller.subDevBackup(mDNADevice.getDid(), count, index);
             if(blSubDevBackupResult !=null && blSubDevBackupResult.succeed()){
-                if(blSubDevBackupResult.list != null){
-                    final int size = blSubDevBackupResult.list.size();
+                if(blSubDevBackupResult.getList() != null){
+                    final int size = blSubDevBackupResult.getList().size();
                     
                     if(index + size < count && size==8){
-                        blSubSevBackupInfos.addAll(blSubDevBackupResult.list);
+                        blSubSevBackupInfos.addAll(blSubDevBackupResult.getList());
                         exportSubList(blSubSevBackupInfos, count - size, index + size);
                     }
                 }
@@ -532,6 +536,7 @@ public class DevGatewayManageActivity extends TitleActivity {
         }
     }
 
+    /** 还原自设备列表 **/
     private class SubDevRestoreTask extends AsyncTask<String, Void, BLSubDevRestoreResult> {
 
         String fileName = null;

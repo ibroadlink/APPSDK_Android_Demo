@@ -127,87 +127,6 @@ public class ProductCategoryListActivity extends TitleActivity {
         startActivity(intent);
     }
 
-    //获取DNA产品目录
-    private class GetDNAKitDirListTask extends AsyncTask<Void, Void, GetDNAKitDirResult> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-         showProgressDialog("Loading...");
-        } 
-        
-        @Override
-        protected GetDNAKitDirResult doInBackground(Void... params) {
-            return mProductManager.queryProductCategoryList(ProductCategoryListActivity.this, null);
-        }
-
-        @Override
-        protected void onPostExecute(GetDNAKitDirResult result) {
-            super.onPostExecute(result);
-
-            dismissProgressDialog();
-            if (result != null && result.getStatus() == BLHttpErrCode.SUCCESS) {
-                if (result.getCategorylist() != null) {
-                    saveCategoryList(result.getCategorylist());
-                }
-                if (result.getHotproducts() != null) {
-                    //保存常用设备
-                    String filePath = BLStorageUtils.PRODUCT_LIST_PATH + OFTEN_DEVICE_LIST_FILE + BLCommonUtils.getLanguage();
-                    String content = "";
-                    List<ProductInfoResult.ProductDninfo> hotProdcuts = new ArrayList<>();
-                    if (result.getHotproducts() != null) {
-                        
-//                        //过滤pid和保存映射列表
-//                        for (ProductInfoResult.ProductDninfo productDninfo : result.getHotproducts()) {
-//                            if (TextUtils.isEmpty(productDninfo.getMappid())) {
-//                                hotProdcuts.add(productDninfo);
-//                            } else if (productDninfo.getMappid().equals(productDninfo.getPid())) {
-//                                hotProdcuts.add(productDninfo);
-//                            }
-//                        }
-
-                        hotProdcuts.addAll(result.getHotproducts());
-                    }
-                    content = JSON.toJSONString(hotProdcuts);
-
-                    BLFileUtils.saveStringToFile(content, filePath);
-                }
-
-                queryColumnList();
-            }
-        }
-    }
-
-    //获取产品详情
-    private class QueryModelDetailTask extends AsyncTask<String, Void, ProductInfoResult> {
-        BLProgressDialog progressDialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = BLProgressDialog.createDialog(ProductCategoryListActivity.this, R.string.str_common_loading);
-            progressDialog.show();
-        }
-
-        @Override
-        protected ProductInfoResult doInBackground(String... params) {
-            String pid = params[0];
-            return mProductManager.queryProducInfo(ProductCategoryListActivity.this, pid);
-        }
-
-        @Override
-        protected void onPostExecute(ProductInfoResult result) {
-            super.onPostExecute(result);
-            if (ProductCategoryListActivity.this.isFinishing()) {
-                return;
-            }
-            progressDialog.dismiss();
-            if (result !=null && result.getStatus() == BLHttpErrCode.SUCCESS) {
-               toConfigActivity(result.getProductinfo());
-            }
-        }
-    }
-
     public void toConfigActivity(ProductInfoResult.ProductDninfo productinfo) {
         toConfigWiFiDev(productinfo);
     }
@@ -251,17 +170,8 @@ public class ProductCategoryListActivity extends TitleActivity {
         String content = BLFileUtils.getStringByFile(filePath);
         if (!TextUtils.isEmpty(content)) {
            List oftemProductsList =  JSON.parseArray(content, ProductInfoResult.ProductDninfo.class);
-//           //去除协议为14的设备
-//            Iterator<ProductInfoResult.ProductDninfo> iteator = oftemProductsList.iterator();
-//            while(iteator.hasNext()){
-//                ProductInfoResult.ProductDninfo productDninfo = iteator.next();
-//                if(RM_CLOUD_IRCODE_PRODUCT.equals(productDninfo.getProtocol())){
-//                    iteator.remove();
-//                }
-//            }
             mOftenList.addAll(oftemProductsList);
         }
-
 
         refreshView();
     }
@@ -273,9 +183,7 @@ public class ProductCategoryListActivity extends TitleActivity {
         mClassifyAdapter.notifyDataSetChanged();
     }
     
-    
 
-    //添加设备的适配器
     private class ClassifyAdapter extends ArrayAdapter<DNAKitDirInfo> {
         private BLImageLoaderUtils mBlImageLoaderUtils;
 
@@ -309,7 +217,6 @@ public class ProductCategoryListActivity extends TitleActivity {
         }
     }
 
-    //添加设备的适配器
     private class ProductAdapter extends ArrayAdapter<ProductInfoResult.ProductDninfo> {
         private BLImageLoaderUtils mBlImageLoaderUtils;
 
@@ -342,4 +249,76 @@ public class ProductCategoryListActivity extends TitleActivity {
             ImageView deviceIcon;
         }
     }
+
+    //获取DNA产品目录
+    private class GetDNAKitDirListTask extends AsyncTask<Void, Void, GetDNAKitDirResult> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("Loading...");
+        }
+
+        @Override
+        protected GetDNAKitDirResult doInBackground(Void... params) {
+            return mProductManager.queryProductCategoryList(ProductCategoryListActivity.this, null);
+        }
+
+        @Override
+        protected void onPostExecute(GetDNAKitDirResult result) {
+            super.onPostExecute(result);
+
+            dismissProgressDialog();
+            if (result != null && result.getStatus() == BLHttpErrCode.SUCCESS) {
+                if (result.getCategorylist() != null) {
+                    saveCategoryList(result.getCategorylist());
+                }
+                if (result.getHotproducts() != null) {
+                    //保存常用设备
+                    String filePath = BLStorageUtils.PRODUCT_LIST_PATH + OFTEN_DEVICE_LIST_FILE + BLCommonUtils.getLanguage();
+                    String content = "";
+                    List<ProductInfoResult.ProductDninfo> hotProdcuts = new ArrayList<>();
+                    if (result.getHotproducts() != null) {
+                        hotProdcuts.addAll(result.getHotproducts());
+                    }
+                    content = JSON.toJSONString(hotProdcuts);
+
+                    BLFileUtils.saveStringToFile(content, filePath);
+                }
+
+                queryColumnList();
+            }
+        }
+    }
+
+    //获取产品详情
+    private class QueryModelDetailTask extends AsyncTask<String, Void, ProductInfoResult> {
+        BLProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = BLProgressDialog.createDialog(ProductCategoryListActivity.this, R.string.str_common_loading);
+            progressDialog.show();
+        }
+
+        @Override
+        protected ProductInfoResult doInBackground(String... params) {
+            String pid = params[0];
+            return mProductManager.queryProducInfo(ProductCategoryListActivity.this, pid);
+        }
+
+        @Override
+        protected void onPostExecute(ProductInfoResult result) {
+            super.onPostExecute(result);
+            if (ProductCategoryListActivity.this.isFinishing()) {
+                return;
+            }
+            progressDialog.dismiss();
+            if (result !=null && result.getStatus() == BLHttpErrCode.SUCCESS) {
+                toConfigActivity(result.getProductinfo());
+            }
+        }
+    }
+
 }

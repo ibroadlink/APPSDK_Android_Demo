@@ -71,7 +71,7 @@ public class DevStressTestActivity extends TitleActivity {
     /** 循环第几次 **/
     private int mOutSideIndex = 0;
     /** 循环次数 **/
-    private int mCycleCount = 0;
+    private long mCycleCount = 0;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -279,12 +279,17 @@ public class DevStressTestActivity extends TitleActivity {
         BLAlert.showEditDilog(mActivity, "Recycle how many times? ", "1", new BLAlert.BLEditDialogOnClickListener() {
             @Override
             public void onClink(String value) {
-                mCycleCount = Integer.parseInt(value);
-                
-                mBtStart.setEnabled(false);
-                mBtStop.setEnabled(true);
-                mTestThread = new Thread(mTestRunnable);
-                mTestThread.start();
+                try {
+                    mCycleCount = Long.parseLong(value);
+
+                    mBtStart.setEnabled(false);
+                    mBtStop.setEnabled(true);
+                    mTestThread = new Thread(mTestRunnable);
+                    mTestThread.start();
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    BLToastUtils.show("Param invalid or too big!");
+                }
             }
 
             @Override

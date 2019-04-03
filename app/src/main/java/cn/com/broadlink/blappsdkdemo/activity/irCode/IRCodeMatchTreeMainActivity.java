@@ -51,7 +51,7 @@ public class IRCodeMatchTreeMainActivity extends TitleActivity {
         setBackWhiteVisible();
         setTitle("Match Tree");
 
-        mIrTreeResult = (RmIrTreeResult) getIntent().getSerializableExtra(BLConstants.INTENT_SERIALIZABLE);
+        mIrTreeResult = getIntent().getParcelableExtra(BLConstants.INTENT_PARCELABLE);
         mDeviceType = getIntent().getIntExtra(BLConstants.INTENT_VALUE, BLConstants.BL_IRCODE_DEVICE_AC);
         
         if (mIrTreeResult == null) {

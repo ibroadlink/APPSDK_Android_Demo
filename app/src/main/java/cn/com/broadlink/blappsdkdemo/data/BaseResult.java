@@ -1,11 +1,11 @@
 package cn.com.broadlink.blappsdkdemo.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class BaseResult {
+public class BaseResult implements Parcelable {
     private int error = -1;
-
     private int status = -1;
-
     private String msg;
 
     public int getError() {
@@ -35,4 +35,23 @@ public class BaseResult {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    @Override
+    public int describeContents() { return 0; }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.error);
+        dest.writeInt(this.status);
+        dest.writeString(this.msg);
+    }
+
+    public BaseResult() {}
+
+    protected BaseResult(Parcel in) {
+        this.error = in.readInt();
+        this.status = in.readInt();
+        this.msg = in.readString();
+    }
+
 }

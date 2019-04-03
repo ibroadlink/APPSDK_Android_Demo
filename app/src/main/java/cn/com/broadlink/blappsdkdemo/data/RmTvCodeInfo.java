@@ -1,11 +1,10 @@
 package cn.com.broadlink.blappsdkdemo.data;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class RmTvCodeInfo implements Serializable {
+public class RmTvCodeInfo implements Parcelable {
 	
-	private static final long serialVersionUID = -4112756562744530258L;
-
 	private byte[] code;
 	
 	private String function;
@@ -125,4 +124,48 @@ public class RmTvCodeInfo implements Serializable {
 	public void setChannelId(int channelId) {
 		this.channelId = channelId;
 	}
+
+	@Override
+	public int describeContents() { return 0; }
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeByteArray(this.code);
+		dest.writeString(this.function);
+		dest.writeString(this.id);
+		dest.writeString(this.subIRId);
+		dest.writeString(this.name);
+		dest.writeLong(this.order);
+		dest.writeLong(this.value);
+		dest.writeLong(this.index);
+		dest.writeInt(this.type);
+		dest.writeString(this.backgroud);
+		dest.writeString(this.extend);
+		dest.writeInt(this.channelId);
+	}
+
+	public RmTvCodeInfo() {}
+
+	protected RmTvCodeInfo(Parcel in) {
+		this.code = in.createByteArray();
+		this.function = in.readString();
+		this.id = in.readString();
+		this.subIRId = in.readString();
+		this.name = in.readString();
+		this.order = in.readLong();
+		this.value = in.readLong();
+		this.index = in.readLong();
+		this.type = in.readInt();
+		this.backgroud = in.readString();
+		this.extend = in.readString();
+		this.channelId = in.readInt();
+	}
+
+	public static final Parcelable.Creator<RmTvCodeInfo> CREATOR = new Parcelable.Creator<RmTvCodeInfo>() {
+		@Override
+		public RmTvCodeInfo createFromParcel(Parcel source) {return new RmTvCodeInfo(source);}
+
+		@Override
+		public RmTvCodeInfo[] newArray(int size) {return new RmTvCodeInfo[size];}
+	};
 }

@@ -651,7 +651,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
 
     private void gotoNextActivity(RmIrTreeResult blResponseResult) {
         final Intent intent = new Intent(mActivity, IRCodeMatchTreeMainActivity.class);
-        intent.putExtra(BLConstants.INTENT_SERIALIZABLE, blResponseResult);
+        intent.putExtra(BLConstants.INTENT_PARCELABLE, blResponseResult);
         intent.putExtra(BLConstants.INTENT_VALUE, mDeviceType);
         startActivity(intent);
     }

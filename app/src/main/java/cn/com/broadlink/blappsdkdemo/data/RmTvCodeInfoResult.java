@@ -1,15 +1,15 @@
 package cn.com.broadlink.blappsdkdemo.data;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class RmTvCodeInfoResult implements Serializable {
+public class RmTvCodeInfoResult implements Parcelable {
 
 	private long irId;
 	
-	private static final long serialVersionUID = 463551991019422811L;
-
 	private String brand;
 	
 	private String id;
@@ -87,5 +87,40 @@ public class RmTvCodeInfoResult implements Serializable {
 	public void setIrId(long irId) {
 		this.irId = irId;
 	}
-	
+
+	@Override
+	public int describeContents() { return 0; }
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeLong(this.irId);
+		dest.writeString(this.brand);
+		dest.writeString(this.id);
+		dest.writeString(this.model);
+		dest.writeString(this.name);
+		dest.writeLong(this.num);
+		dest.writeLong(this.type);
+		dest.writeTypedList(this.functionList);
+	}
+
+	public RmTvCodeInfoResult() {}
+
+	protected RmTvCodeInfoResult(Parcel in) {
+		this.irId = in.readLong();
+		this.brand = in.readString();
+		this.id = in.readString();
+		this.model = in.readString();
+		this.name = in.readString();
+		this.num = in.readLong();
+		this.type = in.readLong();
+		this.functionList = in.createTypedArrayList(RmTvCodeInfo.CREATOR);
+	}
+
+	public static final Parcelable.Creator<RmTvCodeInfoResult> CREATOR = new Parcelable.Creator<RmTvCodeInfoResult>() {
+		@Override
+		public RmTvCodeInfoResult createFromParcel(Parcel source) {return new RmTvCodeInfoResult(source);}
+
+		@Override
+		public RmTvCodeInfoResult[] newArray(int size) {return new RmTvCodeInfoResult[size];}
+	};
 }

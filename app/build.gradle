@@ -19,7 +19,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
-        versionName "1.1"
+        versionName "1.1.1"
         flavorDimensions "default"
         
         ndk {
@@ -75,21 +75,22 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     
     // normal start
-    //implementation 'com.ibroadlink:BLLetCoreAndroid:2.9.6'
-    //implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.3'
-    //implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.10.4'
+    implementation 'com.ibroadlink:BLLetCoreAndroid:2.10.1'
+    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.3'
+    implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.10.4'
     // normal end
     
-    // fot test start
-    implementation ('com.ibroadlink:BLLetAccountAndroid:2.8.3')
-    implementation project(':ircode')
-    configurations {
-        all*.exclude group:'com.ibroadlink',  module:'BLLetCoreAndroid'
-    }
-    // fot test end
+    // fot local debug start
+//    implementation fileTree(include: ['*.aar'], dir: 'libs')
+//    implementation ('com.ibroadlink:BLLetAccountAndroid:2.8.3')
+//    implementation project(':ircode')
+//    configurations {
+//        all*.exclude group:'com.ibroadlink',  module:'BLLetCoreAndroid'
+//    }
+    // fot local debug end
     
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'

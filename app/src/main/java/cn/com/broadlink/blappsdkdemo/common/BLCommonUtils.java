@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.BuildConfig;
 import cn.com.broadlink.blappsdkdemo.data.BaseResult;
+import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
 /**
  * Created by YeJin on 2016/5/9.
@@ -508,6 +509,15 @@ public class BLCommonUtils {
             ret.add(item.getName());
         }
         return ret;
+    }
+
+    /**
+     * 解析设备did & subDid
+     */
+    public String[] parseDidOrSubDid(BLDNADevice dev) {
+        String devDid = TextUtils.isEmpty(dev.getpDid()) ? dev.getDid() : dev.getpDid();
+        String subDid = TextUtils.isEmpty(dev.getpDid()) ? null : dev.getDid();
+        return new String[]{devDid, subDid};
     }
     
     /**

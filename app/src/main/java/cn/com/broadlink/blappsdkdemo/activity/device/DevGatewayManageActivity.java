@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.alibaba.fastjson.JSON;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,6 +28,9 @@ import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLFileUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLStorageUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
+import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
+import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
+import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
@@ -36,11 +40,13 @@ import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLD
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.param.controller.BLSubDevRestoreParam;
+import cn.com.broadlink.sdk.result.controller.BLPairResult;
 import cn.com.broadlink.sdk.result.controller.BLSubDevAddResult;
 import cn.com.broadlink.sdk.result.controller.BLSubDevBackupResult;
 import cn.com.broadlink.sdk.result.controller.BLSubDevListResult;
 import cn.com.broadlink.sdk.result.controller.BLSubDevRestoreResult;
 import cn.com.broadlink.sdk.result.controller.BLSubSevBackupInfo;
+import cn.com.broadlink.sdk.result.controller.BLSubdevResult;
 
 public class DevGatewayManageActivity extends TitleActivity {
 
@@ -412,8 +418,52 @@ public class DevGatewayManageActivity extends TitleActivity {
 
         @Override
         protected BLBaseResult doInBackground(Integer... params) {
-            
-            return BLLet.Controller.subDevAdd(mDNADevice.getDid(), mSubDeviceList.get(params[0]));
+
+            final BLDNADevice subDevInfo = mSubDeviceList.get(params[0]);
+            final BLSubdevResult blSubdevResult = BLLet.Controller.subDevAdd(mDNADevice.getDid(), subDevInfo);
+            if (blSubdevResult != null && blSubdevResult.succeed()) {
+                if(subDevInfo.getMac() != null){
+                    BLPairResult pairResult = BLLet.Controller.pair(subDevInfo);
+                    if (pairResult.succeed()) {
+                        subDevInfo.setId(pairResult.getId());
+                        subDevInfo.setKey(pairResult.getKey());
+
+                        try {
+                            BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
+                            BLDeviceInfo deviceInfo = new BLDeviceInfo(subDevInfo);
+                            List<BLDeviceInfo> list = new ArrayList<>();
+                            list.add(deviceInfo);
+                            blDeviceInfoDao.insertData(list);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        BLLocalDeviceManager.getInstance().addDeviceIntoSDK(subDevInfo);
+                    }else{
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                BLToastUtils.show("Pair fail, try again!");
+                            }
+                        });
+                    }   
+                }else{
+                    try {
+                        String mac = subDevInfo.getDid().substring(20, 32);
+                        subDevInfo.setMac(BLCommonUtils.formatMac(mac));
+                        
+                        BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
+                        BLDeviceInfo deviceInfo = new BLDeviceInfo(subDevInfo);
+                        List<BLDeviceInfo> list = new ArrayList<>();
+                        list.add(deviceInfo);
+                        blDeviceInfoDao.insertData(list);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    BLLocalDeviceManager.getInstance().addDeviceIntoSDK(subDevInfo);
+                }
+               
+            }
+            return blSubdevResult;
         }
 
         @Override

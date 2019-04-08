@@ -76,11 +76,11 @@ public class DevStressTestActivity extends TitleActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); // 保持屏幕常亮
         setContentView(R.layout.activity_dev_stress_test);
         setBackWhiteVisible();
         setTitle("Stress Test");
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); // 保持屏幕常亮
         
         mDNADevice = getIntent().getParcelableExtra(BLConstants.INTENT_PARCELABLE);
         
@@ -111,7 +111,9 @@ public class DevStressTestActivity extends TitleActivity {
                 switch (msg.what) {
                     case 0:
                         
-                        final StringBuilder sb = new StringBuilder();
+                        final StringBuilder sb = new StringBuilder(1000);
+                        
+                        // 缓存每个命令执行的结果，result[0] - 执行总数， result[1] - 执行失败次数
                         List<int[]> result = new ArrayList<>();
                         
                         sb.append("Recycle Total ").append(mCycleCount).append(", now ").append(mOutSideIndex).append("\n\n");
@@ -121,9 +123,12 @@ public class DevStressTestActivity extends TitleActivity {
                             final List<BLStressTestResultBean> cycleItemResult = mResultList.get(j);
                             
                             for (int i = 0; i <cycleItemResult.size(); i++) {
-                                if(result.size()<=i){
+                                
+                                // 初始化
+                                if (i >= result.size()) {
                                     result.add(new int[]{0,0});
                                 }
+                                
                                 final int totalCount = cycleItemResult.get(i).totalCount;
                                 final int failCount = cycleItemResult.get(i).failCount;
                                 result.get(i)[0] += totalCount;
@@ -132,7 +137,9 @@ public class DevStressTestActivity extends TitleActivity {
                         }
 
                         for (int i = 0; i < mCmdList.size(); i++) {
-                            if(result.size()<=i)break;
+                            
+                            //还未执行的命令，不显示统计结果
+                            if (i >= result.size()) break;
                             
                             final int totalCount =  result.get(i)[0];
                             final int failCount =  result.get(i)[1];
@@ -323,13 +330,13 @@ public class DevStressTestActivity extends TitleActivity {
         }
 
         @Override
-        public void onBindViewHolder(BLBaseViewHolder holder, final int position) {
+        public void onBindViewHolder(final BLBaseViewHolder holder, int position) {
             super.onBindViewHolder(holder, position);
             holder.setText(R.id.tv_cmd, JSON.toJSONString(mBeans.get(position), true));
             holder.get(R.id.bt_del).setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void doOnClick(View v) {
-                    mBeans.remove(position);
+                    mBeans.remove(holder.getAdapterPosition());
                     notifyDataSetChanged();
                 }
             });

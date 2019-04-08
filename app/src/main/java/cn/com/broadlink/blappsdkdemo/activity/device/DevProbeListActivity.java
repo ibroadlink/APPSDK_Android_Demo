@@ -83,15 +83,15 @@ public class DevProbeListActivity extends TitleActivity {
 
         mLocalDeviceManager = BLLocalDeviceManager.getInstance();
         final boolean isAdd2Family = FamilyModuleListActivity.class.getSimpleName().equals(mFromWhere);
+        mAdd2SdkDevs = mLocalDeviceManager.getDevicesAddInSDK();
         if(!isAdd2Family){
-            mAdd2SdkDevs = mLocalDeviceManager.getDevicesAddInSDK();
             for (BLDNADevice item : mLocalDeviceManager.getLocalDevices()) {
                 if (!isContain(item)) {
                     mDevices.add(item);
                 }
             }
         }else{
-            mDevices = mLocalDeviceManager.getLocalDevices();
+            mDevices.addAll(mAdd2SdkDevs);
         }
     }
 

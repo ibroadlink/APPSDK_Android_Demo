@@ -20,17 +20,17 @@ import java.util.List;
 
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
+import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.family.FamilyModuleListActivity;
+import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
 import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSEndpointInfo;
 import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSQueryRoomListResult;
 import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSRoomInfo;
-import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
-import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
+import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceListener;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
@@ -58,7 +58,7 @@ public class DevProbeListActivity extends TitleActivity {
     private String mFromWhere = null;
     private List<BLSRoomInfo> blsRoomInfos = new ArrayList<>();
     private int mSelection = -1;
-
+    private boolean mIsAdd2Family = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,9 +82,10 @@ public class DevProbeListActivity extends TitleActivity {
         }
 
         mLocalDeviceManager = BLLocalDeviceManager.getInstance();
-        final boolean isAdd2Family = FamilyModuleListActivity.class.getSimpleName().equals(mFromWhere);
+        mIsAdd2Family = FamilyModuleListActivity.class.getSimpleName().equals(mFromWhere);
         mAdd2SdkDevs = mLocalDeviceManager.getDevicesAddInSDK();
-        if(!isAdd2Family){
+        
+        if(!mIsAdd2Family){
             for (BLDNADevice item : mLocalDeviceManager.getLocalDevices()) {
                 if (!isContain(item)) {
                     mDevices.add(item);
@@ -120,68 +121,67 @@ public class DevProbeListActivity extends TitleActivity {
                 add2SdkOrFamily(position);
             }
         });
-
-        mLocalDeviceManager.setBlLocalDeviceListener(new BLLocalDeviceListener() {
-            @Override
-            public void deviceChange() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDevices = mLocalDeviceManager.getLocalDevices();
-                        mDeviceAdapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        });
-
-        checkRunnable = new Runnable() {
-            @Override
-            public void run() {
-
-                mDevices = mLocalDeviceManager.getLocalDevices();
-                mDeviceAdapter.notifyDataSetChanged();
-                checkHandler.postDelayed(this, 5 * 1000);
-            }
-        };
-        checkHandler.postDelayed(checkRunnable, 5 * 1000);
+        if(!mIsAdd2Family){
+            mLocalDeviceManager.setBlLocalDeviceListener(new BLLocalDeviceListener() {
+                @Override
+                public void deviceChange() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mDevices = mLocalDeviceManager.getLocalDevices();
+                            mDeviceAdapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+            });
+    
+            checkRunnable = new Runnable() {
+                @Override
+                public void run() {
+    
+                    mDevices = mLocalDeviceManager.getLocalDevices();
+                    mDeviceAdapter.notifyDataSetChanged();
+                    checkHandler.postDelayed(this, 5 * 1000);
+                }
+            };
+            checkHandler.postDelayed(checkRunnable, 5 * 1000);
+        }
     }
 
     private void add2SdkOrFamily(final int position) {
         mSelection = position;
         final BLDNADevice device = mDevices.get(position);
-        final boolean isAdd2Family = FamilyModuleListActivity.class.getSimpleName().equals(mFromWhere);
-        final String message = "Add device " + device.getName() + (isAdd2Family ? " into Family?" : " into SDK?");
+        final String message = "Add device " + device.getName() + (mIsAdd2Family ? " into Family?" : " into SDK?");
         BLAlert.showDialog(DevProbeListActivity.this, message, new BLAlert.DialogOnClickListener() {
             @Override
             public void onPositiveClick() {
-                BLPairResult pairResult = BLLet.Controller.pair(device);
-                if (pairResult.succeed()) {
-                    device.setId(pairResult.getId());
-                    device.setKey(pairResult.getKey());
-
-                    try {
-                        BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
-                        BLDeviceInfo deviceInfo = new BLDeviceInfo(device);
-                        List<BLDeviceInfo> list = new ArrayList<>();
-                        list.add(deviceInfo);
-                        blDeviceInfoDao.insertData(list);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                    mLocalDeviceManager.addDeviceIntoSDK(device);
-
-                 
-                    if(isAdd2Family){ // 添加设备到家庭
-                        if(blsRoomInfos.size()>0){
-                            selectRoom2Add();
-                        }else{
-                            new QueryRoomListTask().execute();
-                        }
+                if(mIsAdd2Family){ // 添加设备到家庭
+                    if(blsRoomInfos.size()>0){
+                        selectRoom2Add();
                     }else{
-                        BLToastUtils.show("Add device to sdk success!");
+                        new QueryRoomListTask().execute();
                     }
-                }else{
-                    BLCommonUtils.toastErr(pairResult);
+                }else{ // 添加设备到SDK
+                    BLPairResult pairResult = BLLet.Controller.pair(device);
+                    if (pairResult.succeed()) {
+                        device.setId(pairResult.getId());
+                        device.setKey(pairResult.getKey());
+
+                        try {
+                            BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
+                            BLDeviceInfo deviceInfo = new BLDeviceInfo(device);
+                            List<BLDeviceInfo> list = new ArrayList<>();
+                            list.add(deviceInfo);
+                            blDeviceInfoDao.insertData(list);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        mLocalDeviceManager.addDeviceIntoSDK(device);
+                        BLToastUtils.show("Add device to sdk success!");
+                        
+                    }else{
+                        BLCommonUtils.toastErr(pairResult);
+                    }
                 }
             }
 

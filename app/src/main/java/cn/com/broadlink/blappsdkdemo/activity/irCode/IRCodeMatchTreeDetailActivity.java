@@ -57,7 +57,7 @@ public class IRCodeMatchTreeDetailActivity extends TitleActivity {
         setBackWhiteVisible();
         setTitle("Match Tree Detail");
 
-        mIrTreeResult = (RmIrTreeResult.IrTree) getIntent().getSerializableExtra(BLConstants.INTENT_SERIALIZABLE);
+        mIrTreeResult = getIntent().getParcelableExtra(BLConstants.INTENT_PARCELABLE);
         mDeviceType = getIntent().getIntExtra(BLConstants.INTENT_VALUE, BLConstants.BL_IRCODE_DEVICE_AC);
         mDev = getIntent().getParcelableExtra(BLConstants.INTENT_DEVICE);
         
@@ -143,7 +143,7 @@ public class IRCodeMatchTreeDetailActivity extends TitleActivity {
     
     private void gotoMatchTreePage(RmIrTreeResult.IrTree data) {
         final Intent intent = new Intent(mActivity, IRCodeMatchTreeDetailActivity.class);
-        intent.putExtra(BLConstants.INTENT_SERIALIZABLE, data);
+        intent.putExtra(BLConstants.INTENT_PARCELABLE, data);
         intent.putExtra(BLConstants.INTENT_VALUE, mDeviceType);
         intent.putExtra(BLConstants.INTENT_DEVICE, mDev);
         startActivity(intent);

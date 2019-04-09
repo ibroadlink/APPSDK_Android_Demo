@@ -117,7 +117,7 @@ public class IRCodeMatchTreeMainActivity extends TitleActivity {
 
     private void gotoMatchTreePage() {
         final Intent intent = new Intent(mActivity, IRCodeMatchTreeDetailActivity.class);
-        intent.putExtra(BLConstants.INTENT_SERIALIZABLE, mIrTreeResult.getRespbody().getMatchtree());
+        intent.putExtra(BLConstants.INTENT_PARCELABLE, mIrTreeResult.getRespbody().getMatchtree());
         intent.putExtra(BLConstants.INTENT_VALUE, mDeviceType);
         intent.putExtra(BLConstants.INTENT_DEVICE, mDev);
         startActivity(intent);

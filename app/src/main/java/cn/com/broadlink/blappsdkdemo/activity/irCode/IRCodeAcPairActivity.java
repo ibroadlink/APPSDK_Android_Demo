@@ -2,6 +2,8 @@ package cn.com.broadlink.blappsdkdemo.activity.irCode;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -9,16 +11,21 @@ import android.widget.EditText;
 
 import com.alibaba.fastjson.JSON;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
+import cn.com.broadlink.blappsdkdemo.data.BLAcOneKeyPairResultInfo;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
+import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
+import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
+import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
 import cn.com.broadlink.ircode.BLIRCode;
 import cn.com.broadlink.ircode.result.BLDownLoadIRCodeResult;
 import cn.com.broadlink.ircode.result.BLIrdaConProductResult;
@@ -30,16 +37,18 @@ public class IRCodeAcPairActivity extends TitleActivity {
 
     private EditText mEtInput;
     private Button mBtOnKeyRec;
-    private Button mBtDownloadScript;
     private Button mBtGetScriptInfo;
     private Button mBtGetIrCode;
     private EditText mTvResult;
+    private RecyclerView mRvList;
     private String mTextIrCode = 
             "2600ca008d950c3b0f1410380e3a0d160e160d3b0d150e150e3910150d160d3a0f36101411380d150f3a0e390d3910370f150f38103a0d3a0e1211140f1411121038101310150f3710380e390e150f160d160e1410140f131113101310380e3b0f351137123611ad8e9210370f1511370e390f140f1410380f1311130f39101211130f390f380f150f390f1310380f3810380f380f141038103710380f1411121014101310380f14101310380f3810381013101311121014101211131014101310370f3910361138103710000d05";
     private String mDownloadUrl;
     private String mScriptRandkey;
     private String mScriptName;
     private String mSavePath;
+    private SubDevAdapter mAdapter;
+    private List<BLAcOneKeyPairResultInfo.DownloadinfoBean> mList= new ArrayList();
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +67,19 @@ public class IRCodeAcPairActivity extends TitleActivity {
     private void findView() {
         mEtInput = (EditText) findViewById(R.id.et_input);
         mBtOnKeyRec = (Button) findViewById(R.id.bt_on_key_rec);
-        mBtDownloadScript = (Button) findViewById(R.id.bt_download_script);
         mBtGetScriptInfo = (Button) findViewById(R.id.bt_get_script_info);
         mBtGetIrCode = (Button) findViewById(R.id.bt_get_ir_code);
         mTvResult = (EditText) findViewById(R.id.et_result);
+        mRvList = (RecyclerView) findViewById(R.id.rv_list);
     }
 
     private void initView() {
         mEtInput.setText(mTextIrCode);
+
+        mAdapter = new SubDevAdapter();
+        mRvList.setAdapter(mAdapter);
+        mRvList.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRvList.addItemDecoration(BLDividerUtil.getDefault(mActivity, mList));
     }
 
     private void setListener() {
@@ -81,17 +95,6 @@ public class IRCodeAcPairActivity extends TitleActivity {
             }
         });
         
-        mBtDownloadScript.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void doOnClick(View v) {
-                if (TextUtils.isEmpty(mDownloadUrl) || TextUtils.isEmpty(mScriptRandkey) || TextUtils.isEmpty(mScriptName) || TextUtils.isEmpty(mSavePath)) {
-                    BLToastUtils.show("Please recognize first!");
-                    return;
-                }
-                new DownLoadScriptTask().execute(mDownloadUrl, mSavePath, mScriptRandkey);
-            }
-        });
-
         mBtGetScriptInfo.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
@@ -106,6 +109,19 @@ public class IRCodeAcPairActivity extends TitleActivity {
                     return;
                 }
                 BLCommonUtils.toActivity(mActivity, IRCodeAcPanelActivity.class, mSavePath);
+            }
+        });
+        
+        mAdapter.setOnItemClickListener(new BLBaseRecyclerAdapter.OnClickListener() {
+            @Override
+            public void onClick(int position, int viewType) {
+                final BLAcOneKeyPairResultInfo.DownloadinfoBean info = mList.get(position);
+                mScriptName = info.name;
+                mDownloadUrl = info.downloadurl;
+                mScriptRandkey = info.fixkey;
+                mSavePath = BLLet.Controller.queryIRCodePath() + File.separator + mScriptName;
+
+                new DownLoadScriptTask().execute(mDownloadUrl, mSavePath, mScriptRandkey);
             }
         });
 
@@ -163,14 +179,13 @@ public class IRCodeAcPairActivity extends TitleActivity {
             
             try {
                 JSONObject jResult = new JSONObject(blBaseBodyResult.getResponseBody());
-                JSONArray infos = jResult.optJSONArray("downloadinfo");
 
-                JSONObject info = infos.getJSONObject(0);
-                mScriptName = info.optString("name", null);
-                mDownloadUrl = info.optString("downloadurl", null);
-                mScriptRandkey = info.optString("fixkey", null);
-                mSavePath = BLLet.Controller.queryIRCodePath() + File.separator + mScriptName;
-
+                final BLAcOneKeyPairResultInfo blAcOneKeyPairResultInfo = JSON.parseObject(jResult.toString(), BLAcOneKeyPairResultInfo.class);
+                if(blAcOneKeyPairResultInfo != null && blAcOneKeyPairResultInfo.downloadinfo!=null){
+                    mList.clear();
+                    mList.addAll(blAcOneKeyPairResultInfo.downloadinfo);
+                    mAdapter.notifyDataSetChanged();
+                }
             } catch (Exception e) {
 
             }
@@ -194,7 +209,25 @@ public class IRCodeAcPairActivity extends TitleActivity {
         protected void onPostExecute(BLDownLoadIRCodeResult blDownloadScriptResult) {
             super.onPostExecute(blDownloadScriptResult);
             dismissProgressDialog();
-            showResult(blDownloadScriptResult);
+            if(blDownloadScriptResult.getSavePath() == null){
+                showResult("Decrypt Script fail!");
+            }else{
+                showResult(blDownloadScriptResult);
+            }
+        }
+    }
+
+    class SubDevAdapter extends BLBaseRecyclerAdapter<BLAcOneKeyPairResultInfo.DownloadinfoBean> {
+
+        public SubDevAdapter() {
+            super(mList, R.layout.item_family_room);
+        }
+
+        @Override
+        public void onBindViewHolder(BLBaseViewHolder holder, final int position) {
+            super.onBindViewHolder(holder, position);
+            holder.setText(R.id.tv_name, "Pid: " + mBeans.get(position).name);
+            holder.setText(R.id.tv_mac, JSON.toJSONString(mBeans.get(position)));
         }
     }
 }

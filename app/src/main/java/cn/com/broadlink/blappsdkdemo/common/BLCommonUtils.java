@@ -12,7 +12,9 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Parcelable;
+import android.support.v4.content.FileProvider;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -532,10 +534,16 @@ public class BLCommonUtils {
         }
         
         Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Uri contentUri = FileProvider.getUriForFile(mContext, "com.broadlink.blappsdkdemo.fileprovider", file);
+            intent.setDataAndType(contentUri, getMIMEType(file));
+        }else{
+            intent.setDataAndType(Uri.fromFile(file), getMIMEType(file));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        
         intent.setAction(Intent.ACTION_VIEW);
-        String type = getMIMEType(file);
-        intent.setDataAndType(/*uri*/Uri.fromFile(file), type);
         mContext.startActivity(intent);
     }
     

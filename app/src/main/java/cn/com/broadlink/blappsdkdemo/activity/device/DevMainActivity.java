@@ -7,11 +7,16 @@ import android.widget.Button;
 
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
+import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 
 public class DevMainActivity extends TitleActivity {
 
-    private Button mConfigBtn, mProbeBtn, mMyDeviceBtn;
-
+    private Button mConfigBtn;
+    private Button mProbeBtn;
+    private Button mMyDeviceBtn;
+    private Button mBtStressTest;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +33,7 @@ public class DevMainActivity extends TitleActivity {
         mConfigBtn = (Button) findViewById(R.id.btn_config_device);
         mProbeBtn = (Button) findViewById(R.id.btn_probe_device);
         mMyDeviceBtn = (Button) findViewById(R.id.btn_my_device);
+        mBtStressTest = (Button) findViewById(R.id.bt_stress_test);
     }
 
     private void setListener(){
@@ -56,6 +62,13 @@ public class DevMainActivity extends TitleActivity {
                 Intent intent = new Intent();
                 intent.setClass(DevMainActivity.this, DevMyDevListActivity.class);
                 startActivity(intent);
+            }
+        });
+        
+        mBtStressTest.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                BLCommonUtils.toActivity(mActivity, DevStressTestActivity.class);
             }
         });
 

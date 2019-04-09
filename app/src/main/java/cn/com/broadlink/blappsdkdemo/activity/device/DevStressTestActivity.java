@@ -26,13 +26,14 @@ import cn.com.broadlink.base.BLDateUtils;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
-import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLFileUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLStorageUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.data.BLStressTestCmdBean;
 import cn.com.broadlink.blappsdkdemo.data.BLStressTestResultBean;
+import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
+import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
 import cn.com.broadlink.blappsdkdemo.view.InputTextView;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
@@ -81,8 +82,6 @@ public class DevStressTestActivity extends TitleActivity {
         setContentView(R.layout.activity_dev_stress_test);
         setBackWhiteVisible();
         setTitle("Stress Test");
-        
-        mDNADevice = getIntent().getParcelableExtra(BLConstants.INTENT_PARCELABLE);
         
         initData();
 
@@ -167,7 +166,7 @@ public class DevStressTestActivity extends TitleActivity {
             }
         };
 
-        mLogFilePath = BLStorageUtils.STRESS_TEST_LOG_PATH + File.separator + mDNADevice.getDid()+".log";
+        mLogFilePath = BLStorageUtils.STRESS_TEST_LOG_PATH + File.separator + BLDateUtils.formatDate(System.currentTimeMillis()) +".log";
 
         mTestRunnable = new TestRunnable();
     }
@@ -183,7 +182,7 @@ public class DevStressTestActivity extends TitleActivity {
         mBtAddItem.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                showAddCmdDialog();
+                selectDevice();
             }
         });
         
@@ -207,6 +206,25 @@ public class DevStressTestActivity extends TitleActivity {
                 BLCommonUtils.openFile(mActivity, new File(mLogFilePath));
             }
         });
+    }
+    
+    private void selectDevice(){
+        final List<BLDNADevice> devicesAddInSDK = BLLocalDeviceManager.getInstance().getDevicesAddInSDK();
+        if (devicesAddInSDK != null && !devicesAddInSDK.isEmpty()) {
+            final String[] dids = new String[devicesAddInSDK.size()];
+            for (int i = 0; i < devicesAddInSDK.size(); i++) {
+                dids[i] = devicesAddInSDK.get(i).getName() + "\n" + devicesAddInSDK.get(i).getDid();
+            }
+            BLListAlert.showAlert(mActivity, "Select a device", dids, new BLListAlert.OnItemClickLister() {
+                @Override
+                public void onClick(int whichButton) {
+                    mDNADevice = devicesAddInSDK.get(whichButton);
+                    showAddCmdDialog();
+                }
+            });
+        } else {
+            BLToastUtils.show("Devices added to sdk is empty, add one first!");
+        }
     }
     
     private void showAddCmdDialog(){
@@ -236,15 +254,16 @@ public class DevStressTestActivity extends TitleActivity {
                     int countInt = !TextUtils.isEmpty(count) ?  Integer.parseInt(count) : 1;
                     int intervalInt = !TextUtils.isEmpty(interval) ?  Integer.parseInt(interval) : 1000;
                     int delayInt = !TextUtils.isEmpty(delay) ?  Integer.parseInt(delay) : 1000;
-                    
-                    mCmdList.add(new BLStressTestCmdBean(cmdStr, data, intervalInt, delayInt, countInt));
+
+                    final String[] dids = BLCommonUtils.parseDidOrSubDid(mDNADevice);
+
+                    mCmdList.add(new BLStressTestCmdBean(dids[0], dids[1], cmdStr, data, intervalInt, delayInt, countInt));
                     mAdapter.notifyDataSetChanged();
                     
                 } catch (NumberFormatException e) {
                     BLToastUtils.show("cmd param invalid!");
                     e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -348,8 +367,6 @@ public class DevStressTestActivity extends TitleActivity {
         @Override
         public void run() {
             initTestFlags();
-            final String did = TextUtils.isEmpty(mDNADevice.getpDid()) ? mDNADevice.getDid() : mDNADevice.getpDid();
-            final String sDid = TextUtils.isEmpty(mDNADevice.getpDid()) ? null : mDNADevice.getDid();
 
             for (int k = 0; k < mCycleCount; k++) {
                 if (k != 0) {
@@ -385,7 +402,7 @@ public class DevStressTestActivity extends TitleActivity {
                         }
 
                         cycleItemResult.get(i).totalCount = j + 1;
-                        final String result = BLLet.Controller.dnaControl(did, sDid, blStressTestCmdBean.data, blStressTestCmdBean.cmd, null);
+                        final String result = BLLet.Controller.dnaControl(blStressTestCmdBean.did, blStressTestCmdBean.sDid, blStressTestCmdBean.data, blStressTestCmdBean.cmd, null);
                         if (mShouldStop) return;
 
                         final BLBaseResult blBaseResult = JSON.parseObject(result, BLBaseResult.class);

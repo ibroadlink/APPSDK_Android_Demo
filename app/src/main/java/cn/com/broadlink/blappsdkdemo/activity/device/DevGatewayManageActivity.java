@@ -480,7 +480,7 @@ public class DevGatewayManageActivity extends TitleActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-          showProgressDialog("Add...");
+          showProgressDialog("Delete...");
         }
 
         @Override

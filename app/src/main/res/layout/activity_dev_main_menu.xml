@@ -146,12 +146,6 @@
             style="@style/commonBtn"
             android:layout_weight="1"
             android:text="Query Connect Server"/>
-        
-        <Button
-            android:id="@+id/bt_stress_test"
-            style="@style/commonBtn"
-            android:layout_weight="1"
-            android:text="Stress Test"/>
 
     </LinearLayout>
     

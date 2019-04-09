@@ -13,26 +13,22 @@ public class BLStressTestCmdBean implements Parcelable {
 
     public String cmd;
     public String data;
+    public String did;
+    public String sDid;
     public int interval;
     public int delay;
     public int sendCount;
 
     public BLStressTestCmdBean() {}
 
-    public BLStressTestCmdBean(String cmd, String data, int interval, int delay, int sendCount) {
+    public BLStressTestCmdBean(String did, String sDid, String cmd, String data, int interval, int delay, int sendCount) {
         this.cmd = cmd;
         this.data = data;
+        this.did = did;
+        this.sDid = sDid;
         this.interval = interval;
         this.delay = delay;
         this.sendCount = sendCount;
-    }
-
-    protected BLStressTestCmdBean(Parcel in) {
-        this.cmd = in.readString();
-        this.data = in.readString();
-        this.interval = in.readInt();
-        this.delay = in.readInt();
-        this.sendCount = in.readInt();
     }
 
     @Override
@@ -42,9 +38,21 @@ public class BLStressTestCmdBean implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.cmd);
         dest.writeString(this.data);
+        dest.writeString(this.did);
+        dest.writeString(this.sDid);
         dest.writeInt(this.interval);
         dest.writeInt(this.delay);
         dest.writeInt(this.sendCount);
+    }
+
+    protected BLStressTestCmdBean(Parcel in) {
+        this.cmd = in.readString();
+        this.data = in.readString();
+        this.did = in.readString();
+        this.sDid = in.readString();
+        this.interval = in.readInt();
+        this.delay = in.readInt();
+        this.sendCount = in.readInt();
     }
 
     public static final Creator<BLStressTestCmdBean> CREATOR = new Creator<BLStressTestCmdBean>() {
@@ -54,5 +62,4 @@ public class BLStressTestCmdBean implements Parcelable {
         @Override
         public BLStressTestCmdBean[] newArray(int size) {return new BLStressTestCmdBean[size];}
     };
-
 }

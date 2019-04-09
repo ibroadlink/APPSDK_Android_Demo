@@ -29,7 +29,11 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:text="@string/My_Device_List"/>
-
+    
+    <Button
+        android:id="@+id/bt_stress_test"
+        style="@style/commonBtn"
+        android:text="Stress Test"/>
 
 </LinearLayout>
 

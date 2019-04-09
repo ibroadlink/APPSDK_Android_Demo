@@ -516,7 +516,7 @@ public class BLCommonUtils {
     /**
      * 解析设备did & subDid
      */
-    public String[] parseDidOrSubDid(BLDNADevice dev) {
+    public static String[] parseDidOrSubDid(BLDNADevice dev) {
         String devDid = TextUtils.isEmpty(dev.getpDid()) ? dev.getDid() : dev.getpDid();
         String subDid = TextUtils.isEmpty(dev.getpDid()) ? null : dev.getDid();
         return new String[]{devDid, subDid};

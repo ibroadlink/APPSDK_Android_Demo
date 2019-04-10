@@ -1435,9 +1435,9 @@
     <string name="account_title_manage">Account Manage</string>
     <string name="common_general_click_again_to_exit">Press again to exit the program</string>
     <string name="common_share_qrcode_valid_for_15min">This QR code is valid in 15 minutes</string>
-    <string name="select_param">Select \nParam</string>
-    <string name="add_param">Add \nParam</string>
-    <string name="paste_param">Paste \nParam</string>
+    <string name="select_param">Select Param</string>
+    <string name="add_param">Add Param</string>
+    <string name="paste_param">Paste Param</string>
 
     <string name="str_common_authorize">Authorize</string>
     <string name="str_authorize_centre">Permission center</string>

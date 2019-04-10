@@ -26,6 +26,7 @@ import java.util.List;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.h5.DeviceH5Activity;
+import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.data.BLControlActConstans;
@@ -61,6 +62,7 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
     private Button mQueryProfile;
     private Button mBtWebContorl;
     private EditText mTvInput;
+    private EditText mEtCmd;
     private BLDNADevice mDNADevice;
 
     private List<DnaParam> mDnaParams = new ArrayList<>();
@@ -102,6 +104,16 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
         mRvParams.setLayoutManager(new LinearLayoutManager(mActivity));
         mRvParams.setAdapter(mAdapter);
     }
+    
+    private void switchParamMode(boolean isSelectMode){
+        mRvParams.setVisibility(!isSelectMode? View.GONE : View.VISIBLE);
+        mEtCmd.setVisibility(isSelectMode? View.GONE : View.VISIBLE);
+        mBtGet.setEnabled(isSelectMode);
+    }
+    
+    private boolean isSelectMode(){
+        return mRvParams.getVisibility() == View.VISIBLE;
+    }
 
     @Override
     public void onClick(View view) {
@@ -111,11 +123,19 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
                 break;
                 
             case R.id.bt_select_param:
-                showAddParamDialogV2();
+                if(!isSelectMode()){
+                    switchParamMode(true);
+                }else{
+                    showAddParamDialogV2();
+                }
                 break;
                 
             case R.id.bt_paste_params:
-                showPasteParamDialog();
+                if(!TextUtils.isEmpty(mEtCmd.getText())){
+                    switchParamMode(false);
+                }else{
+                    showPasteParamDialog();
+                }
                 break;
                 
             case R.id.bt_get:
@@ -123,7 +143,17 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
                 break;
                 
             case R.id.bt_set:
-                new DnaControlTask().execute(BLControlActConstans.ACT_SET);
+                if(isSelectMode()){
+                    new DnaControlTask().execute(BLControlActConstans.ACT_SET); 
+                }else{
+                    if(TextUtils.isEmpty(mEtCmd.getText())){
+                        BLToastUtils.show("input param first!");
+                        mEtCmd.requestFocus();
+                    }else{
+                        new DnaPassThroughControlTask().execute(mEtCmd.getText().toString());
+                    }
+                }
+               
                 break;
                 
             case R.id.query_script_ver:
@@ -166,6 +196,7 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
         mQueryProfile = (Button) findViewById(R.id.query_profile);
         mBtWebContorl = (Button) findViewById(R.id.bt_web_contorl);
         mTvInput = (EditText) findViewById(R.id.et_input);
+        mEtCmd = (EditText) findViewById(R.id.et_cmd);
     }
 
     public void webControl() {
@@ -226,16 +257,19 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
                     final List<Integer> in = intfValue.get(0).getIn();
                     mDnaParams.add(new DnaParam(paramArray[whichButton], in));
                     mAdapter.notifyDataSetChanged();
+                    switchParamMode(true);
                 }
             }
         });
     }
     
     private void showPasteParamDialog(){
-        BLAlert.showEditDilog(mActivity, "Paste the std command string, this will cover the current params", null, new BLAlert.BLEditDialogOnClickListener() {
+        BLAlert.showEditDilog(mActivity, "Paste whole std command, and click set button to send it", null, new BLAlert.BLEditDialogOnClickListener() {
             @Override
             public void onClink(String value) {
-                parseParams(value);
+                //parseParams(value);
+                switchParamMode(false);
+                mEtCmd.setText(value);
             }
 
             @Override
@@ -473,6 +507,33 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
 
         @Override
         protected void onPostExecute(BLStdControlResult result) {
+            super.onPostExecute(result);
+            dismissProgressDialog();
+            showResult(result);
+        }
+    }
+
+    class DnaPassThroughControlTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("Controlling...");
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            mAdapter.flushData();
+
+            String dataStr = params[0];
+            
+            final String[] didOrSubDid = BLCommonUtils.parseDidOrSubDid(mDNADevice);
+            
+            return BLLet.Controller.dnaControl(didOrSubDid[0], didOrSubDid[1], dataStr, "dev_ctrl", null);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
             super.onPostExecute(result);
             dismissProgressDialog();
             showResult(result);

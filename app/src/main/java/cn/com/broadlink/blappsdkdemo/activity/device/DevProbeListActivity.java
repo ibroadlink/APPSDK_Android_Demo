@@ -177,6 +177,8 @@ public class DevProbeListActivity extends TitleActivity {
                             e.printStackTrace();
                         }
                         mLocalDeviceManager.addDeviceIntoSDK(device);
+                        mDevices.remove(position);
+                        mDeviceAdapter.notifyDataSetChanged();
                         BLToastUtils.show("Add device to sdk success!");
                         
                     }else{

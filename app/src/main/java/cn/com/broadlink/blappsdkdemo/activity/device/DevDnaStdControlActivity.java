@@ -63,6 +63,7 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
     private Button mBtWebContorl;
     private EditText mTvInput;
     private EditText mEtCmd;
+    private EditText mEtItf;
     private BLDNADevice mDNADevice;
 
     private List<DnaParam> mDnaParams = new ArrayList<>();
@@ -108,6 +109,7 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
     private void switchParamMode(boolean isSelectMode){
         mRvParams.setVisibility(!isSelectMode? View.GONE : View.VISIBLE);
         mEtCmd.setVisibility(isSelectMode? View.GONE : View.VISIBLE);
+        mEtItf.setVisibility(isSelectMode? View.GONE : View.VISIBLE);
         mBtGet.setEnabled(isSelectMode);
     }
     
@@ -150,7 +152,9 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
                         BLToastUtils.show("input param first!");
                         mEtCmd.requestFocus();
                     }else{
-                        new DnaPassThroughControlTask().execute(mEtCmd.getText().toString());
+                        final String data = mEtCmd.getText().toString();
+                        final String cmd = TextUtils.isEmpty(mEtItf.getText()) ? "dev_ctrl" : mEtItf.getText().toString();
+                        new DnaPassThroughControlTask().execute(data, cmd);
                     }
                 }
                
@@ -197,6 +201,7 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
         mBtWebContorl = (Button) findViewById(R.id.bt_web_contorl);
         mTvInput = (EditText) findViewById(R.id.et_input);
         mEtCmd = (EditText) findViewById(R.id.et_cmd);
+        mEtItf = (EditText) findViewById(R.id.et_itf);
     }
 
     public void webControl() {
@@ -526,17 +531,24 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
             mAdapter.flushData();
 
             String dataStr = params[0];
+            String cmd = params[1];
             
             final String[] didOrSubDid = BLCommonUtils.parseDidOrSubDid(mDNADevice);
             
-            return BLLet.Controller.dnaControl(didOrSubDid[0], didOrSubDid[1], dataStr, "dev_ctrl", null);
+            return BLLet.Controller.dnaControl(didOrSubDid[0], didOrSubDid[1], dataStr, cmd, null);
         }
 
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             dismissProgressDialog();
-            showResult(result);
+
+            final JSONObject jsonObject = JSON.parseObject(result);
+            if(jsonObject != null){
+                showResult(jsonObject);
+            }else{
+                showResult(result);
+            }
         }
     }
 

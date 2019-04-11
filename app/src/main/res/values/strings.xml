@@ -1471,6 +1471,15 @@
     <string name="version_info">Version Info</string>
     <string name="add_parts">Add accessories</string>
     <string name="str_official_cooperation">Official brand partnership</string>
-    <string name="str_data_example">Data. eg: {\"prop\":\"stdctrl\",\"act\":\"set\",\"params\":[\"pwr\"],\"vals\":[[{\"val\":1,\"idx\":1}]]}</string>
+    <string name="str_data_example">Data, Json String</string>
     <string name="str_data">{\"prop\":\"stdctrl\",\"act\":\"set\",\"params\":[\"pwr\"],\"vals\":[[{\"val\":1,\"idx\":1}]]}</string>
+    <string name="str_cmd_devinfo">{\"data\": {\"name\": \"xxx\",\"lock\": false}}</string>
+    <string name="str_cmd_fw_upgrade">{\"hw_url\": \"xxx\"}</string>
+    <string name="str_cmd_fastcon">{\"did\": \"xxx\", \"act\": 1}</string>
+    <string name="str_cmd_new_sub_scan">{\"pid\": \"xxx\"}</string>
+    <string name="str_cmd_new_sub_list">{\"count\": 5, \"index\":0}</string>
+    <string name="str_cmd_sub_add">{\"did\": \"xxx\", \"url\":\"xxx\", \"name\":\"xxx\", \"param\":\"xxx\"}</string>
+    <string name="str_cmd_sub_del">{\"did\": \"xxx\"}</string>
+    <string name="str_cmd_sub_fw_upgrade">{\"did\": \"xxx\", \"hw_url\": \"xxx\"}</string>
+    <string name="str_cmd_sub_mdf">{\"did\": \"xxx\", \"pid\": \"xxx\", \"name\": \"xxx\", \"lock\": false, \"type\":10024}</string>
 </resources>

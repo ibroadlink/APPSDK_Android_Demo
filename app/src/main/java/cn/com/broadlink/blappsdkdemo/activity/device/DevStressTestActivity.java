@@ -10,9 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.alibaba.fastjson.JSON;
 
@@ -40,6 +43,7 @@ import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAda
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
 import cn.com.broadlink.sdk.BLLet;
+import cn.com.broadlink.sdk.constants.controller.BLDevCmdConstants;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
 /**
@@ -73,6 +77,11 @@ public class DevStressTestActivity extends TitleActivity {
     private int mOutSideIndex = 0;
     /** 循环次数 **/
     private long mCycleCount = 0;
+    
+    /** sdk支持的所有指令 **/
+    private List<String> mDnaCmdList = new ArrayList<>();
+    /** sdk支持指令的例程 **/
+    private List<String> mDnaCmdDefaultList = new ArrayList<>();
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -169,6 +178,91 @@ public class DevStressTestActivity extends TitleActivity {
         mLogFilePath = BLStorageUtils.STRESS_TEST_LOG_PATH + File.separator + BLDateUtils.formatDate(System.currentTimeMillis()) +".log";
 
         mTestRunnable = new TestRunnable();
+
+        initDnaCmd();
+    }
+
+    private void initDnaCmd() {
+        mDnaCmdList.add(BLDevCmdConstants.DEV_CTRL);
+        mDnaCmdDefaultList.add(getString(R.string.str_data));
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_PASSTHROUGH);
+        mDnaCmdDefaultList.add("");
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_ONLINE);
+        mDnaCmdDefaultList.add("");
+
+        //mDnaCmdList.add(BLDevCmdConstants.DEV_DATA);
+        //mDnaCmdDefaultList.add("");
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_INFO);
+        mDnaCmdDefaultList.add(getString(R.string.str_cmd_devinfo));
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_FW_VERSION);
+        mDnaCmdDefaultList.add("");
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_FW_UPGRADE);
+        mDnaCmdDefaultList.add(getString(R.string.str_cmd_fw_upgrade));
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_SERVICE_TIMER);
+        mDnaCmdDefaultList.add("");
+
+        //mDnaCmdList.add(BLDevCmdConstants.DEV_GET_CONNECT_SERVICE_INFO);
+        //mDnaCmdDefaultList.add("");
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_FASTCON_NO_CONFIG);
+        mDnaCmdDefaultList.add(getString(R.string.str_cmd_fastcon));
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_NEWSUBDEV_SCAN_START);
+        mDnaCmdDefaultList.add(getString(R.string.str_cmd_new_sub_scan));
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_NEWSUBDEV_SCAN_STOP);
+        mDnaCmdDefaultList.add("");
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_NEWSUBDEV_LIST);
+        mDnaCmdDefaultList.add(getString(R.string.str_cmd_new_sub_list));
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_SUBDEV_ADD);
+        mDnaCmdDefaultList.add(getString(R.string.str_cmd_sub_add));
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_SUBDEV_ADD_RESULT);
+        mDnaCmdDefaultList.add(getString(R.string.str_cmd_sub_del));
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_SUBDEV_LIST);
+        mDnaCmdDefaultList.add(getString(R.string.str_cmd_new_sub_list));
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_SUBDEV_DEL);
+        mDnaCmdDefaultList.add(getString(R.string.str_cmd_sub_del));
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_SUBDEV_BUCKUP);
+        mDnaCmdDefaultList.add(getString(R.string.str_cmd_new_sub_list));
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_SUBDEV_RESTORE);
+        mDnaCmdDefaultList.add("");
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_SUBDEV_UPGRADE);
+        mDnaCmdDefaultList.add(getString(R.string.str_cmd_sub_fw_upgrade));
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_SUBDEV_MODIFY);
+        mDnaCmdDefaultList.add(getString(R.string.str_cmd_sub_mdf));
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_SUBDEV_TIMER);
+        mDnaCmdDefaultList.add("");
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_SUBDEV_VERSION);
+        mDnaCmdDefaultList.add(getString(R.string.str_cmd_sub_del));
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_TASKLIST);
+        mDnaCmdDefaultList.add("");
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_TASKADD);
+        mDnaCmdDefaultList.add("");
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_TASKDEL);
+        mDnaCmdDefaultList.add("");
+
+        mDnaCmdList.add(BLDevCmdConstants.DEV_TASKDATA);
+        mDnaCmdDefaultList.add("");
     }
 
     private void initView() {
@@ -234,6 +328,25 @@ public class DevStressTestActivity extends TitleActivity {
         final InputTextView etCount = dialog.findViewById(R.id.et_send_count);
         final InputTextView etInterval = dialog.findViewById(R.id.et_interval);
         final InputTextView etDelay = dialog.findViewById(R.id.et_delay);
+        final Spinner mSpCmd = dialog.findViewById(R.id.sp_cmd);
+
+        final String[] cmds = mDnaCmdList.toArray(new String[mDnaCmdList.size()]);
+        final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, cmds);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpCmd.setAdapter(spinnerAdapter);
+        mSpCmd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                etCmd.setText(cmds[position]);
+                etData.setText(mDnaCmdDefaultList.get(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                etCmd.setText(cmds[0]);
+                etData.setText(mDnaCmdDefaultList.get(0));
+            }
+        });
         
         BLAlert.showCustomViewDilog(mActivity, dialog, "Ok", "Cancel", new BLAlert.DialogOnClickListener() {
             @Override

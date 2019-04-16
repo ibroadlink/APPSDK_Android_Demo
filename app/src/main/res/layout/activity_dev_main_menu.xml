@@ -146,6 +146,11 @@
             style="@style/commonBtn"
             android:layout_weight="1"
             android:text="Query Connect Server"/>
+        <Button
+            android:id="@+id/bt_sp"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Sp Control Demo"/>
 
     </LinearLayout>
     

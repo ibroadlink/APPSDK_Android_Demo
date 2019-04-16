@@ -496,7 +496,12 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
                         final int intVal = Integer.parseInt(item.val);
                         value.setVal(intVal);
                     } catch (NumberFormatException e) {
-                        value.setVal(item.val);
+                        final JSONObject jsonObject = JSON.parseObject(item.val);
+                        if (jsonObject != null) {
+                            value.setVal(jsonObject);
+                        }else{
+                            value.setVal(item.val);
+                        }
                     }
                 }
                 dnaVals.add(value);

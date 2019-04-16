@@ -551,7 +551,10 @@ public class DevGatewayManageActivity extends TitleActivity {
             int index = params[1];
             final BLSubDevBackupResult blSubDevBackupResult = exportSubList(blSubSevBackupInfos, count, index);
             if(blSubDevBackupResult !=null && blSubDevBackupResult.succeed()){
+                
+                blSubDevBackupResult.getList().clear();
                 blSubDevBackupResult.getList().addAll(blSubSevBackupInfos);
+                
                 BLFileUtils.saveStringToFile(JSON.toJSONString(blSubSevBackupInfos, true), fileName);
             }
 
@@ -562,10 +565,11 @@ public class DevGatewayManageActivity extends TitleActivity {
             final BLSubDevBackupResult blSubDevBackupResult = BLLet.Controller.subDevBackup(mDNADevice.getDid(), count, index);
             if(blSubDevBackupResult !=null && blSubDevBackupResult.succeed()){
                 if(blSubDevBackupResult.getList() != null){
+                    
                     final int size = blSubDevBackupResult.getList().size();
+                    blSubSevBackupInfos.addAll(blSubDevBackupResult.getList());
                     
                     if(index + size < count && size==8){
-                        blSubSevBackupInfos.addAll(blSubDevBackupResult.getList());
                         exportSubList(blSubSevBackupInfos, count - size, index + size);
                     }
                 }

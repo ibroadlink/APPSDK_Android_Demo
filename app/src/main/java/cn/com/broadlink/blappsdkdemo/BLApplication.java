@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.alibaba.sdk.android.push.CloudPushService;
@@ -49,6 +50,8 @@ public class BLApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+
+        MultiDex.install(this);
         
         FULL_TASK_EXECUTOR = Executors.newCachedThreadPool();
 

@@ -35,6 +35,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
     private Button mBtQueryFirmware;
     private Button mBtUpdateFirmware;
     private Button mBtRm;
+    private Button mBtSp;
     private Button mBtServeTime;
     private Button mBtQueryConnectServer;
     private BLDNADevice mDNADevice;
@@ -65,6 +66,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         mBtQueryFirmware.setOnClickListener(this);
         mBtUpdateFirmware.setOnClickListener(this);
         mBtRm.setOnClickListener(this);
+        mBtSp.setOnClickListener(this);
         mBtServeTime.setOnClickListener(this);
         mBtQueryConnectServer.setOnClickListener(this);
     }
@@ -85,6 +87,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         mBtQueryFirmware = (Button) findViewById(R.id.bt_query_firmware);
         mBtUpdateFirmware = (Button) findViewById(R.id.bt_update_firmware);
         mBtRm = (Button) findViewById(R.id.bt_rm);
+        mBtSp = (Button) findViewById(R.id.bt_sp);
         mBtServeTime = (Button) findViewById(R.id.bt_query_sever_time);
         mBtQueryConnectServer = (Button) findViewById(R.id.bt_server);
     }
@@ -169,6 +172,10 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
                 
             case R.id.bt_rm:
                 BLCommonUtils.toActivity(mActivity, DevRmIrControlActivity.class, mDNADevice);
+                break;
+                
+            case R.id.bt_sp:
+                BLCommonUtils.toActivity(mActivity, SPDemoActivity.class, mDNADevice);
                 break;
         }
     }

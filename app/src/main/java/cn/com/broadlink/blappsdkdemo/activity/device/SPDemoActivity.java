@@ -1,155 +1,73 @@
 package cn.com.broadlink.blappsdkdemo.activity.device;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.com.broadlink.base.BLBaseResult;
+import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
-import cn.com.broadlink.blappsdkdemo.intferfacer.SPControlModel;
-import cn.com.broadlink.blappsdkdemo.presenter.SPControlListener;
-import cn.com.broadlink.blappsdkdemo.presenter.SPControlModelImpl;
+import cn.com.broadlink.blappsdkdemo.data.BLControlActConstans;
+import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
-import cn.com.broadlink.sdk.result.controller.BLBaseBodyResult;
+import cn.com.broadlink.sdk.data.controller.BLStdData;
+import cn.com.broadlink.sdk.param.controller.BLStdControlParam;
+import cn.com.broadlink.sdk.result.controller.BLStdControlResult;
 
 /**
  * SP系列Demo
  * Created by YeJin on 2016/5/10.
  */
-public class SPDemoActivity extends Activity implements SPControlListener{
-    private static final int PWR_ON = 1;
-    private static final int PWR_OFF = 0;
-
-    private static final String TIMING_TASK_MODEL = "tmrtsk";
-    private static final String PER_TASK_MODEL = "pertsk";
-    private static final String CYCLE_TASK_MODEL = "cyctsk";
-    private static final String RANDOM_TASK_MODEL = "randtsk";
+public class SPDemoActivity extends TitleActivity {
 
     private BLDNADevice mDNADevice;
-    private TextView mSpStatusView;
-    private SPControlModel mSPControlModel;
+    private ImageView mIvPwr;
+    private TextView mTvPwr;
+    private boolean mPwrState = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dev_sp_demo);
+        setBackWhiteVisible();
+        setTitle("Sp Demo");
+        
+        mDNADevice = getIntent().getParcelableExtra(BLConstants.INTENT_PARCELABLE);
+        
+        findView();
 
-        mDNADevice = getIntent().getParcelableExtra(BLConstants.INTENT_DEVICE);
-        mSpStatusView = (TextView) findViewById(R.id.sp_status_view);
-
-        mSPControlModel = new SPControlModelImpl(this);
+        setListener();
     }
 
-    public void spOpen(View view){
-        mSPControlModel.controlDevPwr(mDNADevice.getDid(), PWR_ON);
-    }
-
-    public void spClose(View view){
-        mSPControlModel.controlDevPwr(mDNADevice.getDid(), PWR_OFF);
-    }
-
-    private void spTaskSetAlert(final String type, String task) {
-
-        final EditText inputServer = new EditText(SPDemoActivity.this);
-        inputServer.setText(task);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(SPDemoActivity.this);
-        builder.setTitle("输入定时信息").setIcon(android.R.drawable.ic_dialog_info).setView(inputServer)
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                String text = inputServer.getText().toString();
-                mSPControlModel.taskDevSet(mDNADevice.getDid(), type, text);
+    private void setListener() {
+        mIvPwr.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                new ControlTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, !mPwrState);
             }
         });
-        builder.show();
     }
 
-    public void spTimingTaskSet(View view) {
-        spTaskSetAlert(TIMING_TASK_MODEL, "+0800@null|0@20181031-103030|1");
-    }
-
-    public void spPerTaskSet(View view) {
-        spTaskSetAlert(PER_TASK_MODEL, "1|+0800-150000@160000|1234567|1|1");
-    }
-
-    public void spCycleTaskSet(View view) {
-        spTaskSetAlert(CYCLE_TASK_MODEL, "1|+0800-000000@235959|50|1200|12347");
-    }
-
-    public void spRandomTaskSet(View view) {
-        spTaskSetAlert(RANDOM_TASK_MODEL, "1|+0800-000000@235901|10|12347");
-    }
-
-    public void queryElectricityData(View view) {
-        new queryDeviceDataTask().execute();
+    private void findView() {
+        mIvPwr = (ImageView) findViewById(R.id.iv_pwr);
+        mTvPwr = (TextView) findViewById(R.id.tv_pwr);
     }
     
-    @Override
-    public void deviceStatusShow(int pwr) {
-        if(pwr == PWR_ON){
-            mSpStatusView.setText("Open");
-        }else if(pwr == PWR_OFF){
-            mSpStatusView.setText("Close");
-        }
-    }
-
-    @Override
-    public void taskSuccess() {
-        BLCommonUtils.toastShow(SPDemoActivity.this, "Task Set Success");
-    }
-
-    @Override
-    public void taskFaile(String msg) {
-        BLCommonUtils.toastShow(SPDemoActivity.this, "Task Set Failed :" + msg);
-    }
-
-    private ProgressDialog mProgressDialog;
-
-    @Override
-    public void controlStart() {
-        mProgressDialog = new ProgressDialog(SPDemoActivity.this);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.show();
-    }
-
-    @Override
-    public void controlEnd() {
-        if(mProgressDialog != null){
-            mProgressDialog.dismiss();
-        }
-    }
-
-    @Override
-    public void controlSuccess(int pwr) {
-        deviceStatusShow(pwr);
-        BLCommonUtils.toastShow(SPDemoActivity.this, "Control Success");
-    }
-
-    @Override
-    public void controlFail(BLBaseResult result) {
-        BLCommonUtils.toastShow(SPDemoActivity.this, "Control Failed : " + result.getMsg());
+    private void refreshView(){
+        mIvPwr.setImageResource(mPwrState ? R.drawable.sp_on : R.drawable.sp_off);
+        mTvPwr.setText(mPwrState ? "ON": "OFF");
+        mTvPwr.setTextColor(mPwrState ? Color.GREEN : Color.RED);
     }
 
     @Override
@@ -164,62 +82,100 @@ public class SPDemoActivity extends Activity implements SPControlListener{
         stopQuerySPStatusTimer();
     }
 
-    /**查询SP设备状态定时器**/
+    /**
+     * 查询SP设备状态定时器
+     **/
     private Timer mQuerySPStatusTimer;
 
-    private void startQuerySPStatusTimer(){
-        if(mQuerySPStatusTimer == null){
+    private void startQuerySPStatusTimer() {
+        if (mQuerySPStatusTimer == null) {
             mQuerySPStatusTimer = new Timer();
             mQuerySPStatusTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    mSPControlModel.queryDevStatus(mDNADevice.getDid());
+                    new QueryStateTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR);
                 }
-            }, 0 , 5000);
+            }, 0, 2000);
         }
     }
 
-    private void stopQuerySPStatusTimer(){
-        if(mQuerySPStatusTimer != null){
+    private void stopQuerySPStatusTimer() {
+        if (mQuerySPStatusTimer != null) {
             mQuerySPStatusTimer.cancel();
             mQuerySPStatusTimer = null;
         }
     }
-
-    private class queryDeviceDataTask extends AsyncTask<Void, Void, BLBaseBodyResult> {
-        private ProgressDialog progressDialog;
+    
+    
+    class QueryStateTask extends AsyncTask<Void, Void, BLStdControlResult> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(SPDemoActivity.this);
-            progressDialog.setMessage("Querying...");
-            progressDialog.show();
+            //showProgressDialog("Query...");
         }
 
         @Override
-        protected BLBaseBodyResult doInBackground(Void... params) {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-            Date nowDate = new Date();
+        protected BLStdControlResult doInBackground(Void... params) {
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(nowDate);
-            calendar.add(Calendar.DAY_OF_MONTH, -3);
-            Date pastDate = calendar.getTime();
+            BLStdControlParam intoStudyParam = new BLStdControlParam();
+            intoStudyParam.setAct(BLControlActConstans.ACT_GET);
 
-            String startTime = format.format(pastDate);
-            String endTime = format.format(nowDate);
-
-            return BLLet.Controller.queryDeviceData(mDNADevice.getDid(), null, startTime, endTime, null);
+            return BLLet.Controller.dnaControl(mDNADevice.getDid(), null, intoStudyParam);
         }
 
         @Override
-        protected void onPostExecute(BLBaseBodyResult result) {
+        protected void onPostExecute(BLStdControlResult result) {
             super.onPostExecute(result);
-            progressDialog.dismiss();
+            //dismissProgressDialog();
+            if (result != null && result.succeed()) {
 
-            if (result.succeed()) {
-                Log.d(BLConstants.BROADLINK_LOG_TAG, result.getResponseBody());
+                final int state = (int) result.getData().getVals().get(0).get(0).getVal();
+                mPwrState = state == 1;
+                
+                refreshView();
+            }else{
+                //BLCommonUtils.toastErr(result);
+            }
+            
+        }
+    }
+
+
+    class ControlTask extends AsyncTask<Boolean, Void, BLBaseResult> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("Control...");
+        }
+
+        @Override
+        protected BLBaseResult doInBackground(Boolean... params) {
+
+            BLStdControlParam intoStudyParam = new BLStdControlParam();
+            intoStudyParam.setAct(BLControlActConstans.ACT_SET);
+            intoStudyParam.getParams().add("pwr");
+
+            ArrayList<BLStdData.Value> irVals = new ArrayList<>();
+            BLStdData.Value val = new BLStdData.Value();
+            val.setVal(params[0] ? 1 : 0);
+            irVals.add(val);
+            
+            intoStudyParam.getVals().add(irVals);
+
+            return BLLet.Controller.dnaControl(mDNADevice.getDid(), null, intoStudyParam);
+        }
+
+        @Override
+        protected void onPostExecute(BLBaseResult result) {
+            super.onPostExecute(result);
+            dismissProgressDialog();
+            if (result != null && result.succeed()) {
+                mPwrState = !mPwrState;
+                refreshView();
+            }else{
+                BLCommonUtils.toastErr(result);
             }
 
         }

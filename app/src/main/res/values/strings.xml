@@ -1482,4 +1482,8 @@
     <string name="str_cmd_sub_del">{\"did\": \"xxx\"}</string>
     <string name="str_cmd_sub_fw_upgrade">{\"did\": \"xxx\", \"hw_url\": \"xxx\"}</string>
     <string name="str_cmd_sub_mdf">{\"did\": \"xxx\", \"pid\": \"xxx\", \"name\": \"xxx\", \"lock\": false, \"type\":10024}</string>
+    
+    <string name="str_json_test">{\"countryCode\":\"ASM\"}</string>
+    
+    
 </resources>

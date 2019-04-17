@@ -17,12 +17,15 @@ import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.h5.DeviceH5Activity;
@@ -45,7 +48,6 @@ import cn.com.broadlink.sdk.result.controller.BLDownloadScriptResult;
 import cn.com.broadlink.sdk.result.controller.BLDownloadUIResult;
 import cn.com.broadlink.sdk.result.controller.BLProfileStringResult;
 import cn.com.broadlink.sdk.result.controller.BLQueryResoureVersionResult;
-import cn.com.broadlink.sdk.result.controller.BLStdControlResult;
 
 public class DevDnaStdControlActivity extends TitleActivity implements View.OnClickListener {
 
@@ -353,6 +355,58 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
             showResult(devProfileResult);
         }
     }
+
+    // 参数转化
+    private String ctrlParamObjectToStr(BLStdControlParam stdControlParam) {
+        JSONObject jData = new JSONObject();
+
+        try {
+            jData.put("prop", stdControlParam.getProp());
+            jData.put("act", stdControlParam.getAct());
+            jData.put("did", stdControlParam.getDid());
+            if (stdControlParam.getSrv() != null) {
+                jData.put("srv", stdControlParam.getSrv());
+            }
+
+            if (stdControlParam.getPassword() != null) {
+                jData.put("password", stdControlParam.getPassword());
+            }
+
+            JSONArray jParams = new JSONArray();
+            Iterator var4 = stdControlParam.getParams().iterator();
+
+            while(var4.hasNext()) {
+                String param = (String)var4.next();
+                jParams.add(param);
+            }
+
+            jData.put("params", jParams);
+            JSONArray jVals = new JSONArray();
+            Iterator var13 = stdControlParam.getVals().iterator();
+
+            while(var13.hasNext()) {
+                ArrayList<BLStdData.Value> listVal = (ArrayList)var13.next();
+                JSONArray jArrayVal = new JSONArray();
+                Iterator var8 = listVal.iterator();
+
+                while(var8.hasNext()) {
+                    BLStdData.Value val = (BLStdData.Value)var8.next();
+                    JSONObject jVal = new JSONObject();
+                    jVal.put("val", val.getVal());
+                    jVal.put("idx", val.getIdx());
+                    jArrayVal.add(jVal);
+                }
+
+                jVals.add(jArrayVal);
+            }
+
+            jData.put("vals", jVals);
+        } catch (JSONException var11) {
+            BLCommonTools.handleError(var11);
+        }
+
+        return jData.toString();
+    }
     
     
     class DnaParam {
@@ -467,7 +521,7 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
         }
     }
 
-    class DnaControlTask extends AsyncTask<String, Void, BLStdControlResult> {
+    class DnaControlTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -476,7 +530,7 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
         }
 
         @Override
-        protected BLStdControlResult doInBackground(String... params) {
+        protected String doInBackground(String... params) {
             mAdapter.flushData();
             
             String setOrGet = params[0];
@@ -496,10 +550,10 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
                         final int intVal = Integer.parseInt(item.val);
                         value.setVal(intVal);
                     } catch (NumberFormatException e) {
-                        final JSONObject jsonObject = JSON.parseObject(item.val);
-                        if (jsonObject != null) {
+                        try { // 如果输入是jsonStr则当作object，而为string来处理
+                            final JSONObject jsonObject = JSON.parseObject(item.val);
                             value.setVal(jsonObject);
-                        }else{
+                        } catch (com.alibaba.fastjson.JSONException e1) {
                             value.setVal(item.val);
                         }
                     }
@@ -508,18 +562,24 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
                 stdControlParam.getVals().add(dnaVals);
             }
             stdControlParam.getParams().addAll(dnaParams);
+            final String dataStr = ctrlParamObjectToStr(stdControlParam);
             
-            String devDid = TextUtils.isEmpty(mDNADevice.getpDid()) ? mDNADevice.getDid() : mDNADevice.getpDid();
-           String subDid = TextUtils.isEmpty(mDNADevice.getpDid())  ? null : mDNADevice.getDid();
+            final String[] didOrSubDid = BLCommonUtils.parseDidOrSubDid(mDNADevice);
             
-            return BLLet.Controller.dnaControl(devDid, subDid, stdControlParam);
+            return BLLet.Controller.dnaControl(didOrSubDid[0], didOrSubDid[1], dataStr, "dev_ctrl", null);
         }
 
         @Override
-        protected void onPostExecute(BLStdControlResult result) {
+        protected void onPostExecute(String result) {
             super.onPostExecute(result);
             dismissProgressDialog();
-            showResult(result);
+            
+            final JSONObject jsonObject = JSON.parseObject(result);
+            if(jsonObject != null){
+                showResult(jsonObject);
+            }else{
+                showResult(result);
+            }
         }
     }
 

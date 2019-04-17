@@ -81,7 +81,6 @@ public class BLStorageUtils {
 	public static void init(Context context) {
 		String rootPath = null;
 		String appPath = null;
-		String fileName = BLConstants.BASE_FILE_PATH;
 		
 		// 存在SDCARD的时候，路径设置到SDCARD
 		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
@@ -91,47 +90,21 @@ public class BLStorageUtils {
 			rootPath = context.getCacheDir().getAbsolutePath();
 		}
 
-		/***APP 统计数据文件夹**/
 		File dataDir = new File(new File(rootPath, "Android"), "data");
-		File appDir = new File(dataDir, context.getPackageName());
+		File appDir = new File(dataDir, context.getPackageName() + File.separator +  "files");
 		appDir.mkdirs();
 
-		File appCacheDir = new File(appDir, "crashLog");
-		File appStatisticDir = new File(appDir, "cacheFile");
-		
-		appCacheDir.mkdirs();
-		appStatisticDir.mkdirs();
-		
-		CRASH_LOG_PATH = appCacheDir.getAbsolutePath();
-		APP_CACHE_FILE_PATH = appStatisticDir.getAbsolutePath();
-
-		//产品缓存信息文件保存
-		PRODUCT_LIST_PATH = APP_CACHE_FILE_PATH + File.separator + "ProductList";
-		PRODUCT_INFO_PATH = APP_CACHE_FILE_PATH + File.separator + "ProductInfo";
-		new File(PRODUCT_LIST_PATH).mkdirs();
-		new File(PRODUCT_INFO_PATH).mkdirs();
-
 		/********************** 一级目录创建 ********************************/
-		BASE_PATH = appPath = rootPath + File.separator + fileName;
+		BASE_PATH = appPath = appDir.getPath();
 
 		/********************** 二级目录创建 ********************************/
 		TEMP_PATH = appPath + "/temp";
 		CACHE_PATH = appPath + "/cache";
-		SHARED_PATH = appPath + File.separator + BLConstants.FILE_SHARE;
-		S1_PATH = appPath + File.separator + BLConstants.FILE_S1;
-		OFF_LINE_ICON = appPath + File.separator + BLConstants.OFF_LINE_ICON;
-
-		/********************** 三级目录 创建 ********************************/
-		CONCODE_PATH = SHARED_PATH + File.separator + BLConstants.FILE_CON_CODE;
-		DEVICE_ICON_PATH = SHARED_PATH + File.separator + BLConstants.FILE_DEVICE_ICON;
-		IR_DATA_PATH = SHARED_PATH + File.separator + BLConstants.FILE_IR_DATA;
-		SCENE_ICON_PATH = SHARED_PATH + File.separator + BLConstants.SCENE_NAME;
-//		SCRIPTS_PATH = SHARED_PATH + File.separator + BLConstants.FILE_SCRIPTS;
-		MS1_PATH = SHARED_PATH + File.separator + BLConstants.FILE_MS1;
-		SUB_DEV_BACKUP_PATH = SHARED_PATH + File.separator + BLConstants.FILE_SUB_DEV_BACKUP;
-		STRESS_TEST_LOG_PATH = SHARED_PATH + File.separator + BLConstants.FILE_STRESS_TEST_LOG_PATH;
-//		DRPS_PATH = SHARED_PATH + File.separator + BLConstants.FILE_DRPS;
-		FAMILY_PATH = SHARED_PATH + File.separator + BLConstants.FILE_FAMILY;
+		
+		IR_DATA_PATH = appPath + File.separator + BLConstants.FILE_IR_DATA;
+		SUB_DEV_BACKUP_PATH = appPath + File.separator + BLConstants.FILE_SUB_DEV_BACKUP;
+		STRESS_TEST_LOG_PATH = appPath + File.separator + BLConstants.FILE_STRESS_TEST_LOG_PATH;
+		CRASH_LOG_PATH = appPath + File.separator + BLConstants.FILE_CRASH_LOG_PATH;
 
 		/********************** 一级目录 ********************************/
 		new File(BASE_PATH).mkdirs();
@@ -139,24 +112,11 @@ public class BLStorageUtils {
 		/********************** 二级目录 ********************************/
 		new File(TEMP_PATH).mkdirs();
 		new File(CACHE_PATH).mkdirs();
-		new File(SHARED_PATH).mkdirs();
-		new File(S1_PATH).mkdirs();
-		new File(OFF_LINE_ICON).mkdirs();
-		new File(OFF_LINE_ICON, ".nomedia").mkdirs();
 
-		/********************** 三级目录 ********************************/
-		new File(CONCODE_PATH).mkdirs();
-		new File(DEVICE_ICON_PATH).mkdirs();
-		new File(DEVICE_ICON_PATH, ".nomedia").mkdirs();
 		new File(IR_DATA_PATH).mkdirs();
-		new File(SCENE_ICON_PATH).mkdirs();
-		new File(SCENE_ICON_PATH, ".nomedia").mkdirs();
-//		new File(SCRIPTS_PATH).mkdirs();
-		new File(MS1_PATH).mkdirs();
 		new File(SUB_DEV_BACKUP_PATH).mkdirs();
 		new File(STRESS_TEST_LOG_PATH).mkdirs();
-//		new File(DRPS_PATH).mkdirs();
-		new File(FAMILY_PATH).mkdirs();
+		new File(CRASH_LOG_PATH).mkdirs();
 	}
 
 	/**

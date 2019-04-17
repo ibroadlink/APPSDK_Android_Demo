@@ -2,6 +2,7 @@ package cn.com.broadlink.blappsdkdemo.common;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -506,8 +507,13 @@ public class BLCommonUtils {
         if(!folderFile.isDirectory()){
             return ret;
         }
+
+        final File[] files = folderFile.listFiles();
+        if(files == null){
+            return ret;
+        }
         
-        for(File item : folderFile.listFiles()){
+        for(File item : files){
             ret.add(item.getName());
         }
         return ret;
@@ -532,19 +538,42 @@ public class BLCommonUtils {
             BLToastUtils.show("File not exist!");
             return;
         }
-        
-        Intent intent = new Intent();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            Uri contentUri = FileProvider.getUriForFile(mContext, "com.broadlink.blappsdkdemo.fileprovider", file);
-            intent.setDataAndType(contentUri, getMIMEType(file));
-        }else{
-            intent.setDataAndType(Uri.fromFile(file), getMIMEType(file));
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        if(file.isDirectory()){
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setDataAndType(Uri.fromFile(file), "file/*");
+            try {
+                mContext.startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                e.printStackTrace();
+            }
+            return;
         }
         
-        intent.setAction(Intent.ACTION_VIEW);
-        mContext.startActivity(intent);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        if(file.isDirectory()){
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setDataAndType(Uri.fromFile(file), "file/*");
+        }else{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                Uri contentUri = FileProvider.getUriForFile(mContext, "com.broadlink.blappsdkdemo.fileprovider", file);
+                intent.setDataAndType(contentUri, getMIMEType(file));
+            }else{
+                intent.setDataAndType(Uri.fromFile(file), getMIMEType(file));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
+
+        }
+
+        try {
+            mContext.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+        }
     }
     
     /**

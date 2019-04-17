@@ -120,6 +120,7 @@ public class SPDemoActivity extends TitleActivity {
 
             BLStdControlParam intoStudyParam = new BLStdControlParam();
             intoStudyParam.setAct(BLControlActConstans.ACT_GET);
+            //intoStudyParam.getParams().add("pwr");
 
             return BLLet.Controller.dnaControl(mDNADevice.getDid(), null, intoStudyParam);
         }

@@ -149,14 +149,24 @@ public class DevGatewayManageActivity extends TitleActivity {
 
         mAdapter.setOnItemClickListener(new BLBaseRecyclerAdapter.OnClickListener() {
             @Override
-            public void onClick(int position, int viewType) {
+            public void onClick(final int position, int viewType) {
                 if(mIsNewSubListType){
                     if (checkPid()) {
                         mSelectedIndex = position;
                         new AddSubDevTask().execute(position);
                     }
                 }else{
-                    BLCommonUtils.toActivity(mActivity, DevDnaStdControlActivity.class, mSubDeviceList.get(position));
+                    BLAlert.showDialog(mActivity, "Add this subdevice 2 devlist?", new BLAlert.DialogOnClickListener() {
+                        @Override
+                        public void onPositiveClick() {
+                            add2DbAndGotoNextActivity(mSubDeviceList.get(position), true);
+                        }
+
+                        @Override
+                        public void onNegativeClick() {
+                            add2DbAndGotoNextActivity(mSubDeviceList.get(position), false);
+                        }
+                    });
                 }
             }
         });
@@ -218,6 +228,33 @@ public class DevGatewayManageActivity extends TitleActivity {
         mRvList.addItemDecoration(BLDividerUtil.getDefault(mActivity, mSubDeviceList));
     }
 
+
+    /**
+     * 将子设备添加到数据库,然后跳转到下个页面
+     */
+    private void add2DbAndGotoNextActivity(BLDNADevice subDevInfo, boolean add2DB){
+        if(add2DB){
+            if(subDevInfo.getMac() == null){
+                String mac = subDevInfo.getDid().substring(20, 32);
+                subDevInfo.setMac(BLCommonUtils.formatMac(mac));
+            }
+
+            try {
+                BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
+                BLDeviceInfo deviceInfo = new BLDeviceInfo(subDevInfo);
+                List<BLDeviceInfo> list = new ArrayList<>();
+                list.add(deviceInfo);
+                blDeviceInfoDao.insertData(list);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            BLLocalDeviceManager.getInstance().addDeviceIntoSDK(subDevInfo);  
+        }
+        BLCommonUtils.toActivity(mActivity, DevDnaStdControlActivity.class, subDevInfo);
+    }
+    
+    
     private void showResult(Object result) {
         if(result == null){
             mTvResult.setText("Return null");

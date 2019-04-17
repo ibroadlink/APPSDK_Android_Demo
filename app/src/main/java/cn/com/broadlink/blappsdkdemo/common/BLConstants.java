@@ -4,6 +4,7 @@ public class BLConstants {
 
     /**app文件夹目录**/
     public static final String BASE_FILE_PATH = "broadlink/blTool";
+    public static final String ROOT_FILE_PATH = "broadlink";
     
     public static final String BROADLINK_LOG_TAG = "BROADLINK_DEMO";
     
@@ -41,6 +42,8 @@ public class BLConstants {
     public static final String FILE_SUB_DEV_BACKUP = "SubdevBackup";
     //子设备备份
     public static final String FILE_STRESS_TEST_LOG_PATH = "StressTestLog";
+    //CrashLog
+    public static final String FILE_CRASH_LOG_PATH = "CrashLog";
     //家庭文件夹名称
     public static final String FILE_FAMILY = "Family";
     //离线图标

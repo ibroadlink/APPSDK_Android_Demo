@@ -27,6 +27,7 @@ import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
 import cn.com.broadlink.blappsdkdemo.common.BLApiUrlConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLAppUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLCrashHandler;
 import cn.com.broadlink.blappsdkdemo.common.BLSettings;
 import cn.com.broadlink.blappsdkdemo.common.BLStorageUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLUserInfoUnits;
@@ -74,6 +75,8 @@ public class BLApplication extends Application{
         initDoraKit();
 
         initPushService(this);
+
+        initCarshHandler();
     }
 
     private void initDoraKit() {
@@ -155,6 +158,15 @@ public class BLApplication extends Application{
         BLSFamilyManager.getInstance().init(lid);
 
         BLApiUrlConstants.init(lid);
+    }
+
+    /**
+     * APP异常信息保存
+     **/
+    private void initCarshHandler() {
+        BLCrashHandler blCrashHandler = BLCrashHandler.getInstance();
+        blCrashHandler.init(BLApplication.this);
+        blCrashHandler.setLogSavePath(BLStorageUtils.CRASH_LOG_PATH);
     }
 
     /**

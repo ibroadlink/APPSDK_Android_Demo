@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.base.BLDateUtils;
@@ -64,7 +66,7 @@ public class DevStressTestActivity extends TitleActivity {
     private RecyclerView mRvContent;
     private BLDNADevice mDNADevice;
     private List<BLStressTestCmdBean> mCmdList = new ArrayList<>();
-    private List<List<BLStressTestResultBean>> mResultList = new ArrayList<>();
+    private List<BLStressTestResultBean> mResultList = new ArrayList<>();
     private CmdAdapter mAdapter;
     private Handler mHandler;
     private String mLogFilePath;
@@ -73,6 +75,7 @@ public class DevStressTestActivity extends TitleActivity {
     private volatile long mTimeConsumeSum = 0;
     private volatile long mControlCount = 0;
     private volatile Map<Integer, String> mCmdStaticsDescMap = new HashMap<>();
+    private ExecutorService mCachedThreadPool;
     
     /** 停止测试 **/
     private volatile boolean mShouldStop = false;
@@ -123,13 +126,15 @@ public class DevStressTestActivity extends TitleActivity {
                 super.handleMessage(msg);
                 switch (msg.what) {
                     case 0:
-                        final StringBuilder sb = calcDescStr();
-                        sb.append("\n\n").append("Logfile path: " + mLogFilePath);
-                        mEtResult.setText(sb.toString());
+                        mEtResult.setText(calcDescStr().toString());
                         break;
                         
                     case 1:
                         stopTest();
+                        break;     
+                        
+                    case 2:
+                        handleCmdResult(msg);
                         break;     
                 }
                 
@@ -142,60 +147,97 @@ public class DevStressTestActivity extends TitleActivity {
         initDnaCmd();
     }
 
-    private StringBuilder calcDescStr() {
-        final StringBuilder sb = new StringBuilder(1000);
+    /**
+     * 统计命令执行结果，并刷新统计信息
+     */
+    private void handleCmdResult(Message msg) {
+        int index = msg.arg1;
+        int timeSpend = msg.arg2;
+        String result = (String) msg.obj;
+        final BLBaseResult blBaseResult = JSON.parseObject(result, BLBaseResult.class);
 
-        // 缓存每个命令执行的结果，result[0] - 执行总数， result[1] - 执行失败次数
-        List<int[]> result = new ArrayList<>();
+        if (mResultList.size() <= index) {
+            mResultList.add(new BLStressTestResultBean(index));
+        }
+
+        mResultList.get(index).totalCount++;
+        if (blBaseResult == null || !blBaseResult.succeed()) {
+            mResultList.get(index).failCount++;
+        }else{ // 成功才统计
+            mTimeConsumeSum += timeSpend;
+            mControlCount++;
+        }
+
+        // 通知界面刷新
+        mHandler.sendEmptyMessage(0);
+        final long average = mControlCount > 0 ? mTimeConsumeSum / mControlCount : 0;
+
+        if (mShouldStop) return;
+
+        final BLStressTestCmdBean blStressTestCmdBean = mCmdList.get(index);
+        final StringBuilder sb2 = new StringBuilder(BLDateUtils.formatDate(System.currentTimeMillis()));
+        sb2.append(" - ");
+        sb2.append("Cmd").append(index).append(": \n");
+        sb2.append("cmd: ").append(blStressTestCmdBean.cmd).append("\n");
+        sb2.append("data: ").append(blStressTestCmdBean.data).append("\n");
+        sb2.append("result: ").append(result).append("\n");
+        sb2.append("time consume: ").append(timeSpend).append(", average: ").append(average).append("\n");
+
+        if(mCmdStaticsDescMap.get(index) != null){
+            sb2.append(mCmdStaticsDescMap.get(index)).append("\n\n");
+        }
+
+        BLFileUtils.writeFile(mLogFilePath, sb2.toString(), true);
+    }
+
+    
+    private StringBuilder calcDescStr() {
+        final StringBuilder sb = new StringBuilder(500);
+        boolean isTestOver = true;
+        
         float average = 0;
         if(mControlCount>0){
             average = (float) mTimeConsumeSum / (float) mControlCount;
         }
-        
         sb.append("Recycle Total ").append(mCycleCount).append(", now ").append(mOutSideIndex).append(", time consume average ").append(average).append("\n\n");
 
-        for (int j = 0; j <mResultList.size(); j++) {
-
-            final List<BLStressTestResultBean> cycleItemResult = mResultList.get(j);
-            
-            for (int i = 0; i <cycleItemResult.size(); i++) {
-                
-                // 初始化
-                if (i >= result.size()) {
-                    result.add(new int[]{0,0});
-                }
-                
-                final int totalCount = cycleItemResult.get(i).totalCount;
-                final int failCount = cycleItemResult.get(i).failCount;
-                result.get(i)[0] += totalCount;
-                result.get(i)[1] += failCount;
-            }
-        }
 
         for (int i = 0; i < mCmdList.size(); i++) {
             
             //还未执行的命令，不显示统计结果
-            if (i >= result.size()) break;
+            if (i >= mResultList.size()) break;
             
-            final int totalCount =  result.get(i)[0];
-            final int failCount =  result.get(i)[1];
+            final int totalCount =  mResultList.get(i).totalCount;
+            final int failCount =  mResultList.get(i).failCount;
             final String accuracy = new DecimalFormat("#.##%").format((float) (totalCount - failCount) / (float) totalCount);
             
             sb.append("Cmd").append(i).append(": \n");
 
             final StringBuffer subSb = new StringBuffer(100);
 
-            subSb.append("total ").append(mCmdList.get(i).sendCount * mCycleCount);
+            final long total = mCmdList.get(i).sendCount * mCycleCount;
+            subSb.append("total ").append(total);
             subSb.append(", already run ").append(totalCount);
             subSb.append(", fail ").append(failCount);
             subSb.append(", accuracy rate ").append(accuracy);
 
+            // 缓存各个指令执行情况的描述
             mCmdStaticsDescMap.put(i, subSb.toString());
 
             sb.append(subSb);
             sb.append("\n");
+
+            // 因为是异步的，需要所有指令都返回了结果，才能确认测试结束
+            isTestOver = total == totalCount;
         }
 
+        // 检测到所有cmd都已经测试完成，停止测试。
+        if(isTestOver){
+            mHandler.obtainMessage(1); 
+        }
+        
+        sb.append("\n\n").append("Logfile path: " + mLogFilePath);
+        
         return sb;
     }
     
@@ -457,6 +499,7 @@ public class DevStressTestActivity extends TitleActivity {
         mTestThread = null;
         mBtStart.setEnabled(true);
         mBtStop.setEnabled(false);
+        mCachedThreadPool.shutdown();
     }
     
     private void initTestFlags(){
@@ -466,6 +509,7 @@ public class DevStressTestActivity extends TitleActivity {
         mControlCount = 0;
         mTimeConsumeSum = 0;
         mResultList.clear();
+        mCachedThreadPool = Executors.newCachedThreadPool();
     }
 
     class CmdAdapter extends BLBaseRecyclerAdapter<BLStressTestCmdBean> {
@@ -489,85 +533,55 @@ public class DevStressTestActivity extends TitleActivity {
     }
     
     class TestRunnable implements Runnable {
-
+        
         @Override
         public void run() {
+            
+            // 初始化flag
             initTestFlags();
 
+            // 大循环
             for (int k = 0; k < mCycleCount; k++) {
-                
-//                if(mCycleCount !=0){
-//                    SystemClock.sleep(1000);
-//                }
-                
+                if (mShouldStop) return;
                 mOutSideIndex = k + 1;
-                final ArrayList<BLStressTestResultBean> cycleItemResult = new ArrayList<>();
-                mResultList.add(cycleItemResult);
 
+                // 中循环
                 for (int i = 0; i < mCmdList.size(); i++) {
                     if (mShouldStop) return;
-
-                    mInSideIndex = i;
-                    cycleItemResult.add(new BLStressTestResultBean(mInSideIndex));
+                    final int finalI = mInSideIndex = i;
+                    
                     final BLStressTestCmdBean blStressTestCmdBean = mCmdList.get(i);
-
                     SystemClock.sleep(blStressTestCmdBean.delay);
                     if (mShouldStop) return;
-                    
-                    final StringBuffer sb = new StringBuffer(BLDateUtils.formatDate(System.currentTimeMillis()));
-                    sb.append(": ");
-                    sb.append("Recycle Total ").append(mCycleCount).append(", now ").append(mOutSideIndex).append("\n");
 
-                    BLFileUtils.writeFile(mLogFilePath, sb.toString(), true);
-
+                    // 小循环
                     for (int j = 0; j < blStressTestCmdBean.sendCount; j++) {
                         if (mShouldStop) return;
 
                         if (j != 0) {
                             SystemClock.sleep(blStressTestCmdBean.interval);
                         }
-
-                        cycleItemResult.get(i).totalCount = j + 1;
-                        long timeStamp = System.currentTimeMillis();
-                        final String result = BLLet.Controller.dnaControl(blStressTestCmdBean.did, blStressTestCmdBean.sDid, blStressTestCmdBean.data, blStressTestCmdBean.cmd, null);
-                        final long timeSpend = System.currentTimeMillis() - timeStamp;
-                       
-                        if (mShouldStop) return;
-
-                        final BLBaseResult blBaseResult = JSON.parseObject(result, BLBaseResult.class);
-                        if (blBaseResult == null || !blBaseResult.succeed()) {
-                            cycleItemResult.get(i).failCount++;
-                        }else{ // 成功才统计
-                            mTimeConsumeSum += timeSpend;
-                            mControlCount++;
-                        }
-
-                        // 通知界面刷新
-                        mHandler.sendEmptyMessage(0);
-                        final long average = mControlCount > 0 ? mTimeConsumeSum / mControlCount : 0;
                         
-                        if (mShouldStop) return;
+                        final Runnable testRunnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                if (mShouldStop) return;
+                                
+                                long timeStamp = System.currentTimeMillis();
+                                final String result = BLLet.Controller.dnaControl(blStressTestCmdBean.did, blStressTestCmdBean.sDid, blStressTestCmdBean.data, blStressTestCmdBean.cmd, null);
+                                final long timeSpend = System.currentTimeMillis() - timeStamp;
 
-                        final StringBuilder sb2 = new StringBuilder(BLDateUtils.formatDate(System.currentTimeMillis()));
-                        sb2.append(": \n");
-                        sb2.append("cmd: ").append(blStressTestCmdBean.cmd).append("\n");
-                        sb2.append("data: ").append(blStressTestCmdBean.data).append("\n");
-                        sb2.append("result: ").append(result).append("\n");
-                        sb2.append("time consume: ").append(timeSpend).append(", Average: ").append(average).append("\n");
-                        if(mCmdStaticsDescMap.get(i) != null){
-                            sb2.append(mCmdStaticsDescMap.get(i)).append("\n\n");
-                        }
+                                if (mShouldStop) return;
+                                mHandler.sendMessage(mHandler.obtainMessage(2, finalI, (int) timeSpend, result));
+                            }
+                        };
 
-                        BLFileUtils.writeFile(mLogFilePath, sb2.toString(), true);
-
+                        mCachedThreadPool.execute(testRunnable);
                     }
-
+                    
                     if (mShouldStop) return;
                 }
             }
-
-            // 测试自然结束 
-            mHandler.sendEmptyMessage(1);
         }
     }
 }

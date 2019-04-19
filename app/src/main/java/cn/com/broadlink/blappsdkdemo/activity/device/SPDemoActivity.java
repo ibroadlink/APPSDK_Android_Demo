@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,6 +36,7 @@ public class SPDemoActivity extends TitleActivity {
     private BLDNADevice mDNADevice;
     private ImageView mIvPwr;
     private TextView mTvPwr;
+    private TextView mTvResult;
     private boolean mPwrState = false;
 
     @Override
@@ -62,6 +65,7 @@ public class SPDemoActivity extends TitleActivity {
     private void findView() {
         mIvPwr = (ImageView) findViewById(R.id.iv_pwr);
         mTvPwr = (TextView) findViewById(R.id.tv_pwr);
+        mTvResult = (TextView) findViewById(R.id.tv_result);
     }
     
     private void refreshView(){
@@ -131,14 +135,16 @@ public class SPDemoActivity extends TitleActivity {
             //dismissProgressDialog();
             if (result != null && result.succeed()) {
 
-                final int state = (int) result.getData().getVals().get(0).get(0).getVal();
-                mPwrState = state == 1;
-                
-                refreshView();
-            }else{
-                //BLCommonUtils.toastErr(result);
+                try {
+                    final int state = (int) result.getData().getVals().get(0).get(0).getVal();
+                    mPwrState = state == 1;
+                    refreshView();
+                } catch (Exception e) {
+                  
+                }
             }
-            
+
+            mTvResult.setText(JSON.toJSONString(result));
         }
     }
 

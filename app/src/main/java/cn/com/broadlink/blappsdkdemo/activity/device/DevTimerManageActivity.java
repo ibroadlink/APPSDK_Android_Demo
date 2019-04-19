@@ -25,7 +25,9 @@ import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
+import cn.com.broadlink.blappsdkdemo.data.timer.BLBaseTimerInfoV2;
 import cn.com.broadlink.blappsdkdemo.data.timer.BLBaseTimerResultV2;
+import cn.com.broadlink.blappsdkdemo.data.timer.BLCycleTimerInfoV2;
 import cn.com.broadlink.blappsdkdemo.data.timer.BLTimerAddOrEditParamV2;
 import cn.com.broadlink.blappsdkdemo.data.timer.BLTimerDelInfoV2;
 import cn.com.broadlink.blappsdkdemo.data.timer.BLTimerDelParamV2;
@@ -34,6 +36,8 @@ import cn.com.broadlink.blappsdkdemo.data.timer.BLTimerGetListResultV2;
 import cn.com.broadlink.blappsdkdemo.data.timer.BLTimerInfoV2;
 import cn.com.broadlink.blappsdkdemo.data.timer.constant.BLTimerConstants;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
+import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
+import cn.com.broadlink.blappsdkdemo.view.InputTextView;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
@@ -45,11 +49,13 @@ import cn.com.broadlink.sdk.data.controller.BLStdData;
 public class DevTimerManageActivity extends TitleActivity {
 
     private RecyclerView mRvContent;
-    private List<BLTimerInfoV2> mTimerList = new ArrayList<>();
+    private List<BLBaseTimerInfoV2> mTimerList = new ArrayList<>();
     private BLDNADevice mDNADevice;
     private DnaParamAdapter mAdapter;
     private ImageView mIvRefresh;
     private String mSubDid;
+    private String[] mTimerTypeArray = {"Common","Delay","Period","Cycle","Rand", "SunSet"};
+    private List<String> mTimerTempList = new ArrayList<>();
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +72,45 @@ public class DevTimerManageActivity extends TitleActivity {
         initView();
 
         setListener();
+
+        mTimerTempList.add("10_10_10_%d_%d_*_%d"); // 单次定时
+        mTimerTempList.add("10_10_10_%d_%d_*_%d"); // 延时定时
+        mTimerTempList.add("10_10_10_*_*_*_*"); // 周期定时
+        mTimerTempList.add("18_18_18_%d_%d_*_%d"); // 循环定时
+        mTimerTempList.add("10_10_10_%d_%d_*_%d"); // 放到定时
+        mTimerTempList.add("U-0_30_0_*_*_0,1,3,5_*"); // 日出日落
     }
 
     private void setListener() {
         setRightButtonOnClickListener("Add", getResources().getColor(R.color.bl_yellow_main_color), new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                showAddTimerDialog();
+                BLListAlert.showAlert(mActivity, null, mTimerTypeArray, new BLListAlert.OnItemClickLister() {
+                    @Override
+                    public void onClick(final int whichButton) {
+
+                        String timeStr = mTimerTempList.get(0);
+                     switch (whichButton){
+                         case 0:
+                         case 1:
+                             final Date date = new Date();
+                             timeStr = String.format(mTimerTempList.get(whichButton), date.getDate(),date.getMonth(), date.getYear()+1900);
+                             showAddTimerDialog(mTimerTypeArray[whichButton], timeStr);
+                             break;
+                             
+                         case 2:
+                         case 5:
+                             timeStr = mTimerTempList.get(whichButton);
+                             showAddTimerDialog(mTimerTypeArray[whichButton], timeStr);
+                             break;
+                             
+                         case 3:
+                         case 4:
+                             showCycleTimerSetDialog(mTimerTypeArray[whichButton]);
+                             break;
+                     }
+                    }
+                });
             }
         });
 
@@ -110,14 +148,77 @@ public class DevTimerManageActivity extends TitleActivity {
         new GetTimerListTask().execute();
     }
 
-    private void showAddTimerDialog(){
+    private void showCycleTimerSetDialog(final String type){
+        final LinearLayout dialog = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_cycle_timer, null);
+        final InputTextView etCmd1 = dialog.findViewById(R.id.et_cmd1);
+        final InputTextView etCmd1Duration = dialog.findViewById(R.id.et_cmd1_duration);
+        final InputTextView etCmd2 = dialog.findViewById(R.id.et_cmd2);
+        final InputTextView etCmd2Duration = dialog.findViewById(R.id.et_cmd2_duration);
+        final InputTextView etStartTime = dialog.findViewById(R.id.et_start_time);
+        final InputTextView etEndTime = dialog.findViewById(R.id.et_end_time);
+
+        final Date date = new Date();
+        String timeStartStr = String.format(mTimerTempList.get(0), date.getDate(),date.getMonth(), date.getYear()+1900);
+        String timeEndStr = String.format(mTimerTempList.get(3), date.getDate(),date.getMonth(), date.getYear()+1900);
+        String cmd1Str = "{ \"pwr\":1}";
+        String cmd2Str = "{ \"pwr\":0}";
+        int cmd1duration = 5000;
+        int cmd2duration = 2000;
+
+        etCmd1.setText(cmd1Str);
+        etCmd2.setText(cmd2Str);
+        etCmd1Duration.setText(String.valueOf(cmd1duration));
+        etCmd2Duration.setText(String.valueOf(cmd2duration));
+        etStartTime.setText(timeStartStr);
+        etEndTime.setText(timeEndStr);
+
+        BLAlert.showCustomViewDilog(mActivity, dialog, "Ok", "Cancel", new BLAlert.DialogOnClickListener() {
+            @Override
+            public void onPositiveClick() {
+                if(TextUtils.isEmpty(etCmd1.getTextString()) 
+                        || TextUtils.isEmpty(etCmd2.getTextString())
+                        || TextUtils.isEmpty(etCmd1Duration.getTextString())
+                        || TextUtils.isEmpty(etCmd2Duration.getTextString())
+                        || TextUtils.isEmpty(etStartTime.getTextString())
+                        || TextUtils.isEmpty(etEndTime.getTextString())){
+                    BLToastUtils.show("Should not be null");
+                }else{
+                    final BLCycleTimerInfoV2 blTimerInfoV2 = new BLCycleTimerInfoV2();
+                    blTimerInfoV2.setType(type);
+
+                    final JSONObject cmdJsonObj = JSON.parseObject(etCmd1.getTextString());
+                    final BLStdData blStdData = js2StdCmd(cmdJsonObj);
+                    blTimerInfoV2.setCmd1(blStdData);
+                    
+                    final JSONObject cmdJsonObj2 = JSON.parseObject(etCmd2.getTextString());
+                    final BLStdData blStdData2 = js2StdCmd(cmdJsonObj2);
+                    blTimerInfoV2.setCmd2(blStdData2);
+                    
+                    
+                    blTimerInfoV2.setTime1(etStartTime.getTextString());
+                    blTimerInfoV2.setTime2(etEndTime.getTextString());
+                    
+                    blTimerInfoV2.setTime1(etCmd1Duration.getTextString());
+                    blTimerInfoV2.setTime2(etCmd2Duration.getTextString());
+                    
+                    new AddTimerTask().execute(blTimerInfoV2);
+                }
+            }
+
+            @Override
+            public void onNegativeClick() {
+
+            }
+        });
+    }
+
+    private void showAddTimerDialog(final String type, String timeStr){
         final LinearLayout dialog = (LinearLayout) getLayoutInflater().inflate(R.layout.view_dialog_dna_std_param, null);
         final EditText etParam = dialog.findViewById(R.id.et_param);
         final EditText etVal = dialog.findViewById(R.id.et_val);
 
         etParam.setHint("Time: S_M_H_D_M_W_Y");
-        final Date date = new Date();
-        etParam.setText(String.format("10_10_10_%d_%d_*_%d", date.getDate(),date.getMonth(), date.getYear()+1900));
+        etParam.setText(timeStr);
         etVal.setText("{ \"pwr\":1}");
 
         BLAlert.showCustomViewDilog(mActivity, dialog, "Ok", "Cancel", new BLAlert.DialogOnClickListener() {
@@ -127,23 +228,11 @@ public class DevTimerManageActivity extends TitleActivity {
                     BLToastUtils.show("Should not be null");
                 }else{
                     final BLTimerInfoV2 blTimerInfoV2 = new BLTimerInfoV2();
-                    final BLStdData blStdData = new BLStdData();
-                    
+                    blTimerInfoV2.setType(type);
+
                     final JSONObject cmdJsonObj = JSON.parseObject(etVal.getText().toString());
-                    blStdData.setAct(null);
-                    final Set<Map.Entry<String, Object>> entries = cmdJsonObj.entrySet();
-                    final Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+                    final BLStdData blStdData = js2StdCmd(cmdJsonObj);
                     
-                    while (iterator.hasNext()){
-                        final Map.Entry<String, Object> objectEntry = iterator.next();
-                        blStdData.getParams().add(objectEntry.getKey());
-                        final BLStdData.Value valueStd = new BLStdData.Value();
-                        valueStd.setVal(objectEntry.getValue());
-                        final ArrayList<BLStdData.Value> values = new ArrayList<>();
-                        values.add(valueStd);
-                        blStdData.getVals().add(values);
-                    }
-                   
                     blTimerInfoV2.setCmd(blStdData);
                     blTimerInfoV2.setTime(etParam.getText().toString());
                     new AddTimerTask().execute(blTimerInfoV2);
@@ -156,6 +245,25 @@ public class DevTimerManageActivity extends TitleActivity {
             }
         });
     }
+
+    private BLStdData js2StdCmd(JSONObject cmdJsonObj) {
+        final BLStdData blStdData = new BLStdData();
+        blStdData.setAct(null);
+        final Set<Map.Entry<String, Object>> entries = cmdJsonObj.entrySet();
+        final Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
+
+        while (iterator.hasNext()){
+            final Map.Entry<String, Object> objectEntry = iterator.next();
+            blStdData.getParams().add(objectEntry.getKey());
+            final BLStdData.Value valueStd = new BLStdData.Value();
+            valueStd.setVal(objectEntry.getValue());
+            final ArrayList<BLStdData.Value> values = new ArrayList<>();
+            values.add(valueStd);
+            blStdData.getVals().add(values);
+        }
+        return blStdData;
+    }
+
 
     private void showDelTimerDialog(final int pos){
 
@@ -173,7 +281,7 @@ public class DevTimerManageActivity extends TitleActivity {
     }
 
 
-    class DnaParamAdapter extends BLBaseRecyclerAdapter<BLTimerInfoV2> {
+    class DnaParamAdapter extends BLBaseRecyclerAdapter<BLBaseTimerInfoV2> {
 
         public DnaParamAdapter() {
             super(mTimerList, R.layout.item_family_room);
@@ -233,8 +341,8 @@ public class DevTimerManageActivity extends TitleActivity {
 
 
 
-    class AddTimerTask extends AsyncTask<BLTimerInfoV2, Void, String> {
-        BLTimerInfoV2 blTimerInfoV2;
+    class AddTimerTask extends AsyncTask<BLBaseTimerInfoV2, Void, String> {
+        BLBaseTimerInfoV2 blTimerInfoV2;
         
         @Override
         protected void onPreExecute() {
@@ -243,7 +351,7 @@ public class DevTimerManageActivity extends TitleActivity {
         }
 
         @Override
-        protected String doInBackground(BLTimerInfoV2... params) {
+        protected String doInBackground(BLBaseTimerInfoV2... params) {
 
             blTimerInfoV2 = params[0];
             
@@ -291,7 +399,7 @@ public class DevTimerManageActivity extends TitleActivity {
             blTimerGetListParamV2.setDid(getDid());
             blTimerGetListParamV2.setAct(BLTimerConstants.ACT.DEL);
 
-            final BLTimerInfoV2 blTimerInfoV2 = mTimerList.get(params[0]);
+            final BLBaseTimerInfoV2 blTimerInfoV2 = mTimerList.get(params[0]);
             final BLTimerDelInfoV2 blTimerDelInfoV2 = new BLTimerDelInfoV2();
             blTimerDelInfoV2.setType(blTimerInfoV2.getType());
             blTimerDelInfoV2.setId(blTimerInfoV2.getId());

@@ -125,20 +125,18 @@ public class DevStressTestActivity extends TitleActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 switch (msg.what) {
-                    case 0:
-                        mEtResult.setText(calcDescStr().toString());
+                    case 0: // 刷新界面显示
+                        handleDescRefresh();
                         break;
                         
-                    case 1:
+                    case 1: // 停止测试
                         stopTest();
                         break;     
                         
-                    case 2:
+                    case 2: // 统计命令执行结果
                         handleCmdResult(msg);
                         break;     
                 }
-                
-               
             }
         };
 
@@ -148,7 +146,14 @@ public class DevStressTestActivity extends TitleActivity {
     }
 
     /**
-     * 统计命令执行结果，并刷新统计信息
+     * 刷新界面显示
+     */
+    private void handleDescRefresh() {
+        mEtResult.setText(calcDescStr().toString());
+    }
+
+    /**
+     * 统计命令执行结果
      */
     private void handleCmdResult(Message msg) {
         int index = msg.arg1;
@@ -233,7 +238,7 @@ public class DevStressTestActivity extends TitleActivity {
 
         // 检测到所有cmd都已经测试完成，停止测试。
         if(isTestOver){
-            mHandler.obtainMessage(1); 
+            mHandler.sendEmptyMessage(1); 
         }
         
         sb.append("\n\n").append("Logfile path: " + mLogFilePath);

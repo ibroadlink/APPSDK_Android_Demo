@@ -3,6 +3,8 @@ package cn.com.broadlink.blappsdkdemo.data.timer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import cn.com.broadlink.sdk.data.controller.BLStdData;
+
 public class BLCycleTimerInfoV2 extends BLBaseTimerInfoV2 implements Parcelable {
     public static final Creator<BLCycleTimerInfoV2> CREATOR = new Creator<BLCycleTimerInfoV2>() {
         @Override
@@ -11,38 +13,39 @@ public class BLCycleTimerInfoV2 extends BLBaseTimerInfoV2 implements Parcelable 
         @Override
         public BLCycleTimerInfoV2[] newArray(int size) {return new BLCycleTimerInfoV2[size];}
     };
-    private String cmd1;
-    private String cmd2;
+    private BLStdData cmd1;
+    private BLStdData cmd2;
     private String time1;
     private String time2;
     private String stime;
     private String etime;
 
+
     public BLCycleTimerInfoV2() {}
 
     protected BLCycleTimerInfoV2(Parcel in) {
-        this.cmd1 = in.readString();
-        this.cmd2 = in.readString();
+        super(in);
+        this.cmd1 = in.readParcelable(BLStdData.class.getClassLoader());
+        this.cmd2 = in.readParcelable(BLStdData.class.getClassLoader());
         this.time1 = in.readString();
         this.time2 = in.readString();
         this.stime = in.readString();
         this.etime = in.readString();
     }
 
-
-    public String getCmd1() {
+    public BLStdData getCmd1() {
         return cmd1;
     }
 
-    public void setCmd1(String cmd1) {
+    public void setCmd1(BLStdData cmd1) {
         this.cmd1 = cmd1;
     }
 
-    public String getCmd2() {
+    public BLStdData getCmd2() {
         return cmd2;
     }
 
-    public void setCmd2(String cmd2) {
+    public void setCmd2(BLStdData cmd2) {
         this.cmd2 = cmd2;
     }
 
@@ -83,8 +86,9 @@ public class BLCycleTimerInfoV2 extends BLBaseTimerInfoV2 implements Parcelable 
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.cmd1);
-        dest.writeString(this.cmd2);
+        super.writeToParcel(dest, flags);
+        dest.writeParcelable(this.cmd1, flags);
+        dest.writeParcelable(this.cmd2, flags);
         dest.writeString(this.time1);
         dest.writeString(this.time2);
         dest.writeString(this.stime);

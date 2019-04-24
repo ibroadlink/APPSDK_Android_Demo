@@ -1,5 +1,7 @@
 package cn.com.broadlink.blappsdkdemo.data.push;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +24,10 @@ public class PushQueryTempListParam {
 
     public PushQueryTempListParam(String cat) {
         //companyid = BLLet.getLicenseId(); // companyid?
-        companyid = "b0491bc574dfa144908c3cd671f56370"; 
-        category.add(cat);
+        
+        if(!TextUtils.isEmpty(cat)){
+            companyid = "b0491bc574dfa144908c3cd671f56370";
+            category.add(cat);
+        }
     }
 }

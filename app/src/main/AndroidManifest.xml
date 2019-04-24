@@ -232,6 +232,9 @@
         <activity
             android:name=".activity.push.PushMainActivity"
             android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.device.DevFirmwareLogActivity"
+            android:theme="@style/ActivityStyle"/>
     </application>
 
 </manifest>

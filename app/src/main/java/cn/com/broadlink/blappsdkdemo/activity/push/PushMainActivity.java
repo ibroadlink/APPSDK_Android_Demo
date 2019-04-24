@@ -20,7 +20,10 @@ import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLDevSrvConstans;
+import cn.com.broadlink.blappsdkdemo.common.BLProfileTools;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
+import cn.com.broadlink.blappsdkdemo.data.BLDevProfileInfo;
 import cn.com.broadlink.blappsdkdemo.data.link.LinkageConditionTimeInfo;
 import cn.com.broadlink.blappsdkdemo.data.link.LinkageConditionsInfo;
 import cn.com.broadlink.blappsdkdemo.data.link.LinkageDevPropertyInfo;
@@ -65,7 +68,7 @@ public class PushMainActivity extends TitleActivity {
     private List<Object> mTemplateOrLinkList = new ArrayList<>();
     private MyAdapter mAdapter;
     private BLDNADevice mDeviceInfo;
-    private String mCat = "265.266";
+    private String mCat = "108.222";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,27 +117,7 @@ public class PushMainActivity extends TitleActivity {
                 final Object bean = mTemplateOrLinkList.get(position);
                 // 模版
                 if(bean instanceof NotificationTemplateResult.TemplatesBean){
-                    if (mDeviceInfo == null) {
-                        final List<BLDNADevice> devicesAddInSDK = BLLocalDeviceManager.getInstance().getDevicesAddInSDK();
-                        if (devicesAddInSDK != null && !devicesAddInSDK.isEmpty()) {
-                            final String[] dids = new String[devicesAddInSDK.size()];
-                            for (int i = 0; i < devicesAddInSDK.size(); i++) {
-                                dids[i] = devicesAddInSDK.get(i).getDid();
-                            }
-                            BLListAlert.showAlert(mActivity, "Select device", dids, new BLListAlert.OnItemClickLister() {
-                                @Override
-                                public void onClick(int whichButton) {
-                                    mDeviceInfo = devicesAddInSDK.get(whichButton);
-                                    mEtDevice.setText(mDeviceInfo.toJSONString());
-                                    instaiateTemplte((NotificationTemplateResult.TemplatesBean) bean);
-                                }
-                            });
-                        } else {
-                            BLToastUtils.show("Devices added to sdk is empty, add one first!");
-                        }
-                    } else {
-                        instaiateTemplte((NotificationTemplateResult.TemplatesBean) bean);
-                    }
+                    instaiateTemplte((NotificationTemplateResult.TemplatesBean) bean);
                 }else{ // 联动
                     BLAlert.showDialog(mActivity, "Confirm to delete this linkage?", new BLAlert.DialogOnClickListener() {
                         @Override
@@ -228,19 +211,32 @@ public class PushMainActivity extends TitleActivity {
             @Override
             public void doOnClick(View v) {
 
-                BLAlert.showEditDilog(mActivity, "Input category", mCat, new BLAlert.BLEditDialogOnClickListener() {
-                    @Override
-                    public void onClink(String value) {
-                        mCat = value;
-                        doQueryTemplist(value);
-                    }
+                if (mDeviceInfo == null) {
+                    final List<BLDNADevice> devicesAddInSDK = BLLocalDeviceManager.getInstance().getDevicesAddInSDK();
+                    if (devicesAddInSDK != null && !devicesAddInSDK.isEmpty()) {
+                        final String[] dids = new String[devicesAddInSDK.size()];
+                        for (int i = 0; i < devicesAddInSDK.size(); i++) {
+                            dids[i] = devicesAddInSDK.get(i).getDid();
+                        }
+                        BLListAlert.showAlert(mActivity, "Select device", dids, new BLListAlert.OnItemClickLister() {
+                            @Override
+                            public void onClick(int whichButton) {
+                                mDeviceInfo = devicesAddInSDK.get(whichButton);
+                                
+                                BLDevProfileInfo profileInfo = BLProfileTools.queryProfileInfoByPid(mDeviceInfo.getPid());
+                                mCat = BLDevSrvConstans.getDevFirstCategory(profileInfo.getSrvs().get(0))+"."+BLDevSrvConstans.getDevCategory(profileInfo.getSrvs().get(0));
 
-                    @Override
-                    public void onCancel(String value) {
+                                mEtDevice.setText("Category: " + mCat + "\n" + mDeviceInfo.toJSONString());
+                                
+                                showCatDialog();
+                            }
+                        });
+                    } else {
+                        BLToastUtils.show("Devices added to sdk is empty, add one first!");
                     }
-                }, true);
-
-               
+                } else {
+                    showCatDialog();
+                }
             }
         });
 
@@ -250,7 +246,20 @@ public class PushMainActivity extends TitleActivity {
                 doQueryLinkList();
             }
         });
+    }
 
+    private void showCatDialog() {
+        BLAlert.showEditDilog(mActivity, "Input category", mCat, new BLAlert.BLEditDialogOnClickListener() {
+            @Override
+            public void onClink(String value) {
+                mCat = value;
+                doQueryTemplist(value);
+            }
+
+            @Override
+            public void onCancel(String value) {
+            }
+        }, true);
     }
 
     private void doQueryLinkList() {

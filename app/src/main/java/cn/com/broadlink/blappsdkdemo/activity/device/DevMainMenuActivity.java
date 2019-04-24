@@ -38,6 +38,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
     private Button mBtSp;
     private Button mBtServeTime;
     private Button mBtQueryConnectServer;
+    private Button mBtFwLog;
     private BLDNADevice mDNADevice;
     
     @Override
@@ -69,6 +70,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         mBtSp.setOnClickListener(this);
         mBtServeTime.setOnClickListener(this);
         mBtQueryConnectServer.setOnClickListener(this);
+        mBtFwLog.setOnClickListener(this);
     }
 
     private void initView() {
@@ -90,6 +92,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         mBtSp = (Button) findViewById(R.id.bt_sp);
         mBtServeTime = (Button) findViewById(R.id.bt_query_sever_time);
         mBtQueryConnectServer = (Button) findViewById(R.id.bt_server);
+        mBtFwLog = (Button) findViewById(R.id.bt_fw_log);
     }
 
     @Override
@@ -176,6 +179,10 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
                 
             case R.id.bt_sp:
                 BLCommonUtils.toActivity(mActivity, SPDemoActivity.class, mDNADevice);
+                break;
+                
+            case R.id.bt_fw_log:
+                BLCommonUtils.toActivity(mActivity, DevFirmwareLogActivity.class, mDNADevice);
                 break;
         }
     }

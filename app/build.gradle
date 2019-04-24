@@ -79,22 +79,23 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     
-    // normal start
-    implementation 'com.ibroadlink:BLLetCoreAndroid:2.10.+'
-    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.+'
-    implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.10.+'
-    // normal end
-    
-//    // fot local debug start
-//    implementation fileTree(include: ['*.aar'], dir: 'libs')
-//    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.3'
+//    // normal start
+//    implementation 'com.ibroadlink:BLLetCoreAndroid:2.10.+'
+//    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.+'
 //    implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.10.+'
-//    //implementation project(':ircode')
-//    configurations {
-//        all*.exclude group:'com.ibroadlink',  module:'BLLetCoreAndroid'
-//        all*.exclude group:'com.ibroadlink',  module:'BLLetBaseAndroid'
-//    }
-//    // fot local debug end
+//    // normal end
+    
+    // fot local debug start
+    implementation fileTree(include: ['*.aar'], dir: 'libs')
+    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.3'
+    implementation 'com.ibroadlink:BLLetBaseAndroid:2.10.+'
+    implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.10.+'
+    //implementation project(':ircode')
+    configurations {
+        all*.exclude group:'com.ibroadlink',  module:'BLLetCoreAndroid'
+        //all*.exclude group:'com.ibroadlink',  module:'BLLetBaseAndroid'
+    }
+    // fot local debug end
     
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'

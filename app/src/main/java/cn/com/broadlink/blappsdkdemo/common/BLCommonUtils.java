@@ -527,7 +527,22 @@ public class BLCommonUtils {
         String subDid = TextUtils.isEmpty(dev.getpDid()) ? null : dev.getDid();
         return new String[]{devDid, subDid};
     }
-    
+
+    public static String getWifiIp(Context context){
+        WifiManager wifiManager =(WifiManager)context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (wifiManager == null || !wifiManager.isWifiEnabled()) {
+            return null;
+        }
+        
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        int ipAddress = wifiInfo.getIpAddress();
+        return intToIp(ipAddress);
+    } 
+
+    private static String intToIp(int i) {
+        return (i & 0xFF) + "." + ((i >> 8) & 0xFF) + "." + ((i >> 16) & 0xFF) + "." + (i >> 24 & 0xFF);
+    }
+
     /**
      * 打开文件 
      * @param file

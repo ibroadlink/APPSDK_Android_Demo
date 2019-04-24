@@ -81,7 +81,7 @@ public class CommonModuleMoreActivity extends TitleActivity {
                     }
 
                     @Override
-                    public void onClinkCacel(String value) {
+                    public void onCancel(String value) {
 
                     }
                 }, false);

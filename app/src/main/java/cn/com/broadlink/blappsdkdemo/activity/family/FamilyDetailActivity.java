@@ -140,7 +140,7 @@ public class FamilyDetailActivity extends TitleActivity implements FamilyInterfa
                     }
 
                     @Override
-                    public void onClinkCacel(String value) {
+                    public void onCancel(String value) {
 
                     }
                 }, false);

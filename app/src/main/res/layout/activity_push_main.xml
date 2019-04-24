@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.com.broadlink.blappsdkdemo.activity.device.DevFastconManageActivity"
+    android:padding="10dp">
+    
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
+    
+    <EditText
+        android:id="@+id/et_device"
+        android:padding="10dp"
+        android:textSize="13sp"
+        android:gravity="top|left"
+        android:layout_width="match_parent"
+        android:scrollbarStyle="insideOverlay"
+        android:layout_height="wrap_content"
+        android:hint="Device Info"
+        android:textColor="@color/textDark"
+        android:background="@drawable/shape_input_view_blue_bg"
+        android:scrollbars="vertical"/>
+    
+    <EditText
+        android:id="@+id/et_result"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:textSize="13sp"
+        android:gravity="top|left"
+        android:layout_width="match_parent"
+        android:scrollbarStyle="insideOverlay"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:textColor="@color/textDark"
+        android:background="@drawable/shape_input_view_blue_bg"
+        android:scrollbars="vertical"/>
+    
+    <Button
+        android:id="@+id/bt_report_token"
+        style="@style/commonBtn"
+        android:text="Report Token"/>
+
+    <Button
+        android:id="@+id/bt_push_switch"
+        style="@style/commonBtn"
+        android:text="Push Setting"/>
+
+    <Button
+        android:id="@+id/bt_logout"
+        style="@style/commonBtn"
+        android:text="User Logout"/>
+    
+    <Button
+        android:id="@+id/bt_get_temp_list"
+        style="@style/commonBtn"
+        android:text="Query Template List"/>
+
+    <Button
+        android:id="@+id/bt_get_link_list"
+        style="@style/commonBtn"
+        android:text="Query Linkage List"/>
+    
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_list"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_stroke_right_round"
+        />
+
+</LinearLayout>
+</ScrollView>

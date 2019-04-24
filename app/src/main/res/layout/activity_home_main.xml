@@ -52,6 +52,15 @@
         android:paddingRight="20dp"
         android:text="Product Management"
         />
+    
+    <Button
+        android:id="@+id/btn_push"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Push Management"
+        />
 
     <Button
         android:id="@+id/btn_network_check"

@@ -175,23 +175,31 @@ public class BLApiUrlConstants {
         /**2、	查询选定的设备(followdev)**/
         public static String QUERY() { return BASE_PUSH_URL + "/ec4/v1/pusher/followdev/query"; }
 
-        /**3、	用户上报**/
-        public static String REG() { return BASE_PUSH_URL + "/ec4/v1/pusher/registerforremotenotify"; }
-
-        /**4、	用户设置选定的喜好推送方式（favortype）**/
-        public static String SET_TYPE() { return BASE_PUSH_URL + "/ec4/v1/pusher/favorpushtype/manage"; }
-
         /**5、 查询喜好推送方式（favortype**/
         public static String GET_TYPE() { return BASE_PUSH_URL + "/ec4/v1/pusher/favorpushtype/query"; }
 
-        /**6、 获取所有推送类型**/
-        public static String GET_ALL_TYPE() { return BASE_PUSH_URL + "/ec4/v1/pusher/pushtypelist/query"; }
 
-        /**7、 通过Pid获取相应的推送类型**/
-        public static String GET_TYPE_BY_PID() { return BASE_PUSH_URL + "/ec4/v1/pusher/mesgtypebypid/query"; }
+        /**3、	用户上报**/
+        public static String REG() { return BASE_PUSH_URL + "/appfront/v1/pusher/registerforremotenotify"; }
 
+        /**9、 设置开关 **/
+        public static String SET_TYPE() { return BASE_PUSH_URL + "/ec4/v1/pusher/favorpushtype/manage";}
+        
         /**8、 用户退出登录**/
         public static String LOGOUT() { return BASE_PUSH_URL + "/ec4/v1/pusher/signoutaccount"; }
+        
+        /**9、 模版查询**/
+        public static String TEMP_QUERY() { return BASE_PUSH_URL + "/appfront/v1/tempalte/query"; }
+
+        /**9、 联动查询 **/
+        public static String LINK_QUERY() { return BASE_PUSH_URL + "/appfront/v2/linkage/query"; }
+        
+        /**9、 联动增加 **/
+        public static String LINK_ADD() { return BASE_PUSH_URL + "/appfront/v2/linkage/add"; }
+
+        /**9、 联动删除 **/
+        public static String LINK_DEL() { return BASE_PUSH_URL + "/appfront/v2/linkage/delete"; }
+
     }
 
 

@@ -215,7 +215,7 @@ public class BLAlert {
         titleTextView.setText(title);
         final EditText editText = (EditText) view.findViewById(R.id.input_view);
         if(isNumberType){
-            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+            editText.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         }
         editText.setHint(editHint);
         
@@ -235,7 +235,7 @@ public class BLAlert {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (clickListener != null) {
-                    	clickListener.onClinkCacel(editText.getText().toString());
+                    	clickListener.onCancel(editText.getText().toString());
                     }
                 }
             });
@@ -291,7 +291,7 @@ public class BLAlert {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (clickListener != null) {
-                        clickListener.onClinkCacel(editText.getEditText().getText().toString());
+                        clickListener.onCancel(editText.getEditText().getText().toString());
                     }
                 }
             });
@@ -341,7 +341,7 @@ public class BLAlert {
      */
     public interface BLEditDialogOnClickListener {
         void onClink(String value);
-        void onClinkCacel(String value);
+        void onCancel(String value);
     }
     
     /**

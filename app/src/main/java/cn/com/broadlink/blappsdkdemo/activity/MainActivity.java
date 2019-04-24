@@ -23,11 +23,11 @@ import cn.com.broadlink.blappsdkdemo.activity.device.DevMainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.family.FamilyListActivity;
 import cn.com.broadlink.blappsdkdemo.activity.irCode.IRCodeMainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.product.ProductCategoryListActivity;
+import cn.com.broadlink.blappsdkdemo.activity.push.PushMainActivity;
 import cn.com.broadlink.blappsdkdemo.common.AppExitHelper;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
 import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
-import cn.com.broadlink.blappsdkdemo.mvp.presenter.BLPushServicePresenter;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
@@ -35,7 +35,7 @@ import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
 public class MainActivity extends TitleActivity {
 
-    private Button mDeviceBtn, mAccountBtn, mFamilyBtn, mIRCodeBtn, mNetworkCheckBtn, mProductManageBtn;
+    private Button mDeviceBtn, mAccountBtn, mFamilyBtn, mIRCodeBtn, mNetworkCheckBtn, mProductManageBtn, mPushManagageBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +48,6 @@ public class MainActivity extends TitleActivity {
         findView();
 
         setListener();
-
-        BLPushServicePresenter.getInstance(mActivity).reportPushServiceToken();
 
         HashMap<String,String> testBean = new HashMap<>();
         testBean.put("1", "111");
@@ -66,6 +64,7 @@ public class MainActivity extends TitleActivity {
         mIRCodeBtn = (Button) findViewById(R.id.btn_ircode_control);
         mNetworkCheckBtn = (Button) findViewById(R.id.btn_network_check);
         mProductManageBtn = (Button) findViewById(R.id.btn_product_manage);
+        mPushManagageBtn = (Button) findViewById(R.id.btn_push);
     }
 
     private void setListener() {
@@ -134,6 +133,15 @@ public class MainActivity extends TitleActivity {
             @Override
             public void doOnClick(View v) {
                 BLCommonUtils.toActivity(mActivity, ProductCategoryListActivity.class);
+            }
+        });
+
+        mPushManagageBtn.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                if (checkLoginAndFamily(false)) {
+                    BLCommonUtils.toActivity(MainActivity.this, PushMainActivity.class);
+                }
             }
         });
     }

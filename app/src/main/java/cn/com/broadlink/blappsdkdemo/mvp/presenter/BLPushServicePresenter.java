@@ -14,21 +14,18 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.widget.Button;
 
 import com.alibaba.fastjson.JSON;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.BuildConfig;
 import cn.com.broadlink.blappsdkdemo.R;
@@ -37,20 +34,16 @@ import cn.com.broadlink.blappsdkdemo.common.BLApiUrlConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLLog;
+import cn.com.broadlink.blappsdkdemo.data.link.LinkageInfo;
 import cn.com.broadlink.blappsdkdemo.data.push.BLPushMsg;
-import cn.com.broadlink.blappsdkdemo.data.push.DevicePushInfo;
-import cn.com.broadlink.blappsdkdemo.data.push.DevicePushInfoResult;
-import cn.com.broadlink.blappsdkdemo.data.push.EditDevicePushParam;
 import cn.com.broadlink.blappsdkdemo.data.push.PlatformPushInfo;
 import cn.com.broadlink.blappsdkdemo.data.push.PlatformPushInfoParam;
+import cn.com.broadlink.blappsdkdemo.data.push.PushDelLinktParam;
+import cn.com.broadlink.blappsdkdemo.data.push.PushQueryTempListParam;
 import cn.com.broadlink.blappsdkdemo.data.push.PushReportHeader;
 import cn.com.broadlink.blappsdkdemo.data.push.PushReportTokenParam;
-import cn.com.broadlink.blappsdkdemo.data.push.PushTypeInfo;
-import cn.com.broadlink.blappsdkdemo.data.push.QueryPlatformPushResult;
-import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.intferfacer.BasePushListener;
 import cn.com.broadlink.blappsdkdemo.mvp.model.PushModel;
-import cn.com.broadlink.blappsdkdemo.utils.http.BLHttpGetAccessor;
 import cn.com.broadlink.blappsdkdemo.utils.http.BLHttpPostAccessor;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.BLProgressDialog;
@@ -106,7 +99,7 @@ public class BLPushServicePresenter implements PushModel {
         public static final int SUCC = -2;
     }
     private int checkUseridAndToken(){
-        final String token = getToken(mContext);
+        final String token = getToken();
         final String userId = BLApplication.mBLUserInfoUnits.getUserid();
         final boolean ret = !TextUtils.isEmpty(token) && !TextUtils.isEmpty(userId);
         
@@ -127,59 +120,14 @@ public class BLPushServicePresenter implements PushModel {
         if(res == CHECK_PUSH_RESULT.SUCC){
             task.execute();
         }else if(listener != null){
-            listener.onFail(mContext.getString( res== CHECK_PUSH_RESULT.ERR_USERID_NULL ?  R.string.push_userid_null : R.string.push_token_null));
+            listener.onCallBack(mContext.getString( res== CHECK_PUSH_RESULT.ERR_USERID_NULL ?  R.string.push_userid_null : R.string.push_token_null));
         }
     }
-    
-
-    /**
-     * 封装上报token的操作流程
-     */
-    public void reportPushServiceToken() {
-        mReportTokenRetryCnt = 1;
-        if(mPushRegHandler == null){
-            mPushRegHandler = new Handler(mContext.getMainLooper()){
-                @Override
-                public void handleMessage(Message msg) {
-                    super.handleMessage(msg);
-                    if(BLCommonUtils.checkNetwork(mContext)){
-                        reportToken(new BasePushListener() {
-                            @Override
-                            public void onSucc(BLBaseResult res) {
-                                setPushEnable(true, null); 
-                                mPushRegHandler.removeMessages(0);
-                            }
-                            
-
-                            @Override
-                            public void onFail(String msg) {
-                                if(mReportTokenRetryCnt > REPORT_TOKEN_RETRY_MAX_CNT){
-                                    mPushRegHandler.removeMessages(0);
-                                }else{
-                                    mPushRegHandler.sendEmptyMessageDelayed(0, mReportTokenRetryCnt * 3 * 1000);
-                                    mReportTokenRetryCnt++;
-                                }
-                            }
-
-                            @Override
-                            public boolean isShowProgressDialog() {
-                                return false;
-                            }
-                        });
-                    }
-                }
-            };
-        }
-        
-        mPushRegHandler.removeMessages(0);
-        mPushRegHandler.sendEmptyMessage(1000);
-    }
-    
     
     @Override
     public void reportToken(BasePushListener listener) {
         
-        final String token = getToken(mContext);
+        final String token = getToken();
         PushReportTokenTask  mPushReportTokenTask = new PushReportTokenTask(listener,token,getTokenSystem(mContext));
         executePushTask(mPushReportTokenTask, listener);
     }
@@ -195,7 +143,7 @@ public class BLPushServicePresenter implements PushModel {
         }
 
         @Override
-        protected BLBaseResult doInBackground(Void... voids) {
+        protected String doInBackground(Void... voids) {
 
             List<PushReportTokenParam> reportTokenParamList = new ArrayList<>();
             PushReportTokenParam pushReportTokenParam = new PushReportTokenParam();
@@ -208,13 +156,131 @@ public class BLPushServicePresenter implements PushModel {
             mPostAccessor.setToastError(false);
             PushReportHeader pushReportHeader = new PushReportHeader();
             pushReportHeader.setSystem(tokenSystem);
-            return mPostAccessor.execute(BLApiUrlConstants.PushServicer.REG(), pushReportHeader, JSON.toJSONString(reportTokenParamList), BLBaseResult.class);
+            return mPostAccessor.execute(BLApiUrlConstants.PushServicer.REG(), pushReportHeader, JSON.toJSONString(reportTokenParamList), String.class);
         }
         @Override
-        protected void onPostExecute(BLBaseResult blBaseResult) {
+        protected void onPostExecute(String blBaseResult) {
             super.onPostExecute(blBaseResult);
         }
     }
+
+
+    @Override
+    public void queryTempList(String cat, BasePushListener listener) {
+        QueryTempListTask  mPushReportTokenTask = new QueryTempListTask(cat, listener);
+        executePushTask(mPushReportTokenTask, listener);
+    }
+    
+    private class QueryTempListTask extends BasePushTask{
+        String cat;
+        public QueryTempListTask(String cat, BasePushListener listener){
+            super(listener);
+            this.cat = cat;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            final PushQueryTempListParam pushQueryTempListParam = new PushQueryTempListParam(cat);
+
+            BLHttpPostAccessor mPostAccessor = new BLHttpPostAccessor(mContext);
+            mPostAccessor.setToastError(false);
+            PushReportHeader pushReportHeader = new PushReportHeader();
+            return mPostAccessor.execute(BLApiUrlConstants.PushServicer.TEMP_QUERY(), pushReportHeader, JSON.toJSONString(pushQueryTempListParam), String.class);
+        }
+        @Override
+        protected void onPostExecute(String blBaseResult) {
+            super.onPostExecute(blBaseResult);
+        }
+    }
+
+    
+    @Override
+    public void addLink(LinkageInfo pushLinkInfo, BasePushListener listener) {
+        AddLinkTask mPushReportTokenTask = new AddLinkTask(listener, pushLinkInfo);
+        executePushTask(mPushReportTokenTask, listener);
+    }
+    private class AddLinkTask extends BasePushTask{
+        LinkageInfo pushLinkInfo;
+                
+        public AddLinkTask(BasePushListener listener, LinkageInfo pushLinkInfo){
+            super(listener);
+            this.pushLinkInfo = pushLinkInfo;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            BLHttpPostAccessor mPostAccessor = new BLHttpPostAccessor(mContext);
+            mPostAccessor.setToastError(false);
+            PushReportHeader pushReportHeader = new PushReportHeader();
+            return mPostAccessor.execute(BLApiUrlConstants.PushServicer.LINK_ADD(), pushReportHeader, JSON.toJSONString(pushLinkInfo), String.class);
+        }
+        @Override
+        protected void onPostExecute(String blBaseResult) {
+            super.onPostExecute(blBaseResult);
+        }
+    }
+
+    
+    
+    @Override
+    public void queryLink(BasePushListener listener) {
+        QueryLinkTask mPushReportTokenTask = new QueryLinkTask(listener);
+        executePushTask(mPushReportTokenTask, listener);
+    }
+    private class QueryLinkTask extends BasePushTask{
+
+        public QueryLinkTask(BasePushListener listener){
+            super(listener);
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+
+            BLHttpPostAccessor mPostAccessor = new BLHttpPostAccessor(mContext);
+            mPostAccessor.setToastError(false);
+            PushReportHeader pushReportHeader = new PushReportHeader();
+            return mPostAccessor.execute(BLApiUrlConstants.PushServicer.LINK_QUERY(), pushReportHeader, null, String.class);
+        }
+        @Override
+        protected void onPostExecute(String blBaseResult) {
+            super.onPostExecute(blBaseResult);
+        }
+    }
+
+    @Override
+    public void delLink(String ruleId, BasePushListener listener) {
+
+        DelLinkTask mPushReportTokenTask = new DelLinkTask(listener, ruleId);
+        executePushTask(mPushReportTokenTask, listener);
+    }
+    private class DelLinkTask extends BasePushTask{
+        String ruleId;
+
+        public DelLinkTask(BasePushListener listener, String ruleId){
+            super(listener);
+            this.ruleId = ruleId;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            final PushDelLinktParam pushQueryTempListParam = new PushDelLinktParam(ruleId);
+
+            BLHttpPostAccessor mPostAccessor = new BLHttpPostAccessor(mContext);
+            mPostAccessor.setToastError(false);
+            PushReportHeader pushReportHeader = new PushReportHeader();
+            return mPostAccessor.execute(BLApiUrlConstants.PushServicer.LINK_DEL(), pushReportHeader, JSON.toJSONString(pushQueryTempListParam), String.class);
+        }
+        @Override
+        protected void onPostExecute(String blBaseResult) {
+            super.onPostExecute(blBaseResult);
+        }
+    }
+
+
 
     @Override
     public void setPushEnable(boolean enable, BasePushListener listener) {
@@ -232,10 +298,10 @@ public class BLPushServicePresenter implements PushModel {
         }
 
         @Override
-        protected BLBaseResult doInBackground(Void... voids) {
+        protected String doInBackground(Void... voids) {
             PlatformPushInfo platformPushInfo = new PlatformPushInfo();
             platformPushInfo.tokentype.tousertype = PUSH_CLIENT_APP;
-            platformPushInfo.tokentype.touser = getToken(mContext);
+            platformPushInfo.tokentype.touser = getToken();
             platformPushInfo.action = (pushEnable ? PUSH_ACTION_DEV_FOLLOW : PUSH_ACTION_DEV_QUIT_FOLLOW);
 
             PlatformPushInfoParam param = new PlatformPushInfoParam();
@@ -243,173 +309,15 @@ public class BLPushServicePresenter implements PushModel {
             param.getManagetypeinfo().add(platformPushInfo);
 
             BLHttpPostAccessor mPostAccessor = new BLHttpPostAccessor(mContext);
-            return mPostAccessor.execute(BLApiUrlConstants.PushServicer.SET_TYPE(), new PushReportHeader(), JSON.toJSONString(param), BLBaseResult.class);
+            return mPostAccessor.execute(BLApiUrlConstants.PushServicer.SET_TYPE(), new PushReportHeader(), JSON.toJSONString(param), String.class);
         }
         @Override
-        protected void onPostExecute(BLBaseResult blBaseResult) {
+        protected void onPostExecute(String blBaseResult) {
             super.onPostExecute(blBaseResult);
         }
     }
-
     
-    @Override
-    public void isPushEnabled(BasePushListener listener) {
-        QueryPushEnableTask mPushReportTokenTask = new QueryPushEnableTask(listener);
-        executePushTask(mPushReportTokenTask, listener);
-    }
 
-    /** 查询推送是否开启 **/
-    private class QueryPushEnableTask extends BasePushTask{
-
-        private QueryPushEnableTask(BasePushListener listener){
-         super(listener);
-        }
-        
-        @Override
-        protected QueryPlatformPushResult doInBackground(Void... voids) {
-            BLHttpGetAccessor mGetAccessor = new BLHttpGetAccessor(mContext);
-            return mGetAccessor.execute(BLApiUrlConstants.PushServicer.GET_TYPE(), new PushReportHeader(), null, QueryPlatformPushResult.class);
-        }
-    }
-
-    /**
-     * 解析查询结果, 在回调用使用
-     * @param ret           查询结果
-     * @param defaultRet    当查询失败时返回的状态
-     * @return
-     */
-    public boolean parseIsPushEnabled(QueryPlatformPushResult ret, boolean defaultRet){
-        if(ret != null && ret.succeed()){
-            if(ret.getTousertypelist() != null){
-                for (PushTypeInfo platformPushInfo : ret.getTousertypelist()) {
-                    if(platformPushInfo.tousertype.equals(PUSH_CLIENT_APP)){
-                        return true;
-                    }
-                }
-                return false;
-            }
-        }
-        return defaultRet;
-    }
-
-    @Override
-    public void setDevicePushEnable(String did, boolean pushEnable, BasePushListener listener) {
-        FollowDevTask mPushReportTokenTask = new FollowDevTask(listener, did, pushEnable ? PUSH_ACTION_DEV_FOLLOW : PUSH_ACTION_DEV_QUIT_FOLLOW);
-        executePushTask(mPushReportTokenTask, listener);
-    }
-
-    /** 设置选定的dev **/
-    private class FollowDevTask extends BasePushTask{
-        String did, followType;
-        
-        private FollowDevTask(BasePushListener listener, String did, String followType){
-            super(listener);
-            this.did = did;
-            this.followType = followType;
-        }
-
-        @Override
-        protected BLBaseResult doInBackground(Void... param) {
-            DevicePushInfo devicePushInfo =  new DevicePushInfo();
-            devicePushInfo.setDid(did);
-            devicePushInfo.setAction(followType);
-
-            EditDevicePushParam editDevicePushParam =  new EditDevicePushParam();
-            editDevicePushParam.setUserid(BLApplication.mBLUserInfoUnits.getUserid());
-            editDevicePushParam.getManageinfo().add(devicePushInfo);
-            BLHttpPostAccessor mPostAccessor = new BLHttpPostAccessor(mContext);
-            return mPostAccessor.execute(BLApiUrlConstants.PushServicer.ADD_DID(),  new PushReportHeader(), JSON.toJSONString(editDevicePushParam), BLBaseResult.class);
-        }
-    }
-    
-    /*blBaseResult.getDevinfo().get(0).isPushEnable()*/
-    @Override
-    public void queryDevicePushEnable(String did, String pid, BasePushListener listener) {
-        QuerySingleDevTask mPushReportTokenTask = new QuerySingleDevTask(listener, did, pid);
-        executePushTask(mPushReportTokenTask, listener);
-    }
-
-    /** 查询单个Dev的推送状态 **/
-    private class QuerySingleDevTask extends BasePushTask{
-        private String did, pid;
-        private QuerySingleDevTask(BasePushListener listener, String did, String pid){
-            super(listener);
-            this.did = did;
-            this.pid = pid;
-        }
-
-
-        @Override
-        protected DevicePushInfoResult doInBackground(Void... param) {
-            JSONArray pushInfoList = new JSONArray();
-            JSONObject devicePushInfo = new JSONObject();
-            try {
-                devicePushInfo.put("did", did);
-                devicePushInfo.put("pid", pid);
-                pushInfoList.put(devicePushInfo);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            BLHttpGetAccessor mGetAccessor = new BLHttpGetAccessor(mContext);
-            return mGetAccessor.execute(BLApiUrlConstants.PushServicer.QUERY(),  new PushReportHeader(),pushInfoList.toString(), DevicePushInfoResult.class);
-        }
-    }
-
-    /**
-     * 解析查询结果, 在回调用使用
-     * @param ret           查询结果
-     * @param defaultRet    当查询失败时返回的状态
-     * @return
-     */
-    public boolean parseIsDevicePushEnabled(DevicePushInfoResult ret, boolean defaultRet){
-        if(ret != null && ret.succeed()){
-          return  ret.getDevinfo().get(0).isPushEnable();
-        }
-        return defaultRet;
-    }
-
-
-
-    @Override
-    public void queryDeviceListPushEnable(List<BLDeviceInfo> deviceList, BasePushListener listener) {
-        QueryFollowDevTask mPushReportTokenTask = new QueryFollowDevTask(deviceList, listener);
-        executePushTask(mPushReportTokenTask, listener);
-    }
-    
-    /** 查询Dev的推送状态 **/
-    private class QueryFollowDevTask extends BasePushTask{
-        private List<BLDeviceInfo> deviceList = new ArrayList<>();
-        
-        private QueryFollowDevTask(List<BLDeviceInfo> deviceList, BasePushListener listener){
-            super(listener);
-            this.deviceList.addAll(deviceList);
-        }
-
-        @Override
-        protected DevicePushInfoResult doInBackground(Void... param) {
-            JSONArray pushInfoList = new JSONArray();
-            for (BLDeviceInfo deviceInfo : deviceList) {
-                JSONObject devicePushInfo = new JSONObject();
-                try {
-                    devicePushInfo.put("did", deviceInfo.getDid());
-                    devicePushInfo.put("pid", deviceInfo.getPid());
-                    pushInfoList.put(devicePushInfo);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            BLHttpGetAccessor mGetAccessor = new BLHttpGetAccessor(mContext);
-            return mGetAccessor.execute(BLApiUrlConstants.PushServicer.QUERY(),  new PushReportHeader(), pushInfoList.toString(), DevicePushInfoResult.class);
-        }
-    }
-
-
-    @Override
-    public void switchUser(BasePushListener listener) {
-        reportToken(listener);
-    }
-
-    
     @Override
     public void logoutUser(BasePushListener listener) {
         UserLogoutTask mPushReportTokenTask = new UserLogoutTask(listener);
@@ -424,17 +332,17 @@ public class BLPushServicePresenter implements PushModel {
         }
 
         @Override
-        protected BLBaseResult doInBackground(Void... param) {
+        protected String doInBackground(Void... param) {
             BLHttpPostAccessor mPostAccessor = new BLHttpPostAccessor(mContext);
             mPostAccessor.setToastError(false);
             final JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("accountlabel", 1);
-                jsonObject.put("touser", getToken(mContext));
+                jsonObject.put("touser", getToken());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-           return mPostAccessor.execute(BLApiUrlConstants.PushServicer.LOGOUT(),  new PushReportHeader(), jsonObject.toString(), BLBaseResult.class);
+           return mPostAccessor.execute(BLApiUrlConstants.PushServicer.LOGOUT(),  new PushReportHeader(), jsonObject.toString(), String.class);
         }
     }
     private void destory(){
@@ -443,12 +351,11 @@ public class BLPushServicePresenter implements PushModel {
 
     /**
      * 获取推送的token
-     * @param context
      * @return
      */
-    public static String getToken(Context context){
+    public String getToken(){
         String token = null;
-        final BLApplication applicationContext = (BLApplication) (context.getApplicationContext());
+        final BLApplication applicationContext = (BLApplication) (mContext.getApplicationContext());
         if(applicationContext != null && applicationContext.mAliPushService != null){
             token = applicationContext.mAliPushService.getDeviceId();
         }
@@ -597,7 +504,7 @@ public class BLPushServicePresenter implements PushModel {
 
 
     /** Base AsyncTask **/
-    private class BasePushTask extends AsyncTask<Void, Void, BLBaseResult> {
+    private class BasePushTask extends AsyncTask<Void, Void, String> {
         protected BasePushListener listener;
 
         private BasePushTask(BasePushListener listener){
@@ -616,12 +523,12 @@ public class BLPushServicePresenter implements PushModel {
         }
 
         @Override
-        protected BLBaseResult doInBackground(Void... param) {
+        protected String doInBackground(Void... param) {
             return null;
         }
 
         @Override
-        protected void onPostExecute(BLBaseResult blBaseResult) {
+        protected void onPostExecute(String blBaseResult) {
             super.onPostExecute(blBaseResult);
 
             if(mProgressDialog != null){
@@ -629,11 +536,7 @@ public class BLPushServicePresenter implements PushModel {
             }
 
             if(listener != null){
-                if(blBaseResult !=null && blBaseResult.succeed()){
-                    listener.onSucc(blBaseResult);
-                }else{
-                    listener.onFail(blBaseResult==null ? "" : blBaseResult.getMsg());
-                }
+                listener.onCallBack(blBaseResult);
             }
         }
     }

@@ -1484,6 +1484,19 @@
     <string name="str_cmd_sub_mdf">{\"did\": \"xxx\", \"pid\": \"xxx\", \"name\": \"xxx\", \"lock\": false, \"type\":10024}</string>
     
     <string name="str_json_test">{\"countryCode\":\"ASM\"}</string>
-    
+    <string name="str_change_to">Change to</string>
+    <string name="str_change_up">Move up to</string>
+    <string name="str_change_down">Move down to</string>
+    <string name="str_change_greater">&gt;</string>
+    <string name="str_change_less">&lt;</string>
+    <string name="str_condition">Conditions</string>
+    <string name="str_addcondition">Add condition</string>
+    <string name="str_adddely">Add delay timer</string>
+    <string name="str_characteristic_title">Triggers</string>
+    <string name="str_addlinkage">Add a trigger</string>
+    <string name="str_trigger">Trigger condition</string>
+    <string name="str_addtrigger">Add a trigger condition</string>
+    <string name="str_addcustomlinkage">Add a user-defined trigger</string>
+    <string name="str_addlinkagemodel">Add a smart cloud trigger</string>
     
 </resources>

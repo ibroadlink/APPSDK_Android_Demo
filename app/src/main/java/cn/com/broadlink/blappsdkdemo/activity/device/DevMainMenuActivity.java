@@ -120,7 +120,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
                             }
 
                             @Override
-                            public void onClinkCacel(String value) {
+                            public void onCancel(String value) {
                                 BLCommonUtils.toActivity(mActivity, DevTimerManageActivity.class, mDNADevice);
                             }
                         }, false);
@@ -159,7 +159,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
                     }
 
                     @Override
-                    public void onClinkCacel(String value) {
+                    public void onCancel(String value) {
 
                     }
                 }, false);

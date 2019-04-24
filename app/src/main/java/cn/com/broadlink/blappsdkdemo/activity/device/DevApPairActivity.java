@@ -75,7 +75,7 @@ public class DevApPairActivity extends TitleActivity {
                     }
 
                     @Override
-                    public void onClinkCacel(String value) {
+                    public void onCancel(String value) {
 
                     }
                 }, false);

@@ -36,6 +36,7 @@ import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLFileUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLStorageUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
+import cn.com.broadlink.blappsdkdemo.common.PreferencesUtils;
 import cn.com.broadlink.blappsdkdemo.data.BLStressTestCmdBean;
 import cn.com.broadlink.blappsdkdemo.data.BLStressTestResultBean;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
@@ -76,6 +77,7 @@ public class DevStressTestActivity extends TitleActivity {
     private volatile long mControlCount = 0;
     private volatile Map<Integer, String> mCmdStaticsDescMap = new HashMap<>();
     private ExecutorService mCachedThreadPool;
+    private final String PF_STRESS_TEST_CMD_LIST = "PF_STRESS_TEST_CMD_LIST"; 
     
     /** 停止测试 **/
     private volatile boolean mShouldStop = false;
@@ -143,6 +145,8 @@ public class DevStressTestActivity extends TitleActivity {
         mTestRunnable = new TestRunnable();
 
         initDnaCmd();
+        
+        readCache();
     }
 
     /**
@@ -373,6 +377,23 @@ public class DevStressTestActivity extends TitleActivity {
         });
     }
     
+    private void saveCahce(){
+        PreferencesUtils.putString(mActivity, PF_STRESS_TEST_CMD_LIST, JSON.toJSONString(mCmdList));
+    }
+    
+    private void readCache(){
+        final String cmdList = PreferencesUtils.getString(mActivity, PF_STRESS_TEST_CMD_LIST);
+        try {
+            final List<BLStressTestCmdBean> blStressTestCmdBeans = JSON.parseArray(cmdList, BLStressTestCmdBean.class);
+            if(blStressTestCmdBeans != null){
+                mCmdList.clear();
+                mCmdList.addAll(blStressTestCmdBeans);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     private void selectDevice(){
         final List<BLDNADevice> devicesAddInSDK = BLLocalDeviceManager.getInstance().getDevicesAddInSDK();
         if (devicesAddInSDK != null && !devicesAddInSDK.isEmpty()) {
@@ -443,6 +464,7 @@ public class DevStressTestActivity extends TitleActivity {
 
                     mCmdList.add(new BLStressTestCmdBean(dids[0], dids[1], cmdStr, data, intervalInt, delayInt, countInt));
                     mAdapter.notifyDataSetChanged();
+                    saveCahce();
                     
                 } catch (NumberFormatException e) {
                     BLToastUtils.show("cmd param invalid!");
@@ -532,6 +554,7 @@ public class DevStressTestActivity extends TitleActivity {
                 public void doOnClick(View v) {
                     mBeans.remove(holder.getAdapterPosition());
                     notifyDataSetChanged();
+                    saveCahce();
                 }
             });
         }

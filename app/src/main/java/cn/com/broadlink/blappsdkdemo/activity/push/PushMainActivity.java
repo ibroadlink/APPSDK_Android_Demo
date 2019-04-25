@@ -363,6 +363,7 @@ public class PushMainActivity extends TitleActivity {
         LinkageInfo linkageInfo = new LinkageInfo();
         changeAction(true,templatesBean);
         List<String> moduleidList = new ArrayList<>();
+        moduleidList.add(""); // 不加的话云端会返回“数据错误”
         linkageInfo.setModuleid(moduleidList);
         linkageInfo.setEnable(1);
         linkageInfo.setFamilyid(BLLocalFamilyManager.getInstance().getCurrentFamilyInfo().getFamilyid());

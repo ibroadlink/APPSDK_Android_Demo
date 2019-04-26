@@ -117,7 +117,7 @@ public class PushMainActivity extends TitleActivity {
                 final Object bean = mTemplateOrLinkList.get(position);
                 // 模版
                 if(bean instanceof NotificationTemplateResult.TemplatesBean){
-                    instaiateTemplte((NotificationTemplateResult.TemplatesBean) bean);
+                    instantiateTemplte((NotificationTemplateResult.TemplatesBean) bean);
                 }else{ // 联动
                     BLAlert.showDialog(mActivity, "Confirm to delete this linkage?", new BLAlert.DialogOnClickListener() {
                         @Override
@@ -268,9 +268,11 @@ public class PushMainActivity extends TitleActivity {
             public void onCallBack(String msg) {
                 try {
                     final QueryLinkageListResult result = JSON.parseObject(msg, QueryLinkageListResult.class);
-                    if(result != null && result.isSuccess() && result.getLinkages().size() > 0){
+                    if(result != null && result.isSuccess()){
                         mTemplateOrLinkList.clear();
-                        mTemplateOrLinkList.addAll(result.getLinkages());
+                        if(result.getLinkages() != null){
+                            mTemplateOrLinkList.addAll(result.getLinkages());
+                        }
                         mAdapter.notifyDataSetChanged();
                         showResult("Get Linkage List Success");
                         return;
@@ -289,9 +291,11 @@ public class PushMainActivity extends TitleActivity {
             public void onCallBack(String msg) {
                 try {
                     final NotificationTemplateResult result = JSON.parseObject(msg, NotificationTemplateResult.class);
-                    if(result != null && result.isSuccess() && result.getTemplates().size() > 0){
+                    if(result != null && result.isSuccess()){
                         mTemplateOrLinkList.clear();
-                        mTemplateOrLinkList.addAll(result.getTemplates());
+                        if(result.getTemplates() != null){
+                            mTemplateOrLinkList.addAll(result.getTemplates());
+                        }
                         mAdapter.notifyDataSetChanged();
                         showResult("Get Template List Success");
                         return;
@@ -359,26 +363,33 @@ public class PushMainActivity extends TitleActivity {
     }
 
     //实例化模板
-    private void instaiateTemplte(NotificationTemplateResult.TemplatesBean templatesBean) {
+    private void instantiateTemplte(NotificationTemplateResult.TemplatesBean templatesBean) {
         LinkageInfo linkageInfo = new LinkageInfo();
-        changeAction(true,templatesBean);
+        linkageInfo.setFamilyid(BLLocalFamilyManager.getInstance().getCurrentFamilyInfo().getFamilyid());
+        linkageInfo.setRuletype(LinkageInfo.RULE_TYPE_CHARACTERISTIC);
+        linkageInfo.setRulename("RuleEcho");
+        linkageInfo.setEnable(1);
+        linkageInfo.setSource(SOURCE_NOTIFY + templatesBean.getTemplateid());
+        
         List<String> moduleidList = new ArrayList<>();
         moduleidList.add(""); // 不加的话云端会返回“数据错误”
         linkageInfo.setModuleid(moduleidList);
-        linkageInfo.setEnable(1);
-        linkageInfo.setFamilyid(BLLocalFamilyManager.getInstance().getCurrentFamilyInfo().getFamilyid());
-        LinkageTriggerAttributeInfo attributeInfo = getAttributeInfo(templatesBean);
-        linkageInfo.setCharacteristicinfo(JSON.toJSONString(attributeInfo));
+       
         LinkageDevicesInfo linkageDevicesInfo = new LinkageDevicesInfo();
-        LinkageDeviceExtend linkageDeviceExtend = new LinkageDeviceExtend();
-        linkageDeviceExtend.setAction(templatesBean.getAction());
-        linkageDevicesInfo.setExtern(BLCommonUtils.Base64(JSON.toJSONString(linkageDeviceExtend).getBytes()));
         linkageDevicesInfo.setLinkagetype("notify");
         linkageDevicesInfo.setDid(mDeviceInfo.getDid());
-        linkageInfo.setSource(SOURCE_NOTIFY+templatesBean.getTemplateid());
+        
+        LinkageDeviceExtend linkageDeviceExtend = new LinkageDeviceExtend();
+        changeAction(true,templatesBean);
+        linkageDeviceExtend.setAction(templatesBean.getAction());
+        linkageDevicesInfo.setExtern(BLCommonUtils.Base64(JSON.toJSONString(linkageDeviceExtend).getBytes()));
+        
+        LinkageTriggerAttributeInfo attributeInfo = getAttributeInfo(templatesBean);
+        linkageInfo.setCharacteristicinfo(JSON.toJSONString(attributeInfo));
+
         addSubscribe(linkageInfo,attributeInfo);
         linkageInfo.setLinkagedevices(linkageDevicesInfo);
-        linkageInfo.setRuletype(LinkageInfo.RULE_TYPE_CHARACTERISTIC);
+      
 
         mBLPushServicePresenter.addLink(linkageInfo, new BasePushListener() {
             @Override

@@ -44,6 +44,8 @@ public class BLConstants {
     public static final String FILE_STRESS_TEST_LOG_PATH = "StressTestLog";
     //CrashLog
     public static final String FILE_CRASH_LOG_PATH = "CrashLog";
+    //Frimware log
+    public static final String FILE_FIRMWARE_LOG_PATH = "FirmwareLog";
     //家庭文件夹名称
     public static final String FILE_FAMILY = "Family";
     //离线图标

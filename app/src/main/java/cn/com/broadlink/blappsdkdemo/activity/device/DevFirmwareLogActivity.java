@@ -14,20 +14,25 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 import cn.com.broadlink.base.BLBaseResult;
+import cn.com.broadlink.base.BLDateUtils;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLFileUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLLog;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
+
+import static cn.com.broadlink.blappsdkdemo.common.BLStorageUtils.FIRMWARE_LOG_PATH;
 
 /**
  * Desc
@@ -39,6 +44,7 @@ public class DevFirmwareLogActivity extends TitleActivity {
 
     private TextView mTvIp;
     private Button mBtClear;
+    private Button mBtViewLog;
     private Switch mSwtEnable;
     private EditText mEtData;
     private BLDNADevice mDNADevice;
@@ -52,6 +58,8 @@ public class DevFirmwareLogActivity extends TitleActivity {
     private final String CMD_FW_LOG = "device_log_redirect";
     private DatagramSocket datagramSocket;
     private DatagramPacket datagramPacket;
+    private String mLogFileName;
+    private String mLogFilePath;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,17 +84,24 @@ public class DevFirmwareLogActivity extends TitleActivity {
     private void findView() {
         mTvIp = (TextView) findViewById(R.id.tv_ip);
         mBtClear = (Button) findViewById(R.id.bt_clear);
+        mBtViewLog = (Button) findViewById(R.id.bt_view_log);
         mSwtEnable = (Switch) findViewById(R.id.swt_enable);
         mEtData = (EditText) findViewById(R.id.et_data);
     }
 
     @SuppressLint("DefaultLocale")
     private void initView() {
-        mTvIp.setText(String.format("%s:%d", mIp, mPort));
+        final StringBuffer sb = new StringBuffer("Ip: ");
+        sb.append(String.format("%s:%d", mIp, mPort)).append("\n")
+                .append("Log File Path: ").append(mLogFilePath);
+        mTvIp.setText(sb.toString());
     }
 
     @SuppressLint("HandlerLeak")
     private void initData() {
+        mLogFileName = mDNADevice.getDid() + BLDateUtils.getCurrentDate("_yyyy-MM-dd-HH-mm") + ".log";
+        mLogFilePath = FIRMWARE_LOG_PATH + File.separator + mLogFileName;
+        
         mIp = BLCommonUtils.getWifiIp(mActivity);
         if (mIp == null) {
             BLAlert.showAlert(mActivity, null, "Please connect wifi first!", new OnSingleClickListener() {
@@ -117,6 +132,13 @@ public class DevFirmwareLogActivity extends TitleActivity {
             public void doOnClick(View v) {
                 mSb = new StringBuffer();
                 mHandler.sendEmptyMessage(0);
+            }
+        });
+
+        mBtViewLog.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                BLCommonUtils.openFile(mActivity, new File(mLogFilePath));
             }
         });
         
@@ -156,6 +178,9 @@ public class DevFirmwareLogActivity extends TitleActivity {
                 if(blBaseResult == null || !blBaseResult.succeed()){
                     mSb.append(result);
                     mHandler.sendEmptyMessage(0);
+                    final StringBuilder sb = new StringBuilder(BLDateUtils.formatDate(System.currentTimeMillis()));
+                    sb.append(": ").append(result).append("\n");
+                    BLFileUtils.writeFile(mLogFilePath, sb.toString(), true);
                 }
             }
         }.start();

@@ -22,6 +22,9 @@ public class BLStorageUtils {
 	/** APP错误信息保存路径 **/
 	public static String CRASH_LOG_PATH = "";
 
+	/** 固件日志保存路径 **/
+	public static String FIRMWARE_LOG_PATH = "";
+
 	/** 临时目录 **/
 	public static String TEMP_PATH = "";
 
@@ -105,6 +108,7 @@ public class BLStorageUtils {
 		SUB_DEV_BACKUP_PATH = appPath + File.separator + BLConstants.FILE_SUB_DEV_BACKUP;
 		STRESS_TEST_LOG_PATH = appPath + File.separator + BLConstants.FILE_STRESS_TEST_LOG_PATH;
 		CRASH_LOG_PATH = appPath + File.separator + BLConstants.FILE_CRASH_LOG_PATH;
+		FIRMWARE_LOG_PATH = appPath + File.separator + BLConstants.FILE_FIRMWARE_LOG_PATH;
 
 		/********************** 一级目录 ********************************/
 		new File(BASE_PATH).mkdirs();
@@ -117,6 +121,7 @@ public class BLStorageUtils {
 		new File(SUB_DEV_BACKUP_PATH).mkdirs();
 		new File(STRESS_TEST_LOG_PATH).mkdirs();
 		new File(CRASH_LOG_PATH).mkdirs();
+		new File(FIRMWARE_LOG_PATH).mkdirs();
 	}
 
 	/**

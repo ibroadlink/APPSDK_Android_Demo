@@ -579,7 +579,7 @@ public class DevStressTestActivity extends TitleActivity {
                     final int finalI = mInSideIndex = i;
                     
                     final BLStressTestCmdBean blStressTestCmdBean = mCmdList.get(i);
-                    SystemClock.sleep(blStressTestCmdBean.delay);
+                    SystemClock.sleep(blStressTestCmdBean.delay + 1);
                     if (mShouldStop) return;
 
                     // 小循环
@@ -587,7 +587,7 @@ public class DevStressTestActivity extends TitleActivity {
                         if (mShouldStop) return;
 
                         if (j != 0) {
-                            SystemClock.sleep(blStressTestCmdBean.interval);
+                            SystemClock.sleep(blStressTestCmdBean.interval + 1);
                         }
                         
                         final Runnable testRunnable = new Runnable() {

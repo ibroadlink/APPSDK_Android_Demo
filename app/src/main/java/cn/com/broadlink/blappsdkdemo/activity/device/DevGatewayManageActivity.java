@@ -67,7 +67,7 @@ public class DevGatewayManageActivity extends TitleActivity {
     private boolean mIsNewSubListType = true;
     private String mPid = null;
     private int mSelectedIndex = -1;
-    
+    private final int FRAME_SIZE = 4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -573,6 +573,7 @@ public class DevGatewayManageActivity extends TitleActivity {
     private class SubDevBackupTask extends AsyncTask<Integer, Void, BLSubDevBackupResult> {
         
         String fileName = BLStorageUtils.SUB_DEV_BACKUP_PATH + File.separator + mDNADevice.getDid();
+       
         
         @Override
         protected void onPreExecute() {
@@ -606,7 +607,7 @@ public class DevGatewayManageActivity extends TitleActivity {
                     final int size = blSubDevBackupResult.getList().size();
                     blSubSevBackupInfos.addAll(blSubDevBackupResult.getList());
                     
-                    if(index + size < count && size==8){
+                    if(index + size < count && size==FRAME_SIZE){
                         exportSubList(blSubSevBackupInfos, count - size, index + size);
                     }
                 }
@@ -666,8 +667,8 @@ public class DevGatewayManageActivity extends TitleActivity {
             final ArrayList<BLSubSevBackupInfo> realSendList = new ArrayList<>();
             int realSendCnt = 0;
             
-            if (index + 8 < total) {
-                realSendCnt = 8;
+            if (index + FRAME_SIZE < total) {
+                realSendCnt = FRAME_SIZE;
             }else{
                 realSendCnt = total - index;
             }

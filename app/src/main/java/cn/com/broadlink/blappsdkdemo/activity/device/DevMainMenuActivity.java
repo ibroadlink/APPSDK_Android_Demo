@@ -10,14 +10,21 @@ import android.widget.EditText;
 
 import com.alibaba.fastjson.JSON;
 
+import java.sql.SQLException;
+
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.activity.MainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
+import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
+import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
+import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
+import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.result.controller.BLDeviceTimeResult;
@@ -39,6 +46,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
     private Button mBtServeTime;
     private Button mBtQueryConnectServer;
     private Button mBtFwLog;
+    private Button mBtReset;
     private BLDNADevice mDNADevice;
     
     @Override
@@ -71,6 +79,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         mBtServeTime.setOnClickListener(this);
         mBtQueryConnectServer.setOnClickListener(this);
         mBtFwLog.setOnClickListener(this);
+        mBtReset.setOnClickListener(this);
     }
 
     private void initView() {
@@ -93,6 +102,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         mBtServeTime = (Button) findViewById(R.id.bt_query_sever_time);
         mBtQueryConnectServer = (Button) findViewById(R.id.bt_server);
         mBtFwLog = (Button) findViewById(R.id.bt_fw_log);
+        mBtReset = (Button) findViewById(R.id.bt_reset);
     }
 
     @Override
@@ -183,6 +193,10 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
                 
             case R.id.bt_fw_log:
                 BLCommonUtils.toActivity(mActivity, DevFirmwareLogActivity.class, mDNADevice);
+                break;
+                
+            case R.id.bt_reset:
+                new ResetTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR);
                 break;
         }
     }
@@ -328,6 +342,53 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         protected void onPostExecute(BLBaseResult result) {
             super.onPostExecute(result);
             dismissProgressDialog();
+            setResult(result);
+        }
+    }
+
+    //复位设备
+    class ResetTask extends AsyncTask<Void, Void, String> {
+        String[] didOrSubDid = new String[2];
+        
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("Reset...");
+            didOrSubDid = BLCommonUtils.parseDidOrSubDid(mDNADevice);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            if(didOrSubDid[1]==null){
+                return BLLet.Controller.dnaControl(didOrSubDid[0], null, "{}", "dev_reset", null);
+            }else{
+                return BLLet.Controller.dnaControl(didOrSubDid[0], didOrSubDid[1], "a5a55a5a92c2e803020000007b7d", "fastcon_client_control", null);
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            dismissProgressDialog();
+            final BLBaseResult baseResult = JSON.parseObject(result, BLBaseResult.class);
+            if(baseResult != null && baseResult.succeed()){
+                BLLocalDeviceManager.getInstance().removeDeviceFromSDK(mDNADevice.getDid());
+                try {
+                    BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
+                    BLDeviceInfo deviceInfo = new BLDeviceInfo(mDNADevice);
+                    blDeviceInfoDao.deleteDevice(deviceInfo);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } 
+                
+                BLAlert.showAlert(mActivity, null, "Reset success, device has been removed from sdk, you need to config it manually", new OnSingleClickListener() {
+                    @Override
+                    public void doOnClick(View v) {
+                        BLCommonUtils.toActivity(mActivity, MainActivity.class);
+                    }
+                });
+            }
             setResult(result);
         }
     }

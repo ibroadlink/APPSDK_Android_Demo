@@ -31,6 +31,8 @@ public class BaseHeadParam {
     private String countryCode;
 
     private String identity;
+    
+    private String familyid;
 
     public BaseHeadParam() {
         initBaseHeadParam();
@@ -144,5 +146,13 @@ public class BaseHeadParam {
 
     public void setIdentity(String identity) {
         this.identity = identity;
+    }
+
+    public String getFamilyid() {
+        return familyid;
+    }
+
+    public void setFamilyid(String familyid) {
+        this.familyid = familyid;
     }
 }

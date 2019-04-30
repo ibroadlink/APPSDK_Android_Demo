@@ -163,6 +163,12 @@
             style="@style/commonBtn"
             android:layout_weight="1"
             android:text="Firmware Log"/>
+        
+        <Button
+            android:id="@+id/bt_reset"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Device Reset"/>
     </LinearLayout>
     
 </LinearLayout>

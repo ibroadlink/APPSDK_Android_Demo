@@ -216,7 +216,7 @@ public class PushMainActivity extends TitleActivity {
                     if (devicesAddInSDK != null && !devicesAddInSDK.isEmpty()) {
                         final String[] dids = new String[devicesAddInSDK.size()];
                         for (int i = 0; i < devicesAddInSDK.size(); i++) {
-                            dids[i] = devicesAddInSDK.get(i).getDid();
+                            dids[i] = devicesAddInSDK.get(i).getName() + "\n" + devicesAddInSDK.get(i).getDid();
                         }
                         BLListAlert.showAlert(mActivity, "Select device", dids, new BLListAlert.OnItemClickLister() {
                             @Override

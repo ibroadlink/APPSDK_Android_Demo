@@ -615,9 +615,9 @@ public class TitleActivity extends BaseActivity {
     }
 
     public void showProgressDialog(String name) {
-        showProgressDialog(name, true);
+        showProgressDialog(name, false);
     }
-    public void showProgressDialog(String name, boolean cancelable) {
+    public synchronized void showProgressDialog(String name, boolean cancelable) {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(TitleActivity.this);
             progressDialog.setMessage(name);
@@ -625,7 +625,8 @@ public class TitleActivity extends BaseActivity {
             progressDialog.show();
         }
     }
-    public void dismissProgressDialog() {
+
+    public synchronized void dismissProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
             progressDialog = null;

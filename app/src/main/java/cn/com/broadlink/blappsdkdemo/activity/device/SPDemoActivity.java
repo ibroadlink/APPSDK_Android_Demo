@@ -109,7 +109,7 @@ public class SPDemoActivity extends TitleActivity {
         mIvPwr.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                new ControlTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, !mPwrState);
+                new ControlTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, mPwrState ? 0:1, mBrightness);
             }
         });
         
@@ -127,7 +127,7 @@ public class SPDemoActivity extends TitleActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 final int progress = seekBar.getProgress();
-                new ControlLightTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, progress);
+                new ControlTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, mPwrState ? 1:0, progress);
             }
         });
     }
@@ -241,8 +241,11 @@ public class SPDemoActivity extends TitleActivity {
     }
 
 
-    class ControlTask extends AsyncTask<Boolean, Void, BLBaseResult> {
-
+    class ControlTask extends AsyncTask<Integer, Void, BLBaseResult> {
+        
+        private int lightness = 0;
+        private int state = 0;
+        
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -250,18 +253,29 @@ public class SPDemoActivity extends TitleActivity {
         }
 
         @Override
-        protected BLBaseResult doInBackground(Boolean... params) {
+        protected BLBaseResult doInBackground(Integer... params) {
+            state = params[0];
+            lightness = params[1];
 
             BLStdControlParam intoStudyParam = new BLStdControlParam();
             intoStudyParam.setAct(BLControlActConstans.ACT_SET);
+            
+            
             intoStudyParam.getParams().add("pwr");
-
             ArrayList<BLStdData.Value> irVals = new ArrayList<>();
             BLStdData.Value val = new BLStdData.Value();
-            val.setVal(params[0] ? 1 : 0);
+            val.setVal(state);
             irVals.add(val);
-            
             intoStudyParam.getVals().add(irVals);
+            
+            if(mIsLight){
+                intoStudyParam.getParams().add("brightness");
+                ArrayList<BLStdData.Value> irValsLight = new ArrayList<>();
+                BLStdData.Value valLight = new BLStdData.Value();
+                valLight.setVal(lightness);
+                irValsLight.add(valLight);
+                intoStudyParam.getVals().add(irValsLight);
+            }
             
             final String[] didOrSubDid = BLCommonUtils.parseDidOrSubDid(mDNADevice);
             return BLLet.Controller.dnaControl(didOrSubDid[0], didOrSubDid[1], intoStudyParam);
@@ -272,14 +286,15 @@ public class SPDemoActivity extends TitleActivity {
             super.onPostExecute(result);
             dismissProgressDialog();
             if (result != null && result.succeed()) {
-                mPwrState = !mPwrState;
+                mPwrState = state==1;
+                mBrightness = lightness;
                 refreshView();
             }else{
                 BLCommonUtils.toastErr(result);
             }
-
         }
     }
+    
 
     class ControlLightTask extends AsyncTask<Integer, Void, BLBaseResult> {
         private int lightNess = 0;

@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: :dnasdk-debug:@aar">
+    <CLASSES>
+      <root url="file://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/dnasdk-debug.aar/84e88d2acf08bd7a60fa94b39d3ba0da/res" />
+      <root url="jar://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/dnasdk-debug.aar/84e88d2acf08bd7a60fa94b39d3ba0da/jars/libs/NetworkAPI.jar!/" />
+      <root url="jar://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/dnasdk-debug.aar/84e88d2acf08bd7a60fa94b39d3ba0da/jars/libs/libLetJSCore.jar!/" />
+      <root url="jar://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/dnasdk-debug.aar/84e88d2acf08bd7a60fa94b39d3ba0da/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

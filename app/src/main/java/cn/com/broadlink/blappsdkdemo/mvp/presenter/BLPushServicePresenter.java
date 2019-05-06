@@ -487,9 +487,9 @@ public class BLPushServicePresenter implements PushModel {
           Uri actionUri = Uri.parse(actionStr);
           String target = actionUri.getAuthority();
           String action = actionUri.getPath().replace("/","");
-          if(target.equals("common") && action.equals("web")){
+          if("common".equals(target) && "web".equals(action)){
               mPushUrl  = actionUri.getQueryParameter("url");
-          }else if(target.equals("device") && action.equals("fastconConfig")){
+          }else if("device".equals(target) && "fastconConfig".equals(action)){
               
               // fastcon配置推送url，暂时保留
               String baseurl = BLApiUrlConstants.FASTCON_CONFIG_URL + "familyId=%1$s&masterDid=%2$s&clientInfo=%3$s";
@@ -498,6 +498,8 @@ public class BLPushServicePresenter implements PushModel {
               String clientInfoStr = actionUri.getQueryParameter("clientInfo");
               com.alibaba.fastjson.JSONObject jsonClient = JSON.parseObject(clientInfoStr);
               mPushUrl = String.format(baseurl,mFamilyId,masterDid,jsonClient.toJSONString());
+          }else{
+              // do nothing
           }
     }
 

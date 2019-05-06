@@ -8,9 +8,10 @@
                 tools:context="cn.com.broadlink.blappsdkdemo.activity.device.DevMainMenuActivity" >
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginTop="20dp">
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp">
     
     <TextView
         android:text="Device Info:"

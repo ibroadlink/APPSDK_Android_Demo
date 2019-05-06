@@ -67,7 +67,7 @@ public class DevGatewayManageActivity extends TitleActivity {
     private boolean mIsNewSubListType = true;
     private String mPid = null;
     private int mSelectedIndex = -1;
-    private final int FRAME_SIZE = 4;
+    private final int FRAME_SIZE = 3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -196,7 +196,7 @@ public class DevGatewayManageActivity extends TitleActivity {
         mBtSubdevBackup.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                new SubDevBackupTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, 100, 0);
+                new SubDevBackupTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR,  0);
             }
         });
         
@@ -573,7 +573,6 @@ public class DevGatewayManageActivity extends TitleActivity {
     private class SubDevBackupTask extends AsyncTask<Integer, Void, BLSubDevBackupResult> {
         
         String fileName = BLStorageUtils.SUB_DEV_BACKUP_PATH + File.separator + mDNADevice.getDid();
-       
         
         @Override
         protected void onPreExecute() {
@@ -585,9 +584,8 @@ public class DevGatewayManageActivity extends TitleActivity {
         protected BLSubDevBackupResult doInBackground(Integer... params) {
             final ArrayList<BLSubSevBackupInfo> blSubSevBackupInfos = new ArrayList<>();
             
-            int count = params[0];
-            int index = params[1];
-            final BLSubDevBackupResult blSubDevBackupResult = exportSubList(blSubSevBackupInfos, count, index);
+            int index = params[0];
+            final BLSubDevBackupResult blSubDevBackupResult = exportSubList(blSubSevBackupInfos, index);
             if(blSubDevBackupResult !=null && blSubDevBackupResult.succeed()){
                 
                 blSubDevBackupResult.getList().clear();
@@ -599,16 +597,17 @@ public class DevGatewayManageActivity extends TitleActivity {
             return blSubDevBackupResult;
         }
 
-        private BLSubDevBackupResult exportSubList(ArrayList<BLSubSevBackupInfo> blSubSevBackupInfos, int count, int index) {
-            final BLSubDevBackupResult blSubDevBackupResult = BLLet.Controller.subDevBackup(mDNADevice.getDid(), count, index);
+        private BLSubDevBackupResult exportSubList(ArrayList<BLSubSevBackupInfo> blSubSevBackupInfos, int index) {
+            final BLSubDevBackupResult blSubDevBackupResult = BLLet.Controller.subDevBackup(mDNADevice.getDid(), FRAME_SIZE, index);
             if(blSubDevBackupResult !=null && blSubDevBackupResult.succeed()){
                 if(blSubDevBackupResult.getList() != null){
                     
                     final int size = blSubDevBackupResult.getList().size();
+                    final int total = blSubDevBackupResult.getTotal();
                     blSubSevBackupInfos.addAll(blSubDevBackupResult.getList());
                     
-                    if(index + size < count && size==FRAME_SIZE){
-                        exportSubList(blSubSevBackupInfos, count - size, index + size);
+                    if(index + size < total && size==FRAME_SIZE){
+                        exportSubList(blSubSevBackupInfos, index + size);
                     }
                 }
             }

@@ -113,7 +113,7 @@ public class BLApplication extends Application{
         blConfigParam.put(BLConfigParam.CONTROLLER_REMOTE_TIMEOUT, "8000");
         
         // 6. 设置控制重试次数，默认 1
-        blConfigParam.put(BLConfigParam.CONTROLLER_SEND_COUNT, "1");
+        blConfigParam.put(BLConfigParam.CONTROLLER_SEND_COUNT, "3");
         
         // 7. 设置设备控制支持的网络模式，默认 -1 都支持。  0 - 局域网控制，非0 - 局域网/远程都支持。
         blConfigParam.put(BLConfigParam.CONTROLLER_NETMODE, "-1");
@@ -130,6 +130,9 @@ public class BLApplication extends Application{
         
         // 11. 使用APPService服务
         blConfigParam.put(BLConfigParam.APP_SERVICE_ENABLE, useCluster ? "1" : "0");
+        
+        // 12. 远程尝试0次
+        blConfigParam.put(BLConfigParam.CONTROLLER_RESEND_MODE, "0");
         
         // 12. for test, 设置集群域名
         //blConfigParam.put(BLConfigParam.APP_SERVICE_HOST, "https://01e78622f3e6b3a861133fbc0690f4a9appservice.ibroadlink.com"); 
@@ -158,6 +161,11 @@ public class BLApplication extends Application{
         BLSFamilyManager.getInstance().init(lid);
 
         BLApiUrlConstants.init(lid);
+
+//        // for test start
+//        BLFamily.init(BLLet.getCompanyid(), BLLet.getLicenseId());
+//        BLAccount.addLoginListener(BLFamily.getLoginListener());
+//        // for test end
     }
 
     /**

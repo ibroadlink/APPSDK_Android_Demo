@@ -14,6 +14,8 @@ import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaWebViewImpl;
 import org.apache.cordova.engine.SystemWebView;
 import org.apache.cordova.engine.SystemWebViewEngine;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -297,6 +299,25 @@ public class DeviceH5Activity extends BaseActivity {
                 cordovaWebView.loadUrl(mLoadUrl);
             } else {
                 BLToastUtils.show("Download script or ui fail!");
+            }
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent date) {
+        super.onActivityResult(requestCode, resultCode, date);
+        if(resultCode == RESULT_OK && requestCode == RESULTCODE_DEVICE_AUTH){        //回调授权信息
+            String ticket = date.getStringExtra(BLConstants.INTENT_VALUE);
+            if(ticket != null && mCurrentH5Callbacker != null){
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("did", mBlDeviceInfo.getDid());
+                    jsonObject.put("ticket", ticket);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mCurrentH5Callbacker.success(jsonObject.toString());
             }
         }
     }

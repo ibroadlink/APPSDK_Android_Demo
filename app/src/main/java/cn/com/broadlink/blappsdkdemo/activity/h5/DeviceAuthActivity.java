@@ -8,11 +8,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -102,13 +100,13 @@ public class DeviceAuthActivity extends TitleActivity {
     }
 
     private void setListener(){
-        mAuthListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mAuthList.get(position).selected = !mAuthList.get(position).selected;
-                mAuthAdapter.notifyDataSetChanged();
-            }
-        });
+//        mAuthListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                mAuthList.get(position).selected = !mAuthList.get(position).selected;
+//                mAuthAdapter.notifyDataSetChanged();
+//            }
+//        });
 
         mAuthBtnView.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -318,14 +316,14 @@ public class DeviceAuthActivity extends TitleActivity {
             }
 
             viewHolder.authNameView.setText(getItem(position).title);
-//            viewHolder.descView.setText(getItem(position).desc);
+            viewHolder.descView.setText(getItem(position).desc);
             viewHolder.selectView.setChecked(getItem(position).selected);
-            viewHolder.selectView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    getItem(position).selected = isChecked;
-                }
-            });
+//            viewHolder.selectView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                    getItem(position).selected = isChecked;
+//                }
+//            });
             return convertView;
         }
 

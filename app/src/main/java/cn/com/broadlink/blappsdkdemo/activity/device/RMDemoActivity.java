@@ -16,8 +16,8 @@ import cn.com.broadlink.base.BLAppSdkErrCode;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.data.BLControlActConstans;
-import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.data.controller.BLStdData;
 import cn.com.broadlink.sdk.param.controller.BLStdControlParam;
@@ -77,7 +77,7 @@ public class RMDemoActivity extends Activity{
             BLStdControlParam intoStudyParam = new BLStdControlParam();
             intoStudyParam.setAct(BLControlActConstans.ACT_SET);
             intoStudyParam.getParams().add("irdastudy");
-            BLStdControlResult intoStudyResult = BLLet.Controller.dnaControl(mDNADevice.getDid(), null, intoStudyParam);
+            BLStdControlResult intoStudyResult = BLMultDidUtils.dnaControl(mDNADevice.getDid(), null, intoStudyParam);
             //判断是否进入学习成功
             if(intoStudyResult != null && intoStudyResult.getStatus() == BLAppSdkErrCode.SUCCESS){
                 mQueryIr = true;
@@ -97,7 +97,7 @@ public class RMDemoActivity extends Activity{
                     BLStdControlParam queryIrStudyParam = new BLStdControlParam();
                     queryIrStudyParam.setAct(BLControlActConstans.ACT_GET);
                     queryIrStudyParam.getParams().add("irda");
-                    BLStdControlResult queryRtudyResult = BLLet.Controller.dnaControl(mDNADevice.getDid(), null, queryIrStudyParam);
+                    BLStdControlResult queryRtudyResult = BLMultDidUtils.dnaControl(mDNADevice.getDid(), null, queryIrStudyParam);
                     if(queryRtudyResult != null && queryRtudyResult.getStatus() == BLAppSdkErrCode.SUCCESS){
                         mQueryIr = false;
                         return queryRtudyResult;
@@ -149,7 +149,7 @@ public class RMDemoActivity extends Activity{
             intoStudyParam.getParams().add("irda");
             intoStudyParam.getVals().add(irVals);
 
-            return BLLet.Controller.dnaControl(mDNADevice.getDid(), null, intoStudyParam);
+            return BLMultDidUtils.dnaControl(mDNADevice.getDid(), null, intoStudyParam);
         }
 
         @Override

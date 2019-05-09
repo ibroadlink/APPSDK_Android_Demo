@@ -12,21 +12,19 @@ import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 @DatabaseTable(tableName = "deviceInfoTable", daoClass = BLDeviceInfoDao.class)
 public class BLDeviceInfo implements Serializable {
 
-
-
     private static final long serialVersionUID = -6716919754718380845L;
 
     // 设备mac地址
     @DatabaseField(id = true)
     private String did;
 
-	//父设备ID 父设备ID为空表示此设备为主设备
-	@DatabaseField
-	private String pdid;
+    //父设备ID 父设备ID为空表示此设备为主设备
+    @DatabaseField
+    private String pdid;
 
     @DatabaseField
     private String mac;
-    
+
     // 设备密钥
     @DatabaseField
     private long password;
@@ -57,131 +55,140 @@ public class BLDeviceInfo implements Serializable {
 
     @DatabaseField
     private String extend;
+    @DatabaseField
+    private String ownerId;
 
+    public BLDeviceInfo() {
+        super();
+    }
 
-	public String getDid() {
-		return did;
-	}
+    public BLDeviceInfo(BLDNADevice probeDevInfo) {
+        super();
+        this.setDid(probeDevInfo.getDid());
+        this.setPid(probeDevInfo.getPid());
+        this.setMac(probeDevInfo.getMac());
+        this.setName(probeDevInfo.getName());
+        this.setDeviceType(probeDevInfo.getType());
+        this.setTerminalId(probeDevInfo.getId());
+        this.setKey(probeDevInfo.getKey());
+        this.setLock(probeDevInfo.isLock());
+        this.setPassword(probeDevInfo.getPassword());
+        this.setPdid(probeDevInfo.getpDid());
+        this.setExtend(probeDevInfo.getExtend());
+        this.setOwnerId(probeDevInfo.getOwnerId());
+    }
 
-	public void setDid(String did) {
-		this.did = did;
-	}
+    public String getOwnerId() {
+        return ownerId;
+    }
 
-	public String getMac() {
-		return mac;
-	}
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
 
-	public void setMac(String mac) {
-		this.mac = mac;
-	}
+    public String getDid() {
+        return did;
+    }
 
-	public long getPassword() {
-		return password;
-	}
+    public void setDid(String did) {
+        this.did = did;
+    }
 
-	public void setPassword(long password) {
-		this.password = password;
-	}
+    public String getMac() {
+        return mac;
+    }
 
-	public int getDeviceType() {
-		return deviceType;
-	}
+    public void setMac(String mac) {
+        this.mac = mac;
+    }
 
-	public void setDeviceType(int deviceType) {
-		this.deviceType = deviceType;
-	}
+    public long getPassword() {
+        return password;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setPassword(long password) {
+        this.password = password;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public int getDeviceType() {
+        return deviceType;
+    }
 
-	public boolean isLock() {
-		return lock;
-	}
+    public void setDeviceType(int deviceType) {
+        this.deviceType = deviceType;
+    }
 
-	public void setLock(boolean lock) {
-		this.lock = lock;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getKey() {
-		return key;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setKey(String key) {
-		this.key = key;
-	}
+    public boolean isLock() {
+        return lock;
+    }
 
-	public int getTerminalId() {
-		return terminalId;
-	}
+    public void setLock(boolean lock) {
+        this.lock = lock;
+    }
 
-	public void setTerminalId(int terminalId) {
-		this.terminalId = terminalId;
-	}
+    public String getKey() {
+        return key;
+    }
 
-	public String getExtend() {
-		return extend;
-	}
+    public void setKey(String key) {
+        this.key = key;
+    }
 
-	public void setExtend(String extend) {
-		this.extend = extend;
-	}
+    public int getTerminalId() {
+        return terminalId;
+    }
 
+    public void setTerminalId(int terminalId) {
+        this.terminalId = terminalId;
+    }
 
-	public String getPid() {
-		return pid;
-	}
+    public String getExtend() {
+        return extend;
+    }
 
-	public void setPid(String pid) {
-		this.pid = pid;
-	}
+    public void setExtend(String extend) {
+        this.extend = extend;
+    }
 
-	public String getPdid() {
-		return pdid;
-	}
+    public String getPid() {
+        return pid;
+    }
 
-	public void setPdid(String pdid) {
-		this.pdid = pdid;
-	}
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
 
+    public String getPdid() {
+        return pdid;
+    }
 
-	public BLDeviceInfo() {
-		super();
-	}
+    public void setPdid(String pdid) {
+        this.pdid = pdid;
+    }
 
-	public BLDeviceInfo(BLDNADevice probeDevInfo) {
-		super();
-		this.setDid(probeDevInfo.getDid());
-		this.setPid(probeDevInfo.getPid());
-		this.setMac(probeDevInfo.getMac());
-		this.setName(probeDevInfo.getName());
-		this.setDeviceType(probeDevInfo.getType());
-		this.setTerminalId(probeDevInfo.getId());
-		this.setKey(probeDevInfo.getKey());
-		this.setLock(probeDevInfo.isLock());
-		this.setPassword(probeDevInfo.getPassword());
-		this.setPdid(probeDevInfo.getpDid());
-		this.setExtend(probeDevInfo.getExtend());
-	}
-
-	public BLDNADevice cloneBLDNADevice(){
-		BLDNADevice probeDevInfo = new BLDNADevice();
-		probeDevInfo.setDid(getDid());
-		probeDevInfo.setMac(getMac());
-		probeDevInfo.setId(getTerminalId());
-		probeDevInfo.setKey(getKey());
-		probeDevInfo.setLock(isLock());
-		probeDevInfo.setPid(getPid());
-		probeDevInfo.setpDid(getPdid());
-		probeDevInfo.setName(getName());
-		probeDevInfo.setPassword(getPassword());
-		probeDevInfo.setType(getDeviceType());
-		probeDevInfo.setExtend(getExtend());
-
-		return probeDevInfo;
-	}
+    public BLDNADevice cloneBLDNADevice() {
+        BLDNADevice probeDevInfo = new BLDNADevice();
+        probeDevInfo.setDid(getDid());
+        probeDevInfo.setMac(getMac());
+        probeDevInfo.setId(getTerminalId());
+        probeDevInfo.setKey(getKey());
+        probeDevInfo.setLock(isLock());
+        probeDevInfo.setPid(getPid());
+        probeDevInfo.setpDid(getPdid());
+        probeDevInfo.setName(getName());
+        probeDevInfo.setPassword(getPassword());
+        probeDevInfo.setType(getDeviceType());
+        probeDevInfo.setExtend(getExtend());
+        probeDevInfo.setOwnerId(getOwnerId());
+        
+        return probeDevInfo;
+    }
 }

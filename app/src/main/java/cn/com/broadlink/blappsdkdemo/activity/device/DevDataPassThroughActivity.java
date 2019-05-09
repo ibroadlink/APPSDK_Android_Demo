@@ -12,9 +12,9 @@ import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
-import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.result.controller.BLPassthroughResult;
 
@@ -78,7 +78,7 @@ public class DevDataPassThroughActivity extends TitleActivity {
         @Override
         protected BLPassthroughResult doInBackground(String... params) {
             byte[] data = BLCommonTools.parseStringToByte(params[0]);
-            return BLLet.Controller.dnaPassthrough(mDNADevice.getDid(), null, data);
+            return BLMultDidUtils.dnaPassthrough(mDNADevice, data);
         }
 
         @Override

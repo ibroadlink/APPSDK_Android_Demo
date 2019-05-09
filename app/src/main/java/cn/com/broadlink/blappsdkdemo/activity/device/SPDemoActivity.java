@@ -18,11 +18,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.com.broadlink.base.BLBaseResult;
+import cn.com.broadlink.base.BLConfigParam;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.common.PreferencesUtils;
 import cn.com.broadlink.blappsdkdemo.data.BLControlActConstans;
@@ -207,8 +209,7 @@ public class SPDemoActivity extends TitleActivity {
                 }
             }
 
-            final String[] didOrSubDid = BLCommonUtils.parseDidOrSubDid(mDNADevice);
-            return BLLet.Controller.dnaControl(didOrSubDid[0], didOrSubDid[1], intoStudyParam);
+            return BLMultDidUtils.dnaControl(mDNADevice, intoStudyParam);
         }
 
         @Override
@@ -260,13 +261,13 @@ public class SPDemoActivity extends TitleActivity {
             BLStdControlParam intoStudyParam = new BLStdControlParam();
             intoStudyParam.setAct(BLControlActConstans.ACT_SET);
             
-            
             intoStudyParam.getParams().add("pwr");
             ArrayList<BLStdData.Value> irVals = new ArrayList<>();
             BLStdData.Value val = new BLStdData.Value();
             val.setVal(state);
             irVals.add(val);
             intoStudyParam.getVals().add(irVals);
+            
             
             if(mIsLight){
                 intoStudyParam.getParams().add("brightness");
@@ -276,9 +277,11 @@ public class SPDemoActivity extends TitleActivity {
                 irValsLight.add(valLight);
                 intoStudyParam.getVals().add(irValsLight);
             }
+            //设置单次控制重试次数
+            BLConfigParam configParam = new BLConfigParam();
+            configParam.put(BLConfigParam.CONTROLLER_SEND_COUNT, "3");
             
-            final String[] didOrSubDid = BLCommonUtils.parseDidOrSubDid(mDNADevice);
-            return BLLet.Controller.dnaControl(didOrSubDid[0], didOrSubDid[1], intoStudyParam);
+            return BLMultDidUtils.dnaControl(mDNADevice, intoStudyParam, configParam);
         }
 
         @Override
@@ -320,7 +323,7 @@ public class SPDemoActivity extends TitleActivity {
             intoStudyParam.getVals().add(irVals);
 
             final String[] didOrSubDid = BLCommonUtils.parseDidOrSubDid(mDNADevice);
-            return BLLet.Controller.dnaControl(didOrSubDid[0], didOrSubDid[1], intoStudyParam);
+            return BLMultDidUtils.dnaControl(mDNADevice, intoStudyParam);
         }
 
         @Override

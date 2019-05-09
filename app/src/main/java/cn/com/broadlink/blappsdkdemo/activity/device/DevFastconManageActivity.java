@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -18,13 +17,13 @@ import java.util.List;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.data.fastcon.constant.BLFastconConstans;
 import cn.com.broadlink.blappsdkdemo.data.fastcon.constant.BLFastconGetNewListResult;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
-import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
 public class DevFastconManageActivity extends TitleActivity {
@@ -192,7 +191,7 @@ public class DevFastconManageActivity extends TitleActivity {
             String command = params[0];
             String dataStr = params[1];
 
-            return BLLet.Controller.dnaControl(mDNADevice.getDid(), null, dataStr, command, null);
+            return BLMultDidUtils.dnaControl(mDNADevice.getDid(), null, dataStr, command, null);
         }
 
         @Override
@@ -217,7 +216,7 @@ public class DevFastconManageActivity extends TitleActivity {
             String command = params[0];
             String dataStr = params[1];
 
-            return BLLet.Controller.dnaControl(mDNADevice.getDid(), null, dataStr, command, null);
+            return BLMultDidUtils.dnaControl(mDNADevice.getDid(), null, dataStr, command, null);
         }
 
         @Override

@@ -19,6 +19,7 @@ import cn.com.broadlink.blappsdkdemo.activity.MainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
 import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
@@ -245,7 +246,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
 
         @Override
         protected BLDeviceTimeResult doInBackground(Void... params) {
-            return BLLet.Controller.queryDeviceTime(mDNADevice.getDid());
+            return BLLet.Controller.queryDeviceTime(mDNADevice.getIdentifier());
         }
 
         @Override
@@ -267,7 +268,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
 
         @Override
         protected Integer doInBackground(Void... params) {
-            return BLLet.Controller.queryDeviceRemoteState(mDNADevice.getDid());
+            return BLLet.Controller.queryDeviceRemoteState(mDNADevice.getIdentifier());
         }
 
         @Override
@@ -290,7 +291,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
 
         @Override
         protected BLBaseResult doInBackground(Void... params) {
-            return BLLet.Controller.queryFirmwareVersion(mDNADevice.getDid());
+            return BLLet.Controller.queryFirmwareVersion(mDNADevice.getIdentifier());
         }
 
         @Override
@@ -312,7 +313,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
 
         @Override
         protected BLBaseResult doInBackground(String... params) {
-            return BLLet.Controller.updateFirmware(mDNADevice.getDid(), params[0]);
+            return BLLet.Controller.updateFirmware(mDNADevice.getIdentifier(), params[0]);
         }
 
         @Override
@@ -360,9 +361,9 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         @Override
         protected String doInBackground(Void... params) {
             if(didOrSubDid[1]==null){
-                return BLLet.Controller.dnaControl(didOrSubDid[0], null, "{}", "dev_reset", null);
+                return BLMultDidUtils.dnaControl(didOrSubDid[0], null, "{}", "dev_reset", null);
             }else{
-                return BLLet.Controller.dnaControl(didOrSubDid[0], didOrSubDid[1], "a5a55a5a92c2e803020000007b7d", "fastcon_client_control", null);
+                return BLMultDidUtils.dnaControl(didOrSubDid[0], didOrSubDid[1], "a5a55a5a92c2e803020000007b7d", "fastcon_client_control", null);
             }
 
         }
@@ -373,7 +374,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
             dismissProgressDialog();
             final BLBaseResult baseResult = JSON.parseObject(result, BLBaseResult.class);
             if(baseResult != null && baseResult.succeed()){
-                BLLocalDeviceManager.getInstance().removeDeviceFromSDK(mDNADevice.getDid());
+                BLLocalDeviceManager.getInstance().removeDeviceFromSDK(mDNADevice);
                 try {
                     BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
                     BLDeviceInfo deviceInfo = new BLDeviceInfo(mDNADevice);

@@ -24,6 +24,7 @@ import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.data.timer.BLBaseTimerInfoV2;
 import cn.com.broadlink.blappsdkdemo.data.timer.BLBaseTimerResultV2;
@@ -42,7 +43,6 @@ import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
-import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.data.controller.BLStdData;
 
@@ -296,7 +296,7 @@ public class DevTimerManageActivity extends TitleActivity {
     }
 
     private String doControl(Object blTimerGetListParamV2) {
-        final String result = BLLet.Controller.dnaControl(mDNADevice.getDid(), null, JSON.toJSONString(blTimerGetListParamV2), BLTimerConstants.DNA_TIMER_ITF, null);
+        final String result = BLMultDidUtils.dnaControl(mDNADevice, JSON.toJSONString(blTimerGetListParamV2), BLTimerConstants.DNA_TIMER_ITF, null);
         return result;
     }
 

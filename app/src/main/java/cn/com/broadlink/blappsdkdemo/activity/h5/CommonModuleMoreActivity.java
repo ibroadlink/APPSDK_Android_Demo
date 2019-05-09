@@ -17,9 +17,10 @@ import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
-import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
+import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
@@ -117,7 +118,7 @@ public class CommonModuleMoreActivity extends TitleActivity {
         @Override
         protected BLUpdateDeviceResult doInBackground(String... strings) {
             name = strings[0];
-            return BLLet.Controller.updateDeviceInfo(mDNADevice.getDid(), name, mDNADevice.isLock() );
+            return BLLet.Controller.updateDeviceInfo(mDNADevice.getIdentifier(), name, mDNADevice.isLock() );
         }
 
         @Override
@@ -143,14 +144,14 @@ public class CommonModuleMoreActivity extends TitleActivity {
         @Override
         protected BLBaseResult doInBackground(Integer... params) {
             if(!TextUtils.isEmpty(mDNADevice.getpDid())){
-                final BLSubdevResult blSubdevResult = BLLet.Controller.subDevDel(mDNADevice.getpDid(), mDNADevice.getDid());
+                final BLSubdevResult blSubdevResult = BLMultDidUtils.subDevDel(mDNADevice);
                 if(blSubdevResult == null || !blSubdevResult.succeed()){
                     return blSubdevResult;
                 }
             }
             final BLBaseResult blBaseResult = BLSFamilyManager.getInstance().delEndpoint(BLLocalFamilyManager.getInstance().getCurrentFamilyId(), mDNADevice.getDid());
             
-            BLLocalDeviceManager.getInstance().removeDeviceFromSDK(mDNADevice.getDid());
+            BLLocalDeviceManager.getInstance().removeDeviceFromSDK(mDNADevice);
             try {
                 BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
                 BLDeviceInfo deviceInfo = new BLDeviceInfo(mDNADevice);

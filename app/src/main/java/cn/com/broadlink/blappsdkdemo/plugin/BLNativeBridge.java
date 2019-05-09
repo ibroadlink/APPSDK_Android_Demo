@@ -38,6 +38,7 @@ import cn.com.broadlink.blappsdkdemo.common.BLApiUrlConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLLog;
+import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLStorageUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLUserInfoUnits;
@@ -522,7 +523,7 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer 
                 devObject.put("name", deviceInfo.getName());
                 devObject.put("lock", deviceInfo.isLock());
                 devObject.put("password", deviceInfo.getPassword());
-                int deviceStatus = BLLet.Controller.queryDeviceState(deviceInfo.getDid());
+                int deviceStatus = BLLet.Controller.queryDeviceState(deviceInfo.getIdentifier());
                 devObject.put("deviceStatus", deviceStatus);
                 jsonArray.put(devObject);
             }
@@ -680,7 +681,7 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer 
             String sdid = TextUtils.isEmpty(deviceInfo.getpDid()) ? null : deviceInfo.getDid();
 
             BLJSDeviceInfo startUpInfo = new BLJSDeviceInfo();
-            startUpInfo.setDeviceStatus(BLLet.Controller.queryDeviceState(did));
+            startUpInfo.setDeviceStatus(BLLet.Controller.queryDeviceState(BLMultDidUtils.getCachedIdentifier(did)));
             startUpInfo.setDeviceID(did);
             startUpInfo.setSubDeviceID(sdid);
             startUpInfo.setProductID(deviceInfo.getPid());
@@ -929,7 +930,7 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer 
             int index = 0;
             final int QUERY_MAX_COUNT = 5;
             gatewayDid = params[0];
-            BLSubDevListResult result = BLLet.Controller.devSubDevListQuery(gatewayDid, index, QUERY_MAX_COUNT);
+            BLSubDevListResult result = BLLet.Controller.devSubDevListQuery(BLMultDidUtils.getCachedIdentifier(gatewayDid), index, QUERY_MAX_COUNT);
 
             if (result != null && result.succeed() && result.getData() != null && result.getData().getList() != null && !result.getData().getList().isEmpty()) {
                 int total = result.getData().getTotal();
@@ -940,7 +941,7 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer 
                         BLSubDevListResult queryResult = null;
                         //循环最多查询3次，成功之后跳出循环
                         for (int i = 0; i < 3; i++) {
-                            queryResult = BLLet.Controller.devSubDevListQuery(gatewayDid, index, QUERY_MAX_COUNT);
+                            queryResult = BLLet.Controller.devSubDevListQuery(BLMultDidUtils.getCachedIdentifier(gatewayDid), index, QUERY_MAX_COUNT);
                             if (queryResult != null && queryResult.succeed()) {
                                 break;
                             }

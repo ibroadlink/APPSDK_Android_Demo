@@ -26,11 +26,13 @@ import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLFileUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLStorageUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
 import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
+import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
@@ -234,6 +236,8 @@ public class DevGatewayManageActivity extends TitleActivity {
      */
     private void add2DbAndGotoNextActivity(BLDNADevice subDevInfo, boolean add2DB){
         if(add2DB){
+            subDevInfo.setOwnerId(BLLocalFamilyManager.getInstance().getCurrentFamilyId());
+            
             if(subDevInfo.getMac() == null){
                 String mac = subDevInfo.getDid().substring(20, 32);
                 subDevInfo.setMac(BLCommonUtils.formatMac(mac));
@@ -305,7 +309,7 @@ public class DevGatewayManageActivity extends TitleActivity {
 
         @Override
         protected BLBaseResult doInBackground(String... params) {
-            return BLLet.Controller.subDevScanStart(mDNADevice.getDid(), mPid);
+            return BLLet.Controller.subDevScanStart(mDNADevice.getIdentifier(), mPid);
         }
 
         @Override
@@ -327,7 +331,7 @@ public class DevGatewayManageActivity extends TitleActivity {
 
         @Override
         protected BLBaseResult doInBackground(String... params) {
-            return BLLet.Controller.subDevScanStop(mDNADevice.getDid());
+            return BLLet.Controller.subDevScanStop(mDNADevice.getIdentifier());
         }
 
         @Override
@@ -349,7 +353,7 @@ public class DevGatewayManageActivity extends TitleActivity {
 
         @Override
         protected BLSubDevListResult doInBackground(String... params) {
-            return BLLet.Controller.devSubDevNewListQuery(mDNADevice.getDid(), mPid,0, 5);
+            return BLLet.Controller.devSubDevNewListQuery(mDNADevice.getIdentifier(), mPid,0, 5);
         }
 
         @Override
@@ -382,8 +386,8 @@ public class DevGatewayManageActivity extends TitleActivity {
 
             int index = 0;
             final int QUERY_MAX_COUNT = 5;
-            final String getwayDid = mDNADevice.getDid();
-            BLSubDevListResult result = BLLet.Controller.devSubDevListQuery(getwayDid, index, QUERY_MAX_COUNT);
+            final String gatewayDid = mDNADevice.getIdentifier();
+            BLSubDevListResult result = BLLet.Controller.devSubDevListQuery(gatewayDid, index, QUERY_MAX_COUNT);
 
             if (result != null && result.succeed() && result.getData() != null && result.getData().getList() != null && !result.getData().getList().isEmpty()) {
                 int total = result.getData().getTotal();
@@ -394,7 +398,7 @@ public class DevGatewayManageActivity extends TitleActivity {
                         BLSubDevListResult queryResult = null;
                         //循环最多查询3次，成功之后跳出循环
                         for (int i = 0; i < 3; i++) {
-                            queryResult = BLLet.Controller.devSubDevListQuery(getwayDid, index, QUERY_MAX_COUNT);
+                            queryResult = BLLet.Controller.devSubDevListQuery(gatewayDid, index, QUERY_MAX_COUNT);
                             if (queryResult != null && queryResult.succeed()) {
                                 break;
                             }
@@ -457,7 +461,8 @@ public class DevGatewayManageActivity extends TitleActivity {
         protected BLBaseResult doInBackground(Integer... params) {
 
             final BLDNADevice subDevInfo = mSubDeviceList.get(params[0]);
-            final BLSubdevResult blSubdevResult = BLLet.Controller.subDevAdd(mDNADevice.getDid(), subDevInfo);
+            subDevInfo.setOwnerId(BLLocalFamilyManager.getInstance().getCurrentFamilyId());
+            final BLSubdevResult blSubdevResult = BLLet.Controller.subDevAdd(mDNADevice.getIdentifier(), subDevInfo);
             if (blSubdevResult != null && blSubdevResult.succeed()) {
                 if(subDevInfo.getMac() != null){
                     BLPairResult pairResult = BLLet.Controller.pair(subDevInfo);
@@ -487,7 +492,6 @@ public class DevGatewayManageActivity extends TitleActivity {
                     try {
                         String mac = subDevInfo.getDid().substring(20, 32);
                         subDevInfo.setMac(BLCommonUtils.formatMac(mac));
-                        
                         BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
                         BLDeviceInfo deviceInfo = new BLDeviceInfo(subDevInfo);
                         List<BLDeviceInfo> list = new ArrayList<>();
@@ -522,7 +526,7 @@ public class DevGatewayManageActivity extends TitleActivity {
 
         @Override
         protected BLBaseResult doInBackground(Integer... params) {
-            return BLLet.Controller.subDevDel(mDNADevice.getDid(), mSubDeviceList.get(params[0]).getDid());
+            return BLMultDidUtils.subDevDel(mDNADevice.getDid(), mSubDeviceList.get(params[0]).getDid());
         }
 
         @Override
@@ -551,9 +555,9 @@ public class DevGatewayManageActivity extends TitleActivity {
             
             for (int i = 0; i < 10; i++) {
                 SystemClock.sleep(1000);
-                downloadResult = BLLet.Controller.devSubDevAddResultQuery(mDNADevice.getDid(), mSubDeviceList.get(params[0]).getDid());
+                downloadResult = BLLet.Controller.devSubDevAddResultQuery(mDNADevice.getIdentifier(), mSubDeviceList.get(params[0]).getDid());
                 if(downloadResult != null && downloadResult.succeed() && downloadResult.getSubdevStatus() == 0 && downloadResult.getDownload_status() == 0){
-                    BLLet.Controller.subDevScanStop(mDNADevice.getDid());
+                    BLLet.Controller.subDevScanStop(mDNADevice.getIdentifier());
 
                     return downloadResult;
                 }

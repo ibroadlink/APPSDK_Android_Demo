@@ -113,7 +113,7 @@ public class BLApplication extends Application{
         blConfigParam.put(BLConfigParam.CONTROLLER_REMOTE_TIMEOUT, "8000");
         
         // 6. 设置控制重试次数，默认 1
-        blConfigParam.put(BLConfigParam.CONTROLLER_SEND_COUNT, "3");
+        blConfigParam.put(BLConfigParam.CONTROLLER_SEND_COUNT, "1");
         
         // 7. 设置设备控制支持的网络模式，默认 -1 都支持。  0 - 局域网控制，非0 - 局域网/远程都支持。
         blConfigParam.put(BLConfigParam.CONTROLLER_NETMODE, "-1");

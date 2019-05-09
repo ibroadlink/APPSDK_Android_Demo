@@ -17,10 +17,11 @@ import java.io.File;
 import java.util.ArrayList;
 
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.device.DevMyDevListActivity;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.device.DevMyDevListActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
@@ -28,7 +29,6 @@ import cn.com.broadlink.blirdaconlib.BLIrdaConState;
 import cn.com.broadlink.ircode.BLIRCode;
 import cn.com.broadlink.ircode.result.BLIrdaConDataResult;
 import cn.com.broadlink.ircode.result.BLIrdaConProductResult;
-import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.data.controller.BLRMCloudAcConstants;
 import cn.com.broadlink.sdk.data.controller.BLStdData;
@@ -270,7 +270,7 @@ public class IRCodeAcPanelActivity extends TitleActivity implements View.OnClick
             stdControlParam.getParams().addAll(dnaParams);
             stdControlParam.getVals().add(dnaVals);
 
-            return BLLet.Controller.dnaControl(mDev.getDid(), null, stdControlParam);
+            return BLMultDidUtils.dnaControl(mDev.getDid(), null, stdControlParam);
         }
 
         @Override

@@ -29,8 +29,8 @@ import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.h5.DeviceH5Activity;
-import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.data.BLControlActConstans;
 import cn.com.broadlink.blappsdkdemo.data.BLDevProfileInfo;
@@ -564,9 +564,7 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
             stdControlParam.getParams().addAll(dnaParams);
             final String dataStr = ctrlParamObjectToStr(stdControlParam);
             
-            final String[] didOrSubDid = BLCommonUtils.parseDidOrSubDid(mDNADevice);
-            
-            return BLLet.Controller.dnaControl(didOrSubDid[0], didOrSubDid[1], dataStr, "dev_ctrl", null);
+            return BLMultDidUtils.dnaControl(mDNADevice, dataStr, "dev_ctrl", null);
         }
 
         @Override
@@ -598,9 +596,7 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
             String dataStr = params[0];
             String cmd = params[1];
             
-            final String[] didOrSubDid = BLCommonUtils.parseDidOrSubDid(mDNADevice);
-            
-            return BLLet.Controller.dnaControl(didOrSubDid[0], didOrSubDid[1], dataStr, cmd, null);
+            return BLMultDidUtils.dnaControl(mDNADevice, dataStr, cmd, null);
         }
 
         @Override

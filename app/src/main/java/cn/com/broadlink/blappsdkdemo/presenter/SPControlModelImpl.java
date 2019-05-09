@@ -1,13 +1,11 @@
 package cn.com.broadlink.blappsdkdemo.presenter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import cn.com.broadlink.base.BLConfigParam;
+import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.data.BLControlActConstans;
 import cn.com.broadlink.blappsdkdemo.intferfacer.SPControlModel;
-import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.constants.controller.BLControllerErrCode;
 import cn.com.broadlink.sdk.data.controller.BLStdData;
 import cn.com.broadlink.sdk.param.controller.BLStdControlParam;
@@ -37,7 +35,7 @@ public class SPControlModelImpl implements SPControlModel{
         queryParam.setAct(BLControlActConstans.ACT_GET);
         queryParam.getParams().add("pwr");
 
-        final BLStdControlResult stdControlResult = BLLet.Controller.dnaControl(did, null, queryParam);
+        final BLStdControlResult stdControlResult = BLMultDidUtils.dnaControl(did, null, queryParam);
         if(mSPControlListener != null && stdControlResult != null && stdControlResult.getStatus() == BLControllerErrCode.SUCCESS){
             mHandler.post(new Runnable() {
                 @Override
@@ -74,7 +72,7 @@ public class SPControlModelImpl implements SPControlModel{
                 BLConfigParam configParam = new BLConfigParam();
                 configParam.put("CONTROLLER_SEND_COUNT", "3");
 
-                final BLStdControlResult stdControlResult = BLLet.Controller.dnaControl(did, null, ctrlParam, configParam);
+                final BLStdControlResult stdControlResult = BLMultDidUtils.dnaControl(did, null, ctrlParam, configParam);
                 if(mSPControlListener != null){
                     mSPControlListener.controlEnd();
                 }
@@ -114,7 +112,7 @@ public class SPControlModelImpl implements SPControlModel{
                 getParam.setAct(BLControlActConstans.ACT_GET);
                 getParam.getParams().add(taskModel);
 
-                final BLStdControlResult getControlResult = BLLet.Controller.dnaControl(did, null, getParam);
+                final BLStdControlResult getControlResult = BLMultDidUtils.dnaControl(did, null, getParam);
                 if (getControlResult != null && getControlResult.getStatus() == BLControllerErrCode.SUCCESS) {
 
                     BLStdData.Value value = new BLStdData.Value();
@@ -127,7 +125,7 @@ public class SPControlModelImpl implements SPControlModel{
                     setParam.getParams().add(taskModel);
                     setParam.getVals().add(vals);
 
-                    final BLStdControlResult setControlResult = BLLet.Controller.dnaControl(did, null, setParam);
+                    final BLStdControlResult setControlResult = BLMultDidUtils.dnaControl(did, null, setParam);
                     if (setControlResult != null && setControlResult.getStatus() == BLControllerErrCode.SUCCESS) {
                         if(mSPControlListener != null){
                             mHandler.post(new Runnable() {

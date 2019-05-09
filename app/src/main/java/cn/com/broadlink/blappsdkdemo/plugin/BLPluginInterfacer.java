@@ -25,6 +25,7 @@ import cn.com.broadlink.blappsdkdemo.common.BLApiUrlConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLLog;
+import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.data.FilePostParam;
 import cn.com.broadlink.blappsdkdemo.data.RequestTimestampResult;
 import cn.com.broadlink.blappsdkdemo.data.auth.UserHeadParam;
@@ -270,7 +271,7 @@ public interface BLPluginInterfacer {
 				}
 			}
 
-			return BLLet.Controller.dnaControl(params[0], params[1], params[2], params[3], configParam);
+			return BLMultDidUtils.dnaControl(params[0], params[1], params[2], params[3], configParam);
 		}
 
 		@Override

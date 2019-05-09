@@ -25,6 +25,7 @@ import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.data.RmIrTreeResult;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
@@ -193,7 +194,7 @@ public class IRCodeMatchTreeDetailActivity extends TitleActivity {
             stdControlParam.getParams().addAll(dnaParams);
             stdControlParam.getVals().add(dnaVals);
 
-            return BLLet.Controller.dnaControl(mDev.getDid(), null, stdControlParam);
+            return BLMultDidUtils.dnaControl(mDev.getDid(), null, stdControlParam);
         }
 
         @Override

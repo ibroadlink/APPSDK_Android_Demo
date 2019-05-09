@@ -1,10 +1,10 @@
 <component name="libraryTable">
   <library name="Gradle: :dnasdk-debug:@aar">
     <CLASSES>
-      <root url="file://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/dnasdk-debug.aar/84e88d2acf08bd7a60fa94b39d3ba0da/res" />
-      <root url="jar://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/dnasdk-debug.aar/84e88d2acf08bd7a60fa94b39d3ba0da/jars/libs/NetworkAPI.jar!/" />
-      <root url="jar://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/dnasdk-debug.aar/84e88d2acf08bd7a60fa94b39d3ba0da/jars/libs/libLetJSCore.jar!/" />
-      <root url="jar://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/dnasdk-debug.aar/84e88d2acf08bd7a60fa94b39d3ba0da/jars/classes.jar!/" />
+      <root url="jar://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/dnasdk-debug.aar/03f2c0a07c5165e01ccdc6823b7281c7/jars/libs/NetworkAPI.jar!/" />
+      <root url="jar://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/dnasdk-debug.aar/03f2c0a07c5165e01ccdc6823b7281c7/jars/classes.jar!/" />
+      <root url="jar://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/dnasdk-debug.aar/03f2c0a07c5165e01ccdc6823b7281c7/jars/libs/libLetJSCore.jar!/" />
+      <root url="file://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/dnasdk-debug.aar/03f2c0a07c5165e01ccdc6823b7281c7/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

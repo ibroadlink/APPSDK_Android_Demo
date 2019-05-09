@@ -121,7 +121,7 @@ public class DevMyDevListActivity extends TitleActivity {
                 dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mLocalDeviceManager.removeDeviceFromSDK(device.getDid());
+                        mLocalDeviceManager.removeDeviceFromSDK(device);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

@@ -17,8 +17,8 @@ import cn.com.broadlink.sdk.result.controller.BLProfileStringResult;
  */
 public class BLProfileTools {
 
-    private static String queryProfileStrByDid(String did){
-        BLProfileStringResult result = BLLet.Controller.queryProfile(did);
+    private static String queryProfileStrByDid(String identifier){
+        BLProfileStringResult result = BLLet.Controller.queryProfile(identifier);
         if(result != null &&  result.succeed()){
             return result.getProfile();
         }
@@ -26,8 +26,8 @@ public class BLProfileTools {
         return null;
     }
 
-    public static BLDevProfileInfo queryProfileInfoByDid(String did){
-        String profileStr = queryProfileStrByDid(did);
+    public static BLDevProfileInfo queryProfileInfoByDid(String identifier){
+        String profileStr = queryProfileStrByDid(identifier);
         if(!TextUtils.isEmpty(profileStr)){
             return parseObject(profileStr);
         }

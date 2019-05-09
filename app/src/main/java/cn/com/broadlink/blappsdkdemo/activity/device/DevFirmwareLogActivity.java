@@ -27,9 +27,9 @@ import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLFileUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLLog;
+import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
-import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
 import static cn.com.broadlink.blappsdkdemo.common.BLStorageUtils.FIRMWARE_LOG_PATH;
@@ -171,9 +171,8 @@ public class DevFirmwareLogActivity extends TitleActivity {
             @Override
             public void run() {
                 super.run();
-                final String[] didOrSubDid = BLCommonUtils.parseDidOrSubDid(mDNADevice);
                 mLogParam.enable = 1;
-                final String result = BLLet.Controller.dnaControl(didOrSubDid[0], didOrSubDid[1], JSON.toJSONString(mLogParam), CMD_FW_LOG, null);
+                final String result = BLMultDidUtils.dnaControl(mDNADevice, JSON.toJSONString(mLogParam), CMD_FW_LOG, null);
                 final BLBaseResult blBaseResult = JSON.parseObject(result, BLBaseResult.class);
                 if(blBaseResult == null || !blBaseResult.succeed()){
                     mSb.append(result);
@@ -202,9 +201,8 @@ public class DevFirmwareLogActivity extends TitleActivity {
             @Override
             public void run() {
                 super.run();
-                final String[] didOrSubDid = BLCommonUtils.parseDidOrSubDid(mDNADevice);
                 mLogParam.enable = 0;
-                final String result = BLLet.Controller.dnaControl(didOrSubDid[0], didOrSubDid[1], JSON.toJSONString(mLogParam), CMD_FW_LOG, null);
+                final String result = BLMultDidUtils.dnaControl(mDNADevice, JSON.toJSONString(mLogParam), CMD_FW_LOG, null);
                 final BLBaseResult blBaseResult = JSON.parseObject(result, BLBaseResult.class);
                 if(blBaseResult == null || !blBaseResult.succeed()){
                     mSb.append(result);

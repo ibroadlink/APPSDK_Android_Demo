@@ -34,6 +34,7 @@ import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLFileUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLStorageUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.common.PreferencesUtils;
@@ -47,7 +48,6 @@ import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
-import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.constants.controller.BLDevCmdConstants;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
@@ -596,7 +596,7 @@ public class DevStressTestActivity extends TitleActivity {
                                 if (mShouldStop) return;
                                 
                                 long timeStamp = System.currentTimeMillis();
-                                final String result = BLLet.Controller.dnaControl(blStressTestCmdBean.did, blStressTestCmdBean.sDid, blStressTestCmdBean.data, blStressTestCmdBean.cmd, null);
+                                final String result = BLMultDidUtils.dnaControl(blStressTestCmdBean.did, blStressTestCmdBean.sDid, blStressTestCmdBean.data, blStressTestCmdBean.cmd, null);
                                 final long timeSpend = System.currentTimeMillis() - timeStamp;
 
                                 if (mShouldStop) return;

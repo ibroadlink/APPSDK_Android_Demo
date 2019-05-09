@@ -92,10 +92,10 @@ public class BLLocalDeviceManager {
         }
     }
 
-    public void removeDeviceFromSDK(String did) {
-        BLLet.Controller.removeDevice(did);
+    public void removeDeviceFromSDK(BLDNADevice dev) {
+        BLLet.Controller.removeDevice(dev.getIdentifier());
         synchronized (mMapDeviceInSDK) {
-            mMapDeviceInSDK.remove(did);
+            mMapDeviceInSDK.remove(dev.getDid());
         }
     }
 

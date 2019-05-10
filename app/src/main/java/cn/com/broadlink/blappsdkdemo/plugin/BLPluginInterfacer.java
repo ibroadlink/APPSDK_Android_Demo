@@ -386,7 +386,7 @@ public interface BLPluginInterfacer {
 
 		//数据服务
 		private String dataService(String pid, String interfaceName, String httpBody){
-			String url = String.format((BLApiUrlConstants.BASE_DATASERVICE + interfaceName), pid);
+			String url = BLApiUrlConstants.BASE_DATASERVICE + interfaceName;
 
 			String licenseid = BLLet.getLicenseId();
 			UserHeadParam headParam = new UserHeadParam();

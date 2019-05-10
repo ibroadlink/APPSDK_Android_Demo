@@ -1,5 +1,7 @@
 package cn.com.broadlink.blappsdkdemo.common;
 
+import java.io.File;
+
 public class BLApiUrlConstants {
 
     public static void init(String lid){
@@ -29,50 +31,51 @@ public class BLApiUrlConstants {
         CLOUD_USER_LIB_NEW_BASE = String.format(CLOUD_USER_LIB_NEW_BASE,lid);
 
         FW_VERSION = String.format(FW_VERSION,lid);
+
+        FASTCON_CONFIG_URL = String.format(FASTCON_CONFIG_URL,lid);
+
+        BASE_DATASERVICE = String.format(BASE_DATASERVICE,lid);
+
+        QUERY_DEV_HISTORY = String.format(QUERY_DEV_HISTORY,lid);
     }
 
-    /**意见反馈服务**/
-    public static String BASE_FEEDBACK_URL = "https://%sappservice.ibroadlink.com/ec4/";
-    /**云定时域名**/
-    public static String BASE_CLOUD_TIMERURL = "https://%sappservice.ibroadlink.com/";
+    public static String BASE_URL_APPSERVICE = "https://%sappservice.ibroadlink.com";
+
     /**APP 家庭域名**/
-    public static String BASE_FAMILY_URL = "https://%sappservice.ibroadlink.com";
+    public static String BASE_FAMILY_URL = BASE_URL_APPSERVICE;
     /**APP 管理后台域名**/
-    public static String BASE_APP_MANAGE = "https://%sappservice.ibroadlink.com";
+    public static String BASE_APP_MANAGE = BASE_URL_APPSERVICE;
     /**虚拟设备**/
-    public static String BASE_VIRTUAL_DEV = "https://%sappservice.ibroadlink.com";
-    /**固件版本**/
-    public static String FW_VERSION = "https://%sappservice.ibroadlink.com/getfwversion";
+    public static String BASE_VIRTUAL_DEV = BASE_URL_APPSERVICE;
+    /**红码接口**/
+    public static String CLOUD_NEW_BASE = BASE_URL_APPSERVICE;
+    /**用户库红码接口**/
+    public static String CLOUD_USER_LIB_NEW_BASE = BASE_URL_APPSERVICE;
+    /**APP 推送域名**/
+    public static String BASE_PUSH_URL = BASE_URL_APPSERVICE;
+    /**App 消息推送中心域名**/
+    public static String BASE_MSG_PUSH_URL = BASE_URL_APPSERVICE;
 
-    /**云端数据服务接口 域名**/
-    public static final String BASE_DATASERVICE = "https://%srtasquery.ibroadlink.com/dataservice/";
-
-    /**查询设备执行记录**/
-    public static final String QUERY_DEV_HISTORY = BASE_DATASERVICE + "v1/device/status";
-
-    /**私有数据域名**/
-    public static String PRIVATE_DATA = "https://%sappservice.ibroadlink.com/";
-
+    /**意见反馈服务**/
+    public static String BASE_FEEDBACK_URL = BASE_URL_APPSERVICE + "/ec4/";
     /**联动域名**/
     public static String BASE_LINKAGE = BASE_FAMILY_URL + "/ec4/";
-
-    /**资源域名**/
-    public static String BASE_RESOURCE_URL = BASE_FAMILY_URL + "/";
-
-    /**红码接口**/
-    public static String CLOUD_NEW_BASE = "https://%sappservice.ibroadlink.com";
-
-    /**用户库红码接口**/
-    public static String CLOUD_USER_LIB_NEW_BASE= "https://%sappservice.ibroadlink.com";
-
-    /**APP 推送域名**/
-    public static String BASE_PUSH_URL = "https://%sappservice.ibroadlink.com";
-
-    /**App 消息推送中心域名**/
-    public static String BASE_MSG_PUSH_URL = "https://%sappservice.ibroadlink.com";
-
+    
+    /**固件版本**/
+    public static String FW_VERSION = BASE_URL_APPSERVICE + "/getfwversion";
+    /**云端数据服务接口 域名**/
+    public static String BASE_DATASERVICE = BASE_URL_APPSERVICE + "/dataservice/";
+    /**查询设备执行记录**/
+    public static  String QUERY_DEV_HISTORY = BASE_DATASERVICE + "v1/device/status";
     /**fastcon配网URL**/
-    public static final String FASTCON_CONFIG_URL = "https://d0f94faa04c63d9b7b0b034dcf895656appservice.ibroadlink.com/appfront/v1/webui/fastcon/?";
+    public static String FASTCON_CONFIG_URL = BASE_URL_APPSERVICE + "/appfront/v1/webui/fastcon/?";
+    
+    /**私有数据域名**/
+    public static String PRIVATE_DATA = BASE_URL_APPSERVICE + File.separator;
+    /**资源域名**/
+    public static String BASE_RESOURCE_URL = BASE_FAMILY_URL + File.separator;
+    /**云定时域名**/
+    public static String BASE_CLOUD_TIMERURL = BASE_URL_APPSERVICE + File.separator;
 
 
 

@@ -881,7 +881,7 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer 
             BLHttpPostAccessor httpPostAccessor = new BLHttpPostAccessor(context);
             httpPostAccessor.setToastError(false);
 
-            return httpPostAccessor.execute(String.format(BLApiUrlConstants.QUERY_DEV_HISTORY, deviceInfo.getPid()), headParam, requestStr, String.class);
+            return httpPostAccessor.execute(BLApiUrlConstants.QUERY_DEV_HISTORY, headParam, requestStr, String.class);
         }
 
         @Override

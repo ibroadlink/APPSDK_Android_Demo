@@ -246,7 +246,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
 
         @Override
         protected BLDeviceTimeResult doInBackground(Void... params) {
-            return BLLet.Controller.queryDeviceTime(mDNADevice.getIdentifier());
+            return BLLet.Controller.queryDeviceTime(mDNADevice.getDeviceId());
         }
 
         @Override
@@ -268,7 +268,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
 
         @Override
         protected Integer doInBackground(Void... params) {
-            return BLLet.Controller.queryDeviceRemoteState(mDNADevice.getIdentifier());
+            return BLLet.Controller.queryDeviceRemoteState(mDNADevice.getDeviceId());
         }
 
         @Override
@@ -291,7 +291,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
 
         @Override
         protected BLBaseResult doInBackground(Void... params) {
-            return BLLet.Controller.queryFirmwareVersion(mDNADevice.getIdentifier());
+            return BLLet.Controller.queryFirmwareVersion(mDNADevice.getDeviceId());
         }
 
         @Override
@@ -313,7 +313,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
 
         @Override
         protected BLBaseResult doInBackground(String... params) {
-            return BLLet.Controller.updateFirmware(mDNADevice.getIdentifier(), params[0]);
+            return BLLet.Controller.updateFirmware(mDNADevice.getDeviceId(), params[0]);
         }
 
         @Override

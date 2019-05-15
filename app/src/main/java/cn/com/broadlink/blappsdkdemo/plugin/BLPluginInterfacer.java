@@ -25,7 +25,6 @@ import cn.com.broadlink.blappsdkdemo.common.BLApiUrlConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLLog;
-import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.data.FilePostParam;
 import cn.com.broadlink.blappsdkdemo.data.RequestTimestampResult;
 import cn.com.broadlink.blappsdkdemo.data.auth.UserHeadParam;
@@ -38,6 +37,7 @@ import cn.com.broadlink.blappsdkdemo.utils.http.BLHttpErrCode;
 import cn.com.broadlink.blappsdkdemo.utils.http.BLHttpPostAccessor;
 import cn.com.broadlink.blappsdkdemo.utils.http.BLHttpPostFileAccessor;
 import cn.com.broadlink.sdk.BLLet;
+import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
 
 public interface BLPluginInterfacer {
@@ -238,6 +238,21 @@ public interface BLPluginInterfacer {
 		private String extendStr;
 		private Activity activity;
 
+		private String getDeviceId(String did, String pDid, String ownerId){
+			if(TextUtils.isEmpty(ownerId)){
+				return did;
+			}else{
+				final StringBuilder sb = new StringBuilder(did);
+				sb.append("+");
+				if(!TextUtils.isEmpty(pDid) && !pDid.contains("null")){
+					sb.append(pDid);
+				}
+				sb.append("+");
+				sb.append(ownerId);
+				return sb.toString();
+			}
+		}
+
 		public ControlTask(Activity activity, String extendStr, CallbackContext callbackContext){
 			this.activity = activity;
 			this.extendStr = extendStr;
@@ -271,7 +286,22 @@ public interface BLPluginInterfacer {
 				}
 			}
 
-			return BLMultDidUtils.dnaControl(params[0], params[1], params[2], params[3], configParam);
+			String deviceId = params[0];
+			String sDeviceId = params[1];
+			DeviceH5Activity h5Activity = (DeviceH5Activity) activity;
+			final BLDNADevice mBlDeviceInfo = h5Activity.mBlDeviceInfo;
+			
+			if (h5Activity != null && mBlDeviceInfo != null) {
+				if(mBlDeviceInfo.getDid().equalsIgnoreCase(deviceId)){
+					deviceId = mBlDeviceInfo.getDeviceId();
+				}else if(mBlDeviceInfo.getDid().equalsIgnoreCase(sDeviceId)){
+					deviceId = getDeviceId(deviceId, null, mBlDeviceInfo.getOwnerId());
+					sDeviceId = getDeviceId(sDeviceId, params[0], mBlDeviceInfo.getOwnerId());
+				}
+			}
+
+			//return BLMultDidUtils.dnaControl(deviceId, params[1], params[2], params[3], configParam);
+			return BLLet.Controller.dnaControl(deviceId, sDeviceId, params[2], params[3], configParam);
 		}
 
 		@Override
@@ -281,6 +311,8 @@ public interface BLPluginInterfacer {
 			if(callbackContext != null && activity != null && !activity.isFinishing()) callbackContext.success(result);
 		}
 	}
+
+
 	
 	class DataServiceTask extends AsyncTask<String, Void, String>{
 		//数据中心

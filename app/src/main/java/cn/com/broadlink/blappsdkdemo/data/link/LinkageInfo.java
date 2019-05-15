@@ -203,7 +203,7 @@ public class LinkageInfo implements Parcelable {
 
     public void insertDevInfo(List<LinkageSubscribeDevBaseInfo> devList, BLDNADevice deviceInfo, BLDNADevice pDevInfo){
         if(!existDevInfo(devList, deviceInfo.getDid())){
-            BLDevProfileInfo profileInfo = BLProfileTools.queryProfileInfoByDid(deviceInfo.getIdentifier());
+            BLDevProfileInfo profileInfo = BLProfileTools.queryProfileInfoByDid(deviceInfo.getDeviceId());
             if(profileInfo != null){
                 int subscribable = profileInfo.getSubscribable();
                 if(subscribable == 1){
@@ -218,7 +218,7 @@ public class LinkageInfo implements Parcelable {
         //添加父设备
         if(pDevInfo != null){
             if(!existDevInfo(devList, pDevInfo.getDid())){
-                BLDevProfileInfo profileInfo = BLProfileTools.queryProfileInfoByDid(pDevInfo.getIdentifier());
+                BLDevProfileInfo profileInfo = BLProfileTools.queryProfileInfoByDid(pDevInfo.getDeviceId());
                 if(profileInfo != null){
                     int subscribable = profileInfo.getSubscribable();
                     if(subscribable == 1){

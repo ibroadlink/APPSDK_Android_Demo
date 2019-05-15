@@ -130,7 +130,7 @@ public class DeviceCheckActivity extends TitleActivity {
 
         @Override
         protected Integer doInBackground(Void... params) {
-            return BLLet.Controller.queryDeviceRemoteState(mDNADevice.getIdentifier());
+            return BLLet.Controller.queryDeviceRemoteState(mDNADevice.getDeviceId());
         }
 
         @Override

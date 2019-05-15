@@ -30,6 +30,7 @@ import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.h5.DeviceH5Activity;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLLog;
 import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.data.BLControlActConstans;
@@ -563,7 +564,10 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
             }
             stdControlParam.getParams().addAll(dnaParams);
             final String dataStr = ctrlParamObjectToStr(stdControlParam);
-            
+
+            final byte[] bytes = BLMultDidUtils.dnaControlData(mDNADevice, stdControlParam);
+            BLLog.d("ECHO_DATA", bytes == null ? "null" : BLCommonTools.bytes2HexString(bytes));
+
             return BLMultDidUtils.dnaControl(mDNADevice, dataStr, "dev_ctrl", null);
         }
 

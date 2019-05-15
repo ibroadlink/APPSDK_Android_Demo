@@ -118,7 +118,7 @@ public class CommonModuleMoreActivity extends TitleActivity {
         @Override
         protected BLUpdateDeviceResult doInBackground(String... strings) {
             name = strings[0];
-            return BLLet.Controller.updateDeviceInfo(mDNADevice.getIdentifier(), name, mDNADevice.isLock() );
+            return BLLet.Controller.updateDeviceInfo(mDNADevice.getDeviceId(), name, mDNADevice.isLock() );
         }
 
         @Override

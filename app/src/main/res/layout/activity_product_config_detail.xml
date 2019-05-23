@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context="cn.com.broadlink.blappsdkdemo.activity.product.ProductConfigDetailActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_config"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:layout_marginTop="25dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/white_selector"/>
+        
+        <TextView
+            android:id="@+id/tv_config"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="@color/bl_yellow_main_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/iv_reset"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:layout_marginTop="25dp"
+            android:background="@null"
+            android:scaleType="fitCenter"/>
+        
+        <TextView
+            android:id="@+id/tv_reset"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="@color/bl_yellow_main_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_before_config"
+            android:text="Before Config"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_marginTop="25dp"
+            android:textColor="@color/bl_yellow_main_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        
+        <TextView
+            android:id="@+id/tv_fail"
+            android:text="Config Fail?"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_marginTop="25dp"
+            android:textColor="@color/bl_yellow_main_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</ScrollView>

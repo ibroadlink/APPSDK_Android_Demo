@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:id="@+id/et_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/shape_input_view_blue_bg"
+            android:digits="abcdefABCDEF0123456789 "
+            android:gravity="start"
+            android:hint="Wave Code"
+            android:minHeight="170dp"
+            android:padding="5dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:textColor="@color/textDark"
+            android:textSize="12sp"/>
+
+        <EditText
+            android:id="@+id/et_unit_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_input"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/shape_input_view_blue_bg"
+            android:gravity="start"
+            android:hint="Unit Code"
+            android:minHeight="100dp"
+            android:padding="5dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:textColor="@color/textDark"
+            android:textSize="12sp"/>
+
+        <Button
+            android:id="@+id/bt_study"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_unit_code"
+            android:layout_marginTop="20dp"
+            android:text="Study"/>
+
+        <Button
+            android:id="@+id/bt_send"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_unit_code"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/bt_study"
+            android:text="Send"/>
+
+
+        <Button
+            android:id="@+id/bt_wave2unit"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bt_study"
+            android:text="WaveCode -> UnitCode"/>
+
+        <Button
+            android:id="@+id/bt_unit2wave"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bt_study"
+            android:layout_toRightOf="@id/bt_wave2unit"
+            android:text="UnitCode -> WaveCode"/>
+
+
+
+        <Button
+            android:id="@+id/bt_set_timer"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bt_wave2unit"
+            android:text="Set Timer"/>
+
+        <Button
+            android:id="@+id/bt_get_timer"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bt_wave2unit"
+            android:layout_toRightOf="@id/bt_set_timer"
+            android:text="Get Timer"/>
+        
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:scrollbarStyle="insideOverlay"
+            android:layout_below="@id/bt_set_timer"
+            android:scrollbars="vertical"/>
+        
+    </RelativeLayout>
+</ScrollView>

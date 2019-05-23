@@ -1,0 +1,42 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
+        google()
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/repositories/releases/'
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.3.2'
+        // 添加emas-services插件
+        classpath 'com.aliyun.ams:emas-services:1.0.1'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+
+        classpath 'com.novoda:bintray-release:0.9'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven {
+            //url 'https://maven.google.com/'
+            url 'https://dl.google.com/dl/android/maven2/'
+            name 'Google'
+        }
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/repositories/releases/'
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context="cn.com.broadlink.blappsdkdemo.activity.account.AccountUserNameLoginActivity">
+
+    <LinearLayout
+        android:id="@+id/phone_num_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/input_bg_round_tran_gray">
+
+        <Button
+            android:id="@+id/btn_country_code"
+            android:layout_width="60dp"
+            android:textColor="@color/yellow_selector"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:background="@null"
+            android:text="+86" />
+
+        <View
+            android:layout_width="1px"
+            android:background="#aca8a5"
+            android:layout_height="28dp"/>
+
+        <cn.com.broadlink.blappsdkdemo.view.InputTextView
+            android:id="@+id/phone_view"
+            android:layout_width="match_parent"
+            android:layout_height="45dp" />
+    </LinearLayout>
+    
+
+    <cn.com.broadlink.blappsdkdemo.view.BLInputCountdownView
+        android:id="@+id/v_verify_code"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/phone_num_layout"
+        android:layout_marginTop="20dp"
+        app:hint="@string/common_account_input_verification_code"
+        app:light="true"/>
+
+    <Button
+        android:layout_below="@+id/v_verify_code"
+        android:id="@+id/bt_login"
+        android:layout_marginTop="20dp"
+        android:text="@string/Login"
+        style="@style/commitBtn"/>
+</RelativeLayout>

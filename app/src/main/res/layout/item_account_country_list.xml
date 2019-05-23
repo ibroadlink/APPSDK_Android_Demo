@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/gps_location_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/white_selector"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/address_view"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:paddingRight="5dp"
+                android:text="中国"
+                android:textColor="@color/bl_black_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/arrow_view"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="0"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:paddingRight="5dp"
+                android:text="@string/str_selected_location"
+                android:textColor="@color/gray"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:background="@color/line_gray_bg" />
+    </LinearLayout>
+</LinearLayout>

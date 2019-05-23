@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.com.broadlink.blappsdkdemo.activity.device.DevGatewayManageActivity"
+    android:padding="10dp">
+
+<LinearLayout
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_marginTop="10dp">
+
+    <EditText
+        android:id="@+id/et_pid"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textDark"
+        android:hint="pid or device-type to add"
+        android:textSize="13sp"
+        android:layout_marginBottom="10dp"
+        android:digits="abcdefABCDEF0123456789 "
+        android:background="@drawable/shape_input_view_blue_bg"/>
+    
+    <EditText
+        android:id="@+id/et_result"
+        android:padding="10dp"
+        android:textSize="13sp"
+        android:gravity="top|left"
+        android:layout_width="match_parent"
+        android:scrollbarStyle="insideOverlay"
+        android:layout_height="wrap_content"
+        android:minHeight="150dp"
+        android:textColor="@color/textDark"
+        android:background="@drawable/shape_input_view_blue_bg"
+        android:scrollbars="vertical"/>
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/bt_scan_start"
+        style="@style/commonBtn"
+        android:text="Sub Device Scan Start"/>
+
+    <Button
+        android:id="@+id/bt_scan_stop"
+        style="@style/commonBtn"
+        android:text="Sub Device Scan Stop"/>
+
+    <Button
+        android:id="@+id/bt_get_scan_new_list"
+        style="@style/commonBtn"
+        android:text="Query Scanned Sub Devices"/>
+
+    <Button
+        android:id="@+id/bt_query_add_result"
+        style="@style/commonBtn"
+        android:text="Query Sub Device Add Result"/>
+
+    <Button
+        android:id="@+id/bt_get_list"
+        style="@style/commonBtn"
+        android:text="Query Added Sub Devices"/>
+    
+    <Button
+        android:id="@+id/bt_subdev_backup"
+        style="@style/commonBtn"
+        android:text="Sub Device Backup"/>
+    
+    <Button
+        android:id="@+id/bt_subdev_restore"
+        style="@style/commonBtn"
+        android:text="Sub Device Restore"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_list"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_stroke_right_round"
+        />
+
+</LinearLayout>
+</ScrollView>

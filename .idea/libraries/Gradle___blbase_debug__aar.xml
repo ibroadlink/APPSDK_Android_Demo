@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: :blbase-debug:@aar">
+    <CLASSES>
+      <root url="file://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/blbase-debug.aar/305570c13a49ad8b0e8a936281ab0a3b/res" />
+      <root url="jar://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/blbase-debug.aar/305570c13a49ad8b0e8a936281ab0a3b/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

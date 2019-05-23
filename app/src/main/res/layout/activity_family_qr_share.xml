@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.com.broadlink.blappsdkdemo.activity.family.FamilyQrShareActivity">
+
+    <FrameLayout
+        android:id="@+id/fl_qr"
+        android:layout_marginTop="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+        <ImageView
+            android:id="@+id/iv_qrcode"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/qr_code_bg"/>
+
+        <TextView
+            android:id="@+id/tv_create_qrcode_failed"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="二维码生成失败 请重试"
+            android:textColor="#ff111111"
+            android:textSize="14sp"
+            android:visibility="gone"
+            />
+
+        <ProgressBar
+            android:id="@+id/pb_creating_qrcode"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:indeterminate="false"
+            android:indeterminateDrawable="@drawable/animated_progress_style2"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:drawablePadding="4dp"
+        android:layout_below="@id/fl_qr"
+        android:layout_centerHorizontal="true"
+        android:text="Refresh"
+        android:textColor="#ffcfab80"
+        android:textSize="14sp"
+        />
+
+    <TextView
+        android:id="@+id/tv_valid_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tv_refresh"
+        android:text="@string/common_share_qrcode_valid_for_15min"
+        android:textColor="#ff999999"
+        android:textSize="13sp"
+        />
+
+</RelativeLayout>

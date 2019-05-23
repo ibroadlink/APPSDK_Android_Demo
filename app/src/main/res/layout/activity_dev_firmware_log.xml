@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+    <Button
+        android:id="@+id/bt_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Clear"/>
+    
+    <Button
+        android:id="@+id/bt_view_log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/bt_clear"
+        android:layout_marginLeft="10dp"
+        android:text="View Log"/>
+
+    <Switch
+        android:id="@+id/swt_enable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_alignBaseline="@+id/bt_clear"
+        android:checked="true"/>
+
+    <EditText
+        android:id="@+id/tv_ip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_input_view_blue_bg"
+        android:layout_below="@+id/bt_clear"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:textSize="13sp"/>
+
+    <EditText
+        android:id="@+id/et_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_ip"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_input_view_blue_bg"
+        android:minHeight="250dp"
+        android:padding="5dp"
+        android:gravity="start"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="vertical"
+        android:textColor="@color/textDark"
+        android:textSize="13sp"/>
+</RelativeLayout>

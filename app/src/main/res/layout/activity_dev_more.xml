@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_device_status"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:onClick="queryDeviceStatusOnServer"
+            android:text="@string/DEVICE_STATUS"
+            android:textColor="#272a29"
+            android:textSize="14sp" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:onClick="queryDeviceServerTime"
+            android:text="@string/Query_SERVER_TIME"
+            android:textColor="#272a29"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_lua_version"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:onClick="scriptVersion"
+            android:text="@string/Script_Verision"
+            android:textColor="#272a29"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_lua_download"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:onClick="scriptDown"
+            android:text="@string/Script_Download"
+            android:textColor="#272a29"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_ui_version"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:onClick="uiVersion"
+            android:text="@string/UI_Verision"
+            android:textColor="#272a29"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_ui_download"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:onClick="uiDown"
+            android:text="@string/UI_Download"
+            android:textColor="#272a29"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_dna_control"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:onClick="dnaControl"
+            android:text="@string/Standard_DnaControl"
+            android:textColor="#272a29"
+            android:textSize="14sp"/>
+
+        <Button
+            android:id="@+id/btn_web_control"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:onClick="webControl"
+            android:text="@string/WebControl"
+            android:textColor="#272a29"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_sp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:onClick="spControl"
+            android:text="@string/SPControl"
+            android:textColor="#272a29"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_rm"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:onClick="rmControl"
+            android:text="@string/RMControl"
+            android:textColor="#272a29"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_gateway"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:onClick="gatewayControl"
+            android:text="@string/Gateway_Control"
+            android:textColor="#272a29"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+
+</LinearLayout>

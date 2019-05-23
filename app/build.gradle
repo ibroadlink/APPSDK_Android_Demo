@@ -1,0 +1,130 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.aliyun.ams.emas-services'
+
+android {
+    signingConfigs {
+        config {
+            keyAlias 'broadlink_sdk'
+            keyPassword 'qwerasdf'
+            storeFile file('./broadlink_sdk.jks')
+            storePassword 'qwerasdf'
+        }
+    }
+    
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
+    
+    defaultConfig {
+        applicationId "com.broadlink.blappsdkdemo"
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.2.0"
+        flavorDimensions "default"
+        
+        ndk {
+            abiFilters 'armeabi'
+            moduleName "app"
+        }
+
+        multiDexEnabled true
+    }
+
+//    productFlavors{
+//        baidu{
+//            
+//        }
+//        intl{
+//            
+//        }
+//    }
+//    applicationVariants.all { variant ->
+//        if (variant.flavorName.equals('baidu')) {
+//            variant.buildConfigField "boolean", "isBaidu", "true"
+//        }
+//        if (variant.flavorName.equals('intl')) {
+//            variant.buildConfigField "boolean", "isBaidu", "false"
+//        }
+//    }
+//    
+    
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
+        }
+
+        //修改生成的apk名字
+        applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+                def versionName = android.defaultConfig.versionName
+                def time = new java.text.SimpleDateFormat("yyyy-MM-dd_HH").format(new Date())
+                def fileName
+
+                if (variant.buildType.name.equals('release')) {
+                    fileName = "sdk_demo_release_v${versionName}_${time}.apk"
+                } else if (variant.buildType.name.equals('debug')) {
+                    fileName = "sdk_demo_debug_v${versionName}_${time}.apk"
+                }
+                outputFileName = fileName
+            }
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    
+//    // normal start
+//    implementation 'com.ibroadlink:BLLetCoreAndroid:2.10.+'
+//    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.+'
+//    implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.10.+'
+//    // normal end
+    
+    
+    // fot local debug start
+    //implementation fileTree(include: ['*.aar'], dir: 'libs')
+    
+    //implementation 'com.ibroadlink:BLLetCoreAndroid:2.10.+' // core
+    implementation(name: 'dnasdk-debug', ext: 'aar') 
+    
+    implementation 'com.ibroadlink:BLLetBaseAndroid:2.10.+' // base
+    //implementation(name: 'blbase-debug', ext: 'aar')
+
+    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.+' // account
+    //implementation(name: 'blaccount-debug', ext: 'aar')
+    
+    implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.10.+' // ircode
+    //implementation project(':ircode')
+    
+    //implementation 'com.ibroadlink:BLLetFamilyAndroid:2.8.+' // family
+    //implementation(name: 'blfamily-debug', ext: 'aar')
+    
+    configurations {
+        all*.exclude group:'com.ibroadlink',  module:'BLLetCoreAndroid'
+        //all*.exclude group:'com.ibroadlink',  module:'BLLetBaseAndroid' // 如果不使用aar，注释这一句
+    }
+    // fot local debug end
+    
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:percent:28.0.0'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.google.zxing:core:3.3.1'
+    implementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.2'
+    implementation 'com.aliyun.ams:alicloud-android-push:3.1.4'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.alibaba:fastjson:1.1.70.android'
+}

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.com.broadlink.blappsdkdemo.activity.irCode.IRCodeAcPanelActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_pwr"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Power"
+                android:textColor="@color/textDark"/>
+
+            <TextView
+                android:id="@+id/tv_pwr"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/arrow_gray_right"
+                android:gravity="center_vertical|right"
+                android:text="1"
+                android:textColor="@color/textDark"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_mode"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Mode"
+                android:textColor="@color/textDark"/>
+
+            <TextView
+                android:id="@+id/tv_mode"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/arrow_gray_right"
+                android:gravity="center_vertical|right"
+                android:text="1"
+                android:textColor="@color/textDark"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_wind"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Fan Speed"
+                android:textColor="@color/textDark"/>
+
+            <TextView
+                android:id="@+id/tv_wind"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/arrow_gray_right"
+                android:gravity="center_vertical|right"
+                android:text="1"
+                android:textColor="@color/textDark"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_direct"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Fan Direct"
+                android:textColor="@color/textDark"/>
+
+            <TextView
+                android:id="@+id/tv_direct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/arrow_gray_right"
+                android:gravity="center_vertical|right"
+                android:text="1"
+                android:textColor="@color/textDark"/>
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Temp"
+                android:textColor="@color/textDark"/>
+
+            <EditText
+                android:id="@+id/et_temp"
+                android:layout_width="60dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:paddingRight="10dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|right"
+                android:inputType="number"
+                android:background="@drawable/shape_input_view_blue_bg"
+                android:text="26"
+                android:textColor="@color/textDark"/>
+        </LinearLayout>
+        
+        <Button
+            android:id="@+id/bt_gen_ir"
+            android:layout_marginTop="50dp"
+            style="@style/commonBtn"
+            android:text="Generate Ir Code"/>
+
+        <Button
+            android:id="@+id/bt_send_ir"
+            style="@style/commonBtn"
+            android:text="Send Ir Code"/>
+        
+
+        <TextView
+            android:id="@+id/tv_dev"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_send_ir"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_input_view_blue_bg"
+            android:minHeight="200dp"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:visibility="gone"
+            android:textColor="@color/textDark"/>
+
+        <EditText
+            android:id="@+id/et_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            android:gravity="top|left"
+            android:background="@drawable/shape_input_view_blue_bg"
+            android:minHeight="200dp"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:textColor="@color/textDark"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:padding="10dp"
+              android:layout_height="match_parent">
+    
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:minHeight="45dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+        
+        <cn.com.broadlink.blappsdkdemo.view.InputTextView
+            android:id="@+id/et_cmd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="45dp"
+            android:layout_weight="1"
+            app:hint="Cmd. default: dev_ctrl"
+            android:background="@drawable/input_bg_round_tran_gray" />
+
+        <Spinner
+            android:id="@+id/sp_cmd"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_height="45dp"/>
+        
+    </LinearLayout>
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="@string/str_data_example"
+        app:text="@string/str_data"
+        android:background="@drawable/input_bg_round_tran_gray" />
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_send_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="Send Count. Default: 1"
+        android:background="@drawable/input_bg_round_tran_gray" />
+
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_interval"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="Interval(/ms). Default: 1000"
+        android:background="@drawable/input_bg_round_tran_gray" />
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_delay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="Delay(/ms). Default: 1000"
+        android:background="@drawable/input_bg_round_tran_gray" />
+</LinearLayout>

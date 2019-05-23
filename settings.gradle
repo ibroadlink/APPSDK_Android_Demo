@@ -1,0 +1,2 @@
+include ':app', ':ircode'
+project(':ircode').projectDir = new File('BLIRCodeAndroid/ircode')

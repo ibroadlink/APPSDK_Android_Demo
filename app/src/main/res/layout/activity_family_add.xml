@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:paddingLeft="30dp"
+              android:paddingRight="30dp"
+              android:paddingTop="20dp">
+
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:id="@+id/family_name_view"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+       app:hint="Input a name for the new family"
+        android:background="@drawable/input_bg_round_tran_gray"/>
+
+    <TextView
+        android:id="@+id/tv_country"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/input_bg_round_tran_gray"
+        android:drawablePadding="9dp"
+        android:drawableRight="@drawable/arrow_gray_right"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:layout_marginTop="25dp"
+        android:clickable="true"
+        android:text="@string/str_china"
+        android:textColor="@color/gray"/>
+
+    <Button
+        android:id="@+id/btn_add_family"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/btn_yellow_selector"
+        android:enabled="false"
+        android:text="@string/str_create_family"
+        android:textColor="#fff"/>
+
+
+</LinearLayout>

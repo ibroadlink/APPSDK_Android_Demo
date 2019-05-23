@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#EFAB3E</color>
+
+    <color name="eaeae5">#eaeae5</color>
+    <color name="f4f4f4">#f4f4f4</color>
+    <color name="e7e7e7">#e7e7e7</color>
+    <color name="body_ebebeb_color">#ebebeb</color>
+    <color name="green">#4ad662</color>
+    <color name="title_838987_color">#838987</color>
+    <!-- 标题栏颜色 -->
+    <color name="title_bar_color">#323232</color>
+    <color name="lv_tv_color">#ff353535</color>
+    <color name="lv_title_color">#ff999999</color>
+    <color name="title_white_alpha">#32ffffff</color>
+    <color name="gray_alpha">#7bcccccc</color>
+	<color name="gray_alpha_2black">#60000000</color>
+    <color name="line_gray_bg">#c1c1c1</color>
+    <color name="back_bg_normal">#2c2c2c</color>
+    <color name="back_bg_press">#bf2c2c2c</color>
+    <color name="module_layout_bg">#91333333</color>
+    <color name="gray">#787876</color>
+    <color name="black">#383838</color>
+    <color name="blue">#007cff</color>
+    <color name="sp_title_blue">#0eaefd</color>
+    <color name="background_tab_pressed">#6633B5E5</color>
+    <color name="red">#ed6844</color>
+    <color name="orange">#fe5300</color>
+    <color name="gray_82_alpha">#52cccccc</color>
+    <color name="ctrl_btn_press">#424544</color>
+    <color name="scene_execute_bg">#e8f6eb</color>
+
+    <!-- 二维码识别 -->
+    <color name="viewfinder_frame">#ff000000</color>
+    <color name="viewfinder_laser">#ffff0000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+    <color name="result_view">#b0000000</color>
+
+    <!-- BL Style -->
+    <color name="bl_hint_color">#999999</color>
+    <color name="bl_black_color">#333</color>
+    <color name="bl_blue_color">#10aeff</color>
+    <color name="bl_blue_press_color">#009fe1</color>
+    <color name="bl_red_nor_color">#ed6742</color>
+    <color name="bl_red_press_color">#ce4b30</color>
+    <color name="bl_green_nor_color">#00c55d</color>
+    <color name="bl_green_press_color">#19a017</color>
+    <color name="bl_white">#fff</color>
+    <color name="bl_rm_study_color">#3f785e</color>
+    <color name="bl_yellow_color">#f0ab3e</color>
+    <color name="bl_yellow_press_color">#7bf0ab3e</color>
+    <color name="bl_home_tab_nor_color">#666666</color>
+    <color name="bl_home_scene_tab_color">#f0ab3e</color>
+    <color name="bl_yellow_main_color">#EFAB3E</color>
+    <color name="bl_layout_background">#f5f5f0</color>
+
+    <!-- s1 -->
+    <color name="s1_bg">#f0eff5</color>
+    <color name="eair_item_press">#7baaaaaa</color>
+    <color name="eair_text_black">#333333</color>
+    <color name="color_air_bad">#ff7278</color>
+    <color name="eair_text_gray">#8f8d8b</color>
+    <color name="sp_mini_bar_bg">#84ceea</color>
+    <color name="eair_title_blue_normal">#007aff</color>
+    <color name="eair_title_blue_press">#007aff</color>
+    <color name="sp_mini_time_gray">#4f5251</color>
+    <color name="sp_mini_bar_text_blue">#2ea7de</color>
+    <color name="sp_mini_bar_text_gray">#6c828c</color>
+    <color name="sp_mini_title_bg">#2da8de</color>
+    <color name="switch_title_color">#444444</color>
+    <color name="m1_orange">#d86550</color>
+    <color name="color_green">#13b35c</color>
+    
+    <!--MS1 -->
+    <color name="ms1_item_press">#7baaaaaa</color>
+    <color name="ms1_line_separate">#E6E7E8</color>
+    <color name="ms1_text_black">#333333</color>
+    <color name="color_common_bg">#f0eff5</color>
+    <color name="eair_commom_bg">#f9f9f9</color>
+    <color name="sp_mini_bg">#eaf5f7</color>
+
+    <!-- camera -->
+    <color name="white">#fff</color>
+
+    <!-- 回放控件 -->
+    <color name="remotefile_timebar_color">#39a3ed</color>
+    <color name="remotefile_timebar_alarm_color">#ff8261</color>
+    <color name="remotefile_line_color">#fe2b2b</color>
+    <color name="play_translucent_bg">#c0000000</color>
+    <color name="message_button_text">#555</color>
+    <color name="event_message_play_btn">#eeeeee</color>
+    <color name="transparent">#00ffffff</color>
+
+    <!-- 云空调健康睡眠 -->
+    <color name="ac_sleep_toggle"> #434741</color>
+    <color name="ac_sleep_divide"> #a2a49f</color>
+    <color name="ac_sleep_off"> #f87d30</color>
+    <color name="ac_sleep_bg"> #c0313131</color>
+
+    <!-- 月光宝盒 -->
+    <color name="mbox_main_bg">#f5f5f0</color>
+    <color name="mbox_orange">#f1aa3e</color>
+    <color name="mbox_gray">#62615d</color>
+    <color name="mbox_black">#5d5c5a</color>
+	
+	<!-- RMAC -->
+	<color name="rmac_background">#F5F4F0</color>
+	<color name="rmac_notify">#f1aa3e</color>
+	<color name="rmac_common">#5D5D5A</color>
+	
+    <!-- 我的图库 -->
+    <color name="imagelib_content">#F5F4F0</color>
+    
+    <!-- 提示颜色 -->
+    <color name="common_tips">#eeab3e</color>
+    
+    <!--版权文字颜色 -->
+    <color name="copy_right">#b3b2af</color>
+	
+    <!-- ez-->
+    <color name="dark_bg_70p">#30000000</color>
+    <color name="on_off_text_selector">#3ea6ef</color>
+
+    <!--按钮灰色-->
+    <color name="button_unlearn_text">#e8e7e7</color>
+
+    <!--家庭详情颜色-->
+    <color name="gray_family_devices">#b3b2af</color>
+    <color name="yellow_family">#f0aa3d</color>
+
+    <!--设备属性页面颜色-->
+    <color name="gray_bg_device_property_scroll">#f6f4f1</color>
+    <color name="dark_bg_device_property_icon">#323232</color>
+    <color name="black_device_property_text">#5d5c5a</color>
+    <color name="gray_device_property_text">#b3b2af</color>
+    <color name="gray_device_property_line">#e1e1e1</color>
+    <color name="red_device_property_text">#fa5452</color>
+    <color name="blue_link_text">#68c7ff</color>
+    
+    <!--海康摄像头-->
+    <color name="remotelist_item_select">#249bff</color>
+    <color name="remotelist_item_duration_text_color">#c6c6c6</color>
+    <color name="gray_text">#adadad</color>
+    <color name="common_text">#333333</color>
+    <color name="common_line">#c8c7cc</color>
+    <color name="c1">#f37f4c</color>
+    <color name="more_color">#3ea6ef</color>
+    <color name="common_hint_text">#adadad</color>
+    <color name="ez_c1">#1E90FF</color>
+    <color name="no_find_device_bg">#ffaa00</color>
+    <color name="tip_dev_offline_bg">#555555</color>
+    <color name= "thrid_service_color">#222222</color>
+    
+    
+    <!--ihc-->
+    <color name="textDark">#111111</color>
+    <color name="textDarkPress">#bf030303</color>
+    <color name="textLight">#FFF</color>
+    <color name="textDarkGray">#2C2C2F</color>
+    <color name="textGray">#45444A</color>
+    <color name="invalid_gray">#BFBFBF</color>
+    <color name="title_bar_line">#D2D2D2</color>
+
+    <color name="themeYellow">#CFAB80</color>
+    <color name="themeYellowDark">#AE8A60</color>
+    <color name="titleBarBg">#FFF</color>
+    <color name="commonBg">#F5F5F5</color>
+    <color name="commonBgAlpha">#aaF5F5F5</color>
+    <color name="text999">#999999</color>
+    <color name="searchBoxBg">#F5F5F5</color>
+
+    <color name="sceneName">#BFBFBF</color>
+    <color name="whiteAlpha">#BBFFFFFF</color>
+    <color name="blDelRed">#FF4929</color>
+    <color name="listDivideLine">#E1E1E1</color>
+    <color name="textDesc">#45444A</color>
+    <color name="text555">#555555</color>
+    <color name="text222">#222222</color>
+
+
+    <color name="divideLine">#EAEAEA</color>
+    <color name="darkDivideLine">#1AFFFFFF</color>
+    <color name="themeYellow_press">#3DCFAB80</color>
+
+    
+</resources>

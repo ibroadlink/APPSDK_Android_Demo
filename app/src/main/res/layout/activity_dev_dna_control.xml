@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <EditText
+        android:id="@+id/params_input_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#fff"
+        android:drawablePadding="10dp"
+        android:hint="params"
+        android:maxLength="20"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#272a29"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#333" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="5dp"
+        android:background="#333" />
+
+    <EditText
+        android:id="@+id/vals_input_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#fff"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:hint="val"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#272a29"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#333" />
+
+    <Button
+        android:id="@+id/dna_get_profile_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:text="Get Profile"
+        android:textColor="#272a29"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dna_get_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="Get"
+            android:textColor="#272a29"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/dna_set_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="Set"
+            android:textColor="#272a29"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dna_get_tasklist_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="Get Task List"
+            android:textColor="#272a29"
+            android:textSize="15sp" />
+
+
+        <Button
+            android:id="@+id/dna_query_task_data_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="Query Task Data"
+            android:textColor="#272a29"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dna_set_timer_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="Set Timer"
+            android:textColor="#272a29"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/dna_set_period_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="Set Period"
+            android:textColor="#272a29"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dna_set_random_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="Set Random"
+            android:textColor="#272a29"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/dna_del_period_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="Del Period"
+            android:textColor="#272a29"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/fastcon_list_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="FC List"
+            android:textColor="#272a29"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/fastcon_config_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="FC Config"
+            android:textColor="#272a29"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/fastcon_query_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:text="FC Query"
+            android:textColor="#272a29"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</LinearLayout>

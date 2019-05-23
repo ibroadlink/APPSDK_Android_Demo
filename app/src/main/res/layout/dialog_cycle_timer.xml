@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:padding="10dp"
+              android:layout_height="wrap_content">
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_start_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="Start Time: S_M_H_D_M_W_Y"
+        android:background="@drawable/input_bg_round_tran_gray" />
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_end_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="End Time: S_M_H_D_M_W_Y"
+        android:background="@drawable/input_bg_round_tran_gray" />
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_cmd1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="Cmd1"
+        android:background="@drawable/input_bg_round_tran_gray" />
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_cmd1_duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="Cmd1 Duration (/ms)"
+        android:background="@drawable/input_bg_round_tran_gray" />
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_cmd2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="Cmd2"
+        android:background="@drawable/input_bg_round_tran_gray" />
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_cmd2_duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="Cmd2 Duration (/ms)"
+        android:background="@drawable/input_bg_round_tran_gray" />
+</LinearLayout>

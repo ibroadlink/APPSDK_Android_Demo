@@ -1,0 +1,445 @@
+{
+  "status": 0,
+  "error": 0,
+  "msg": "ok",
+  "hotproducts": [
+    {
+      "pid": "00000000000000000000000023990000",
+      "platformtype": 0,
+      "status": 1,
+      "name": "TV",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=dbcbd8c5a3c1bb79d61fe2522537c6cf",
+      "shortcuticon": "/openlimit/queryfile?mtag=appmanage&mkey=bfa0600078e57ed9f6c9486b27bc8a1f",
+      "ads": [
+        "/openlimit/queryfile?mtag=appmanage&mkey=fd144ef92c0cd1869939c29f0cda207d"
+      ],
+      "introduction": [
+        {
+          "name": "产品手册",
+          "icon": "/openlimit/queryfile?mtag=appmanage&mkey=df41ef13c1b7a610bf690a3fa43d0a1b",
+          "url": "/openlimit/queryfile?mtag=appmanage&mkey=47efc940a2dfe66483fcb6eb8ad39d22"
+        }
+      ],
+      "beforecfgpurl": "/openlimit/queryfile?mtag=appmanage&mkey=da408d79dde829e0d9e7d2964008cde9",
+      "configpic": "/openlimit/queryfile?mtag=appmanage&mkey=54e199c4bb4f23c3cbc3277f1d137752",
+      "cfgfailedurl": "/openlimit/queryfile?mtag=appmanage&mkey=c42bcdcd81d4e5190606eb2d323bfd7e",
+      "depid": "",
+      "description": "",
+      "brandid": "",
+      "brandname": "TV",
+      "protocol": 14,
+      "model": "TV",
+      "type": "basic",
+      "productversion": "bd0e89c98d14f00643da0c61fe665828",
+      "productkitversion": "",
+      "productversiondetail": {
+        "basic": "",
+        "lua": "",
+        "ui": "",
+        "manuf": "",
+        "profile": ""
+      },
+      "productkitversiondetail": {
+        "basic": "",
+        "lua": "",
+        "ui": "",
+        "manuf": "",
+        "profile": ""
+      },
+      "scripturl": "/openlimit/queryfile?mtag=appmanage&mkey=fd6d174eae63efbae9e7eb932e047ecd",
+      "uiurl": "/openlimit/queryfile?mtag=appmanage&mkey=4c75aebcad2521ba436fc030712946a4",
+      "manufurl": "/openlimit/queryfile?mtag=appmanage&mkey=2de63c6d79142336eb1fd4820394f00e",
+      "profileurl": "/openlimit/queryfile?mtag=appmanage&mkey=fa01c9d164887f8e97399b19770cf9bf",
+      "productstatus": "",
+      "scripttype": "",
+      "alias": "",
+      "resetpic": "/openlimit/queryfile?mtag=appmanage&mkey=0b80bf8394a7dd3580a707abc873b2d8",
+      "resettext": "222",
+      "configtext": "111",
+      "commonflag": 0,
+      "category": "",
+      "mappid": "",
+      "pids": null,
+      "rank": 0,
+      "profile": "{\"desc\":{\"cat\":\"53\",\"model\":\"电视测试\",\"pid\":\"00000000000000000000000023990000\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.53\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"pwr\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    },
+    {
+      "pid": "00000000000000000000000024990000",
+      "platformtype": 0,
+      "status": 1,
+      "name": "Air conditioner",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=f0e18a1b56e1d7c51ee87cd8215eadd4",
+      "shortcuticon": "/openlimit/queryfile?mtag=appmanage&mkey=136681e3ad003f6a368e4ac0c5448f66",
+      "ads": [
+        "/openlimit/queryfile?mtag=appmanage&mkey=cd786ea4a041706772eab5d0e38ebf61"
+      ],
+      "introduction": [
+        {
+          "name": "产品手册",
+          "icon": "/openlimit/queryfile?mtag=appmanage&mkey=f0fe6c1c8fbcc028f1ae30aa785a755b",
+          "url": "/openlimit/queryfile?mtag=appmanage&mkey=b073ea4b9ad22a8e25b1e97a3f451a91"
+        }
+      ],
+      "beforecfgpurl": "/openlimit/queryfile?mtag=appmanage&mkey=9104b76abb2faa296158c64106bae2d3",
+      "configpic": "/openlimit/queryfile?mtag=appmanage&mkey=42b799d96c6a0b341f16917f17ae1464",
+      "cfgfailedurl": "/openlimit/queryfile?mtag=appmanage&mkey=fd461eda622dcd051ed9600fefb8de97",
+      "depid": "",
+      "description": "",
+      "brandid": "",
+      "brandname": "BroadLink",
+      "protocol": 14,
+      "model": "Air conditioner",
+      "type": "basic",
+      "productversion": "90bcaba4ec9a0889b7712ae1298deb82",
+      "productkitversion": "",
+      "productversiondetail": {
+        "basic": "",
+        "lua": "",
+        "ui": "",
+        "manuf": "",
+        "profile": ""
+      },
+      "productkitversiondetail": {
+        "basic": "",
+        "lua": "",
+        "ui": "",
+        "manuf": "",
+        "profile": ""
+      },
+      "scripturl": "/openlimit/queryfile?mtag=appmanage&mkey=66eca16b14309c951afa465582948150",
+      "uiurl": "/openlimit/queryfile?mtag=appmanage&mkey=ee1088f3d812c9762aa57c831d0c4335",
+      "manufurl": "/openlimit/queryfile?mtag=appmanage&mkey=0d3495964989debc73610b6504a0df62",
+      "profileurl": "/openlimit/queryfile?mtag=appmanage&mkey=9243e41e615c914657d779f024cfad89",
+      "productstatus": "",
+      "scripttype": "",
+      "alias": "",
+      "resetpic": "/openlimit/queryfile?mtag=appmanage&mkey=629a1635c43bfd4d0f2751fd7fa5ae8c",
+      "resettext": "222",
+      "configtext": "111",
+      "commonflag": 0,
+      "category": "",
+      "mappid": "",
+      "pids": null,
+      "rank": 1,
+      "profile": "{\"desc\":{\"cat\":\"40\",\"model\":\"空调测试\",\"pid\":\"00000000000000000000000024990000\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.40\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"rdir\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    },
+    {
+      "pid": "00000000000000000000000025990000",
+      "platformtype": 0,
+      "status": 1,
+      "name": "Set Top Box",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=3d741755ea72d3d17c0d0d18a60d64ac",
+      "shortcuticon": "/openlimit/queryfile?mtag=appmanage&mkey=6c7e4d4554e3d7b8f19fde1a1a41dbec",
+      "ads": [
+        "/openlimit/queryfile?mtag=appmanage&mkey=94c272a76cc66e7df7da4223353a63c6"
+      ],
+      "introduction": [
+        {
+          "name": "产品手册",
+          "icon": "/openlimit/queryfile?mtag=appmanage&mkey=613da073bf6bcf997bfe82a868409381",
+          "url": "/openlimit/queryfile?mtag=appmanage&mkey=6d5771c485c734c86cf06ed4e6d21fe9"
+        }
+      ],
+      "beforecfgpurl": "/openlimit/queryfile?mtag=appmanage&mkey=13f9ecb29146ca67a8fb2c0f3527803c",
+      "configpic": "/openlimit/queryfile?mtag=appmanage&mkey=5ecae7f89b8a86b9e340a5fa95e440a9",
+      "cfgfailedurl": "/openlimit/queryfile?mtag=appmanage&mkey=11906a18237399f8934f91b8c0de663d",
+      "depid": "",
+      "description": "",
+      "brandid": "",
+      "brandname": "BroadLink",
+      "protocol": 14,
+      "model": "Set Top Box",
+      "type": "basic",
+      "productversion": "b07e267e868f2ca379a17c96aa27a27e",
+      "productkitversion": "",
+      "productversiondetail": {
+        "basic": "",
+        "lua": "",
+        "ui": "",
+        "manuf": "",
+        "profile": ""
+      },
+      "productkitversiondetail": {
+        "basic": "",
+        "lua": "",
+        "ui": "",
+        "manuf": "",
+        "profile": ""
+      },
+      "scripturl": "/openlimit/queryfile?mtag=appmanage&mkey=24fbd1b33f01f8b295e54ea8b3a52c98",
+      "uiurl": "/openlimit/queryfile?mtag=appmanage&mkey=3a705abf74d54dab1c9c39c7b816b456",
+      "manufurl": "/openlimit/queryfile?mtag=appmanage&mkey=71379d50a3955f1b3a835d45eaf7a73d",
+      "profileurl": "/openlimit/queryfile?mtag=appmanage&mkey=aef7d3e675239b233d5da1019b532e88",
+      "productstatus": "",
+      "scripttype": "",
+      "alias": "",
+      "resetpic": "/openlimit/queryfile?mtag=appmanage&mkey=c774407fdbf26d58baea593819e94948",
+      "resettext": "222",
+      "configtext": "111",
+      "commonflag": 0,
+      "category": "",
+      "mappid": "",
+      "pids": null,
+      "rank": 2,
+      "profile": "{\"apprefix\":\"\",\"desc\":{\"cat\":\"52\",\"model\":\"机顶盒\",\"pid\":\"00000000000000000000000025990000\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.52\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"changechannel\":[{\"act\":2,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1,2,3,4]}],\"channel_down\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[2,0,9999,1,1]}],\"channel_up\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[2,0,9999,1,1]}],\"mp_forwardbackward\":[{\"act\":2,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1,2]}],\"mp_play\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1,2]}],\"mute\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}],\"pwr\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}],\"stb_list\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[3]}],\"stb_work\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1,2,3,4,5,6,7,8,9]}],\"volume_down\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[2,0,15,1,1]}],\"volume_up\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[2,0,15,1,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\"}"
+    },
+    {
+      "pid": "000000000000000000000000ef5a0100",
+      "platformtype": 0,
+      "status": 1,
+      "name": "Lamp",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=126a5ae3aeafd3a2a0d3f0faedf81ee5",
+      "brandname": "Lamp",
+      "protocol": 14,
+      "model": "Lamp",
+      "rank": 5,
+      "profile": "{\"desc\":{\"cat\":\"00000000000000000000000000000028\",\"model\":\"\",\"pid\":\"000000000000000000000000ef5a0100\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.00000000000000000000000000000028\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"pwr\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    },
+    {
+      "pid": "000000000000000000000000e15a0100",
+      "platformtype": 0,
+      "status": 1,
+      "name": "Fan",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=0188196b34533b4f553a1560e9f03bfd",
+      "brandname": "Fan",
+      "protocol": 14,
+      "model": "Fan",
+      "rank": 4,
+      "profile": "{\"desc\":{\"cat\":\"00000000000000000000000000000030\",\"model\":\"\",\"pid\":\"000000000000000000000000e15a0100\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.00000000000000000000000000000030\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"pwr\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    },
+    {
+      "pid": "000000000000000000000000e35a0100",
+      "platformtype": 0,
+      "status": 1,
+      "name": "Projector",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=f68e599c165f72f411b886ce531c358d",
+      "brandname": "Projector",
+      "protocol": 14,
+      "model": "Projector",
+      "rank": 9,
+      "profile": "{\"desc\":{\"cat\":\"00000000000000000000000000000065\",\"model\":\"\",\"pid\":\"000000000000000000000000e35a0100\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.00000000000000000000000000000065\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"pwr\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    },
+    {
+      "pid": "000000000000000000000000e45a0100",
+      "platformtype": 0,
+      "status": 1,
+      "name": "Smart TV Box",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=ffeb319896a71bd7b1d5d20e23a6f437",
+      "brandname": "Smart TV Box",
+      "protocol": 14,
+      "model": "Smart TV Box",
+      "rank": 3,
+      "profile": "{\"desc\":{\"cat\":\"00000000000000000000000000000064\",\"model\":\"\",\"pid\":\"000000000000000000000000e45a0100\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.00000000000000000000000000000064\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"pwr\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    },
+    {
+      "pid": "000000000000000000000000e55a0100",
+      "platformtype": 0,
+      "status": 1,
+      "name": "DVD",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=a6c971c12317cb70a0f0713952b54423",
+      "brandname": "DVD",
+      "protocol": 14,
+      "model": "DVD",
+      "rank": 6,
+      "profile": "{\"desc\":{\"cat\":\"00000000000000000000000000000066\",\"model\":\"\",\"pid\":\"000000000000000000000000e55a0100\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.00000000000000000000000000000066\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"pwr\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    },
+    {
+      "pid": "000000000000000000000000e65a0100",
+      "platformtype": 0,
+      "status": 1,
+      "name": "Camera",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=f563e44674d2cd663bdbeb63ace3dd9f",
+      "brandname": "Camera",
+      "protocol": 14,
+      "model": "Camera",
+      "rank": 16,
+      "profile": "{\"desc\":{\"cat\":\"00000000000000000000000000000067\",\"model\":\"\",\"pid\":\"000000000000000000000000e65a0100\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.00000000000000000000000000000067\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"pwr\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    },
+    {
+      "pid": "000000000000000000000000e75a0100",
+      "platformtype": 0,
+      "status": 1,
+      "name": "Water heater",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=fb961f54065869ae8e8618a05fb514f4",
+      "brandname": "Water heater",
+      "protocol": 14,
+      "model": "Water heater",
+      "rank": 11,
+      "profile": "{\"desc\":{\"cat\":\"00000000000000000000000000000068\",\"model\":\"\",\"pid\":\"000000000000000000000000e75a0100\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.00000000000000000000000000000068\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"pwr\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    },
+    {
+      "pid": "000000000000000000000000e85a0100",
+      "platformtype": 0,
+      "status": 1,
+      "name": "Automatic door",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=4e67f1de2c02c5ee69486fae75c77f0e",
+      "brandname": "Automatic door",
+      "protocol": 14,
+      "model": "Automatic door",
+      "rank": 10,
+      "profile": "{\"desc\":{\"cat\":\"00000000000000000000000000000069\",\"model\":\"\",\"pid\":\"000000000000000000000000e85a0100\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.00000000000000000000000000000069\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"pwr\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    },
+    {
+      "pid": "000000000000000000000000e95a0100",
+      "platformtype": 0,
+      "status": 1,
+      "name": "Sweeping robot",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=35290c99072af3b387b44c80f1adc132",
+      "brandname": "Sweeping robot",
+      "protocol": 14,
+      "model": "Sweeping robot",
+      "rank": 14,
+      "profile": "{\"desc\":{\"cat\":\"00000000000000000000000000000070\",\"model\":\"\",\"pid\":\"000000000000000000000000e95a0100\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.00000000000000000000000000000070\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"pwr\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    },
+    {
+      "pid": "000000000000000000000000ea5a0100",
+      "platformtype": 0,
+      "status": 1,
+      "name": "Humidifier",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=c781da0caedb5ae0a5fff16513f491c9",
+      "brandname": "Humidifier",
+      "protocol": 14,
+      "model": "Humidifier",
+      "rank": 12,
+      "profile": "{\"desc\":{\"cat\":\"00000000000000000000000000000071\",\"model\":\"\",\"pid\":\"000000000000000000000000ea5a0100\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.00000000000000000000000000000071\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"pwr\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    },
+    {
+      "pid": "000000000000000000000000eb5a0100",
+      "platformtype": 0,
+      "status": 1,
+      "name": "Drying rack",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=01e7a2dcf2950a17e1587fd85d89646a",
+      "brandname": "Drying rack",
+      "protocol": 14,
+      "model": "Drying rack",
+      "rank": 15,
+      "profile": "{\"desc\":{\"cat\":\"00000000000000000000000000000072\",\"model\":\"\",\"pid\":\"000000000000000000000000eb5a0100\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.00000000000000000000000000000072\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"pwr\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    },
+    {
+      "pid": "000000000000000000000000ec5a0100",
+      "platformtype": 0,
+      "status": 1,
+      "name": "Amplifier",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=c3d26a297cbdee401b6313e0b6268ba2",
+      "brandname": "Amplifier",
+      "protocol": 14,
+      "model": "Amplifier",
+      "rank": 8,
+      "profile": "{\"desc\":{\"cat\":\"00000000000000000000000000000073\",\"model\":\"\",\"pid\":\"000000000000000000000000ec5a0100\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.00000000000000000000000000000073\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"pwr\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    },
+    {
+      "pid": "000000000000000000000000ed5a0100",
+      "platformtype": 0,
+      "status": 1,
+      "name": "Air purifier",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=5f8d6b6fd0bef58cdcfe15935d6dfa84",
+      "brandname": "Air purifier",
+      "protocol": 14,
+      "model": "Air purifier",
+      "rank": 13,
+      "profile": "{\"desc\":{\"cat\":\"00000000000000000000000000000074\",\"model\":\"\",\"pid\":\"000000000000000000000000ed5a0100\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.00000000000000000000000000000074\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"pwr\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    },
+    {
+      "pid": "000000000000000000000000ee5a0100",
+      "platformtype": 0,
+      "status": 1,
+      "name": "Audio",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=9cc087ea268e9d2572a8ccc57bd0d966",
+      "brandname": "Audio",
+      "protocol": 14,
+      "model": "Audio",
+      "rank": 7,
+      "profile": "{\"desc\":{\"cat\":\"00000000000000000000000000000097\",\"model\":\"\",\"pid\":\"000000000000000000000000ee5a0100\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"108.14.00000000000000000000000000000097\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"pwr\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    },
+    {
+      "pid": "00000000000000000000000027990000",
+      "platformtype": 0,
+      "status": 1,
+      "name": "UserDefine",
+      "icon": "/openlimit/queryfile?mtag=appmanage&mkey=8b4b533f18e8f03291896c12c7e39629",
+      "shortcuticon": "/openlimit/queryfile?mtag=appmanage&mkey=5bb6b0fc252dd290e54b35ffd3147616",
+      "ads": [
+        "/openlimit/queryfile?mtag=appmanage&mkey=66364bad8d0eed672529ebf7941e098d"
+      ],
+      "introduction": [
+        {
+          "name": "产品手册",
+          "icon": "/openlimit/queryfile?mtag=appmanage&mkey=945ae573479b34a616f68e140837b714",
+          "url": "/openlimit/queryfile?mtag=appmanage&mkey=be577ec72468cfb30f885073880c9e16"
+        }
+      ],
+      "beforecfgpurl": "/openlimit/queryfile?mtag=appmanage&mkey=fac41a069c831074e556c85ed3a21373",
+      "configpic": "/openlimit/queryfile?mtag=appmanage&mkey=e2a14328800de03e0f9398f4e8a262a7",
+      "cfgfailedurl": "/openlimit/queryfile?mtag=appmanage&mkey=531eccca3fb7226bfa0aa1414b1ac233",
+      "depid": "",
+      "description": "",
+      "brandid": "",
+      "brandname": "BroadLink",
+      "protocol": 14,
+      "model": "UserDefine",
+      "type": "basic",
+      "productversion": "a11e346bb234f3286f620dd94ed3c9ca",
+      "productkitversion": "",
+      "productversiondetail": {
+        "basic": "",
+        "lua": "",
+        "ui": "",
+        "manuf": "",
+        "profile": ""
+      },
+      "productkitversiondetail": {
+        "basic": "",
+        "lua": "",
+        "ui": "",
+        "manuf": "",
+        "profile": ""
+      },
+      "scripturl": "/openlimit/queryfile?mtag=appmanage&mkey=135a70c6f84ce9d5c48273c80b0bd2dc",
+      "uiurl": "/openlimit/queryfile?mtag=appmanage&mkey=773cd75dfe2992a8c9bcabe8f5e4810c",
+      "manufurl": "/openlimit/queryfile?mtag=appmanage&mkey=efa5263f66486a45402807ca2d14c8fa",
+      "profileurl": "/openlimit/queryfile?mtag=appmanage&mkey=06ca09ed356ee1be0274e32b702e2f99",
+      "productstatus": "",
+      "scripttype": "",
+      "alias": "",
+      "resetpic": "/openlimit/queryfile?mtag=appmanage&mkey=4d7969fa333bd7d3e88bd0924dea8d6b",
+      "resettext": "434",
+      "configtext": "213",
+      "commonflag": 0,
+      "category": "",
+      "mappid": "",
+      "pids": null,
+      "rank": 17,
+      "profile": "{\"desc\":{\"cat\":\"304\",\"model\":\"自定义测试\",\"pid\":\"00000000000000000000000027990000\",\"vendor\":\"\"},\"issubdev\":1,\"protocol\":[],\"srvs\":[\"301.14.304\"],\"subscribable\":0,\"suids\":[{\"intfs\":{\"panel_func\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[3]}],\"panel_name\":[{\"act\":3,\"idx\":1,\"ifttt\":0,\"in\":[3]}],\"panel_op\":[{\"act\":2,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1,2,3,4,5,6,7]}],\"panel_status\":[{\"act\":1,\"idx\":1,\"ifttt\":0,\"in\":[1,0,1,2,3]}]},\"suid\":\"\"}],\"timeout\":[3,5],\"ver\":\"\",\"wificonfigtype\":2}"
+    }
+  ],
+  "categorylist": [
+    {
+      "categoryid": "00000000000000000000000000000006",
+      "name": "Switch",
+      "rank": 6,
+      "link": "/openlimit/queryfile?mtag=appmanage&mkey=53da5864027cffbb838335d16f468bda",
+      "pids": [
+        "00000000000000000000000023010100",
+        "00000000000000000000000024010100",
+        "00000000000000000000000025010100",
+        "00000000000000000000000034990000",
+        "000000000000000000000000d8050100",
+        "000000000000000000000000d9050100",
+        "000000000000000000000000da050100",
+        "000000000000000000000000db050100"
+      ],
+      "product": null
+    },
+    {
+      "categoryid": "00000000000000000000000000000027",
+      "name": "Curtain",
+      "rank": 21,
+      "link": "/openlimit/queryfile?mtag=appmanage&mkey=67edbf086e318070d549a838b4422bef",
+      "pids": [
+        "000000000000000000000000d4050100",
+        "000000000000000000000000d5050100"
+      ],
+      "product": null
+    }
+  ]
+}

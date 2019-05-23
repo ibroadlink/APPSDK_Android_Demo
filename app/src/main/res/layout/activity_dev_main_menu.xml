@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView   xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context="cn.com.broadlink.blappsdkdemo.activity.device.DevMainMenuActivity" >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp">
+    
+    <TextView
+        android:text="Device Info:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/tv_dev_info"
+        android:padding="5dp"
+        android:layout_margin="5dp"
+        android:layout_below="@+id/rv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:textSize="13sp"
+        android:scrollbarStyle="insideOverlay"
+        android:background="@drawable/shape_input_view_blue_bg"
+        android:scrollbars="vertical"/>
+
+    <TextView
+        android:text="Result:"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/et_result"
+        android:padding="5dp"
+        android:layout_margin="5dp"
+        android:textSize="13sp"
+        android:gravity="top|left"
+        android:layout_width="match_parent"
+        android:scrollbarStyle="insideOverlay"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:background="@drawable/shape_input_view_blue_bg"
+        android:scrollbars="vertical"/>
+    
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/bt_query_state"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Query State"/>
+        <Button
+            android:id="@+id/bt_query_sever_time"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Query Device Time"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <Button
+            android:id="@+id/bt_passthrough"
+            android:layout_weight="1"
+            style="@style/commonBtn"
+            android:text="Pass Through Control"/>
+
+        <Button
+            android:id="@+id/bt_std"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Dna Standard Control"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/bt_timer"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Timer Manage"/>
+
+        <Button
+            android:id="@+id/bt_gateway"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Gateway Manage"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/bt_query_firmware"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Query Firmware Ver"/>
+
+        <Button
+            android:id="@+id/bt_update_firmware"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Update Firmware"/>
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/bt_fastcon"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Fastcon Manage"/>
+        <Button
+            android:id="@+id/bt_rm"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Rm Control Demo"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/bt_server"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Query Connect Server"/>
+        <Button
+            android:id="@+id/bt_sp"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Sp Control Demo"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/bt_fw_log"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Firmware Log"/>
+        
+        <Button
+            android:id="@+id/bt_reset"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Device Reset"/>
+    </LinearLayout>
+    
+</LinearLayout>
+</ScrollView>

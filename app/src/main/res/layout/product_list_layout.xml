@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="1dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/tv_often"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/str_device_often_add"
+            android:textColor="@color/gray"
+            android:textSize="14sp"/>
+
+        <cn.com.broadlink.blappsdkdemo.view.BLNoScrollGridView
+            android:id="@+id/often_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@drawable/line_long"
+            android:dividerHeight="1px"
+            android:fadingEdge="none"
+            android:horizontalSpacing="10dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="4"
+            android:scrollbars="none"
+            android:verticalSpacing="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_product_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/str_all_catrgory"
+            android:textColor="@color/gray"
+            android:textSize="14sp"/>
+
+        <cn.com.broadlink.blappsdkdemo.view.BLNoScrollGridView
+            android:id="@+id/product_listview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@drawable/line_long"
+            android:dividerHeight="1px"
+            android:fadingEdge="none"
+            android:horizontalSpacing="10dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="4"
+            android:scrollbars="none"
+            android:verticalSpacing="15dp"/>
+    </LinearLayout>
+</ScrollView>

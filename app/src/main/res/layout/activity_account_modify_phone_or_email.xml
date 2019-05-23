@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="10dp"
+              xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:id="@+id/et_email"
+        style="@style/commonInput"
+        app:hint="New email"/>
+
+    <LinearLayout
+        android:id="@+id/ll_phone"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/input_bg_round_tran_gray">
+
+        <Button
+            android:id="@+id/btn_country_code"
+            android:layout_width="60dp"
+            android:textColor="@color/yellow_selector"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:background="@null"
+            android:text="+86" />
+
+        <View
+            android:layout_width="1px"
+            android:background="#aca8a5"
+            android:layout_height="28dp"/>
+
+        <cn.com.broadlink.blappsdkdemo.view.InputTextView
+            android:id="@+id/phone_view"
+            android:layout_width="match_parent"
+            app:hint="New Phone"
+            android:layout_height="45dp" />
+    </LinearLayout>
+
+
+    <cn.com.broadlink.blappsdkdemo.view.BLInputCountdownView
+        android:id="@+id/v_verify_code"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        app:hint="@string/common_account_input_verification_code"
+        app:light="true"/>
+
+
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:id="@+id/et_password"
+        style="@style/commonInput"
+        android:layout_marginTop="20dp"
+        app:hint="Password"/>
+
+
+    <Button
+        android:id="@+id/bt_login"
+        android:layout_marginTop="20dp"
+        android:text="Modify"
+        style="@style/commitBtn"/>
+</LinearLayout>

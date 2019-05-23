@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 图片裁剪 -->
+    <declare-styleable name="CropImageView">
+        <attr name="guidelines">
+            <enum name="on" value="2" />
+            <enum name="onTouch" value="1" />
+            <enum name="off" value="0" />
+        </attr>
+        <attr name="fixAspectRatio" format="boolean" />
+        <attr name="aspectRatioX" format="integer" />
+        <attr name="aspectRatioY" format="integer" />
+        <attr name="imageResource" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="PtrFrameLayout">
+
+        <!-- Optional. If you put header and content in xml, you can you these to specify them. -->
+        <attr name="ptr_header" format="reference" />
+        <attr name="ptr_content" format="reference" />
+
+        <!-- the resistance when you are moving the frame -->
+        <attr name="ptr_resistance" format="float" />
+
+        <!-- the ration of the height of the header to trigger refresh -->
+        <attr name="ptr_ratio_of_header_height_to_refresh" format="float" />
+        <attr name="ptr_duration_to_close" format="integer" />
+        <attr name="ptr_duration_to_close_header" format="integer" />
+
+        <!-- pull to refresh, otherwise release to refresh, default is release to refresh -->
+        <attr name="ptr_pull_to_fresh" format="boolean" />
+
+        <!-- keep header when refreshing -->
+        <attr name="ptr_keep_header_when_refresh" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="PtrClassicHeader">
+        <attr name="ptr_rotate_ani_time" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="FancyCoverFlow">
+        <attr name="unselectedAlpha" format="float" />
+        <attr name="unselectedSaturation" format="float" />
+        <attr name="unselectedScale" format="float" />
+        <attr name="maxRotation" format="integer" />
+        <attr name="scaleDownGravity" format="float" />
+        <attr name="actionDistance" format="integer">
+            <enum name="auto" value="2147483647" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="FlowIndicator">
+        <attr name="count" format="integer" />
+        <attr name="space" format="dimension" />
+        <attr name="point_size" format="dimension" />
+        <attr name="point_seleted_color" format="color|reference" />
+        <attr name="point_normal_color" format="color|reference" />
+        <attr name="point_radius" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="CircleProgressView">
+        <attr name="color_wheel_radius" format="dimension" />
+        <attr name="color_wheel_thickness" format="dimension" />
+        <attr name="color_center_radius" format="dimension" />
+        <attr name="color_center_halo_radius" format="dimension" />
+        <attr name="color_pointer_radius" format="dimension" />
+        <attr name="color_pointer_halo_radius" format="dimension" />
+        <attr name="color_line_width" format="dimension" />
+    </declare-styleable>
+
+    <!-- 侧滑 -->
+    <declare-styleable name="SwipeBackLayout">
+        <attr name="edge_size" format="dimension" />
+        <attr name="edge_flag">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+            <enum name="bottom" value="2" />
+            <enum name="all" value="3" />
+        </attr>
+        <attr name="shadow_left" format="reference" />
+        <attr name="shadow_right" format="reference" />
+        <attr name="shadow_bottom" format="reference" />
+    </declare-styleable>
+
+    <attr name="SwipeBackLayoutStyle" format="reference" />
+
+    <declare-styleable name="PagerSlidingTabStrip">
+        <attr name="pstsIndicatorColor" format="color" />
+        <attr name="pstsUnderlineColor" format="color" />
+        <attr name="pstsDividerColor" format="color" />
+        <attr name="selectedTabTextColor" format="color" />
+        <attr name="pstsIndicatorHeight" format="dimension" />
+        <attr name="pstsUnderlineHeight" format="dimension" />
+        <attr name="pstsDividerPadding" format="dimension" />
+        <attr name="pstsTabPaddingLeftRight" format="dimension" />
+        <attr name="pstsScrollOffset" format="dimension" />
+        <attr name="pstsTabBackground" format="reference" />
+        <attr name="pstsShouldExpand" format="boolean" />
+        <attr name="pstsTextAllCaps" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="ScrollableLayout">
+        <attr name="scrollable_maxScroll" format="dimension" />
+        <attr name="scrollable_scrollerFlywheel" format="boolean" />
+        <attr name="scrollable_considerIdleMillis" format="integer" />
+        <attr name="scrollable_defaultCloseUp" format="boolean" />
+        <attr name="scrollable_friction" format="float" />
+        <attr name="scrollable_closeUpAnimationMillis" format="integer" />
+        <attr name="scrollable_closeUpAnimatorInterpolator" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleProgressBar">
+        <attr name="max" format="integer" />
+        <!-- 进度条最大值 -->
+        <attr name="fill" format="boolean" />
+        <!-- 是否填充圆形区域 -->
+        <attr name="Paint_Width" format="integer" />
+        <!-- 画笔宽度，填充模式下无效，会被重置为0 -->
+        <attr name="Paint_Color" format="integer" />
+        <!-- 画笔颜色 -->
+        <attr name="Inside_Interval" format="integer" />
+        <!-- 圆形区域向里缩进的距离 -->
+        <attr name="Paint_BG_Color" format="integer" />
+        <!-- 背景色 -->
+        <attr name="TemperTextSize" format="float" />
+        <!-- 显示文字的大小 -->
+    </declare-styleable>
+
+    <declare-styleable name="LoadingTextView">
+        <attr name="textStyle">
+            <enum name="noText" value="-1" />
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="gravity" format="integer" />
+        <attr name="textSize" format="dimension" />
+        <attr name="textColor" format="color" />
+        <attr name="textPadding" format="dimension" />
+        <attr name="android:text" />
+    </declare-styleable>
+
+    <!-- rm Control -->
+    <declare-styleable name="BLRMControlBtnView">
+        <attr name="upbuttonsrc" format="reference|color"/>
+        <attr name="downbuttonsrc" format="reference|color"/>
+        <attr name="upbutton_marginTop" format="dimension"/>
+        <attr name="upbutton_marginRight" format="dimension"/>
+        <attr name="upbutton_marginBottom" format="dimension"/>
+        <attr name="upbutton_marginLeft" format="dimension"/>
+        <attr name="upbutton_width" format="dimension"/>
+        <attr name="upbutton_height" format="dimension"/>
+
+        <attr name="downbutton_marginRight" format="dimension"/>
+        <attr name="downbutton_marginBottom" format="dimension"/>
+        <attr name="downbutton_marginLeft" format="dimension"/>
+        <attr name="downbutton_marginTop" format="dimension"/>
+        <attr name="downbutton_width" format="dimension"/>
+        <attr name="downbutton_height" format="dimension"/>
+
+        <attr name="titles" format="string"/>
+        <attr name="upbutton_text" format="string"/>
+        <attr name="upbutton_size" format="dimension"/>
+        <attr name="upbutton_color" format="color"/>
+        <attr name="upbutton_tag" format="string"/>
+
+        <attr name="downbutton_text" format="string"/>
+        <attr name="downbutton_size" format="dimension"/>
+        <attr name="downbutton_color" format="color"/>
+        <attr name="downbutton_tag" format="string"/>
+        <attr name="view_bg" format="reference|color"/>
+        <attr name="view_down_bg" format="reference|color"/>
+        <attr name="view_up_bg" format="reference|color"/>
+        <attr name="orientation">
+            <enum name="vertical" value="0"/>
+            <enum name="horizontal" value="1"/>
+        </attr>
+
+    </declare-styleable>
+    <!-- rm Control -->
+    <declare-styleable name="InputTextView">
+        <attr name="hint" format="string"/>
+        <attr name="text" format="string"/>
+    </declare-styleable>
+
+    <!-- imageLib -->
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension"/>
+        <attr name="civ_border_color" format="color"/>
+        <attr name="civ_border_overlay" format="boolean"/>
+        <attr name="civ_fill_color" format="color"/>
+    </declare-styleable>
+    <!--<declare-styleable name="GroupLayout">-->
+        <!--<attr name="dividerPadding" format="dimension" />-->
+        <!--<attr name="dividerHeight" format="dimension" />-->
+        <!--<attr name="dividerColor" format="color" />-->
+        <!--<attr name="itemSelector" format="reference" />-->
+    <!--</declare-styleable>-->
+    <!--<declare-styleable name="TitleBar">-->
+        <!--<attr name="textColor" />-->
+        <!--<attr name="background" format="reference" />-->
+        <!--<attr name="backButton" format="reference" />-->
+    <!--</declare-styleable>-->
+
+    <!--corner_color 边角颜色，
+    scanner_color 扫描线颜色
+    frame_color 扫描框边线颜色
+    mask_color 模糊区域颜色
+    label_text  框上方提示
+    -->
+    <declare-styleable name="ViewfinderView">
+        <attr name="corner_color" format="color"/>
+        <attr name="laser_color" format="color"/>
+        <attr name="frame_color" format="color" />
+        <attr name="mask_color" format="color" />
+        <attr name="result_color" format="color" />
+        <attr name="label_text_color" format="color"/>
+        <attr name="label_text" format="string"/>
+        <attr name="label_text_size" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="BLPasswordEditView">
+        <attr name="pwdHint" format="string|reference"/>
+        <attr name="pwdHeftImg" format="reference"/>
+        <attr name="pwdTextSize" format="dimension"/>
+        <attr name="pwdTextMaxLen" format="integer"/>
+        <attr name="pwdTextColor" format="color|reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="BLInputTextView">
+        <attr name="paddingLeft"  format="dimension"/>
+        <attr name="hint" />
+        <attr name="light" />
+        <attr name="textColor" />
+        <attr name="textSize" />
+        <attr name="textMaxLen" />
+        <attr name="background" />
+        <attr name="isPwdType" />
+        <attr name="textColorHint" />
+    </declare-styleable>
+
+    <declare-styleable name="BLInputCountdownView">
+        <attr name="hint" />
+        <attr name="light" />
+        <attr name="textColor" />
+        <attr name="textSize" />
+        <attr name="textMaxLen" />
+        <attr name="background" />
+        <attr name="countDown" />
+    </declare-styleable>
+
+
+</resources>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:background="#333"/>
+
+    <EditText
+        android:id="@+id/ssid_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#fff"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:hint="@string/Input_SSID"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#272a29"
+        android:textSize="16sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#333"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="5dp"
+        android:background="#333"/>
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#fff"
+        android:drawablePadding="10dp"
+        android:hint="@string/Input_PASSWORD"
+        android:maxLength="20"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#272a29"
+        android:textSize="16sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#333"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:onClick="devConfigByVersion2"
+            android:text="@string/Config_2_Device"
+            android:textColor="#272a29"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:onClick="devConfigByVersion3"
+            android:text="@string/Config_3_Device"
+            android:textColor="#272a29"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:onClick="apConfig"
+            android:text="@string/Config_AP"
+            android:textColor="#272a29"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_result"
+        android:textSize="13sp"
+        android:gravity="top|left"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:padding="10dp"
+        android:background="@drawable/shape_input_view_blue_bg"
+        android:textColor="#333"
+        android:layout_margin="10dp"/>
+
+</LinearLayout>

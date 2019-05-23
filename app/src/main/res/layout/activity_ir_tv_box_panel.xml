@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp">
+    
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    
+    <EditText
+        android:id="@+id/et_input"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbarStyle="insideOverlay"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/shape_input_view_blue_bg"
+        android:textColor="@color/textDark"
+        android:minHeight="100dp"
+        android:gravity="start"
+        android:textSize="12sp"
+        android:digits="abcdefABCDEF0123456789 "
+        android:scrollbars="vertical"/>
+    
+    <Button
+        android:id="@+id/bt_get_ir_code"
+        android:layout_marginTop="10dp"
+        style="@style/commonBtn"
+        android:visibility="gone"
+        android:text="Get Ir Code"/>
+    
+    <Button
+        android:id="@+id/bt_send"
+        style="@style/commonBtn"
+        android:visibility="gone"
+        android:text="Send Ir Code"/>
+    
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="20dp"
+        android:id="@+id/rv_params"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/tv_dev"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_input_view_blue_bg"
+        android:minHeight="200dp"
+        android:padding="10dp"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="vertical"
+        android:visibility="gone"
+        android:textColor="@color/textDark"/>
+
+    <EditText
+        android:id="@+id/et_result"
+        android:textSize="13sp"
+        android:gravity="top|left"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:background="@drawable/shape_input_view_blue_bg"
+        android:minHeight="200dp"
+        android:padding="10dp"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="vertical"
+        android:textColor="@color/textDark"/>
+    
+</LinearLayout>
+</ScrollView>

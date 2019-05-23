@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentRight="true"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="Gateway Control"
+        android:textColor="#fff"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/result_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColor="#333" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:onClick="subdevStartScan"
+        android:text="@string/Start_Scan"
+        android:textColor="#272a29"
+        android:textSize="19sp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:onClick="getNewSubdevList"
+        android:text="@string/Get_New_SubDev"
+        android:textColor="#272a29"
+        android:textSize="19sp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:onClick="addSubDevice"
+        android:text="@string/Add_SubDev"
+        android:textColor="#272a29"
+        android:textSize="19sp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:onClick="deleteSubDev"
+        android:text="@string/Del_SubDev"
+        android:textColor="#272a29"
+        android:textSize="19sp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:onClick="querySubDeviceList"
+        android:text="@string/Query_SubDev_List"
+        android:textColor="#272a29"
+        android:textSize="19sp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:onClick="getTcPairStatus"
+        android:text="@string/Get_TC_PAIR_STATUS"
+        android:textColor="#272a29"
+        android:textSize="19sp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:onClick="setTcPairStatus"
+        android:text="@string/Set_TC_PAIR_STATUS"
+        android:textColor="#272a29"
+        android:textSize="19sp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:onClick="setTcPower"
+        android:text="@string/Set_TC_POWER"
+        android:textColor="#272a29"
+        android:textSize="19sp" />
+</LinearLayout>

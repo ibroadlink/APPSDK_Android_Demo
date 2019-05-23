@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.multidex.MultiDex;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.sdk.android.push.CloudPushService;
@@ -93,6 +94,7 @@ public class BLApplication extends Application{
         String packageName = PreferencesUtils.getString(this, "packageName", BLConstants.SDK_PACKAGE);
         String license = PreferencesUtils.getString(this, "license", BLConstants.SDK_LICENSE);
         boolean useCluster = PreferencesUtils.getBoolean(this, "cluster",true);
+        String domain = PreferencesUtils.getString(this, "domain",null);
 
         // 初始化核心库
         BLConfigParam blConfigParam = new BLConfigParam();
@@ -134,10 +136,12 @@ public class BLApplication extends Application{
         // 12. 远程尝试0次
         blConfigParam.put(BLConfigParam.CONTROLLER_RESEND_MODE, "0");
         
-        // 12. for test, 设置集群域名
-        //blConfigParam.put(BLConfigParam.APP_SERVICE_HOST, "https://01e78622f3e6b3a861133fbc0690f4a9appservice.ibroadlink.com"); 
-        //BLApiUrlConstants.init("01e78622f3e6b3a861133fbc0690f4a9"); 
+        // 13. 设置集群域名
+        if(!TextUtils.isEmpty(domain)){
+            blConfigParam.put(BLConfigParam.APP_SERVICE_HOST, domain);
+        }
         
+        // 真正初始化
         BLLet.init(this, license, "", blConfigParam);
 
         // 初始化之后，获取 lid 和 companyId ，用于其他类库的初始化
@@ -158,10 +162,14 @@ public class BLApplication extends Application{
         BLAccount.addLoginListener(BLIRCode.getLoginListener());
 
         // 初始化家庭管理接口
-        BLSFamilyManager.getInstance().init(lid);
-
-        BLApiUrlConstants.init(lid);
-
+        BLSFamilyManager.getInstance().init(lid, domain);
+        
+        // 初始化本地url
+        if(!TextUtils.isEmpty(domain)){
+            BLApiUrlConstants.initWithDomain(domain);
+        } else{
+            BLApiUrlConstants.init(lid);
+        }
 //        // for test start
 //        BLFamily.init(BLLet.getCompanyid(), BLLet.getLicenseId());
 //        BLAccount.addLoginListener(BLFamily.getLoginListener());

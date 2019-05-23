@@ -28,12 +28,12 @@ import java.util.List;
 
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.device.DevProbeListActivity;
-import cn.com.broadlink.blappsdkdemo.activity.h5.DeviceH5Activity;
+import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
 import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSEndpointInfo;
 import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSQueryEndpointListResult;
-import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
-import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
+import cn.com.broadlink.blappsdkdemo.activity.h5.DeviceH5Activity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLImageLoaderUtils;
@@ -42,8 +42,6 @@ import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleItemClickListener;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
-import cn.com.broadlink.sdk.result.controller.BLDownloadScriptResult;
-import cn.com.broadlink.sdk.result.controller.BLDownloadUIResult;
 
 public class FamilyModuleListActivity extends TitleActivity {
 
@@ -172,92 +170,80 @@ public class FamilyModuleListActivity extends TitleActivity {
 
         mDNADevice = info.toDnadeviceInfo();
         BLLet.Controller.addDevice(mDNADevice);
-
         String pid = mDNADevice.getPid();
 
         if (scriptFileExist(pid) && uiFileExit(pid)) {
-            Intent intent = new Intent();
-            intent.putExtra(BLConstants.INTENT_DEVICE, mDNADevice);
-            intent.setClass(FamilyModuleListActivity.this, DeviceH5Activity.class);
-            startActivity(intent);
+            gotoNextPage(mDNADevice);
         } else {
-
-            if (!scriptFileExist(pid)) {
-                new DownLoadScriptTask().execute();
+            if (!scriptFileExist(pid) || !uiFileExit(pid)) {
+                new DownLoadResTask().execute(pid);
             }
-
-            if (!uiFileExit(pid)) {
-                new DownLoadUITask().execute();
-            }
-
-            BLCommonUtils.toastShow(FamilyModuleListActivity.this, "正在下载UI包，请稍后再试");
         }
-
     }
 
     private boolean scriptFileExist(String pid){
-        /***获取产品脚本本地保存的路径***/
         String scriptFilePath = BLLet.Controller.queryScriptPath(pid);
-        Log.e("FileExist" , scriptFilePath);
+        Log.e("scriptFileExist" , scriptFilePath);
         File file = new File(scriptFilePath);
         return file.exists();
     }
 
     private boolean uiFileExit(String pid) {
         String uiFilePath = BLLet.Controller.queryUIPath(pid);
-        Log.e("UIExit", uiFilePath);
+        Log.e("uiFileExit", uiFilePath);
         File file = new File(uiFilePath);
         return file.exists();
     }
 
-    //脚本下载
-    class DownLoadScriptTask extends AsyncTask<Void, Void, BLDownloadScriptResult> {
+    private void gotoNextPage(BLDNADevice mDNADevice) {
+        Intent intent = new Intent();
+        intent.putExtra(BLConstants.INTENT_DEVICE, mDNADevice);
+        intent.setClass(mActivity, DeviceH5Activity.class);
+        startActivity(intent);
+    }
+    
+    //脚本和ui包下载
+    class DownLoadResTask extends AsyncTask<String, Void, BLBaseResult> {
         private ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(FamilyModuleListActivity.this);
-            progressDialog.setMessage("Script downloading...");
+            progressDialog = new ProgressDialog(mActivity);
+            progressDialog.setMessage("Resource downloading...");
             progressDialog.show();
         }
 
         @Override
-        protected BLDownloadScriptResult doInBackground(Void... params) {
-            return BLLet.Controller.downloadScript(mDNADevice.getPid());
+        protected BLBaseResult doInBackground(String... params) {
+            BLBaseResult result = null;
+
+            if (!scriptFileExist(params[0])){
+                result = BLLet.Controller.downloadScript(params[0]);
+                if(result==null || !result.succeed()){
+                    return result;
+                }
+            }
+
+            if (!uiFileExit(params[0])){
+                result = BLLet.Controller.downloadUI(params[0]);
+            }
+            return result;
         }
 
         @Override
-        protected void onPostExecute(BLDownloadScriptResult result) {
+        protected void onPostExecute(BLBaseResult result) {
             super.onPostExecute(result);
             progressDialog.dismiss();
+
+            BLCommonUtils.toastErr(result);
+
+            String pid = mDNADevice.getPid();
+            if (scriptFileExist(pid) && uiFileExit(pid)) {
+                gotoNextPage(mDNADevice);
+            }
         }
     }
-
-    //UI包下载
-    class DownLoadUITask extends AsyncTask<Void, Void, BLDownloadUIResult>{
-        private ProgressDialog progressDialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(FamilyModuleListActivity.this);
-            progressDialog.setMessage("UI downloading...");
-            progressDialog.show();
-        }
-
-        @Override
-        protected BLDownloadUIResult doInBackground(Void... params) {
-            return BLLet.Controller.downloadUI(mDNADevice.getPid());
-        }
-
-        @Override
-        protected void onPostExecute(BLDownloadUIResult result) {
-            super.onPostExecute(result);
-            progressDialog.dismiss();
-        }
-    }
-
     
     class DelEndpointTask extends AsyncTask<String, Void, BLBaseResult>{
 

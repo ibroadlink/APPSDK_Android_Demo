@@ -1,5 +1,7 @@
 package cn.com.broadlink.blappsdkdemo.activity.family.manager;
 
+import android.text.TextUtils;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -49,13 +51,16 @@ public class BLSFamilyManager {
         }
         return instance;
     }
-    
-    public BLSFamilyManager init(String licenseid){
-        this.setLicenseid(licenseid);
-        this.setServerHost(String.format("https://%s%s", licenseid, BLSFamilyConstants.BASE_DOMAIN));
-        return this;
-    } 
 
+    public BLSFamilyManager init(String licenseid, String domain){
+        this.setLicenseid(licenseid);
+        if(TextUtils.isEmpty(domain)){
+            this.setServerHost(String.format("https://%s%s", licenseid, BLSFamilyConstants.BASE_DOMAIN));
+        }else{
+            this.setServerHost(domain);
+        }
+        return this;
+    }
     private Map<String, String> generateHead(Map<String, String> head) {
 
         Map<String, String> mapHead = new HashMap<>();

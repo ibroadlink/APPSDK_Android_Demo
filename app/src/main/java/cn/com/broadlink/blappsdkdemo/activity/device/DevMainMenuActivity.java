@@ -10,6 +10,9 @@ import android.widget.EditText;
 
 import com.alibaba.fastjson.JSON;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.sql.SQLException;
 
 import cn.com.broadlink.base.BLBaseResult;
@@ -27,6 +30,7 @@ import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.sdk.BLLet;
+import cn.com.broadlink.sdk.constants.controller.BLDevCmdConstants;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.result.controller.BLDeviceTimeResult;
 
@@ -165,10 +169,16 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
                 BLAlert.showEditDilog(mActivity, "Please input firmware update Url", null, new BLAlert.BLEditDialogOnClickListener() {
                     @Override
                     public void onClink(String value) {
-                        if(!BLCommonUtils.isURL(value)){
+                    /*    if(!BLCommonUtils.isURL(value)){
                             BLToastUtils.show("Please input a valid url!");  
                         }else{
                             new UpdateFirmwareTask().execute(value);
+                        }*/
+
+                        if(TextUtils.isEmpty(value)){
+                            BLToastUtils.show("Param null");
+                        }else{
+                            new UpdateFirmwareV2Task().execute(value);
                         }
                     }
 
@@ -302,7 +312,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         }
     }
     
-    //查询固件版本
+    //升级固件版本
     class UpdateFirmwareTask extends AsyncTask<String, Void, BLBaseResult> {
 
         @Override
@@ -318,6 +328,39 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
 
         @Override
         protected void onPostExecute(BLBaseResult result) {
+            super.onPostExecute(result);
+            dismissProgressDialog();
+            setResult(result);
+        }
+    }
+    
+    //升级固件版本
+    class UpdateFirmwareV2Task extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("Update Firmware...");
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            
+            JSONObject jData = new JSONObject();
+            JSONObject urlObject = new JSONObject();
+            
+            try {
+                urlObject.put("hw_url", params[0]);
+                jData.put("data", urlObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return BLLet.Controller.dnaControl(mDNADevice.getDeviceId(), null, jData.toString(),  BLDevCmdConstants.DEV_FW_UPGRADE, null);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
             super.onPostExecute(result);
             dismissProgressDialog();
             setResult(result);

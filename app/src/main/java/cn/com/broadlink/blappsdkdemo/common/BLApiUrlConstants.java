@@ -39,6 +39,11 @@ public class BLApiUrlConstants {
         QUERY_DEV_HISTORY = String.format(QUERY_DEV_HISTORY,lid);
     }
 
+    public static void initWithDomain(String domain){
+        BASE_URL_APPSERVICE = domain;
+        init("");
+    }
+
     public static String BASE_URL_APPSERVICE = "https://%sappservice.ibroadlink.com";
 
     /**APP 家庭域名**/

@@ -16,16 +16,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.check.DeviceCheckActivity;
 import cn.com.broadlink.blappsdkdemo.activity.irCode.IRCodeAcPanelActivity;
-import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
-import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
+import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
+import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
+import cn.com.broadlink.sdk.interfaces.controller.BLDeviceStateChangedListener;
 
 public class DevMyDevListActivity extends TitleActivity {
 
@@ -60,6 +63,36 @@ public class DevMyDevListActivity extends TitleActivity {
 
         mLocalDeviceManager = BLLocalDeviceManager.getInstance();
         mDevices = mLocalDeviceManager.getDevicesAddInSDK();
+
+        BLLet.Controller.setOnDeviceStateChangedListener(new BLDeviceStateChangedListener() {
+            @Override
+            public void onChanged(String did, int state) {
+                BLCommonTools.debug("Device deviceId=" + did + " State=" + state);
+                
+                if(DevMyDevListActivity.this.isFinishing())return;
+                
+                for (BLDNADevice bldnaDevice : mDevices) {
+                    if (bldnaDevice.getDeviceId().equalsIgnoreCase(did)) {
+                        bldnaDevice.setState(state);
+                        mDevListView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(mDeviceAdapter != null){
+                                    mDeviceAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        });
+                        return;
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BLLet.Controller.setOnDeviceStateChangedListener(null);
     }
 
     private void findView() {

@@ -7,12 +7,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.interfaces.controller.BLDeviceScanListener;
-import cn.com.broadlink.sdk.interfaces.controller.BLDeviceStateChangedListener;
 import cn.com.broadlink.sdk.result.controller.BLPairResult;
 
 /**
@@ -42,12 +40,17 @@ public class BLLocalDeviceManager {
             }
         });
 
-        BLLet.Controller.setOnDeviceStateChangedListener(new BLDeviceStateChangedListener() {
+        /*BLLet.Controller.setOnDeviceStateChangedListener(new BLDeviceStateChangedListener() {
             @Override
             public void onChanged(String did, int state) {
-                BLCommonTools.debug("Device did=" + did + " State=" + state);
+                BLCommonTools.debug("Device deviceId=" + did + " State=" + state);
+                for (BLDNADevice bldnaDevice : devicesAddInSDK) {
+                    if (bldnaDevice.getDeviceId().equalsIgnoreCase(did)) {
+                        bldnaDevice.setState(state);
+                    }
+                }
             }
-        });
+        });*/
 
         checkRunnable = new Runnable() {
             @Override

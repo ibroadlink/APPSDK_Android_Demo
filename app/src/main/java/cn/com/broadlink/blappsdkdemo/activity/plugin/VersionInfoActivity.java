@@ -36,8 +36,8 @@ public class VersionInfoActivity extends TitleActivity {
         mTvSdkLid.setText(BLLet.getLicenseId());
         mTvSdkUid.setText(BLApplication.mBLUserInfoUnits.getUserid());
 
-        BLLog.d("version-lid", BLLet.getLicenseId());
-        BLLog.d("version-uid", BLApplication.mBLUserInfoUnits.getUserid());
+        BLLog.d("version-lid", BLLet.getLicenseId() + "");
+        BLLog.d("version-uid", BLApplication.mBLUserInfoUnits.getUserid() + "");
     }
 
     private void initView() {

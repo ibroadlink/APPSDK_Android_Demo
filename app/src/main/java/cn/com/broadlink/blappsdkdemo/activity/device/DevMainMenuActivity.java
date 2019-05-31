@@ -178,7 +178,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
                         if(TextUtils.isEmpty(value)){
                             BLToastUtils.show("Param null");
                         }else{
-                            new UpdateFirmwareV2Task().execute(value);
+                            new UpdateFirmwareTask().execute(value);
                         }
                     }
 
@@ -301,6 +301,11 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
 
         @Override
         protected BLBaseResult doInBackground(Void... params) {
+            if (mDNADevice.getpDid() != null){
+                final String[] cachedDeviceId = BLMultDidUtils.getCachedDeviceId(mDNADevice);
+                return BLLet.Controller.devSubDevVersion(cachedDeviceId[0], cachedDeviceId[1], null);
+            }
+            
             return BLLet.Controller.queryFirmwareVersion(mDNADevice.getDeviceId());
         }
 
@@ -323,6 +328,11 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
 
         @Override
         protected BLBaseResult doInBackground(String... params) {
+            if (mDNADevice.getpDid() != null){
+                final String[] cachedDeviceId = BLMultDidUtils.getCachedDeviceId(mDNADevice);
+                return BLLet.Controller.devSubDevUpgradeFirmware(cachedDeviceId[0], cachedDeviceId[1], params[0],null);
+            }
+            
             return BLLet.Controller.updateFirmware(mDNADevice.getDeviceId(), params[0]);
         }
 

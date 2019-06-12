@@ -29,7 +29,7 @@
         android:layout_height="wrap_content">
         <RadioButton
             android:id="@+id/rb_baidu"
-            android:text="Baidu Cluster"
+            android:text="Ihc international Cluster"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <RadioButton

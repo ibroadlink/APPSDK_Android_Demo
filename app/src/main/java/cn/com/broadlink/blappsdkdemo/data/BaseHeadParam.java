@@ -48,7 +48,7 @@ public class BaseHeadParam {
         this.locate = BLCommonUtils.getCountry();
         this.language = BLCommonUtils.getLanguage();
         this.userid = BLApplication.mBLUserInfoUnits.getUserid();
-        this.mobileinfo = android.os.Build.MODEL;
+        //this.mobileinfo = android.os.Build.MODEL;
         this.licenseid = BLLet.getLicenseId();
     }
 

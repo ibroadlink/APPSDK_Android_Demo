@@ -8,10 +8,14 @@ public class BLConstants {
     
     public static final String BROADLINK_LOG_TAG = "BROADLINK_DEMO";
     
+//    // ihc
+//    public static final String SDK_PACKAGE_BAIDU = "cn.com.broadlink.econtrol.plus";
+//    public static final String SDK_LICENSE_BAIDU = 
+//            "0PlPqgTGPZt7CwNNz4lWVm7qQZqm8AdPyooafIrN9QX5UING6RYrag2V2nFqWRIQrFDxVgAAAADoWWz5UyBiHvQQIPyIUhi4XFSykPGAqniglnoIUWhvuHCgxWxDEyF0yb0xHzyz6V5BLR6D0KoiI6QqjWxRKs8JsEkbxXTfoUSQjDzWcfVjcA4AAADzeX7wfU+3ndxs2/3yXOnJrFAlYyFEltcuD9SloQA7kInW0ynCvel2PMHSm6RgRp/xNYhi5LPROx4fnr746yHD";
+  
     // ihc
-    public static final String SDK_PACKAGE_BAIDU = "cn.com.broadlink.econtrol.plus";
-    public static final String SDK_LICENSE_BAIDU = 
-            "0PlPqgTGPZt7CwNNz4lWVm7qQZqm8AdPyooafIrN9QX5UING6RYrag2V2nFqWRIQrFDxVgAAAADoWWz5UyBiHvQQIPyIUhi4XFSykPGAqniglnoIUWhvuHCgxWxDEyF0yb0xHzyz6V5BLR6D0KoiI6QqjWxRKs8JsEkbxXTfoUSQjDzWcfVjcA4AAADzeX7wfU+3ndxs2/3yXOnJrFAlYyFEltcuD9SloQA7kInW0ynCvel2PMHSm6RgRp/xNYhi5LPROx4fnr746yHD";
+    public static final String SDK_PACKAGE_BAIDU = "cn.com.broadlink.econtrol.international";
+    public static final String SDK_LICENSE_BAIDU = "z3pn54M4x0Ad6uuWSI9G++DMebHcudBcmuQc0EzgH2MYC8m3+LcREcvQ/ihQzqUOeVcgXAAAAADjur2NVArwxwkCXFCflaFAvKQ+Zl0lPyrU2admH4eowk/FnWbIxL62RhRPseZ+Prnck2eU+xOGEEUW14Lo14gMsEkbxXTfoUSQjDzWcfVjcAAAAAA=";
 
      // international
     public static final String SDK_PACKAGE = "com.broadlink.blappsdkdemo";
@@ -58,6 +62,12 @@ public class BLConstants {
     public static final int BL_IRCODE_DEVICE_TV = 1;
     public static final int BL_IRCODE_DEVICE_TV_BOX = 2;
     public static final int BL_IRCODE_DEVICE_AC = 3;
+    
+    public final static class IR_AREA_TYPE{
+        public final static String COUNTRY = "getcountry";
+        public final static String PROVINCE = "getprovince";
+        public final static String CITY = "getcity";
+    }
 
     /** Intent Buddle-key **/
     public static final String INTENT_NAME = "INTENT_NAME";

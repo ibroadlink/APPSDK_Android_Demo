@@ -188,7 +188,7 @@ public class IRCodeMatchTreeMainActivity extends TitleActivity {
 
         @Override
         protected BLDownLoadIRCodeResult doInBackground(String... strings) {
-            return BLIRCode.downloadIRCodeScriptById("", strings[0], strings[1]);
+            return BLIRCode.downloadIRCodeScriptByIdV3("", strings[0], strings[1]);
         }
 
         @Override

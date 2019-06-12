@@ -98,21 +98,21 @@ dependencies {
     //implementation 'com.ibroadlink:BLLetCoreAndroid:2.10.+' // core
     implementation(name: 'dnasdk-debug', ext: 'aar') 
     
-    implementation 'com.ibroadlink:BLLetBaseAndroid:2.10.+' // base
-    //implementation(name: 'blbase-debug', ext: 'aar')
+    //implementation 'com.ibroadlink:BLLetBaseAndroid:2.11.+' // base
+    implementation(name: 'blbase-debug', ext: 'aar')
 
     implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.+' // account
     //implementation(name: 'blaccount-debug', ext: 'aar')
     
-    implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.10.+' // ircode
-    //implementation project(':ircode')
+    //implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.10.+' // ircode
+    implementation(name: 'ircode-debug', ext: 'aar')
     
     //implementation 'com.ibroadlink:BLLetFamilyAndroid:2.8.+' // family
     //implementation(name: 'blfamily-debug', ext: 'aar')
     
     configurations {
         all*.exclude group:'com.ibroadlink',  module:'BLLetCoreAndroid'
-        //all*.exclude group:'com.ibroadlink',  module:'BLLetBaseAndroid' // 如果不使用aar，注释这一句
+        all*.exclude group:'com.ibroadlink',  module:'BLLetBaseAndroid' // 如果不使用aar，注释这一句
     }
     // fot local debug end
     

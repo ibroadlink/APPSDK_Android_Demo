@@ -16,6 +16,9 @@ import com.didichuxing.doraemonkit.kit.IKit;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -141,6 +144,17 @@ public class BLApplication extends Application{
             blConfigParam.put(BLConfigParam.APP_SERVICE_HOST, domain);
         }
         
+        // 14.设置设备连接服务器
+        try {
+            final JSONObject jsonObject = new JSONObject();
+            jsonObject.put("tcp", "device-heartbeat-chn-ee08f451.ibroadlink.com");
+            jsonObject.put("http", "device-gateway-chn-ee08f451.ibroadlink.com");
+            String jDeviceServer = jsonObject.toString();
+            blConfigParam.put(BLConfigParam.DEVICE_CONNECTION_SERVER_HOST, jDeviceServer);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } 
+
         // 真正初始化
         BLLet.init(this, license, "", blConfigParam);
 

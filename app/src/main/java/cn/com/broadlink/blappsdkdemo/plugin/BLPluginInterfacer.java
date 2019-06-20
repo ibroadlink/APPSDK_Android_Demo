@@ -184,11 +184,13 @@ public interface BLPluginInterfacer {
 					JSONObject jsonObject = new JSONObject(cmdJsonStr);
 					String method = jsonObject.optString("method");
 					String url = jsonObject.optString("url");
+					int timeoutInMs = jsonObject.optInt("httpTimeout", 0);
 					JSONObject headerJson = jsonObject.optJSONObject("headerJson");
 					JSONArray bodys = jsonObject.optJSONArray("bodys");
 
 					BLLog.i(TAG, "method:" + method);
 					BLLog.i(TAG, "url:" + url);
+					BLLog.i(TAG, "httpTimeout:" + timeoutInMs);
 					BLLog.i(TAG, "headerJson:" + headerJson);
 
 					if(url != null && method != null && (method.equals("get") || method.equals("post"))){
@@ -213,9 +215,9 @@ public interface BLPluginInterfacer {
 						}
 
 						if (method.equals("get")) {
-							return BLBaseHttpAccessor.get(url, null, headMap, 10 * 1000, new BLTrustManager());
+							return BLBaseHttpAccessor.get(url, null, headMap, timeoutInMs<1000 ? 10 * 1000 : timeoutInMs, new BLTrustManager());
 						} else {
-							return BLBaseHttpAccessor.post(url, headMap, bodysData, 10 * 1000, new BLTrustManager());
+							return BLBaseHttpAccessor.post(url, headMap, bodysData, timeoutInMs<1000 ? 10 * 1000 : timeoutInMs, new BLTrustManager());
 						}
 					}
 				}

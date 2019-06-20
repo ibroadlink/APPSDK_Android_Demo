@@ -389,7 +389,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
 
         @Override
         protected BLBaseResult doInBackground(Void... params) {
-            return BLLet.Controller.queryDeviceConnectServerInfo(mDNADevice.getDid());
+            return BLLet.Controller.queryDeviceConnectServerInfo(mDNADevice.getDeviceId());
         }
 
         @Override

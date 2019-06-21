@@ -22,21 +22,19 @@ import java.util.List;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
-import cn.com.broadlink.blappsdkdemo.common.BLApiUrlConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLLog;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
+import cn.com.broadlink.blappsdkdemo.data.AreaInfo;
 import cn.com.broadlink.blappsdkdemo.data.BLIRCodeArea;
 import cn.com.broadlink.blappsdkdemo.data.CloudAcBrandResponse;
-import cn.com.broadlink.blappsdkdemo.data.GetAreaListResult;
 import cn.com.broadlink.blappsdkdemo.data.RmIrTreeResult;
-import cn.com.broadlink.blappsdkdemo.data.auth.UserHeadParam;
-import cn.com.broadlink.blappsdkdemo.utils.http.BLHttpGetAccessor;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
 import cn.com.broadlink.ircode.BLIRCode;
+import cn.com.broadlink.ircode.BLIRDeviceType;
 import cn.com.broadlink.ircode.result.BLDownLoadIRCodeResult;
 import cn.com.broadlink.ircode.result.BLResponseResult;
 import cn.com.broadlink.sdk.BLLet;
@@ -63,7 +61,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
     private String mCountryCode = null;
     private String mProvinceCode = null;
     private String mCityCode = null;
-    private GetAreaListResult mAreaCache = null;
+    private List<AreaInfo> mAreaCache = new ArrayList<>();
     
     
     @Override
@@ -340,7 +338,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
         @Override
         protected BLResponseResult doInBackground(String... strings) {
             int brand = Integer.parseInt(strings[0]);
-            return BLIRCode.requestACIRCodeScriptDownloadUrlV3(brand);
+            return BLIRCode.requestIRCodeScriptDownloadUrlV3(BLIRDeviceType.AC, brand);
         }
 
         @Override
@@ -395,7 +393,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
         @Override
         protected BLResponseResult doInBackground(String... strings) {
             int brand = Integer.parseInt(strings[0]);
-            return BLIRCode.requestTVIRCodeScriptDownloadUrlV3(brand);
+            return BLIRCode.requestIRCodeScriptDownloadUrlV3(BLIRDeviceType.TV, brand);
         }
 
         @Override
@@ -542,55 +540,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
             }
         }
     }
-    
-    class QuerySubAreaTaskV3 extends AsyncTask<String, Void, BLResponseResult> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgressDialog("Querying sub area...");
-        }
-
-        @Override
-        protected BLResponseResult doInBackground(String... strings) {
-
-            String type = BLConstants.IR_AREA_TYPE.COUNTRY;
-            if(mCountryCode == null){
-                type = BLConstants.IR_AREA_TYPE.COUNTRY;
-            }else if(mProvinceCode == null){
-                type = BLConstants.IR_AREA_TYPE.PROVINCE;
-            }else if(mCityCode == null){
-                type = BLConstants.IR_AREA_TYPE.CITY;
-            }
-            return BLIRCode.requestSubAreasV3(type, mCountryCode, mProvinceCode);
-        }
-
-        @Override
-        protected void onPostExecute(BLResponseResult blBaseBodyResult) {
-            super.onPostExecute(blBaseBodyResult);
-            dismissProgressDialog();
-            
-            if (blBaseBodyResult.succeed()) {
-                Log.d(BLConstants.BROADLINK_LOG_TAG, blBaseBodyResult.getResponseBody());
-                try {
-                    JSONObject jInfo = new JSONObject(blBaseBodyResult.getResponseBody());
-                    JSONArray jSubareainfos = jInfo.getJSONArray("data");
-
-                    int count = jSubareainfos.length();
-                    mAreas.clear();
-                    for (int i = 0; i < count; i++) {
-                        final BLIRCodeArea blirCodeAreaV3 = JSON.parseObject(jSubareainfos.get(i).toString(), BLIRCodeArea.class);
-                        mAreas.add(blirCodeAreaV3);
-                    }
-                    mAdapter.notifyDataSetChanged();
-                } catch (Exception e) {
-
-                }
-            }
-        }
-    }
-    
-    class QueryAreaListTask extends AsyncTask<String, Void, GetAreaListResult> {
+    class QueryAreaListTask extends AsyncTask<String, Void, BLResponseResult> {
 
         @Override
         protected void onPreExecute() {
@@ -599,62 +549,65 @@ public class IRCodeBrandListActivity extends TitleActivity {
         }
 
         @Override
-        protected GetAreaListResult doInBackground(String... strings) {
-            if(mAreaCache == null){
-                return new BLHttpGetAccessor(mActivity).execute(BLApiUrlConstants.BASE_APP_MANAGE + "/farm/product/v1/system/getlocatelist", new UserHeadParam(), GetAreaListResult.class);
-            }else{
-                return mAreaCache;
-            }
+        protected BLResponseResult doInBackground(String... strings) {
+                return BLIRCode.requesAllAreaList();
         }
 
         @Override
-        protected void onPostExecute(GetAreaListResult blBaseBodyResult) {
+        protected void onPostExecute(BLResponseResult blBaseBodyResult) {
             super.onPostExecute(blBaseBodyResult);
             dismissProgressDialog();
             
-            if (blBaseBodyResult.succeed()) {
+            if (blBaseBodyResult != null && blBaseBodyResult.succeed()) {
                 Log.d(BLConstants.BROADLINK_LOG_TAG, JSON.toJSONString(blBaseBodyResult));
-                mAreaCache = blBaseBodyResult;
+
                 try {
-                    mAreas.clear();
-                    for (GetAreaListResult.DataBean datum : blBaseBodyResult.data) {
-                        if(mCountryCode==null){
-                            final BLIRCodeArea blirCodeArea = new BLIRCodeArea();
-                            blirCodeArea.setCountry(datum.country);
-                            blirCodeArea.setCountrycode(datum.code);
-                            mAreas.add(blirCodeArea);
-                        }
-                        else if(mProvinceCode==null && mCountryCode.equalsIgnoreCase(datum.code)){
-                            for (GetAreaListResult.DataBean.ChildrenBean child : datum.children) {
+                    final List<AreaInfo> areaInfos = JSON.parseArray(blBaseBodyResult.getResponseBody(), AreaInfo.class);
+
+                    if (areaInfos != null) {
+                        mAreaCache.clear();
+                        mAreaCache.addAll(areaInfos);
+
+                        mAreas.clear();
+                        for (AreaInfo datum : mAreaCache) {
+                            if (mCountryCode == null) {
                                 final BLIRCodeArea blirCodeArea = new BLIRCodeArea();
-                                blirCodeArea.setProvince(child.province);
-                                blirCodeArea.setProvincecode(child.code);
+                                blirCodeArea.setCountry(datum.country);
+                                blirCodeArea.setCountrycode(datum.code);
                                 mAreas.add(blirCodeArea);
-                            }
-                            mAdapter.notifyDataSetChanged();
-                            return;
-                        }
-                        else if(mCityCode==null){
-                            for (GetAreaListResult.DataBean.ChildrenBean child : datum.children) {
-                                if(mProvinceCode.equalsIgnoreCase(child.code)){
-                                    for (GetAreaListResult.DataBean.ChildrenBean.SubchildrenBean item : child.subchildren) {
-                                        final BLIRCodeArea blirCodeArea = new BLIRCodeArea();
-                                        blirCodeArea.setCity(item.city);
-                                        blirCodeArea.setCitycode(item.code);
-                                        mAreas.add(blirCodeArea);
+                            } else if (mProvinceCode == null && mCountryCode.equalsIgnoreCase(datum.code)) {
+                                for (AreaInfo.ChildrenBean child : datum.children) {
+                                    final BLIRCodeArea blirCodeArea = new BLIRCodeArea();
+                                    blirCodeArea.setProvince(child.province);
+                                    blirCodeArea.setProvincecode(child.code);
+                                    mAreas.add(blirCodeArea);
+                                }
+                                mAdapter.notifyDataSetChanged();
+                                return;
+                            } else if (mCityCode == null) {
+                                for (AreaInfo.ChildrenBean child : datum.children) {
+                                    if (mProvinceCode.equalsIgnoreCase(child.code)) {
+                                        for (AreaInfo.ChildrenBean.SubchildrenBean item : child.subchildren) {
+                                            final BLIRCodeArea blirCodeArea = new BLIRCodeArea();
+                                            blirCodeArea.setCity(item.city);
+                                            blirCodeArea.setCitycode(item.code);
+                                            mAreas.add(blirCodeArea);
+                                        }
+                                        mAdapter.notifyDataSetChanged();
+                                        return;
                                     }
-                                    mAdapter.notifyDataSetChanged();
-                                    return;
                                 }
                             }
-                            
                         }
+                        mAdapter.notifyDataSetChanged();
                     }
-                    mAdapter.notifyDataSetChanged();
-                } catch (Exception e) {
 
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
+            
+            BLCommonUtils.toastErr(blBaseBodyResult);
         }
     }
     

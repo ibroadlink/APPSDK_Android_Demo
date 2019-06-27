@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
@@ -100,8 +101,8 @@ public class IhgBulbWallManageFragment extends Fragment {
             holder.setText(R.id.tv_index, String.valueOf(position));
             holder.setTextColor(R.id.tv_index, getItem(position).isEdited ? Color.RED : Color.BLACK);
             holder.setText(R.id.tv_mac, mBulbList.get(position).mac);
-            holder.setBackgroundColor(R.id.ll_root, mBulbList.get(position).rgb);
-            holder.setAlpha(R.id.ll_root, 100);
+            holder.setBackgroundColor(R.id.ll_root, BLCommonUtils.parseColor(mBulbList.get(position).rgb));
+            holder.setAlpha(R.id.ll_root, 200);
         }
     }
 

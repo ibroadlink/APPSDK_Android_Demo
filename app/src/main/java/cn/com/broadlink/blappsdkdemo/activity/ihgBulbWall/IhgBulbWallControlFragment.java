@@ -1,5 +1,6 @@
 package cn.com.broadlink.blappsdkdemo.activity.ihgBulbWall;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -36,6 +37,8 @@ public class IhgBulbWallControlFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View inflate = inflater.inflate(R.layout.fragment_ihg_bulb_wall_control, container, false);
         findView(inflate);
+        
+        
         return inflate;
     }
 
@@ -53,11 +56,17 @@ public class IhgBulbWallControlFragment extends Fragment {
     }
     
     private void initView(){
-        mSvForcolor.getRightTextView().setBackgroundColor(mForColor);
-        mSvForcolor.getRightTextView().setText(BLCommonUtils.color2String(mForColor));
-        mSvBackcolor.getRightTextView().setBackgroundColor(mBackColor);
-        mSvBackcolor.getRightTextView().setText(BLCommonUtils.color2String(mBackColor));
+        final String forColor = BLCommonUtils.color2String(mForColor);
+        final String backColor = BLCommonUtils.color2String(mBackColor);
+        
+        mSvForcolor.getRightTextView().setText(forColor);
+        mSvForcolor.getRightTextView().setBackgroundColor(Color.parseColor(forColor));
+        
+        mSvBackcolor.getRightTextView().setText(backColor);
+        mSvBackcolor.getRightTextView().setBackgroundColor(Color.parseColor(backColor));
+        
         mSvText.setValue("Unset");
+        
         mSvImg.setValue("Unset");
     }
     

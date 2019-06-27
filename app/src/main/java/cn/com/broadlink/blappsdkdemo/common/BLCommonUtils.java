@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -681,6 +682,10 @@ public class BLCommonUtils {
 
     public static String color2String(int color) {
        return String.format("#%06X", color);
+    }
+    
+    public static int parseColor(int color) {
+       return Color.parseColor(color2String(color));
     }
 }
 

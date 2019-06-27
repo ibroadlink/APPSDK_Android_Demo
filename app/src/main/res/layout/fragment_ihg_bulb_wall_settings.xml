@@ -16,6 +16,7 @@
         app:position="top"
         app:text="Loop Type"
         app:textSize="16sp"
+        app:valueSize="16sp"
         app:valueColor="@color/text999"
         />
 
@@ -29,6 +30,7 @@
         app:position="middle"
         app:text="Loop Count"
         app:textSize="16sp"
+        app:valueSize="16sp"
         app:valueColor="@color/text999"
         />
 
@@ -42,6 +44,7 @@
         app:position="middle"
         app:text="Loop Interval(/s)"
         app:textSize="16sp"
+        app:valueSize="16sp"
         app:valueColor="@color/text999"
         />
 
@@ -55,6 +58,7 @@
         app:position="middle"
         app:text="Brightness"
         app:textSize="16sp"
+        app:valueSize="16sp"
         app:valueColor="@color/text999"
         />
 

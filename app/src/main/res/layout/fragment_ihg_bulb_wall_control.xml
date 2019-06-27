@@ -14,6 +14,7 @@
         app:valueColor="@color/text999"
         app:text="ForColor"
         app:textSize="16sp"
+        app:valueSize="16sp"
         app:position="top"
         app:dividerColor="@color/listDivideLine"
         app:imgRight="@drawable/arrow_right_gray"
@@ -28,6 +29,7 @@
         app:text="BackColor"
         app:textSize="16sp"
         app:position="middle"
+        app:valueSize="16sp"
         app:dividerColor="@color/listDivideLine"
         app:imgRight="@drawable/arrow_right_gray"
         />
@@ -41,6 +43,7 @@
         app:text="Text"
         app:textSize="16sp"
         app:position="middle"
+        app:valueSize="16sp"
         app:dividerColor="@color/listDivideLine"
         app:imgRight="@drawable/arrow_right_gray"
         />
@@ -54,6 +57,7 @@
         app:text="Select Image"
         app:textSize="16sp"
         app:position="middle"
+        app:valueSize="16sp"
         app:dividerColor="@color/listDivideLine"
         app:imgRight="@drawable/arrow_right_gray"
         />

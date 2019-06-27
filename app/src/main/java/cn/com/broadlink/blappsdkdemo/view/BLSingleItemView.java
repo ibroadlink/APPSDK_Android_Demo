@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cn.com.broadlink.blappsdkdemo.R;
+import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 
 /**
  * 最左边有个ImageView,中间填充TextView,最右边有个ImageView
@@ -71,10 +72,10 @@ public class BLSingleItemView extends LinearLayout {
 		TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.BLItemView);
 		mText = array.getString(R.styleable.BLItemView_text);
 		mTextColor = array.getColor(R.styleable.BLItemView_textColor, 0);
-		mTextSize = array.getDimensionPixelSize(R.styleable.BLItemView_textSize, 0);
+		mTextSize = array.getDimensionPixelSize(R.styleable.BLItemView_textSize, BLCommonUtils.dip2px(getContext(), 16));
 		mValue = array.getString(R.styleable.BLItemView_value);
 		mValueColor = array.getColor(R.styleable.BLItemView_valueColor, 0);
-		mValueSize = array.getDimensionPixelSize(R.styleable.BLItemView_valueSize, 0);
+		mValueSize = array.getDimensionPixelSize(R.styleable.BLItemView_valueSize, BLCommonUtils.dip2px(getContext(), 16));
 		mImgLeft = array.getResourceId(R.styleable.BLItemView_imgLeft, 0);
 		mImgRight = array.getResourceId(R.styleable.BLItemView_imgRight, 0);
 		mBackgroud = array.getResourceId(R.styleable.BLItemView_background, 0);

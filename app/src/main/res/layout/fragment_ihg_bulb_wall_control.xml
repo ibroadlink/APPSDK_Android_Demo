@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              tools:context="cn.com.broadlink.blappsdkdemo.activity.ihgBulbWall.IhgBulbWallControlFragment">
+    
+    <cn.com.broadlink.blappsdkdemo.view.BLSingleItemView
+        android:id="@+id/sv_forcolor"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:background="@drawable/selector_white_square"
+        app:valueColor="@color/text999"
+        app:text="ForColor"
+        app:textSize="16sp"
+        app:position="top"
+        app:dividerColor="@color/listDivideLine"
+        app:imgRight="@drawable/arrow_right_gray"
+        />
+
+    <cn.com.broadlink.blappsdkdemo.view.BLSingleItemView
+        android:id="@+id/sv_backcolor"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:background="@drawable/selector_white_square"
+        app:valueColor="@color/text999"
+        app:text="BackColor"
+        app:textSize="16sp"
+        app:position="middle"
+        app:dividerColor="@color/listDivideLine"
+        app:imgRight="@drawable/arrow_right_gray"
+        />
+    
+    <cn.com.broadlink.blappsdkdemo.view.BLSingleItemView
+        android:id="@+id/sv_text"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:background="@drawable/selector_white_square"
+        app:valueColor="@color/text999"
+        app:text="Text"
+        app:textSize="16sp"
+        app:position="middle"
+        app:dividerColor="@color/listDivideLine"
+        app:imgRight="@drawable/arrow_right_gray"
+        />
+    
+    <cn.com.broadlink.blappsdkdemo.view.BLSingleItemView
+        android:id="@+id/sv_img"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:background="@drawable/selector_white_square"
+        app:valueColor="@color/text999"
+        app:text="Select Image"
+        app:textSize="16sp"
+        app:position="middle"
+        app:dividerColor="@color/listDivideLine"
+        app:imgRight="@drawable/arrow_right_gray"
+        />
+
+</LinearLayout>

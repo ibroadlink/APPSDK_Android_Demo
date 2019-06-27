@@ -116,4 +116,14 @@ public class BLBaseViewHolder extends RecyclerView.ViewHolder{
         view.setVisibility(visible);
         return this;
     }
+
+    /**
+     * @param viewId 
+     * @param alpha 0-255 数字越大，越不透明
+     */
+    public BLBaseViewHolder setAlpha(int viewId, int alpha) {
+        View view = get(viewId);
+        view.getBackground().setAlpha(alpha);
+        return this;
+    }
 }

@@ -679,6 +679,8 @@ public class BLCommonUtils {
             {"",        "*/*"}
     };
 
-
+    public static String color2String(int color) {
+       return String.format("#%06X", color);
+    }
 }
 

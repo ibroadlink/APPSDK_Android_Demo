@@ -174,9 +174,10 @@
     <!-- rm Control -->
     <declare-styleable name="InputTextView">
         <attr name="hint" format="string"/>
-        <attr name="text" format="string"/>
+        <attr name="text"/>
     </declare-styleable>
-
+    <attr name="text" format="string"/>
+    
     <!-- imageLib -->
     <declare-styleable name="CircleImageView">
         <attr name="civ_border_width" format="dimension"/>
@@ -242,6 +243,53 @@
         <attr name="background" />
         <attr name="countDown" />
     </declare-styleable>
+    
+    
+    <declare-styleable name="BLTabLayout">
+        <attr name="tabIndicatorAnimation" format="boolean" />
+        <attr name="tabIndicatorColor" format="color" />
+        <attr name="tabIndicatorHeight" format="dimension" />
+        <attr name="tabIndicatorWidth" format="dimension" />
+        <attr name="tabIndicatorWidthWithText" format="boolean" />
+        <attr name="tabContentStart" format="dimension" />
+        <attr name="tabBackground" format="reference" />
+        <attr name="tab_mode">
+            <enum name="scrollable" value="0" />
+            <enum name="fixed" value="1" />
+        </attr>
+        <attr name="tab_gravity">
+            <enum name="fill" value="0" />
+            <enum name="center" value="1" />
+        </attr>
+        <attr name="tabMinWidth" format="dimension" />
+        <attr name="tabMaxWidth" format="dimension" />
+        <attr name="tabTextAppearance" format="reference" />
+        <attr name="tabTextColor" format="color" />
+        <attr name="tabTextSize" format="dimension" />
+        <attr name="tabSelectedTextColor" format="color" />
+        <attr name="tabSelectedTextSize" format="dimension" />
+        <attr name="tabPaddingStart" format="dimension" />
+        <attr name="tabPaddingTop" format="dimension" />
+        <attr name="tabPaddingEnd" format="dimension" />
+        <attr name="tabPaddingBottom" format="dimension" />
+        <attr name="tabPadding" format="dimension" />
+        <attr name="indicatorMarginTop" format="dimension" />
+        <attr name="tabTextAllCaps" format="boolean" />
+    </declare-styleable>
 
-
+    <declare-styleable name="BLItemView">
+        <attr name="position" format="string" />
+        <attr name="dividerColor" format="reference|color" />
+        <attr name="textGravity" format="string"/>
+        <attr name="text"/>
+        <attr name="textColor" />
+        <attr name="textSize" />
+        <attr name="imgLeft" format="reference" />
+        <attr name="imgRight" format="reference" />
+        <attr name="background" />
+        <attr name="value" format="string" />
+        <attr name="valueColor" />
+        <attr name="valueSize" />
+        <attr name="valueMaxLine" />
+    </declare-styleable>
 </resources>

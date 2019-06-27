@@ -149,6 +149,7 @@ public class BLApplication extends Application{
             final JSONObject jsonObject = new JSONObject();
             jsonObject.put("tcp", "device-heartbeat-chn-ee08f451.ibroadlink.com");
             jsonObject.put("http", "device-gateway-chn-ee08f451.ibroadlink.com");
+            jsonObject.put("companyid", "44a77936762aae2a062eeae036c278f4");
             String jDeviceServer = jsonObject.toString();
             blConfigParam.put(BLConfigParam.DEVICE_CONNECTION_SERVER_HOST, jDeviceServer);
         } catch (JSONException e) {

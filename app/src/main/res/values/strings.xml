@@ -1482,7 +1482,7 @@
     <string name="str_cmd_sub_del">{\"did\": \"xxx\"}</string>
     <string name="str_cmd_sub_fw_upgrade">{\"did\": \"xxx\", \"hw_url\": \"xxx\"}</string>
     <string name="str_cmd_sub_mdf">{\"did\": \"xxx\", \"pid\": \"xxx\", \"name\": \"xxx\", \"lock\": false, \"type\":10024}</string>
-    
+
     <string name="str_json_test">{\"countryCode\":\"ASM\"}</string>
     <string name="str_change_to">Change to</string>
     <string name="str_change_up">Move up to</string>
@@ -1498,5 +1498,8 @@
     <string name="str_addtrigger">Add a trigger condition</string>
     <string name="str_addcustomlinkage">Add a user-defined trigger</string>
     <string name="str_addlinkagemodel">Add a smart cloud trigger</string>
-    
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

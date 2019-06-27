@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="cn.com.broadlink.blappsdkdemo.activity.ihgBulbWall.IhgBulbWallSettingsFragment">
+
+    <cn.com.broadlink.blappsdkdemo.view.BLSingleItemView
+        android:id="@+id/sv_cycle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:background="@drawable/selector_white_square"
+        app:dividerColor="@color/listDivideLine"
+        app:imgRight="@drawable/arrow_right_gray"
+        app:position="top"
+        app:text="Loop Type"
+        app:textSize="16sp"
+        app:valueColor="@color/text999"
+        />
+
+    <cn.com.broadlink.blappsdkdemo.view.BLSingleItemView
+        android:id="@+id/sv_count"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:background="@drawable/selector_white_square"
+        app:dividerColor="@color/listDivideLine"
+        app:imgRight="@drawable/arrow_right_gray"
+        app:position="middle"
+        app:text="Loop Count"
+        app:textSize="16sp"
+        app:valueColor="@color/text999"
+        />
+
+    <cn.com.broadlink.blappsdkdemo.view.BLSingleItemView
+        android:id="@+id/sv_interval"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:background="@drawable/selector_white_square"
+        app:dividerColor="@color/listDivideLine"
+        app:imgRight="@drawable/arrow_right_gray"
+        app:position="middle"
+        app:text="Loop Interval(/s)"
+        app:textSize="16sp"
+        app:valueColor="@color/text999"
+        />
+
+    <cn.com.broadlink.blappsdkdemo.view.BLSingleItemView
+        android:id="@+id/sv_brightness"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:background="@drawable/selector_white_square"
+        app:dividerColor="@color/listDivideLine"
+        app:imgRight="@drawable/arrow_right_gray"
+        app:position="middle"
+        app:text="Brightness"
+        app:textSize="16sp"
+        app:valueColor="@color/text999"
+        />
+
+</LinearLayout>

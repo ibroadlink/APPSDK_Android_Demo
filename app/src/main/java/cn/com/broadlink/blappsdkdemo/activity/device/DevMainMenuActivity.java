@@ -20,6 +20,7 @@ import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.MainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.ihgBulbWall.IhgBulbWallMainActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
@@ -52,6 +53,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
     private Button mBtQueryConnectServer;
     private Button mBtFwLog;
     private Button mBtReset;
+    private Button mBtIhgBulb;
     private BLDNADevice mDNADevice;
     
     @Override
@@ -85,6 +87,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         mBtQueryConnectServer.setOnClickListener(this);
         mBtFwLog.setOnClickListener(this);
         mBtReset.setOnClickListener(this);
+        mBtIhgBulb.setOnClickListener(this);
     }
 
     private void initView() {
@@ -108,6 +111,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         mBtQueryConnectServer = (Button) findViewById(R.id.bt_server);
         mBtFwLog = (Button) findViewById(R.id.bt_fw_log);
         mBtReset = (Button) findViewById(R.id.bt_reset);
+        mBtIhgBulb = (Button) findViewById(R.id.bt_ihg_bulb_wall);
     }
 
     @Override
@@ -208,6 +212,10 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
                 
             case R.id.bt_reset:
                 new ResetTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR);
+                break;
+                
+            case R.id.bt_ihg_bulb_wall:
+                BLCommonUtils.toActivity(mActivity, IhgBulbWallMainActivity.class, mDNADevice);
                 break;
         }
     }

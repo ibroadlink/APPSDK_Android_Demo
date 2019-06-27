@@ -30,4 +30,23 @@ public class BLDividerUtil {
             }
         };
     }
+    
+    public static BLDividerItemDecoration getGrid(final Context context, final int count, final List< ? extends Object> data) {
+
+        return new BLDividerItemDecoration(context) {
+
+            @Nullable
+            @Override
+            public Divider getDivider(int itemPosition) {
+                BLDividerBuilder builder = new BLDividerBuilder();
+                if (itemPosition < data.size() - count) {
+                    builder.setBottomSideLine(true, context.getResources().getColor(R.color.gray), 1, 0, 0);
+                }
+                if (itemPosition % count < count-1) {
+                    builder.setRightSideLine(true, context.getResources().getColor(R.color.gray), 1, 0, 0);
+                }
+                return builder.create();
+            }
+        };
+    }
 }

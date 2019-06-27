@@ -10,10 +10,10 @@ android {
             storePassword 'qwerasdf'
         }
     }
-    
+
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
-    
+
     defaultConfig {
         applicationId "com.broadlink.blappsdkdemo"
         minSdkVersion 16
@@ -21,7 +21,7 @@ android {
         versionCode 1
         versionName "1.2.0"
         flavorDimensions "default"
-        
+
         ndk {
             abiFilters 'armeabi'
             moduleName "app"
@@ -30,24 +30,6 @@ android {
         multiDexEnabled true
     }
 
-//    productFlavors{
-//        baidu{
-//            
-//        }
-//        intl{
-//            
-//        }
-//    }
-//    applicationVariants.all { variant ->
-//        if (variant.flavorName.equals('baidu')) {
-//            variant.buildConfigField "boolean", "isBaidu", "true"
-//        }
-//        if (variant.flavorName.equals('intl')) {
-//            variant.buildConfigField "boolean", "isBaidu", "false"
-//        }
-//    }
-//    
-    
     buildTypes {
         release {
             minifyEnabled false
@@ -84,35 +66,36 @@ repositories {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    
+
 //    // normal start
-//    implementation 'com.ibroadlink:BLLetCoreAndroid:2.10.+'
+//    implementation 'com.ibroadlink:BLLetCoreAndroid:2.11.+'
 //    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.+'
-//    implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.10.+'
+//    implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.11.+'
 //    // normal end
-    
-    
+
+
     // fot local debug start
     //implementation fileTree(include: ['*.aar'], dir: 'libs')
-    
-    //implementation 'com.ibroadlink:BLLetCoreAndroid:2.10.+' // core
+
+    //implementation 'com.ibroadlink:BLLetCoreAndroid:2.11.+' // core
     implementation(name: 'dnasdk-debug', ext: 'aar') 
-    
+
     //implementation 'com.ibroadlink:BLLetBaseAndroid:2.11.+' // base
     implementation(name: 'blbase-debug', ext: 'aar')
 
     implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.+' // account
     //implementation(name: 'blaccount-debug', ext: 'aar')
     
-    //implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.10.+' // ircode
+    //implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.11.+' // ircode
     implementation(name: 'ircode-debug', ext: 'aar')
     
     //implementation 'com.ibroadlink:BLLetFamilyAndroid:2.8.+' // family
     //implementation(name: 'blfamily-debug', ext: 'aar')
-    
-    configurations {
-        all*.exclude group:'com.ibroadlink',  module:'BLLetCoreAndroid'
-        all*.exclude group:'com.ibroadlink',  module:'BLLetBaseAndroid' // 如果不使用aar，注释这一句
+  
+    implementation 'com.android.support:support-v4:28.0.0'
+configurations {
+        all*.exclude group :'com.ibroadlink',  module :'BLLetCoreAndroid'
+        all*.exclude group :'com.ibroadlink',  module :'BLLetBaseAndroid' // 如果不使用aar，注释这一句
     }
     // fot local debug end
     

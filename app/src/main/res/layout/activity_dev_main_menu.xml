@@ -171,6 +171,24 @@
             android:layout_weight="1"
             android:text="Device Reset"/>
     </LinearLayout>
-    
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/bt_ihg_bulb_wall"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Ihg Bulb Wall"/>
+
+        <Button
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:text="Device Reset"/>
+    </LinearLayout>
+
 </LinearLayout>
 </ScrollView>

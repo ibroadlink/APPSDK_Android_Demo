@@ -1,2 +1,2 @@
-include ':app', ':ircode'
-project(':ircode').projectDir = new File('BLIRCodeAndroid/ircode')
+include ':app', ':picSelector'
+project(':picSelector').projectDir = new File('picSelector')

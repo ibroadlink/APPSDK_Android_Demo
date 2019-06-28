@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
+import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
@@ -25,7 +27,8 @@ public class IhgBulbWallManageFragment extends Fragment {
     private ArrayList<BulbInfo> mBulbList = new ArrayList<>();
     private RecyclerView mRvContent;
     private MyAdapter mAdapter;
-
+    private IhgBulbWallMainActivity mActivity;
+    
     public IhgBulbWallManageFragment() {
     }
 
@@ -44,16 +47,25 @@ public class IhgBulbWallManageFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mActivity = (IhgBulbWallMainActivity) getActivity();
         getBulbInfoFromActivity();
         initView();
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            refreshView();
+        }
+    }
+
     private void getBulbInfoFromActivity() {
-        final IhgBulbWallMainActivity activity = (IhgBulbWallMainActivity) getActivity();
         try {
-            if (activity != null && activity.mIhgBulbInfo!=null) {
-                for (int i = 0; i < activity.mIhgBulbInfo.maclist.size(); i++) {
-                    mBulbList.add(new BulbInfo(activity.mIhgBulbInfo.maclist.get(i), activity.mIhgBulbInfo.rgblist.get(i), i));
+            if (mActivity != null && mActivity.mIhgBulbInfo!=null) {
+                mBulbList.clear();
+                for (int i = 0; i < mActivity.mIhgBulbInfo.maclist.size(); i++) {
+                    mBulbList.add(new BulbInfo(mActivity.mIhgBulbInfo.maclist.get(i), mActivity.mIhgBulbInfo.rgblist.get(i), i));
                 }
             }
         } catch (Exception e) {
@@ -70,6 +82,39 @@ public class IhgBulbWallManageFragment extends Fragment {
         mRvContent.setLayoutManager(new GridLayoutManager(getContext(), 4));
         mRvContent.setAdapter(mAdapter);
         mRvContent.addItemDecoration(BLDividerUtil.getGrid(getContext(), 4, mBulbList));
+
+        mAdapter.setOnItemClickListener(new BLBaseRecyclerAdapter.OnClickListener() {
+            @Override
+            public void onClick(final int position, int viewType) {
+                BLAlert.showEditDilog(mActivity, "Setup Bulb Mac",mBulbList.get(position).mac, new BLAlert.BLEditDialogOnClickListener() {
+                    @Override
+                    public void onClink(final String value) {
+
+                        if (!BLCommonUtils.isMacShort(value)) {
+                            BLToastUtils.show("Mac format should be '001122334455'");
+                            return;
+                        }
+                        mBulbList.get(position).mac = value;
+                        mBulbList.get(position).isEdited = true;
+                        mActivity.mIhgBulbInfo.maclist.set(position, value);
+
+                        mActivity.mIhgBulbWallManager.setupScene(mActivity.mDNADevice, mActivity.mIhgBulbInfo.maclist,mActivity.mIhgBulbInfo.rgblist,
+                                new IhgBulbWallManager.IhgBulbCallBack() {
+                                    @Override
+                                    public void onResult(String result) {
+                                        BLToastUtils.show(result);
+                                        mAdapter.notifyDataSetChanged();
+                                    }
+                                });
+                    }
+
+                    @Override
+                    public void onCancel(String value) {
+
+                    }
+                }, false);
+            }
+        });
     }
     
     public void refreshView(){

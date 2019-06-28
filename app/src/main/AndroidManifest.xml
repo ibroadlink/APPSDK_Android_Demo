@@ -58,6 +58,7 @@
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.broadlink.blappsdkdemo.fileprovider"
             android:exported="false"
+            tools:replace="android:authorities"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"

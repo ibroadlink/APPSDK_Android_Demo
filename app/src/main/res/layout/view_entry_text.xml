@@ -46,13 +46,14 @@
 
     <ImageView
         android:id="@+id/iv_img_right"
-        android:layout_margin="15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@mipmap/icon"
         android:layout_centerVertical="true"
         android:visibility="gone"
-        android:scaleType="center"/>
+        android:layout_toLeftOf="@+id/iv_right"
+        android:scaleType="fitXY"/>
 
     <View
         android:id="@+id/v_divider_2"

@@ -167,6 +167,8 @@ public class BLCommonUtils {
      * @return 如果str 符合 regex的正则表达式格式,返回true, 否则返回 false;
      */
     private static boolean match(String regex, String str) {
+        if(TextUtils.isEmpty(str)) return false;
+        
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
@@ -686,6 +688,11 @@ public class BLCommonUtils {
     
     public static int parseColor(int color) {
        return Color.parseColor(color2String(color));
+    }
+    
+    public static boolean isMacShort(String val) {
+        String match = "^([A-Fa-f0-9]{2}){5}[A-Fa-f0-9]{2}$";
+       return match(match, val);
     }
 }
 

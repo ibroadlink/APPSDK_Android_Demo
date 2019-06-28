@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minWidth="10000dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:paddingBottom="10dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:text="title"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="center"
+        android:text="Cancel"
+        android:textColor="@color/gray"
+        android:textSize="16sp"/>
+
+
+    <TextView
+        android:id="@+id/tv_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="Ok"
+        android:layout_marginRight="15dp"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"/>
+
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_below="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:minHeight="100dp"
+        android:layout_height="wrap_content"/>
+    
+</RelativeLayout>

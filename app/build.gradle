@@ -110,4 +110,5 @@ configurations {
     implementation 'com.aliyun.ams:alicloud-android-push:3.1.4'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.alibaba:fastjson:1.1.70.android'
+    implementation project(path: ':picSelector')
 }

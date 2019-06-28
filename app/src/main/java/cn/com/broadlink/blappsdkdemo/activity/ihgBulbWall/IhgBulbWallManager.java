@@ -32,12 +32,10 @@ public class IhgBulbWallManager {
     private Activity mActivity;
     private BLProgressDialog mProgressDialog;
     private short mMsgId = 0;
-    private Font16 mFont16;
     
     public IhgBulbWallManager(Activity mActivity) {
         this.mActivity = mActivity;
         mProgressDialog = BLProgressDialog.createDialog(mActivity);
-        mFont16 = new Font16(mActivity);
     }
 
     public void getAllStatus(BLDNADevice device, IhgBulbCallBack ihgBulbCallBack){
@@ -125,7 +123,7 @@ public class IhgBulbWallManager {
     }
     
     
-    public void setupBrightness(BLDNADevice device, String opt, IhgBulbCallBack ihgBulbCallBack){
+    public void setupBrightness(BLDNADevice device, int opt, IhgBulbCallBack ihgBulbCallBack){
         final ArrayList<String> params = new ArrayList<>();
         params.add(IhgBulbWallConstants.ITF.SHOW_PARAM);
         final ArrayList<String> vals = new ArrayList<>();
@@ -253,6 +251,9 @@ public class IhgBulbWallManager {
                     try { // 如果输入是jsonStr则当作object，而不是string来处理
                         final JSONObject jsonObject = JSON.parseObject(valList.get(i));
                         value.setVal(jsonObject);
+                    } catch (java.lang.ClassCastException e1) {
+                        final JSONArray objects = JSON.parseArray(valList.get(i));
+                        value.setVal(objects);
                     } catch (com.alibaba.fastjson.JSONException e1) {
                         value.setVal(valList.get(i));
                     }

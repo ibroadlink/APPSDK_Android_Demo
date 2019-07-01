@@ -204,4 +204,8 @@ public class IhgBulbWallMainActivity extends TitleActivity {
             }
         }
     }
+    
+    protected void onMacOrRgbListChanged(){
+        mIhgBulbWallManageFragment.refreshView();
+    }
 }

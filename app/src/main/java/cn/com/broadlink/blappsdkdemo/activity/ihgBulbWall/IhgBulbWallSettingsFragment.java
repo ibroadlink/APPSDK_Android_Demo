@@ -23,8 +23,12 @@ public class IhgBulbWallSettingsFragment extends Fragment {
     private BLSingleItemView mSvCount;
     private BLSingleItemView mSvInterval;
     private BLSingleItemView mSvBrightness;
+    private BLSingleItemView mSvScene;
     private IhgBulbWallMainActivity mActivity;
     private final String[] sLoopTypeArray = {IhgBulbWallConstants.LOOP_TYPE.SINGLE, IhgBulbWallConstants.LOOP_TYPE.LIST};
+    private final String[] sSceneOptNameArray = {"Stop", "Edit","Pause","Resume","Start"};
+    private final int[] sSceneOptArray = {IhgBulbWallConstants.SCENE_ACT.STOP, IhgBulbWallConstants.SCENE_ACT.START, IhgBulbWallConstants.SCENE_ACT.PAUSE,
+            IhgBulbWallConstants.SCENE_ACT.RESUME, IhgBulbWallConstants.SCENE_ACT.EDIT};
 
     public IhgBulbWallSettingsFragment() {
         // Required empty public constructor
@@ -57,7 +61,7 @@ public class IhgBulbWallSettingsFragment extends Fragment {
                         if(whichButton==0){
                              type = IhgBulbWallConstants.LOOP_TYPE.SINGLE;
                         }else{
-                            type = IhgBulbWallConstants.LOOP_TYPE.SINGLE;
+                            type = IhgBulbWallConstants.LOOP_TYPE.LIST;
                         }
                         mSvCycle.setValue(type);
                         
@@ -138,7 +142,7 @@ public class IhgBulbWallSettingsFragment extends Fragment {
             @Override
             public void doOnClick(View v) {
 
-                BLAlert.showEditDilog(mActivity, "Setup Brightness(0-100)", mSvInterval.getValue(), new BLAlert.BLEditDialogOnClickListener() {
+                BLAlert.showEditDilog(mActivity, "Setup Brightness(0-100)", mSvBrightness.getValue(), new BLAlert.BLEditDialogOnClickListener() {
                     @Override
                     public void onClink(final String value) {
                         
@@ -164,6 +168,23 @@ public class IhgBulbWallSettingsFragment extends Fragment {
                 }, true);
             }
         });
+        mSvScene.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                BLListAlert.showAlert(mActivity, "Select Scene Operation", sSceneOptNameArray, new BLListAlert.OnItemClickLister() {
+                    @Override
+                    public void onClick(int whichButton) {
+
+                        mActivity.mIhgBulbWallManager.setupScene(mActivity.mDNADevice, sSceneOptArray[whichButton], new IhgBulbWallManager.IhgBulbCallBack() {
+                            @Override
+                            public void onResult(String result) {
+                                BLToastUtils.show(result);
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -178,6 +199,7 @@ public class IhgBulbWallSettingsFragment extends Fragment {
         mSvCount = (BLSingleItemView) inflate.findViewById(R.id.sv_count);
         mSvInterval = (BLSingleItemView) inflate.findViewById(R.id.sv_interval);
         mSvBrightness = (BLSingleItemView) inflate.findViewById(R.id.sv_brightness);
+        mSvScene = (BLSingleItemView) inflate.findViewById(R.id.sv_scene);
     }
 
     private void initView() {

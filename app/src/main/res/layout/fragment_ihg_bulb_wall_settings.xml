@@ -61,5 +61,19 @@
         app:valueSize="16sp"
         app:valueColor="@color/text999"
         />
+    
+    <cn.com.broadlink.blappsdkdemo.view.BLSingleItemView
+        android:id="@+id/sv_scene"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:background="@drawable/selector_white_square"
+        app:dividerColor="@color/listDivideLine"
+        app:imgRight="@drawable/arrow_right_gray"
+        app:position="middle"
+        app:text="Scene Control"
+        app:textSize="16sp"
+        app:valueSize="16sp"
+        app:valueColor="@color/text999"
+        />
 
 </LinearLayout>

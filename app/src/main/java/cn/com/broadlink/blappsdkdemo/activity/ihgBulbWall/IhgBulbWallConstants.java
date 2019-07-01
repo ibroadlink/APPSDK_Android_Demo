@@ -8,6 +8,7 @@ package cn.com.broadlink.blappsdkdemo.activity.ihgBulbWall;
 public class IhgBulbWallConstants {
 
     public static final int BULB_COUNT = 256;
+    public static final int BULB_FRAME_SIZE = 40;
     
     public static final class  ITF{
         /** 由于分包的需要，相同的msgid表示一个完整的设置 **/

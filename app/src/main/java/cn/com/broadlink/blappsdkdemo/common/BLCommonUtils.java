@@ -685,14 +685,34 @@ public class BLCommonUtils {
     public static String color2String(int color) {
        return String.format("#%06X", color);
     }
+
+    public static String color2StringNumber(int color) {
+       return String.format("%06X", color);
+    }
     
     public static int parseColor(int color) {
        return Color.parseColor(color2String(color));
     }
     
+    public static int parseColorNumber(String color) {
+       return Color.parseColor("#" + color);
+    }
+    
     public static boolean isMacShort(String val) {
         String match = "^([A-Fa-f0-9]{2}){5}[A-Fa-f0-9]{2}$";
        return match(match, val);
+    }
+    
+    public static void setValBtIndex(List<String> list, int index,String item){
+        if (list == null || item == null) {
+            return;
+        }
+
+        if(index>=list.size()){
+            list.add(item);
+        }else{
+            list.set(index, item);
+        }
     }
 }
 

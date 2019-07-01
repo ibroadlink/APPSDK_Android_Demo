@@ -14,6 +14,7 @@ import java.util.Iterator;
 
 import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
+import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLLog;
 import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.view.BLProgressDialog;
@@ -77,7 +78,7 @@ public class IhgBulbWallManager {
                 final JSONArray rgbArray = vals.getJSONArray(2);
                 final JSONArray rgbJson = rgbArray.getJSONObject(0).getJSONArray("val");
                 for (Object item : rgbJson) {
-                    ihgBulbInfo.rgblist.add((int) item);
+                    ihgBulbInfo.rgblist.add((String) item);
                 }
 
             } catch (Exception e) {
@@ -139,11 +140,7 @@ public class IhgBulbWallManager {
         setupScene(device, opt, null, null, ihgBulbCallBack);
     }
     
-    public void setupScene(BLDNADevice device, ArrayList<String> macList, ArrayList<Integer> rgbList, IhgBulbCallBack ihgBulbCallBack){
-        setupScene(device, -1, macList, rgbList, ihgBulbCallBack);
-    }
-    
-    public void setupScene(BLDNADevice device, int opt, ArrayList<String> macList, ArrayList<Integer> rgbList, IhgBulbCallBack ihgBulbCallBack){
+    public void setupScene(BLDNADevice device, int opt, ArrayList<String> macList, ArrayList<String> rgbList, IhgBulbCallBack ihgBulbCallBack){
         final ArrayList<String> params = new ArrayList<>();
         final ArrayList<String> vals = new ArrayList<>();
         
@@ -225,6 +222,72 @@ public class IhgBulbWallManager {
         new ExeTask(device, setOrGet, paramList, valList, msg, ihgBulbCallBack).executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR);
     }
     
+    private String controlBulb(final BLDNADevice device, String setOrGet, ArrayList<String> paramList, ArrayList<String> valList){
+
+        if (paramList == null) {
+            paramList = new ArrayList<>();
+        }
+        if (valList == null) {
+            valList = new ArrayList<>();
+        }
+        
+        if(!paramList.contains(IhgBulbWallConstants.ITF.MSGID)){
+            paramList.add(IhgBulbWallConstants.ITF.MSGID);
+        }
+        if(!paramList.contains(IhgBulbWallConstants.ITF.COUNTER)){
+            paramList.add(IhgBulbWallConstants.ITF.COUNTER);
+        }
+        if(!paramList.contains(IhgBulbWallConstants.ITF.SEQUENCE)){
+            paramList.add(IhgBulbWallConstants.ITF.SEQUENCE);
+        }
+        
+        final int msgIdIndex = paramList.indexOf(IhgBulbWallConstants.ITF.MSGID);
+        final int countIndex = paramList.indexOf(IhgBulbWallConstants.ITF.COUNTER);
+        final int sequenceIndex = paramList.indexOf(IhgBulbWallConstants.ITF.SEQUENCE);
+        final int macListIndex = paramList.indexOf(IhgBulbWallConstants.ITF.MACLIST);
+        final int rgbListIndex = paramList.indexOf(IhgBulbWallConstants.ITF.RGBLIST);
+
+        JSONArray  macList = null;
+        JSONArray  rgbList = null;
+        try {
+            macList = JSON.parseArray(valList.get(macListIndex));
+            rgbList = JSON.parseArray(valList.get(rgbListIndex));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (macList == null && rgbList == null) {
+            valList.add(String.valueOf(mMsgId++));
+            valList.add(String.valueOf(1));
+            valList.add(String.valueOf(0));
+            return doControl(device, setOrGet, paramList, valList);
+        }
+
+        
+        if(macList.size() != rgbList.size()){
+            return "Mac.size != rgb.size";
+        }
+        
+        final int size = macList.size();
+        final int frameCnt = (int) Math.ceil((float) size / (float) IhgBulbWallConstants.BULB_FRAME_SIZE);
+
+        BLCommonUtils.setValBtIndex(valList, msgIdIndex, String.valueOf(mMsgId++));
+        BLCommonUtils.setValBtIndex(valList, countIndex, String.valueOf(frameCnt));
+        
+        String retStr = null;
+        for (int i = 0; i < frameCnt; i++) {
+            BLLog.d("controlBulb", String.format("frameCnt[%d], index[%d]", frameCnt, i));
+            BLCommonUtils.setValBtIndex(valList, sequenceIndex, String.valueOf(i));
+            
+            final int fromIndex = IhgBulbWallConstants.BULB_FRAME_SIZE * i;
+            final int toIndex = IhgBulbWallConstants.BULB_FRAME_SIZE * (i + 1)>macList.size() ? macList.size() - 1 : IhgBulbWallConstants.BULB_FRAME_SIZE * (i + 1) - 1;
+            BLCommonUtils.setValBtIndex(valList, macListIndex, JSON.toJSONString(macList.subList(fromIndex, toIndex)));
+            BLCommonUtils.setValBtIndex(valList, rgbListIndex, JSON.toJSONString(rgbList.subList(fromIndex, toIndex)));
+            retStr = doControl(device, setOrGet, paramList, valList);
+        }
+        return retStr;
+    }
+    
+    
     private String doControl(final BLDNADevice device, String setOrGet, ArrayList<String> paramList, ArrayList<String> valList) {
 
         if (paramList == null) {
@@ -264,28 +327,7 @@ public class IhgBulbWallManager {
             dnaVals.add(value);
             stdControlParam.getVals().add(dnaVals);
         }
-
-        stdControlParam.getParams().add(IhgBulbWallConstants.ITF.MSGID);
-        ArrayList<BLStdData.Value> dnaVals1 = new ArrayList<>();
-        BLStdData.Value value1 = new BLStdData.Value();
-        value1.setVal(mMsgId);
-        dnaVals1.add(value1);
-        stdControlParam.getVals().add(dnaVals1);
-
-        stdControlParam.getParams().add(IhgBulbWallConstants.ITF.COUNTER);
-        ArrayList<BLStdData.Value> dnaVals2 = new ArrayList<>();
-        BLStdData.Value value2 = new BLStdData.Value();
-        value2.setVal(1);
-        dnaVals2.add(value2);
-        stdControlParam.getVals().add(dnaVals2);
-
-        stdControlParam.getParams().add(IhgBulbWallConstants.ITF.SEQUENCE);
-        ArrayList<BLStdData.Value> dnaVals3 = new ArrayList<>();
-        BLStdData.Value value3 = new BLStdData.Value();
-        value3.setVal(0);
-        dnaVals3.add(value3);
-        stdControlParam.getVals().add(dnaVals3);
-
+        
         final String dataStr = ctrlParamObjectToStr(stdControlParam);
         final byte[] bytes = BLMultDidUtils.dnaControlData(device, stdControlParam);
         BLLog.d("ECHO_DATA", bytes == null ? "null" : BLCommonTools.bytes2HexString(bytes));
@@ -375,7 +417,7 @@ public class IhgBulbWallManager {
 
         @Override
         protected String doInBackground(Void... params) {
-            return doControl(device, setOrGet, paramList, valList);
+            return controlBulb(device, setOrGet, paramList, valList);
         }
 
         @Override

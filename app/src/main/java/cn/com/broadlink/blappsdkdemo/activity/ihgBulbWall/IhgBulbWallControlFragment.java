@@ -37,7 +37,7 @@ public class IhgBulbWallControlFragment extends Fragment {
     private LayoutInflater mInflater;
     private IhgBulbWallMainActivity mActivity;
     private int mForColor = 0xffffff;
-    private int mBackColor = 0x00;
+    private int mBackColor = 0x000000;
     private String mText;
     private Font16 mFont16;
     private Bitmap mImg = null;
@@ -182,20 +182,22 @@ public class IhgBulbWallControlFragment extends Fragment {
         for (int j = 0; j < IhgBulbWallConstants.BULB_COUNT; j++) {
 
             if ((color[j / 16][j % 16] == 1)) { // 前景
-                mActivity.mIhgBulbInfo.rgblist.add(mForColor);
+                mActivity.mIhgBulbInfo.rgblist.add(BLCommonUtils.color2StringNumber(mForColor));
             } else { // 背景
-                mActivity.mIhgBulbInfo.rgblist.add(mBackColor);
+                mActivity.mIhgBulbInfo.rgblist.add(BLCommonUtils.color2StringNumber(mBackColor));
             }
         }
-        doSendData();
+        doSendData(IhgBulbWallConstants.OPT_CAT.STREAM);
     }
 
-    private void doSendData() {
-        mActivity.mIhgBulbWallManager.setupScene(mActivity.mDNADevice, mActivity.mIhgBulbInfo.maclist, mActivity.mIhgBulbInfo.rgblist, new IhgBulbWallManager.IhgBulbCallBack() {
+    private void doSendData(int act) {
+        mActivity.mIhgBulbWallManager.setupScene(mActivity.mDNADevice, act, mActivity.mIhgBulbInfo.maclist, mActivity.mIhgBulbInfo.rgblist,
+                new IhgBulbWallManager.IhgBulbCallBack() {
             @Override
             public void onResult(String result) {
                 BLToastUtils.show(result);
                 initView();
+                mActivity.onMacOrRgbListChanged();
             }
         });
     }
@@ -257,12 +259,12 @@ public class IhgBulbWallControlFragment extends Fragment {
             */
                 mImg = BitmapFactory.decodeFile(picturePath);
                 mImg.getPixels(imgRgb, 0, 16, 0, 0, 16, 16);
-
+                
                 mActivity.mIhgBulbInfo.rgblist.clear();
                 for (int item : imgRgb) {
-                    mActivity.mIhgBulbInfo.rgblist.add(item);
+                    mActivity.mIhgBulbInfo.rgblist.add(BLCommonUtils.color2StringNumber(item & 0xffffff));
                 }
-                doSendData();
+                doSendData(IhgBulbWallConstants.OPT_CAT.IMAGE);
             }
         }
     }

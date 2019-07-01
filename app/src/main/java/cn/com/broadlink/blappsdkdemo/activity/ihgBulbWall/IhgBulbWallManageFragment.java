@@ -52,14 +52,6 @@ public class IhgBulbWallManageFragment extends Fragment {
         initView();
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser){
-            refreshView();
-        }
-    }
-
     private void getBulbInfoFromActivity() {
         try {
             if (mActivity != null && mActivity.mIhgBulbInfo!=null) {
@@ -86,7 +78,7 @@ public class IhgBulbWallManageFragment extends Fragment {
         mAdapter.setOnItemClickListener(new BLBaseRecyclerAdapter.OnClickListener() {
             @Override
             public void onClick(final int position, int viewType) {
-                BLAlert.showEditDilog(mActivity, "Setup Bulb Mac",mBulbList.get(position).mac, new BLAlert.BLEditDialogOnClickListener() {
+                BLAlert.showEditDilog(mActivity, String.format("Setup Mac For Bulb %d", position),mBulbList.get(position).mac, new BLAlert.BLEditDialogOnClickListener() {
                     @Override
                     public void onClink(final String value) {
 
@@ -98,7 +90,8 @@ public class IhgBulbWallManageFragment extends Fragment {
                         mBulbList.get(position).isEdited = true;
                         mActivity.mIhgBulbInfo.maclist.set(position, value);
 
-                        mActivity.mIhgBulbWallManager.setupScene(mActivity.mDNADevice, mActivity.mIhgBulbInfo.maclist,mActivity.mIhgBulbInfo.rgblist,
+                        mActivity.mIhgBulbWallManager.setupScene(mActivity.mDNADevice, IhgBulbWallConstants.OPT_CAT.MANAGE, mActivity.mIhgBulbInfo.maclist,
+                                mActivity.mIhgBulbInfo.rgblist,
                                 new IhgBulbWallManager.IhgBulbCallBack() {
                                     @Override
                                     public void onResult(String result) {
@@ -124,10 +117,10 @@ public class IhgBulbWallManageFragment extends Fragment {
 
     static class BulbInfo {
         public String mac;
-        public int rgb;
+        public String rgb;
         public int id;
         public boolean isEdited;
-        public BulbInfo(String mac, int rgb, int id) {
+        public BulbInfo(String mac, String rgb, int id) {
             this.mac = mac;
             this.rgb = rgb;
             this.id = id;
@@ -146,7 +139,7 @@ public class IhgBulbWallManageFragment extends Fragment {
             holder.setText(R.id.tv_index, String.valueOf(position));
             holder.setTextColor(R.id.tv_index, getItem(position).isEdited ? Color.RED : Color.BLACK);
             holder.setText(R.id.tv_mac, mBulbList.get(position).mac);
-            holder.setBackgroundColor(R.id.ll_root, BLCommonUtils.parseColor(mBulbList.get(position).rgb));
+            holder.setBackgroundColor(R.id.ll_root, BLCommonUtils.parseColorNumber(mBulbList.get(position).rgb));
             holder.setAlpha(R.id.ll_root, 200);
         }
     }

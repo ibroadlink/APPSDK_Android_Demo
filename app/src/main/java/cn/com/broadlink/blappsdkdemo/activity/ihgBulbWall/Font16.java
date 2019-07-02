@@ -6,11 +6,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * <pre>
- * File description
- * @author YeJing
- * @data 2018/7/22
- * </pre>
+ * 文字转16*16点阵
+ * 
+ * @author JiangYaqiang
+ * createrd at 2019/7/2 9:56
  */
 public class Font16 {
 	private final static String ENCODE = "GB2312";

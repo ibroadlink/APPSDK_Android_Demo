@@ -35,14 +35,13 @@ public class IhgBulbWallMainActivity extends TitleActivity {
     
     private BLTabLayout mTlTop;
     private ViewPager mVpCotent;
-    
-    private String[] mTabStrs;
-    private List<Fragment> mTableFragmentList = new ArrayList<>();
-    private MyPagerAdapter mMyPagerAdapter;
-    
     private IhgBulbWallManageFragment mIhgBulbWallManageFragment;
     private IhgBulbWallControlFragment mIhgBulbWallControlFragment;
     private IhgBulbWallSettingsFragment mIhgBulbWallSettingsFragment;
+
+    private String[] mTabStrs;
+    private List<Fragment> mTableFragmentList = new ArrayList<>();
+    private MyPagerAdapter mMyPagerAdapter;
 
     protected BLDNADevice mDNADevice;
     protected IhgBulbInfo mIhgBulbInfo;

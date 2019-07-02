@@ -26,9 +26,8 @@ public class IhgBulbWallSettingsFragment extends Fragment {
     private BLSingleItemView mSvScene;
     private IhgBulbWallMainActivity mActivity;
     private final String[] sLoopTypeArray = {IhgBulbWallConstants.LOOP_TYPE.SINGLE, IhgBulbWallConstants.LOOP_TYPE.LIST};
-    private final String[] sSceneOptNameArray = {"Stop", "Edit","Pause","Resume","Start"};
-    private final int[] sSceneOptArray = {IhgBulbWallConstants.SCENE_ACT.STOP, IhgBulbWallConstants.SCENE_ACT.START, IhgBulbWallConstants.SCENE_ACT.PAUSE,
-            IhgBulbWallConstants.SCENE_ACT.RESUME, IhgBulbWallConstants.SCENE_ACT.EDIT};
+    private final String[] sSceneOptNameArray = {"Stop","Start","Pause","Resume"};
+    private final int[] sSceneOptArray = {IhgBulbWallConstants.SCENE_ACT.STOP, IhgBulbWallConstants.SCENE_ACT.START, IhgBulbWallConstants.SCENE_ACT.PAUSE, IhgBulbWallConstants.SCENE_ACT.RESUME};
 
     public IhgBulbWallSettingsFragment() {
         // Required empty public constructor
@@ -175,7 +174,7 @@ public class IhgBulbWallSettingsFragment extends Fragment {
                     @Override
                     public void onClick(int whichButton) {
 
-                        mActivity.mIhgBulbWallManager.setupScene(mActivity.mDNADevice, sSceneOptArray[whichButton], new IhgBulbWallManager.IhgBulbCallBack() {
+                        mActivity.mIhgBulbWallManager.setupSceneAct(mActivity.mDNADevice, sSceneOptArray[whichButton], new IhgBulbWallManager.IhgBulbCallBack() {
                             @Override
                             public void onResult(String result) {
                                 BLToastUtils.show(result);

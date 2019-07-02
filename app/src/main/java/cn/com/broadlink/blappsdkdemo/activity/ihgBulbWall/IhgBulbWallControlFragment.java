@@ -22,6 +22,7 @@ import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.BLColorPaletteView;
+import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
 import cn.com.broadlink.blappsdkdemo.view.BLSingleItemView;
 import cn.com.broadlink.blappsdkdemo.view.BLStyleDialog;
 import cn.com.broadlink.blappsdkdemo.view.InputTextView;
@@ -187,7 +188,8 @@ public class IhgBulbWallControlFragment extends Fragment {
                 mActivity.mIhgBulbInfo.rgblist.add(BLCommonUtils.color2StringNumber(mBackColor));
             }
         }
-        doSendData(IhgBulbWallConstants.OPT_CAT.STREAM);
+        //doSendData(IhgBulbWallConstants.OPT_CAT.STREAM);
+        selectStreamOrSave();
     }
 
     private void doSendData(int act) {
@@ -264,8 +266,24 @@ public class IhgBulbWallControlFragment extends Fragment {
                 for (int item : imgRgb) {
                     mActivity.mIhgBulbInfo.rgblist.add(BLCommonUtils.color2StringNumber(item & 0xffffff));
                 }
-                doSendData(IhgBulbWallConstants.OPT_CAT.IMAGE);
+                //doSendData(IhgBulbWallConstants.OPT_CAT.IMAGE);
+                selectStreamOrSave();
             }
         }
+    }
+    
+    
+    private void selectStreamOrSave(){
+        BLListAlert.showAlert(mActivity, "Select Operation", new String[]{"Display Directly", "Save As Scene"}, new BLListAlert.OnItemClickLister() {
+            @Override
+            public void onClick(int whichButton) {
+
+                if(whichButton==0){
+                    doSendData(IhgBulbWallConstants.OPT_CAT.STREAM);
+                }else{
+                    doSendData(IhgBulbWallConstants.OPT_CAT.IMAGE);
+                }
+            }
+        });
     }
 }

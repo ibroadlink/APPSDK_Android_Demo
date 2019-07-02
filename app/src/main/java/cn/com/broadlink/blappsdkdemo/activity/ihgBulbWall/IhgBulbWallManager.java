@@ -17,6 +17,7 @@ import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLLog;
 import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.view.BLProgressDialog;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.data.controller.BLStdData;
@@ -54,7 +55,7 @@ public class IhgBulbWallManager {
     }
     
     public IhgBulbInfo parseStatus(String result){
-        final IhgBulbInfo ihgBulbInfo = new IhgBulbInfo();
+        final IhgBulbInfo ihgBulbInfo = new IhgBulbInfo(IhgBulbWallConstants.BULB_COUNT);
         if(!TextUtils.isEmpty(result)){
             try {
                 final JSONObject jsonObject = JSON.parseObject(result);
@@ -83,6 +84,7 @@ public class IhgBulbWallManager {
 
             } catch (Exception e) {
                 e.printStackTrace();
+                BLToastUtils.show(result);
             }
 
         }
@@ -135,9 +137,13 @@ public class IhgBulbWallManager {
         exeControlTask(device, "set", params, vals, "Setup Brightness...",ihgBulbCallBack);
     }
 
+    public void setupSceneAct(BLDNADevice device, int act, IhgBulbCallBack ihgBulbCallBack){
+        final ArrayList<String> params = new ArrayList<>();
+        params.add(IhgBulbWallConstants.ITF.ACT);
+        final ArrayList<String> vals = new ArrayList<>();
+        vals.add(String.valueOf(act));
 
-    public void setupScene(BLDNADevice device, int opt, IhgBulbCallBack ihgBulbCallBack){
-        setupScene(device, opt, null, null, ihgBulbCallBack);
+        exeControlTask(device, "set", params, vals, "Setup Scene Act...",ihgBulbCallBack);
     }
     
     public void setupScene(BLDNADevice device, int opt, ArrayList<String> macList, ArrayList<String> rgbList, IhgBulbCallBack ihgBulbCallBack){
@@ -145,8 +151,14 @@ public class IhgBulbWallManager {
         final ArrayList<String> vals = new ArrayList<>();
         
         if(opt>=0){
-            params.add(IhgBulbWallConstants.ITF.ACT);
+            params.add(IhgBulbWallConstants.ITF.CATEGORY);
             vals.add(String.valueOf(opt));
+            
+            // 数据为图片时，需要下发编辑场景指令
+            if(opt == IhgBulbWallConstants.OPT_CAT.IMAGE){
+                params.add(IhgBulbWallConstants.ITF.ACT);
+                vals.add(String.valueOf(IhgBulbWallConstants.SCENE_ACT.EDIT));
+            }
         }
         
         if(macList != null){

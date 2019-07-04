@@ -291,7 +291,7 @@ public class IhgBulbWallManager {
             BLCommonUtils.setValBtIndex(valList, sequenceIndex, String.valueOf(i));
             
             final int fromIndex = IhgBulbWallConstants.BULB_FRAME_SIZE * i;
-            final int toIndex = IhgBulbWallConstants.BULB_FRAME_SIZE * (i + 1)>macList.size() ? macList.size() - 1 : IhgBulbWallConstants.BULB_FRAME_SIZE * (i + 1) - 1;
+            final int toIndex = IhgBulbWallConstants.BULB_FRAME_SIZE * (i + 1)>macList.size() ? macList.size() : IhgBulbWallConstants.BULB_FRAME_SIZE * (i + 1);
             BLCommonUtils.setValBtIndex(valList, macListIndex, JSON.toJSONString(macList.subList(fromIndex, toIndex)));
             BLCommonUtils.setValBtIndex(valList, rgbListIndex, JSON.toJSONString(rgbList.subList(fromIndex, toIndex)));
             retStr = doControl(device, setOrGet, paramList, valList);

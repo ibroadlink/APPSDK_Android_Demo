@@ -96,20 +96,16 @@ public class IhgBulbWallMainActivity extends TitleActivity {
         mVpCotent.setAdapter(mMyPagerAdapter);
         mTlTop.setupWithViewPager(mVpCotent);
         mTlTop.setTabsFromPagerAdapter(mMyPagerAdapter);
-    }
 
-    private void setListener() {
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         if (!scriptFileExist(mDNADevice.getPid())) {
             new DownLoadResTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, mDNADevice.getPid());
         }else{
             getAllStatus();
         }
+    }
+
+    private void setListener() {
+
     }
 
     private void getAllStatus() {

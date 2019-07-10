@@ -18,6 +18,7 @@ import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.account.AccountAndSecurityActivity;
 import cn.com.broadlink.blappsdkdemo.activity.account.AccountMainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.ble.BLEMainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.check.NetworkCheckActivity;
 import cn.com.broadlink.blappsdkdemo.activity.device.DevMainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.family.FamilyListActivity;
@@ -35,7 +36,7 @@ import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
 public class MainActivity extends TitleActivity {
 
-    private Button mDeviceBtn, mAccountBtn, mFamilyBtn, mIRCodeBtn, mNetworkCheckBtn, mProductManageBtn, mPushManagageBtn;
+    private Button mDeviceBtn, mAccountBtn, mFamilyBtn, mIRCodeBtn, mNetworkCheckBtn, mProductManageBtn, mPushManagageBtn, mBLEButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class MainActivity extends TitleActivity {
         mNetworkCheckBtn = (Button) findViewById(R.id.btn_network_check);
         mProductManageBtn = (Button) findViewById(R.id.btn_product_manage);
         mPushManagageBtn = (Button) findViewById(R.id.btn_push);
+        mBLEButton = (Button) findViewById(R.id.btn_ble);
     }
 
     private void setListener() {
@@ -142,6 +144,13 @@ public class MainActivity extends TitleActivity {
                 if (checkLoginAndFamily(false)) {
                     BLCommonUtils.toActivity(MainActivity.this, PushMainActivity.class);
                 }
+            }
+        });
+
+        mBLEButton.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                BLCommonUtils.toActivity(MainActivity.this, BLEMainActivity.class);
             }
         });
     }

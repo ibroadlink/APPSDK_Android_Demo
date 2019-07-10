@@ -17,6 +17,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
+    <!-- 蓝牙权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
+
     <application
         android:name=".BLApplication"
         android:allowBackup="true"
@@ -238,6 +243,15 @@
             android:theme="@style/ActivityStyle"/>
         <activity
             android:name=".activity.ihgBulbWall.IhgBulbWallMainActivity"
+            android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.ble.BLEMainActivity"
+            android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.ble.BLEDataPassThroughActivity"
+            android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.ble.BLEMeterActivity"
             android:theme="@style/ActivityStyle"/>
     </application>
 

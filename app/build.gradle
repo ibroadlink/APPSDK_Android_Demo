@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         applicationId "com.broadlink.blappsdkdemo"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.2.1"
@@ -93,7 +93,7 @@ dependencies {
     //implementation(name: 'blfamily-debug', ext: 'aar')
   
     implementation 'com.android.support:support-v4:28.0.0'
-configurations {
+    configurations {
         all*.exclude group :'com.ibroadlink',  module :'BLLetCoreAndroid'
         all*.exclude group :'com.ibroadlink',  module :'BLLetBaseAndroid' // 如果不使用aar，注释这一句
     }

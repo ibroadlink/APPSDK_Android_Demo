@@ -71,5 +71,13 @@
         android:visibility="gone"
         android:text="@string/Network_Check"
         />
+    <Button
+        android:id="@+id/btn_ble"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="BLE Management"
+        />
 
 </LinearLayout>

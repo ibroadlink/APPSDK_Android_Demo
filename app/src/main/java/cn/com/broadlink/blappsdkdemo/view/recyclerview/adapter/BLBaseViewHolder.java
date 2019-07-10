@@ -126,4 +126,10 @@ public class BLBaseViewHolder extends RecyclerView.ViewHolder{
         view.getBackground().setAlpha(alpha);
         return this;
     }
+
+    public BLBaseViewHolder setOnClickListener(int viewId, View.OnClickListener listener) {
+        View view = get(viewId);
+        view.setOnClickListener(listener);
+        return this;
+    }
 }

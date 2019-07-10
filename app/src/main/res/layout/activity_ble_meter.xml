@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/activity_main"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
+        android:gravity="center_horizontal"
+        android:text="BLE Disconnected"
+        android:visibility="gone"
+        android:textColor="@color/white"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_error"
+        android:paddingBottom="20dp"
+        android:paddingLeft="5dp"
+        android:layout_marginTop="50dp"
+        android:paddingRight="5dp">
+
+        <Button
+            android:id="@+id/bt_get_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Get Meter Id"
+            />
+
+        <Button
+            android:id="@+id/bt_charge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_get_id"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Recharge"
+            />
+
+        <Button
+            android:id="@+id/bt_check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_charge"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Check The Balance"
+            />
+
+        <Button
+            android:id="@+id/bt_get_param"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_check"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Get Params"
+            />
+
+        <EditText
+            android:id="@+id/et_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_get_param"
+            android:background="@drawable/shape_input_view_blue_bg"
+            android:gravity="top|left"
+            android:minHeight="250dp"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:textColor="@color/textDark"
+            android:textSize="13sp"/>
+
+    </RelativeLayout>
+</RelativeLayout>

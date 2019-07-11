@@ -1,5 +1,11 @@
 package cn.com.broadlink.blappsdkdemo.activity.ble.bean;
 
+/**
+ * 电表参数详情
+ * 
+ * @author JiangYaqiang
+ * createrd at 2019/7/11 11:06
+ */
 public class MeterInfo extends BaseInfo {
 
     public static final int RELAY_STATE_OPEN = 1;

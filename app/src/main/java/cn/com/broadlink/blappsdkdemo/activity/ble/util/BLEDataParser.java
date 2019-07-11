@@ -18,9 +18,9 @@ public class BLEDataParser {
 
 
     /**
-     获取表号,通信地址
-
-     @return
+     * 获取表号
+     * 
+     * @return 指令字节数组
      */
     public static byte[] genGetAddress() {
 
@@ -32,12 +32,10 @@ public class BLEDataParser {
         bytes[offset++] = (byte) 0x03;
         bytes[offset++] = (byte) 0xa1;
 
-//        bytes[offset++] = (byte) 0xcb;
-//        bytes[offset++] = (byte)0x54;
-
         byte[] checkBytes = Arrays.copyOfRange(bytes, 1, offset);
         int crc = BLECRC16Util.calcCrc16(checkBytes);
         byte[] crcBytes = intToBytes(crc);
+        
         //低位在前，高位在后
         bytes[offset++] = crcBytes[3];
         bytes[offset++] = crcBytes[2];
@@ -50,7 +48,7 @@ public class BLEDataParser {
      * 生成充值命令字节数组
      *
      * @param token 用户输入的20位数字token字符串
-     * @param ssid ssid
+     * @param ssid 表号
      * @return 充值命令字节数组
      *
      * */
@@ -87,6 +85,7 @@ public class BLEDataParser {
         byte[] checkBytes = Arrays.copyOfRange(bytes, 1, offset);
         int crc = BLECRC16Util.calcCrc16(checkBytes);
         byte[] crcBytes = intToBytes(crc);
+        
         //低位在前，高位在后
         bytes[offset++] = crcBytes[3];
         bytes[offset++] = crcBytes[2];
@@ -96,7 +95,7 @@ public class BLEDataParser {
     /**
      * 生成余额查询命令字节数组
      *
-     * @param ssid ssid
+     * @param ssid 表号
      * @return 余额查询命令字节数组
      *
      * */
@@ -127,6 +126,7 @@ public class BLEDataParser {
         byte[] checkBytes = Arrays.copyOfRange(bytes, 1, offset);
         int crc = BLECRC16Util.calcCrc16(checkBytes);
         byte[] crcBytes = intToBytes(crc);
+        
         //低位在前，高位在后
         bytes[offset++] = crcBytes[3];
         bytes[offset++] = crcBytes[2];
@@ -167,6 +167,7 @@ public class BLEDataParser {
         byte[] checkBytes = Arrays.copyOfRange(bytes, 1, offset);
         int crc = BLECRC16Util.calcCrc16(checkBytes);
         byte[] crcBytes = intToBytes(crc);
+        
         //低位在前，高位在后
         bytes[offset++] = crcBytes[3];
         bytes[offset++] = crcBytes[2];

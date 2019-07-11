@@ -24,6 +24,7 @@ import cn.com.broadlink.blappsdkdemo.activity.ble.bean.AddressInfo;
 import cn.com.broadlink.blappsdkdemo.activity.ble.bean.BaseInfo;
 import cn.com.broadlink.blappsdkdemo.activity.ble.util.BLEDataParser;
 import cn.com.broadlink.blappsdkdemo.activity.ble.util.BLEManager;
+import cn.com.broadlink.blappsdkdemo.activity.ble.util.BLEReadWriteCallBack;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
@@ -143,51 +144,16 @@ public class BLEMeterActivity extends TitleActivity {
                         }
                     }
                 });
-                
-
-                /*if (mCachedData.length() != 0) {
-                    mCachedData.append(BLCommonTools.bytes2HexString(value));
-                } else if (value[0] == 0x02 && value[1] == (byte) 0x80 && value.length == 20) {
-                    mCachedData.setLength(0);
-                    mCachedData.append(BLCommonTools.bytes2HexString(value));
-                }
-
-                final int dataLen = Integer.parseInt(mCachedData.substring(4, 6), 16);
-
-                if (mCachedData.length() / 2 >= dataLen + 2) {
-
-                    final byte[] bytes = BLCommonTools.parseStringToByte(mCachedData.toString());
-                    mCachedData.setLength(0); // 清空缓存
-
-                    final BaseInfo baseInfo = BLEDataParser.parseBytes(bytes);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (baseInfo != null) {
-                                if (baseInfo instanceof AddressInfo) {
-                                    mSsid = ((AddressInfo) baseInfo).getAddress();
-                                }
-
-                                mEtResult.setText(JSON.toJSONString(baseInfo, true));
-                            } else {
-                                mEtResult.setText(BLCommonTools.bytes2HexString(value));
-                            }
-                        }
-                    });
-
-                } else {
-                    mGatt.readCharacteristic(mCharacterNotify);
-                }*/
             }
 
             @Override
             public void onWriteMsg(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                if (status == BluetoothGatt.GATT_SUCCESS) {
+                if (status != BluetoothGatt.GATT_SUCCESS) {
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            BLToastUtils.show("Write Success");
+                            BLToastUtils.show("Write Fail!");
                         }
                     });
 

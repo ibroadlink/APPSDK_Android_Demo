@@ -23,6 +23,7 @@ import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.ble.util.BLEManager;
+import cn.com.broadlink.blappsdkdemo.activity.ble.util.BLEReadWriteCallBack;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;

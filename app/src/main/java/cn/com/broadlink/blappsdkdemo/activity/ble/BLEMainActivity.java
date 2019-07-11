@@ -31,6 +31,7 @@ import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.ble.util.BLEManager;
+import cn.com.broadlink.blappsdkdemo.activity.ble.util.BLEReadWriteCallBack;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLLog;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
@@ -54,6 +55,9 @@ public class BLEMainActivity extends TitleActivity {
     private static final int MSG_REQUEST_MTU = 1;
     private static final int MSG_RECONNECT = 2;
     private static final int MSG_DISCONNECT = 3;
+    private static final int MSG_UPDATA_SHOW_TEXT = 4;
+    private static final int MSG_TOAST = 5;
+    
     private EditText mEtResult;
     private Switch mSwtScan;
     private Button mBtDataPassThrough;
@@ -104,10 +108,12 @@ public class BLEMainActivity extends TitleActivity {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                BluetoothGatt gatt = (BluetoothGatt) msg.obj;
+                
                 switch (msg.what) {
+                    
+                    // 尝试修改mtu，可一次收发对于20字节数据
                     case MSG_REQUEST_MTU:
-                       
+                        BluetoothGatt gatt = (BluetoothGatt) msg.obj;
                         boolean res = gatt.requestMtu(247);
                         BLLog.d(BLEMainActivity.TAG, "requestMtu: " + res);
                         SystemClock.sleep(2000);
@@ -116,14 +122,30 @@ public class BLEMainActivity extends TitleActivity {
                         }
                         break;
                         
+                    //  连接蓝牙   
                     case MSG_RECONNECT:
-                        BLEManager.getInstance().connect(gatt.getDevice(), mGattCallBack);
+                        BluetoothGatt gatt1 = (BluetoothGatt) msg.obj;
+                        BLEManager.getInstance().connect(gatt1.getDevice(), mGattCallBack);
                         break;
                         
+                    // 断开蓝牙
                     case MSG_DISCONNECT:
                         mHandler.removeMessages(MSG_REQUEST_MTU);
                         mHandler.removeMessages(MSG_RECONNECT);
                         BLEManager.getInstance().disconnect(getDevice());
+                        break;
+                        
+                    // 更新显示
+                    case MSG_UPDATA_SHOW_TEXT:
+                        String msgStr= (String) msg.obj;
+                        mEtResult.setText(msgStr);
+                        forceAdapterChange();
+                        break;
+                        
+                    //toast
+                    case MSG_TOAST:
+                        String msgStr1= (String) msg.obj;
+                        BLToastUtils.show(msgStr1);
                         break;
                 }
             }
@@ -131,27 +153,21 @@ public class BLEMainActivity extends TitleActivity {
         
         mGattCallBack = new BluetoothGattCallback() {
 
-
             @Override
             public void onConnectionStateChange(final BluetoothGatt gatt, int status, int newState) {
                 super.onConnectionStateChange(gatt, status, newState);
                 BLLog.d(TAG, "onConnectionStateChange: " + gatt.getDevice().getName() + newState);
 
                 if (newState == BluetoothGatt.STATE_CONNECTED && gatt.getDevice().getAddress().equalsIgnoreCase(mSelectedAddress)) {
+                    
                     dismissDialog();
-                    gatt.discoverServices();
                     BLLog.d(TAG, "设备连接: " + gatt.getDevice().getName() + " - " + gatt.getDevice().getBondState());
                     BLEManager.getInstance().startScan(mScanCallback);
                     BLEManager.getInstance().addConnectionCache(gatt.getDevice().getAddress(), gatt);
-                    
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mEtResult.setText(JSON.toJSONString(gatt.getDevice()));
-                            BLToastUtils.show(gatt.getDevice().getName() + "Connected");
-                        }
-                    });
-                    mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_REQUEST_MTU, gatt), 2000);
+                    gatt.discoverServices(); // 发现服务
+                    mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_REQUEST_MTU, gatt), 2000); // 2秒后修改mtu
+                    mHandler.sendMessage(mHandler.obtainMessage(MSG_UPDATA_SHOW_TEXT, JSON.toJSONString(gatt.getDevice())));
+                    mHandler.sendMessage(mHandler.obtainMessage(MSG_TOAST, gatt.getDevice().getName() + "Connected"));
 
                 } else if (newState == BluetoothGatt.STATE_DISCONNECTED && gatt.getDevice().getAddress().equalsIgnoreCase(mSelectedAddress)) {
                     dismissDialog();
@@ -161,21 +177,14 @@ public class BLEMainActivity extends TitleActivity {
                     gatt.close(); // 记得加上这个步骤，否则会出现，发一次收到多个回复的问题
                     mIsMtuChanged = false;
                     
+                    mHandler.sendMessage(mHandler.obtainMessage(MSG_UPDATA_SHOW_TEXT, ""));
+                    mHandler.sendMessage(mHandler.obtainMessage(MSG_TOAST, gatt.getDevice().getName() + "Disconnected"));
+                    mSelectedAddress = null;
+                    
                     final BLEReadWriteCallBack callback = BLEManager.getInstance().getCallback(gatt.getDevice().getAddress());
                     if (callback != null) {
                         callback.onDisconnected();
                     }
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mEtResult.setText("");
-                            BLToastUtils.show(gatt.getDevice().getName() + "Disconnected");
-                            mSelectedAddress = null;
-                            forceAdapterChange();
-                        }
-                    });
-
                 } else {
                     BLToastUtils.show("Connection newState: " + newState);
                 }
@@ -217,6 +226,10 @@ public class BLEMainActivity extends TitleActivity {
                 if (status == BluetoothGatt.GATT_SUCCESS) {
                     BLLog.d(TAG, "MTU 已变更为: " + mtu);
                     mIsMtuChanged = true;
+                    if(!BLEMainActivity.this.isFinishing()){
+                        mHandler.sendMessage(mHandler.obtainMessage(MSG_TOAST, "MTU 已变更为: " + mtu));
+                    }
+                    
                     final BLEReadWriteCallBack callback = BLEManager.getInstance().getCallback(gatt.getDevice().getAddress());
                     if (callback != null) {
                         callback.onMTUChanged(gatt, mtu);
@@ -225,8 +238,6 @@ public class BLEMainActivity extends TitleActivity {
                     BLLog.d(TAG, String.format("MTU 变更失败 mtu[%d], status[%d]", mtu, status));
                 }
             }
-
-
         };
     }
 
@@ -364,7 +375,6 @@ public class BLEMainActivity extends TitleActivity {
     }
 
     
-    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -381,13 +391,17 @@ public class BLEMainActivity extends TitleActivity {
     }
     
     private void forceAdapterChange(){
-//        final ArrayList<BluetoothDevice> bluetoothDevices = new ArrayList<>(mBLEDevList);
-//        mBLEDevList.clear();
-//        mBLEDevList.addAll(bluetoothDevices);
         mAdapter.notifyDataSetChanged();
     }
 
-    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeMessages(MSG_REQUEST_MTU);
+        mHandler.removeMessages(MSG_RECONNECT);
+        mHandler.removeMessages(MSG_DISCONNECT);
+    }
+
     private BluetoothDevice getDevice(){
         if(mSelectedAddress == null) return null;
         
@@ -412,15 +426,6 @@ public class BLEMainActivity extends TitleActivity {
             holder.setText(R.id.tv_name,  String.format("%s  %ddBm", bluetoothDevice.getName(),mBLESsidList.get(position)));
             holder.setText(R.id.tv_mac, bluetoothDevice.getAddress());
             holder.setBackgroundColor(R.id.rl_root, mBeans.get(position).getAddress().equalsIgnoreCase(mSelectedAddress) ? Color.LTGRAY : Color.TRANSPARENT);
-
- /*           holder.setVisible(R.id.bt_unbind, BLEManager.getInstance().isConnected(bluetoothDevice));
-            
-            holder.setOnClickListener(R.id.bt_unbind, new OnSingleClickListener() {
-                @Override
-                public void doOnClick(View v) {
-                    BLEManager.getInstance().disconnect(bluetoothDevice);
-                }
-            });*/
         }
     }
 

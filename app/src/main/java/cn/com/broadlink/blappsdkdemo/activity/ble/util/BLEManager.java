@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.com.broadlink.blappsdkdemo.BLApplication;
-import cn.com.broadlink.blappsdkdemo.activity.ble.BLEReadWriteCallBack;
 
 /**
  * 蓝牙管理类
@@ -24,18 +23,12 @@ import cn.com.broadlink.blappsdkdemo.activity.ble.BLEReadWriteCallBack;
  */
 public class BLEManager {
     public static final int REQUEST_CODE_BLE = 111;
-    public static final int PROPERTY_READ = 1;
-    public static final int PROPERTY_WRITE = 2;
-    public static final int PROPERTY_WRITE_NO_RESPONSE = 3;
-    public static final int PROPERTY_NOTIFY = 4;
-    public static final int PROPERTY_INDICATE = 5;
-    
     private static volatile BLEManager instance;
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothManager mBluetoothManager;
     private BLApplication mAppContext;
-    private Map<String, BluetoothGatt> mCachedConnectionList = new HashMap<>();
-    private Map<String, BLEReadWriteCallBack> mCachedReadWriteCallbackList = new HashMap<>();
+    private Map<String, BluetoothGatt> mCachedConnectionList = new HashMap<>(); // 缓存多个蓝牙设备的连接状态
+    private Map<String, BLEReadWriteCallBack> mCachedReadWriteCallbackList = new HashMap<>(); // 缓存多个蓝牙连接的回调
 
     private BLEManager() {
 
@@ -91,6 +84,7 @@ public class BLEManager {
 
     public void disconnect(BluetoothDevice device) {
         if(device == null)return;
+        
         final BluetoothGatt cachedConnection = getCachedConnection(device.getAddress());
         if(cachedConnection != null){
             cachedConnection.disconnect();
@@ -123,15 +117,6 @@ public class BLEManager {
     }
     
 
-    /**
-     * @param bleDevice
-     * @return State of the profile connection. One of
-     * {@link BluetoothProfile#STATE_CONNECTED},
-     * {@link BluetoothProfile#STATE_CONNECTING},
-     * {@link BluetoothProfile#STATE_DISCONNECTED},
-     * {@link BluetoothProfile#STATE_DISCONNECTING}
-     */
-    
     public int getConnectState(BluetoothDevice bleDevice) {
         if (bleDevice != null) {
             return mBluetoothManager.getConnectionState(bleDevice, BluetoothProfile.GATT);

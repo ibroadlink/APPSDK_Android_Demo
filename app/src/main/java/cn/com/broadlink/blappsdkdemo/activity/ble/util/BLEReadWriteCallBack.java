@@ -1,4 +1,4 @@
-package cn.com.broadlink.blappsdkdemo.activity.ble;
+package cn.com.broadlink.blappsdkdemo.activity.ble.util;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;

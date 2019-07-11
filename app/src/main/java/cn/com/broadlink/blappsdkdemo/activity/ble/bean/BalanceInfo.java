@@ -1,7 +1,7 @@
 package cn.com.broadlink.blappsdkdemo.activity.ble.bean;
 
 /**
- * Desc
+ * 余额
  *
  * @author JiangYaqiang
  * 2019/7/9 10:03

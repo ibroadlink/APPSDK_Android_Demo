@@ -17,7 +17,7 @@
             android:background="@color/red"
             android:gravity="center_horizontal"
             android:text="BLE Disconnected"
-            android:textColor="@color/white"
+            android:textColor="@color/gray"
             android:visibility="gone"/>
 
         <RelativeLayout

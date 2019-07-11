@@ -94,6 +94,7 @@ public class BLEManager {
         final BluetoothGatt cachedConnection = getCachedConnection(device.getAddress());
         if(cachedConnection != null){
             cachedConnection.disconnect();
+            removeConnectionCache(device.getAddress());
         }
     }
     

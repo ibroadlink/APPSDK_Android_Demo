@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -143,9 +144,30 @@ public class BLEDataPassThroughActivity extends TitleActivity {
             public void onReadMsg(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
 
             }
+            
             @Override
             public void onDisconnected() {
-                mTvError.setVisibility(View.VISIBLE);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mTvError.setVisibility(View.VISIBLE);
+                        mTvError.setBackgroundColor(Color.RED);
+                        mTvError.setText("BLE Disconnected");
+                    }
+                });
+
+            }
+
+            @Override
+            public void onMTUChanged(BluetoothGatt gatt, final int mtu) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mTvError.setVisibility(View.VISIBLE);
+                        mTvError.setBackgroundColor(Color.GREEN);
+                        mTvError.setText("MTU Changed to " + mtu);
+                    }
+                });
             }
         });
     }

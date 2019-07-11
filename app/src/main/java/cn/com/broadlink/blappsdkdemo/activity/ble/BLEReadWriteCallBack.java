@@ -19,4 +19,6 @@ public interface BLEReadWriteCallBack {
 
     void onDisconnected();
     
+    void onMTUChanged(BluetoothGatt gatt,int mtu);
+    
 }

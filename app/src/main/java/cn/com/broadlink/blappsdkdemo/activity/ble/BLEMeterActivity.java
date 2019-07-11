@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -45,13 +46,13 @@ public class BLEMeterActivity extends TitleActivity {
     private BluetoothDevice mDevice;
     private BluetoothGatt mGatt;
     private TextView mTvError;
+    private TextView mTvId;
     private List<BluetoothGattService> mGattServices = new ArrayList<>();
     private BluetoothGattCharacteristic mCharacterNotify = null;
     private BluetoothGattCharacteristic mCharacterWrite = null;
     private String mSsid = null;
-    private StringBuilder mCachedData = new StringBuilder(128);
+    //private StringBuilder mCachedData = new StringBuilder(128);
    
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,10 +65,10 @@ public class BLEMeterActivity extends TitleActivity {
         initData();
 
         findView();
-
-        initView();
-
+       
         setListener();
+        
+        initView();
     }
 
     private void findView() {
@@ -78,6 +79,7 @@ public class BLEMeterActivity extends TitleActivity {
         mBtCheck = (Button) findViewById(R.id.bt_check);
         mBtGetParam = (Button) findViewById(R.id.bt_get_param);
         mTvError = (TextView) findViewById(R.id.tv_error);
+        mTvId = (TextView) findViewById(R.id.tv_id);
     }
 
     private void initData() {
@@ -124,8 +126,26 @@ public class BLEMeterActivity extends TitleActivity {
             public void onReceiveMsg(BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
 
                 final byte[] value = characteristic.getValue();
+                final BaseInfo baseInfo = BLEDataParser.parseBytes(value);
+              
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (baseInfo != null) {
+                            if (baseInfo instanceof AddressInfo) {
+                                mSsid = ((AddressInfo) baseInfo).getAddress();
+                                mTvId.setText(String.format("ID: %s", mSsid));
+                            }
 
-                if (mCachedData.length() != 0) {
+                            mEtResult.setText(JSON.toJSONString(baseInfo, true));
+                        } else {
+                            mEtResult.setText(BLCommonTools.bytes2HexString(value));
+                        }
+                    }
+                });
+                
+
+                /*if (mCachedData.length() != 0) {
                     mCachedData.append(BLCommonTools.bytes2HexString(value));
                 } else if (value[0] == 0x02 && value[1] == (byte) 0x80 && value.length == 20) {
                     mCachedData.setLength(0);
@@ -157,7 +177,7 @@ public class BLEMeterActivity extends TitleActivity {
 
                 } else {
                     mGatt.readCharacteristic(mCharacterNotify);
-                }
+                }*/
             }
 
             @Override
@@ -181,13 +201,33 @@ public class BLEMeterActivity extends TitleActivity {
 
             @Override
             public void onDisconnected() {
-                mTvError.setVisibility(View.VISIBLE);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mTvError.setVisibility(View.VISIBLE);
+                        mTvError.setBackgroundColor(Color.RED);
+                        mTvError.setText("BLE Disconnected");
+                    }
+                });
+               
+            }
+
+            @Override
+            public void onMTUChanged(BluetoothGatt gatt, final int mtu) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mTvError.setVisibility(View.VISIBLE);
+                        mTvError.setBackgroundColor(Color.GREEN);
+                        mTvError.setText("MTU Changed to " + mtu);
+                    }
+                });
             }
         });
     }
 
     private void initView() {
-   
+        mBtGetId.performClick();
     }
 
     private void setListener() {
@@ -195,6 +235,7 @@ public class BLEMeterActivity extends TitleActivity {
         mBtGetId.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
+                mEtResult.setText("");
                 final byte[] bytes = BLEDataParser.genGetAddress();
                 write(bytes);
             }
@@ -207,7 +248,7 @@ public class BLEMeterActivity extends TitleActivity {
                     BLToastUtils.show("Get Meter Id First.");
                     return;
                 }
-
+                mEtResult.setText("");
                 final byte[] bytes = BLEDataParser.genInquiryBytes(mSsid);
                 write(bytes);
             }
@@ -224,6 +265,7 @@ public class BLEMeterActivity extends TitleActivity {
                 BLAlert.showEditDilog(mActivity, "Input Token", null, new BLAlert.BLEditDialogOnClickListener() {
                     @Override
                     public void onClink(String value) {
+                        mEtResult.setText("");
                         final byte[] bytes = BLEDataParser.genRechargeBytes(value, mSsid);
                         write(bytes);
                     }

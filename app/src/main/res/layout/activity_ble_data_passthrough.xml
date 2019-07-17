@@ -95,10 +95,15 @@
             <Button
                 android:id="@+id/bt_commit"
                 style="@style/commonBtn"
-                android:layout_alignParentBottom="true"
                 android:layout_below="@id/et_output"
                 android:layout_marginTop="20dp"
                 android:text="Commit"/>
+            
+            <Button
+                android:id="@+id/bt_send_file"
+                style="@style/commonBtn"
+                android:layout_below="@+id/bt_commit"
+                android:text="Send File"/>
 
         </RelativeLayout>
     </LinearLayout>

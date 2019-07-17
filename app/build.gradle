@@ -28,6 +28,9 @@ android {
         }
 
         multiDexEnabled true
+
+        testApplicationId "com.broadlink.sdk.test"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -111,4 +114,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.alibaba:fastjson:1.1.70.android'
     implementation project(path: ':picSelector')
+
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

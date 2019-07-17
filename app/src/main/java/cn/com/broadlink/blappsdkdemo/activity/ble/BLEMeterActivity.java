@@ -52,8 +52,8 @@ public class BLEMeterActivity extends TitleActivity {
     private BluetoothGattCharacteristic mCharacterNotify = null;
     private BluetoothGattCharacteristic mCharacterWrite = null;
     private String mSsid = null;
+    private int mMtu;
     //private StringBuilder mCachedData = new StringBuilder(128);
-   
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,9 @@ public class BLEMeterActivity extends TitleActivity {
             BLToastUtils.show("Bluetooth Device Is Null");
             back();
         }
-
+        
+        mMtu = getIntent().getIntExtra(BLConstants.INTENT_VALUE, -1);
+        
         mGatt = BLEManager.getInstance().getCachedConnection(mDevice.getAddress());
         if (mGatt == null) {
             BLToastUtils.show("Bluetooth Device Not Connected");
@@ -180,6 +182,7 @@ public class BLEMeterActivity extends TitleActivity {
 
             @Override
             public void onMTUChanged(BluetoothGatt gatt, final int mtu) {
+                mMtu = mtu;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,12 +26,16 @@ import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.ble.util.BLEManager;
 import cn.com.broadlink.blappsdkdemo.activity.ble.util.BLEReadWriteCallBack;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLFileUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLLog;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.layoutmanager.BLLinearLayoutManager;
+
+import static android.os.Build.VERSION.SDK_INT;
 
 /**
  * 蓝牙透传控制
@@ -44,6 +49,7 @@ public class BLEDataPassThroughActivity extends TitleActivity {
     private EditText mEtInput;
     private EditText mEtOutput;
     private Button mBtCommit;
+    private Button mBtSendFile;
     private RecyclerView mRvContent;
     private TextView mTvError;
     private BluetoothDevice mDevice;
@@ -52,6 +58,14 @@ public class BLEDataPassThroughActivity extends TitleActivity {
     private MyAdapter mAdapter;
     private BluetoothGattCharacteristic mCharacterNotify = null;
     private BluetoothGattCharacteristic mCharacterWrite = null;
+    private byte[] mFileData;
+    private int mMtu;
+    private int mSendCnt;
+    private int mSendFrame;
+    private int mSendIndex = -1;
+    private long mTimeStamp;
+    
+    
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,6 +89,7 @@ public class BLEDataPassThroughActivity extends TitleActivity {
         mEtInput = (EditText) findViewById(R.id.et_input);
         mEtOutput = (EditText) findViewById(R.id.et_output);
         mBtCommit = (Button) findViewById(R.id.bt_commit);
+        mBtSendFile = (Button) findViewById(R.id.bt_send_file);
         mRvContent = (RecyclerView) findViewById(R.id.rv_content);
         mTvError = (TextView) findViewById(R.id.tv_error);
     }
@@ -86,7 +101,8 @@ public class BLEDataPassThroughActivity extends TitleActivity {
             back();
             return;
         }
-
+        mMtu = getIntent().getIntExtra(BLConstants.INTENT_VALUE, -1);
+        
         mGatt = BLEManager.getInstance().getCachedConnection(mDevice.getAddress());
         if(mGatt == null){
             BLToastUtils.show("Bluetooth Device Not Connected");
@@ -136,9 +152,16 @@ public class BLEDataPassThroughActivity extends TitleActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        BLToastUtils.show("Write Success");
+                        if (mSendIndex >= 0) {
+                            mSendIndex++;
+                            sendFile();
+                        }else{
+                            BLToastUtils.show("Write Success");
+                        }
                     }
                 });
+                
+           
             }
 
             @Override
@@ -161,6 +184,7 @@ public class BLEDataPassThroughActivity extends TitleActivity {
 
             @Override
             public void onMTUChanged(BluetoothGatt gatt, final int mtu) {
+                mMtu = mtu;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -171,6 +195,10 @@ public class BLEDataPassThroughActivity extends TitleActivity {
                 });
             }
         });
+        
+        final String data = BLFileUtils.readAssetsFile(mActivity, "ble/testBleData.hex");
+        mFileData = data.getBytes();
+        
     }
 
     private void initView() {
@@ -192,7 +220,23 @@ public class BLEDataPassThroughActivity extends TitleActivity {
         mBtCommit.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                write();
+                if(mCharacterWrite == null){
+                    BLToastUtils.show("No Write Character Found!");
+                    return;
+                }
+                if(TextUtils.isEmpty(mEtInput.getText())){
+                    BLToastUtils.show("Input Is Null!");
+                    return;
+                }
+
+                write(BLCommonTools.parseStringToByte(mEtInput.getText().toString()));
+            }
+        });
+
+        mBtSendFile.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                startSendFile();
             }
         });
     }
@@ -251,21 +295,34 @@ public class BLEDataPassThroughActivity extends TitleActivity {
         }
     }
     
-    private void write(){
-        if(mCharacterWrite == null){
-            BLToastUtils.show("No Write Character Found!");
-            return;
-        }
-        if(TextUtils.isEmpty(mEtInput.getText())){
-            BLToastUtils.show("Input Is Null!");
-            return;
-        }
-
-        mCharacterWrite.setValue(BLCommonTools.parseStringToByte(mEtInput.getText().toString()));
+    private void write(byte[] data){
+        mCharacterWrite.setValue(data);
         final boolean result = mGatt.writeCharacteristic(mCharacterWrite);
         if (!result) {
             BLToastUtils.show("Write Fail!");
         }
     }
-
+    
+    private void startSendFile(){
+        showProgressDialog("Sending File...");
+        if(mMtu>150 && SDK_INT >= 23){
+            mSendFrame = 150;
+        }else{
+            mSendFrame = 20;
+        }
+        mSendCnt = (int) Math.ceil((float)mFileData.length / (float) mSendFrame);
+        mSendIndex = 0;
+        mTimeStamp = System.currentTimeMillis();
+        sendFile();
+    }
+    
+    private void sendFile(){
+        if(mSendIndex<mSendCnt){
+            write(Arrays.copyOfRange(mFileData, mSendIndex * mSendFrame, Math.min((mSendIndex + 1) * mSendFrame, mFileData.length)));
+        }else{
+            mSendIndex = -1;
+            dismissProgressDialog();
+            BLLog.d(BLEMainActivity.TAG, "写文件耗时：" + (System.currentTimeMillis()-mTimeStamp));
+        }
+    }
 }

@@ -32,7 +32,7 @@ import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.ble.util.BLEManager;
 import cn.com.broadlink.blappsdkdemo.activity.ble.util.BLEReadWriteCallBack;
-import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLLog;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
@@ -73,6 +73,7 @@ public class BLEMainActivity extends TitleActivity {
     private BluetoothGattCallback mGattCallBack;
     private volatile boolean mIsMtuChanged = false;
     private Handler mHandler;
+    private int mMtu = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,7 +115,7 @@ public class BLEMainActivity extends TitleActivity {
                     // 尝试修改mtu，可一次收发对于20字节数据
                     case MSG_REQUEST_MTU:
                         BluetoothGatt gatt = (BluetoothGatt) msg.obj;
-                        boolean res = gatt.requestMtu(247);
+                        boolean res = gatt.requestMtu(183);
                         BLLog.d(BLEMainActivity.TAG, "requestMtu: " + res);
                         SystemClock.sleep(2000);
                         if(!mIsMtuChanged){
@@ -224,15 +225,17 @@ public class BLEMainActivity extends TitleActivity {
             public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
                 super.onMtuChanged(gatt, mtu, status);
                 if (status == BluetoothGatt.GATT_SUCCESS) {
-                    BLLog.d(TAG, "MTU 已变更为: " + mtu);
+                    BLLog.d(TAG, "MTU 已变更为: " + (mtu-3));
                     mIsMtuChanged = true;
+                    mMtu = (mtu - 3);
+                    
                     if(!BLEMainActivity.this.isFinishing()){
-                        mHandler.sendMessage(mHandler.obtainMessage(MSG_TOAST, "MTU 已变更为: " + mtu));
+                        mHandler.sendMessage(mHandler.obtainMessage(MSG_TOAST, "MTU 已变更为: " + (mtu-3)));
                     }
                     
                     final BLEReadWriteCallBack callback = BLEManager.getInstance().getCallback(gatt.getDevice().getAddress());
                     if (callback != null) {
-                        callback.onMTUChanged(gatt, mtu);
+                        callback.onMTUChanged(gatt, (mtu-3));
                     }
                 } else {
                     BLLog.d(TAG, String.format("MTU 变更失败 mtu[%d], status[%d]", mtu, status));
@@ -356,7 +359,11 @@ public class BLEMainActivity extends TitleActivity {
                     return;
                 }
                 mSwtScan.setChecked(false);
-                BLCommonUtils.toActivity(mActivity, BLEDataPassThroughActivity.class, device);
+
+                final Intent intent = new Intent(mActivity, BLEDataPassThroughActivity.class);
+                intent.putExtra(BLConstants.INTENT_PARCELABLE, device);
+                intent.putExtra(BLConstants.INTENT_VALUE, mMtu);
+                startActivity(intent);
             }
         });
         
@@ -368,8 +375,17 @@ public class BLEMainActivity extends TitleActivity {
                     BLToastUtils.show("You should connect a bluetooth device first!");
                     return;
                 }
-                mSwtScan.setChecked(false);
-                BLCommonUtils.toActivity(mActivity, BLEMeterActivity.class, device);
+                mSwtScan.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwtScan.setChecked(false);
+                    }
+                }, 500);
+                
+                final Intent intent = new Intent(mActivity, BLEMeterActivity.class);
+                intent.putExtra(BLConstants.INTENT_PARCELABLE, device);
+                intent.putExtra(BLConstants.INTENT_VALUE, mMtu);
+                startActivity(intent);
             }
         });
     }

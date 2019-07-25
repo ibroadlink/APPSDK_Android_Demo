@@ -22,10 +22,6 @@ import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.family.FamilyModuleListActivity;
-import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSEndpointInfo;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSQueryRoomListResult;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSRoomInfo;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
@@ -36,6 +32,11 @@ import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
+import cn.com.broadlink.blsfamily.BLSFamily;
+import cn.com.broadlink.blsfamily.bean.BLSBaseDataResult;
+import cn.com.broadlink.blsfamily.bean.endpoint.BLSEndpointInfo;
+import cn.com.broadlink.blsfamily.bean.room.BLSRoomInfo;
+import cn.com.broadlink.blsfamily.bean.room.BLSRoomListData;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.result.controller.BLPairResult;
@@ -162,7 +163,7 @@ public class DevProbeListActivity extends TitleActivity {
                     if(blsRoomInfos.size()>0){
                         selectRoom2Add();
                     }else{
-                        new QueryRoomListTask().execute();
+                        new QueryRoomListTask().execute(mFamilyId);
                     }
                 }else{ // 添加设备到SDK
                     BLPairResult pairResult = BLLet.Controller.pair(device);
@@ -198,7 +199,7 @@ public class DevProbeListActivity extends TitleActivity {
     }
 
 
-    private class QueryRoomListTask extends AsyncTask<Void, Void, BLSQueryRoomListResult> {
+    private class QueryRoomListTask extends AsyncTask<String, Void, BLSBaseDataResult<BLSRoomListData>> {
 
         @Override
         protected void onPreExecute() {
@@ -207,13 +208,13 @@ public class DevProbeListActivity extends TitleActivity {
         }
 
         @Override
-        protected BLSQueryRoomListResult doInBackground(Void... strings) {
-
-            return BLSFamilyManager.getInstance().queryRoomList(mFamilyId);
+        protected  BLSBaseDataResult<BLSRoomListData> doInBackground(String... strings) {
+            String familyId = strings[0];
+            return BLSFamily.Room.getList(familyId);
         }
 
         @Override
-        protected void onPostExecute(BLSQueryRoomListResult result) {
+        protected void onPostExecute( BLSBaseDataResult<BLSRoomListData> result) {
             super.onPostExecute(result);
             dismissProgressDialog();
             
@@ -276,7 +277,7 @@ public class DevProbeListActivity extends TitleActivity {
             List<BLSEndpointInfo> infos = new ArrayList<>();
             infos.add(endpointInfo);
 
-            return BLSFamilyManager.getInstance().addEndpoint(mFamilyId, infos);
+            return BLSFamily.Endpoint.add(mFamilyId, infos);
         }
 
         @Override

@@ -12,7 +12,6 @@ import cn.com.broadlink.account.BLAccount;
 import cn.com.broadlink.base.BLLoginResult;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
 import cn.com.broadlink.blappsdkdemo.activity.base.BaseActivity;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.sdk.BLLet;
@@ -56,8 +55,6 @@ public class LoadingActivity extends BaseActivity {
            loginResult.setLogintime(BLApplication.mBLUserInfoUnits.getLogintime());
 
            BLAccount.localLogin(loginResult);
-           BLSFamilyManager.getInstance().setUserid(BLApplication.mBLUserInfoUnits.getUserid());
-           BLSFamilyManager.getInstance().setLoginsession(BLApplication.mBLUserInfoUnits.getLoginsession());
            BLLocalFamilyManager.getInstance().setCurrentFamilyInfo(BLApplication.mBLUserInfoUnits.getCachedFamilyInfo());
         }
 

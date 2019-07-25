@@ -30,9 +30,6 @@ import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.device.DevProbeListActivity;
-import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSEndpointInfo;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSQueryEndpointListResult;
 import cn.com.broadlink.blappsdkdemo.activity.h5.DeviceH5Activity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
@@ -40,6 +37,10 @@ import cn.com.broadlink.blappsdkdemo.common.BLImageLoaderUtils;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleItemClickListener;
+import cn.com.broadlink.blsfamily.BLSFamily;
+import cn.com.broadlink.blsfamily.bean.BLSBaseDataResult;
+import cn.com.broadlink.blsfamily.bean.endpoint.BLSEndpointInfo;
+import cn.com.broadlink.blsfamily.bean.endpoint.BLSEndpointListData;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
@@ -131,7 +132,7 @@ public class FamilyModuleListActivity extends TitleActivity {
         new QueryEndpointListTask().execute(mFamilyId);
     }
 
-    private class QueryEndpointListTask extends AsyncTask<String, Void, BLSQueryEndpointListResult> {
+    private class QueryEndpointListTask extends AsyncTask<String, Void, BLSBaseDataResult<BLSEndpointListData> > {
 
         @Override
         protected void onPreExecute() {
@@ -140,14 +141,14 @@ public class FamilyModuleListActivity extends TitleActivity {
         }
 
         @Override
-        protected BLSQueryEndpointListResult doInBackground(String... strings) {
+        protected BLSBaseDataResult<BLSEndpointListData> doInBackground(String... strings) {
             String familyId = strings[0];
 
-            return BLSFamilyManager.getInstance().queryEndpointList(familyId);
+            return BLSFamily.Endpoint.getList(familyId);
         }
 
         @Override
-        protected void onPostExecute(BLSQueryEndpointListResult result) {
+        protected void onPostExecute(BLSBaseDataResult<BLSEndpointListData>  result) {
             super.onPostExecute(result);
             dismissProgressDialog();
             if (result != null && result.succeed() && result.getData() != null) {
@@ -257,7 +258,7 @@ public class FamilyModuleListActivity extends TitleActivity {
         protected BLBaseResult doInBackground(String... Strings) {
             String endpointId = Strings[0];
 
-            return BLSFamilyManager.getInstance().delEndpoint(mFamilyId, endpointId);
+            return BLSFamily.Endpoint.delete(mFamilyId, endpointId);
         }
 
         @Override

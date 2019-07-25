@@ -16,9 +16,6 @@ import cn.com.broadlink.base.BLLoginResult;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
-import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyInfo;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyListResult;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
@@ -27,6 +24,10 @@ import cn.com.broadlink.blappsdkdemo.view.BLInputCountdownView;
 import cn.com.broadlink.blappsdkdemo.view.BLProgressDialog;
 import cn.com.broadlink.blappsdkdemo.view.InputTextView;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
+import cn.com.broadlink.blsfamily.BLSFamily;
+import cn.com.broadlink.blsfamily.bean.BLSBaseDataResult;
+import cn.com.broadlink.blsfamily.bean.family.BLSFamilyInfo;
+import cn.com.broadlink.blsfamily.bean.family.BLSFamilyListData;
 
 public class AccountVerifyCodeLoginActivity extends TitleActivity {
 
@@ -172,9 +173,9 @@ public class AccountVerifyCodeLoginActivity extends TitleActivity {
                 BLApplication.mBLUserInfoUnits.login(loginResult.getUserid(), loginResult.getLoginsession(),
                         loginResult.getNickname(), loginResult.getIconpath(), loginResult.getLoginip(),
                         loginResult.getLogintime(), loginResult.getSex(), null, loginResult.getPhone(), loginResult.getEmail(), loginResult.getBirthday());
-                
+
                 // 默认取得家庭列表第一个家庭
-                BLSFamilyListResult result = BLSFamilyManager.getInstance().queryFamilyList();
+                BLSBaseDataResult<BLSFamilyListData> result = BLSFamily.Family.getList();
                 if (result != null && result.succeed() && result.getData() != null) {
                     final List<BLSFamilyInfo> familyList = result.getData().getFamilyList();
                     if (familyList != null && familyList.size() > 0) {

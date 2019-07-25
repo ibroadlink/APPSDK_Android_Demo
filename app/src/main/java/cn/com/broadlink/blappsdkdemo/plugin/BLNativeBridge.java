@@ -30,9 +30,6 @@ import cn.com.broadlink.base.BLFileUtils;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.device.DevGatewayManageActivity;
-import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSEndpointInfo;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSQueryRoomListResult;
 import cn.com.broadlink.blappsdkdemo.activity.h5.DeviceH5Activity;
 import cn.com.broadlink.blappsdkdemo.common.BLApiUrlConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
@@ -57,6 +54,10 @@ import cn.com.broadlink.blappsdkdemo.utils.http.BLHttpErrCode;
 import cn.com.broadlink.blappsdkdemo.utils.http.BLHttpPostAccessor;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
+import cn.com.broadlink.blsfamily.BLSFamily;
+import cn.com.broadlink.blsfamily.bean.BLSBaseDataResult;
+import cn.com.broadlink.blsfamily.bean.endpoint.BLSEndpointInfo;
+import cn.com.broadlink.blsfamily.bean.room.BLSRoomListData;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.result.controller.BLProfileStringResult;
@@ -1039,7 +1040,7 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer 
         @Override
         protected BLBaseResult doInBackground(Integer... integers) {
             final String mFamilyId = BLLocalFamilyManager.getInstance().getCurrentFamilyId();
-            BLSQueryRoomListResult result = BLSFamilyManager.getInstance().queryRoomList(mFamilyId);
+            BLSBaseDataResult<BLSRoomListData> result = BLSFamily.Room.getList(mFamilyId);
 
             if (TextUtils.isEmpty(mCachedRoomId)) {
                 if (result != null && result.succeed() && result.getData() != null && result.getData().getRoomList() != null && result.getData().getRoomList().size() > 0) {
@@ -1056,7 +1057,7 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer 
             List<BLSEndpointInfo> infos = new ArrayList<>();
             infos.add(endpointInfo);
 
-            final BLBaseResult blBaseResult = BLSFamilyManager.getInstance().addEndpoint(mFamilyId, infos);
+            final BLBaseResult blBaseResult = BLSFamily.Endpoint.add(mFamilyId, infos);
             if (blBaseResult != null && blBaseResult.succeed()) {
                 try {
                     BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(((DeviceH5Activity) cordova.getActivity()).getHelper());

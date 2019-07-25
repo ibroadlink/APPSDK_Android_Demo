@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.ibroadlink:BLLetBaseAndroid:2.11.5@aar">
+    <CLASSES>
+      <root url="jar://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/BLLetBaseAndroid-2.11.5.aar/8b64fb995bb94d480073c1b82963587c/jars/classes.jar!/" />
+      <root url="file://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/BLLetBaseAndroid-2.11.5.aar/8b64fb995bb94d480073c1b82963587c/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://E:/Android_develop_kit/.gradle/caches/modules-2/files-2.1/com.ibroadlink/BLLetBaseAndroid/2.11.5/227b7c49791873bb214f06f125c1aa897ae608d6/BLLetBaseAndroid-2.11.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

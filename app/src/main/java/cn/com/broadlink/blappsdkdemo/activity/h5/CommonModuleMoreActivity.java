@@ -14,7 +14,6 @@ import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
-import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
@@ -25,6 +24,7 @@ import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
+import cn.com.broadlink.blsfamily.BLSFamily;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.result.controller.BLSubdevResult;
@@ -149,7 +149,7 @@ public class CommonModuleMoreActivity extends TitleActivity {
                     return blSubdevResult;
                 }
             }
-            final BLBaseResult blBaseResult = BLSFamilyManager.getInstance().delEndpoint(BLLocalFamilyManager.getInstance().getCurrentFamilyId(), mDNADevice.getDid());
+            final BLBaseResult blBaseResult = BLSFamily.Endpoint.delete(BLLocalFamilyManager.getInstance().getCurrentFamilyId(), mDNADevice.getDid());
             
             BLLocalDeviceManager.getInstance().removeDeviceFromSDK(mDNADevice);
             try {

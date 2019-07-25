@@ -17,19 +17,21 @@ import java.util.List;
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
-import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
-import cn.com.broadlink.blappsdkdemo.data.FamilyMember;
-import cn.com.broadlink.blappsdkdemo.data.ParamDeleteFamilyMember;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
+import cn.com.broadlink.blsfamily.BLSFamily;
+import cn.com.broadlink.blsfamily.bean.BLSBaseDataResult;
+import cn.com.broadlink.blsfamily.bean.member.BLSMemberDelParam;
+import cn.com.broadlink.blsfamily.bean.member.BLSMemberInfo;
+import cn.com.broadlink.blsfamily.bean.member.BLSMemberListData;
 
 
 public class FamilyMemberListActivity extends TitleActivity {
 
     private ListView mMemberListView;
-    private List<FamilyMember> blsMemberInfos = new ArrayList<>();
+    private List<BLSMemberInfo> blsMemberInfos = new ArrayList<>();
     private MemberListAdapter mAdapter;
     private String mFamilyId = null;
     private String mOwnerId = null;
@@ -94,7 +96,7 @@ public class FamilyMemberListActivity extends TitleActivity {
 
 
 
-    private class QueryMemberListTask extends AsyncTask<String, Void, ArrayList<FamilyMember>> {
+    private class QueryMemberListTask extends AsyncTask<String, Void, BLSBaseDataResult<BLSMemberListData>> {
 
         @Override
         protected void onPreExecute() {
@@ -103,19 +105,20 @@ public class FamilyMemberListActivity extends TitleActivity {
         }
 
         @Override
-        protected ArrayList<FamilyMember> doInBackground(String... strings) {
+        protected BLSBaseDataResult<BLSMemberListData> doInBackground(String... strings) {
             String familyId = strings[0];
 
-            return BLSFamilyManager.getInstance().queryMemberList(familyId, mOwnerId);
+            return BLSFamily.Member.getList(familyId);
         }
 
         @Override
-        protected void onPostExecute(ArrayList<FamilyMember> result) {
+        protected void onPostExecute(BLSBaseDataResult<BLSMemberListData> result) {
                 super.onPostExecute(result);
                 dismissProgressDialog();
-                if(result != null){
+                
+                if(result != null && result.succeed() && result.getData()!=null){
                     blsMemberInfos.clear();
-                    blsMemberInfos.addAll(result);
+                    blsMemberInfos.addAll(result.getData().getFamilymember());
 
                     mAdapter.notifyDataSetChanged();
                 }
@@ -135,9 +138,9 @@ public class FamilyMemberListActivity extends TitleActivity {
         @Override
         protected BLBaseResult doInBackground(Integer... strings) {
             pos = strings[0];
-            final ParamDeleteFamilyMember paramDeleteFamilyMember = new ParamDeleteFamilyMember();
+            final BLSMemberDelParam paramDeleteFamilyMember = new BLSMemberDelParam();
             paramDeleteFamilyMember.getFamilymember().add(blsMemberInfos.get(pos).getUserid());
-            return BLSFamilyManager.getInstance().delMemberList(mFamilyId, paramDeleteFamilyMember);
+            return BLSFamily.Member.delete(mFamilyId, paramDeleteFamilyMember);
         }
 
         @Override
@@ -154,8 +157,8 @@ public class FamilyMemberListActivity extends TitleActivity {
     }
     
     
-    private class MemberListAdapter extends ArrayAdapter<FamilyMember> {
-        public MemberListAdapter(Context context, List<FamilyMember> objects) {
+    private class MemberListAdapter extends ArrayAdapter<BLSMemberInfo> {
+        public MemberListAdapter(Context context, List<BLSMemberInfo> objects) {
             super(context, 0, objects);
         }
 
@@ -172,7 +175,7 @@ public class FamilyMemberListActivity extends TitleActivity {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
-            FamilyMember info = getItem(position);
+            BLSMemberInfo info = getItem(position);
 
             viewHolder.name.setText("userId: " + info.getUserid());
             viewHolder.roomId.setText("type: " + info.getType());

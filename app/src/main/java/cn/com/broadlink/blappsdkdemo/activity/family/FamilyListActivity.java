@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyInfo;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
@@ -25,8 +24,7 @@ import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
-
-
+import cn.com.broadlink.blsfamily.bean.family.BLSFamilyInfo;
 
 
 public class FamilyListActivity extends TitleActivity implements FamilyListInterface {

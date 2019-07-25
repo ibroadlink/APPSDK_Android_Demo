@@ -19,13 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSQueryRoomListResult;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSRoomInfo;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
-import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
+import cn.com.broadlink.blsfamily.BLSFamily;
+import cn.com.broadlink.blsfamily.bean.BLSBaseDataResult;
+import cn.com.broadlink.blsfamily.bean.room.BLSRoomInfo;
+import cn.com.broadlink.blsfamily.bean.room.BLSRoomListData;
+import cn.com.broadlink.blsfamily.bean.room.BLSRoomManageData;
 
 
 public class FamilyRoomListActivity extends TitleActivity {
@@ -136,7 +138,7 @@ public class FamilyRoomListActivity extends TitleActivity {
         new ManageRoomTask().execute(mFamilyId, action, roomId);
     }
 
-    private class QueryRoomListTask extends AsyncTask<String, Void, BLSQueryRoomListResult> {
+    private class QueryRoomListTask extends AsyncTask<String, Void, BLSBaseDataResult<BLSRoomListData>> {
 
         @Override
         protected void onPreExecute() {
@@ -144,14 +146,14 @@ public class FamilyRoomListActivity extends TitleActivity {
         }
 
         @Override
-        protected BLSQueryRoomListResult doInBackground(String... strings) {
+        protected  BLSBaseDataResult<BLSRoomListData> doInBackground(String... strings) {
             String familyId = strings[0];
 
-            return BLSFamilyManager.getInstance().queryRoomList(familyId);
+            return BLSFamily.Room.getList(familyId);
         }
 
         @Override
-        protected void onPostExecute(BLSQueryRoomListResult result) {
+        protected void onPostExecute( BLSBaseDataResult<BLSRoomListData> result) {
             super.onPostExecute(result);
 
             if (result != null && result.succeed() && result.getData() != null) {
@@ -167,7 +169,7 @@ public class FamilyRoomListActivity extends TitleActivity {
     }
 
 
-    private class ManageRoomTask extends AsyncTask<String, Void, BLSQueryRoomListResult> {
+    private class ManageRoomTask extends AsyncTask<String, Void, BLSBaseDataResult<BLSRoomManageData> > {
 
         private String familyId = null;
 
@@ -177,7 +179,7 @@ public class FamilyRoomListActivity extends TitleActivity {
         }
 
         @Override
-        protected BLSQueryRoomListResult doInBackground(String... strings) {
+        protected BLSBaseDataResult<BLSRoomManageData>  doInBackground(String... strings) {
             BLSRoomInfo info = new BLSRoomInfo();
 
             familyId = strings[0];
@@ -195,11 +197,11 @@ public class FamilyRoomListActivity extends TitleActivity {
             List<BLSRoomInfo> roomInfos = new ArrayList<>();
             roomInfos.add(info);
 
-            return BLSFamilyManager.getInstance().manageRooms(familyId, roomInfos);
+            return BLSFamily.Room.manage(familyId, roomInfos);
         }
 
         @Override
-        protected void onPostExecute(BLSQueryRoomListResult result) {
+        protected void onPostExecute(BLSBaseDataResult<BLSRoomManageData>  result) {
             super.onPostExecute(result);
 
             if (result != null && result.succeed() && result.getData() != null) {

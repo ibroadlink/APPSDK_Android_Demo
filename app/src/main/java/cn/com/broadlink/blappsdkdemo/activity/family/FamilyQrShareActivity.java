@@ -10,13 +10,14 @@ import android.widget.TextView;
 import com.google.zxing.WriterException;
 
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyQrResult;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
-import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLQrCodeUtils;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
+import cn.com.broadlink.blsfamily.BLSFamily;
+import cn.com.broadlink.blsfamily.bean.BLSBaseDataResult;
+import cn.com.broadlink.blsfamily.bean.family.BLSFamilyQrData;
 
 public class FamilyQrShareActivity extends TitleActivity {
 
@@ -55,7 +56,7 @@ public class FamilyQrShareActivity extends TitleActivity {
         new GetQrCodeTask().execute();
     }
 
-    class GetQrCodeTask extends AsyncTask<Void, Void, BLSFamilyQrResult>{
+    class GetQrCodeTask extends AsyncTask<Void, Void, BLSBaseDataResult<BLSFamilyQrData>>{
 
         @Override
         protected void onPreExecute() {
@@ -65,12 +66,12 @@ public class FamilyQrShareActivity extends TitleActivity {
         }
 
         @Override
-        protected BLSFamilyQrResult doInBackground(Void... voids) {
-            return  BLSFamilyManager.getInstance().getFamilyQrCode(BLLocalFamilyManager.getInstance().getCurrentFamilyId());
+        protected BLSBaseDataResult<BLSFamilyQrData> doInBackground(Void... voids) {
+            return  BLSFamily.Family.getQrCode(BLLocalFamilyManager.getInstance().getCurrentFamilyId());
         }
 
         @Override
-        protected void onPostExecute(BLSFamilyQrResult blsFamilyQrResult) {
+        protected void onPostExecute(BLSBaseDataResult<BLSFamilyQrData> blsFamilyQrResult) {
             mPbCreatingQrcode.setVisibility(View.GONE);
             if(blsFamilyQrResult != null && blsFamilyQrResult.succeed() && blsFamilyQrResult.getData()!=null){
                 try {

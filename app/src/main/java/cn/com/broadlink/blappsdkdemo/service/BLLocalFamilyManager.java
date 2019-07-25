@@ -6,16 +6,17 @@ import android.os.AsyncTask;
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.base.BLCommonTools;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
-import cn.com.broadlink.blappsdkdemo.activity.family.param.BLSUpdateFamilyInfoParams;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyInfo;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyInfoResult;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyListResult;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyUpdateResult;
-import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.intferfacer.FamilyInterface;
 import cn.com.broadlink.blappsdkdemo.intferfacer.FamilyListInterface;
 import cn.com.broadlink.blappsdkdemo.intferfacer.SimpleCallback;
+import cn.com.broadlink.blsfamily.BLSFamily;
+import cn.com.broadlink.blsfamily.bean.BLSBaseDataResult;
+import cn.com.broadlink.blsfamily.bean.family.BLSFamilyAddData;
+import cn.com.broadlink.blsfamily.bean.family.BLSFamilyAddOrUpdateParams;
+import cn.com.broadlink.blsfamily.bean.family.BLSFamilyInfo;
+import cn.com.broadlink.blsfamily.bean.family.BLSFamilyInfoData;
+import cn.com.broadlink.blsfamily.bean.family.BLSFamilyListData;
 import cn.com.broadlink.ircode.BLIRCode;
 import cn.com.broadlink.sdk.BLLet;
 
@@ -100,7 +101,7 @@ public class BLLocalFamilyManager {
         new CreateFamilyTask().execute(strings);
     }
     
-    public void modifyFamily(String familyId, BLSUpdateFamilyInfoParams params){
+    public void modifyFamily(String familyId, BLSFamilyAddOrUpdateParams params){
         if(familyId == null){
             familyId = currentFamilyId;
         }
@@ -110,7 +111,7 @@ public class BLLocalFamilyManager {
     /**
      * 家庭信息列表获取
      */
-    private class FamilyListTask extends AsyncTask<String, Void, BLSFamilyListResult> {
+    private class FamilyListTask extends AsyncTask<String, Void, BLSBaseDataResult<BLSFamilyListData> > {
 
         @Override
         protected void onPreExecute() {
@@ -118,12 +119,12 @@ public class BLLocalFamilyManager {
         }
 
         @Override
-        protected BLSFamilyListResult doInBackground(String... params) {
-            return BLSFamilyManager.getInstance().queryFamilyList();
+        protected BLSBaseDataResult<BLSFamilyListData>  doInBackground(String... params) {
+            return BLSFamily.Family.getList();
         }
 
         @Override
-        protected void onPostExecute(BLSFamilyListResult result) {
+        protected void onPostExecute(BLSBaseDataResult<BLSFamilyListData>  result) {
             super.onPostExecute(result);
 
             if (result != null) {
@@ -155,7 +156,7 @@ public class BLLocalFamilyManager {
     /**
      * 家庭详细信息获取
      */
-    private class FamilyAllInfoTask extends AsyncTask<String, Void, BLSFamilyInfoResult> {
+    private class FamilyAllInfoTask extends AsyncTask<String, Void, BLSBaseDataResult<BLSFamilyInfoData>> {
 
         @Override
         protected void onPreExecute() {
@@ -163,13 +164,13 @@ public class BLLocalFamilyManager {
         }
 
         @Override
-        protected BLSFamilyInfoResult doInBackground(String... strings) {
+        protected BLSBaseDataResult<BLSFamilyInfoData> doInBackground(String... strings) {
             String familyId = strings[0];
-            return BLSFamilyManager.getInstance().queryFamilyInfo(familyId);
+            return BLSFamily.Family.getInfo(familyId);
         }
 
         @Override
-        protected void onPostExecute(BLSFamilyInfoResult result) {
+        protected void onPostExecute(BLSBaseDataResult<BLSFamilyInfoData> result) {
             super.onPostExecute(result);
 
             if (result.succeed() && result.getData() != null) {
@@ -191,7 +192,7 @@ public class BLLocalFamilyManager {
     /**
      * 创建默认家庭
      */
-    private class CreateFamilyTask extends AsyncTask<String, Void, BLSFamilyUpdateResult> {
+    private class CreateFamilyTask extends AsyncTask<String, Void, BLSBaseDataResult<BLSFamilyAddData>> {
 
         @Override
         protected void onPreExecute() {
@@ -199,9 +200,9 @@ public class BLLocalFamilyManager {
         }
 
         @Override
-        protected BLSFamilyUpdateResult doInBackground(String... strings) {
-       
-            BLSUpdateFamilyInfoParams params = new BLSUpdateFamilyInfoParams();
+        protected BLSBaseDataResult<BLSFamilyAddData> doInBackground(String... strings) {
+
+            BLSFamilyAddOrUpdateParams params = new BLSFamilyAddOrUpdateParams();
             params.setName(strings[0]);
             if(strings.length>=2){
                 params.setCountryCode(strings[1]);
@@ -209,11 +210,11 @@ public class BLLocalFamilyManager {
             if(strings.length>=3){
                 params.setProvinceCode(strings[2]);
             }
-            return BLSFamilyManager.getInstance().AddFamily(params);
+            return BLSFamily.Family.add(params);
         }
 
         @Override
-        protected void onPostExecute(BLSFamilyUpdateResult result) {
+        protected void onPostExecute(BLSBaseDataResult<BLSFamilyAddData> result) {
             super.onPostExecute(result);
 
             if (result != null && result.succeed()) {
@@ -230,7 +231,7 @@ public class BLLocalFamilyManager {
     }
 
     /**
-     * 家庭详细信息获取
+     * 删除家庭
      */
     private class FamilyDelTask extends AsyncTask<String, Void, BLBaseResult> {
 
@@ -242,7 +243,7 @@ public class BLLocalFamilyManager {
         @Override
         protected BLBaseResult doInBackground(String... strings) {
             String familyId = strings[0];
-            return BLSFamilyManager.getInstance().delFamily(familyId);
+            return BLSFamily.Family.delete(familyId);
         }
 
         @Override
@@ -261,10 +262,10 @@ public class BLLocalFamilyManager {
      * 修改家庭信息
      */
     private class FamilyModifyTask extends AsyncTask<Void, Void, BLBaseResult> {
-        BLSUpdateFamilyInfoParams blFamilyInfo;
+        BLSFamilyAddOrUpdateParams blFamilyInfo;
         String familyId;
 
-        public FamilyModifyTask(String familyId, BLSUpdateFamilyInfoParams blFamilyInfo) {
+        public FamilyModifyTask(String familyId, BLSFamilyAddOrUpdateParams blFamilyInfo) {
             this.blFamilyInfo = blFamilyInfo;
             this.familyId = familyId;
         }
@@ -276,7 +277,7 @@ public class BLLocalFamilyManager {
 
         @Override
         protected BLBaseResult doInBackground(Void... strings) {
-            return BLSFamilyManager.getInstance().updateFamilyInfo(familyId, blFamilyInfo);
+            return BLSFamily.Family.update(familyId, blFamilyInfo);
         }
 
         @Override

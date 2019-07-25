@@ -1,6 +1,7 @@
 package cn.com.broadlink.blappsdkdemo.intferfacer;
 
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyInfo;
+
+import cn.com.broadlink.blsfamily.bean.family.BLSFamilyInfo;
 
 public interface FamilyInterface {
 

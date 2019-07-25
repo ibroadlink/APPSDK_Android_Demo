@@ -12,8 +12,6 @@ import com.broadlink.lib.imageloader.core.assist.FailReason;
 import com.broadlink.lib.imageloader.core.listener.SimpleImageLoadingListener;
 
 import cn.com.broadlink.blappsdkdemo.R;
-import cn.com.broadlink.blappsdkdemo.activity.family.param.BLSUpdateFamilyInfoParams;
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyInfo;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLImageLoaderUtils;
@@ -24,6 +22,8 @@ import cn.com.broadlink.blappsdkdemo.mvp.presenter.CountryContentProvider;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
+import cn.com.broadlink.blsfamily.bean.family.BLSFamilyAddOrUpdateParams;
+import cn.com.broadlink.blsfamily.bean.family.BLSFamilyInfo;
 
 public class FamilyDetailActivity extends TitleActivity implements FamilyInterface {
 
@@ -131,7 +131,7 @@ public class FamilyDetailActivity extends TitleActivity implements FamilyInterfa
                 BLAlert.showEditDilog(FamilyDetailActivity.this, "Input a new name", blFamilyInfo.getName(), new BLAlert.BLEditDialogOnClickListener() {
                     @Override
                     public void onClink(String value) {
-                        final BLSUpdateFamilyInfoParams blsUpdateFamilyInfoParams = new BLSUpdateFamilyInfoParams();
+                        final BLSFamilyAddOrUpdateParams blsUpdateFamilyInfoParams = new BLSFamilyAddOrUpdateParams();
                         blsUpdateFamilyInfoParams.setCountryCode(blFamilyInfo.getCountryCode());
                         blsUpdateFamilyInfoParams.setName(value);
                         

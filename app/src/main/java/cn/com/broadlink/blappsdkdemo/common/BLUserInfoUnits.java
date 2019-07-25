@@ -6,8 +6,7 @@ import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 
-import cn.com.broadlink.blappsdkdemo.activity.family.result.BLSFamilyInfo;
-import cn.com.broadlink.blappsdkdemo.activity.family.manager.BLSFamilyManager;
+import cn.com.broadlink.blsfamily.bean.family.BLSFamilyInfo;
 
 /**
  * 用户登录信息返回保存
@@ -87,9 +86,6 @@ public class BLUserInfoUnits {
         this.phone = phone;
         this.email = email;
         this.birthday = birthday;
-
-        BLSFamilyManager.getInstance().setUserid(userid);
-        BLSFamilyManager.getInstance().setLoginsession(loginsession);
     }
 
     public void loginOut(){
@@ -117,9 +113,6 @@ public class BLUserInfoUnits {
         this.phone = null;
         this.email = null;
         this.birthday = null;
-
-        BLSFamilyManager.getInstance().setUserid(null);
-        BLSFamilyManager.getInstance().setLoginsession(null);
     }
 
     public Boolean checkAccountLogin() {

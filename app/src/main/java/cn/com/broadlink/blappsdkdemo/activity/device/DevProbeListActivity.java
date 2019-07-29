@@ -21,7 +21,7 @@ import java.util.List;
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
-import cn.com.broadlink.blappsdkdemo.activity.family.FamilyModuleListActivity;
+import cn.com.broadlink.blappsdkdemo.activity.family.FamilyEndpointListActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
@@ -84,7 +84,7 @@ public class DevProbeListActivity extends TitleActivity {
         }
 
         mLocalDeviceManager = BLLocalDeviceManager.getInstance();
-        mIsAdd2Family = FamilyModuleListActivity.class.getSimpleName().equals(mFromWhere);
+        mIsAdd2Family = FamilyEndpointListActivity.class.getSimpleName().equals(mFromWhere);
         mAdd2SdkDevs = mLocalDeviceManager.getDevicesAddInSDK();
         
         if(!mIsAdd2Family){

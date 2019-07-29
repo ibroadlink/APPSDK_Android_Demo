@@ -44,7 +44,7 @@ import cn.com.broadlink.blsfamily.bean.endpoint.BLSEndpointListData;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
-public class FamilyModuleListActivity extends TitleActivity {
+public class FamilyEndpointListActivity extends TitleActivity {
 
     private ListView mModuleListView;
     private ModuleAdapter mAdapter;
@@ -91,8 +91,8 @@ public class FamilyModuleListActivity extends TitleActivity {
                     public void doOnClick(View v) {
                         Intent intent = new Intent();
                         intent.putExtra(BLConstants.INTENT_FAMILY_ID, mFamilyId);
-                        intent.putExtra(BLConstants.INTENT_CLASS, FamilyModuleListActivity.class.getSimpleName());
-                        intent.setClass(FamilyModuleListActivity.this, DevProbeListActivity.class);
+                        intent.putExtra(BLConstants.INTENT_CLASS, FamilyEndpointListActivity.class.getSimpleName());
+                        intent.setClass(FamilyEndpointListActivity.this, DevProbeListActivity.class);
                         startActivity(intent);
                     }
                 });
@@ -111,7 +111,7 @@ public class FamilyModuleListActivity extends TitleActivity {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
                 final BLSEndpointInfo info = blsEndpointInfos.get(position);
                 String name = info.getFriendlyName();
-                BLAlert.showDialog(FamilyModuleListActivity.this, "Delete EndPoint " + name, new BLAlert.DialogOnClickListener() {
+                BLAlert.showDialog(FamilyEndpointListActivity.this, "Delete EndPoint " + name, new BLAlert.DialogOnClickListener() {
                     @Override
                     public void onPositiveClick() {
                         new DelEndpointTask().execute(info.getEndpointId());
@@ -275,8 +275,8 @@ public class FamilyModuleListActivity extends TitleActivity {
         private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 
         public ModuleAdapter( List<BLSEndpointInfo> objects) {
-            super(FamilyModuleListActivity.this, 0, 0, objects);
-            imageLoaderUtils = BLImageLoaderUtils.getInstence(FamilyModuleListActivity.this);
+            super(FamilyEndpointListActivity.this, 0, 0, objects);
+            imageLoaderUtils = BLImageLoaderUtils.getInstence(FamilyEndpointListActivity.this);
         }
 
         @Override

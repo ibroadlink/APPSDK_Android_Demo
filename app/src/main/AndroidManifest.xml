@@ -149,7 +149,7 @@
             android:name=".activity.family.FamilyRoomListActivity"
             android:theme="@style/ActivityStyle"/>
         <activity
-            android:name=".activity.family.FamilyModuleListActivity"
+            android:name=".activity.family.FamilyEndpointListActivity"
             android:theme="@style/ActivityStyle"/>
         <activity
             android:name=".activity.family.FamilyCountrySelectActivity"
@@ -252,6 +252,18 @@
             android:theme="@style/ActivityStyle"/>
         <activity
             android:name=".activity.ble.BLEMeterActivity"
+            android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.scene.SceneListActivity"
+            android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.scene.SceneDetailActivity"
+            android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.scene.SceneDevListActivity"
+            android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.scene.SceneDevCmdActivity"
             android:theme="@style/ActivityStyle"/>
     </application>
 

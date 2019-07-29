@@ -72,10 +72,11 @@ dependencies {
 
 //    // normal start
 //    implementation 'com.ibroadlink:BLLetCoreAndroid:2.11.+'
-//    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.+'
+//    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.8'
 //    implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.11.+'
 //    implementation 'com.ibroadlink:BLLetBaseAndroid:2.11.5' 
-//    implementation 'com.ibroadlink:BLSFamilyAndroid:1.0.+'
+//    //implementation 'com.ibroadlink:BLSFamilyAndroid:1.0.+' // blsfamily
+//    implementation(name: 'blsfamily-debug', ext: 'aar')
 //    // normal end
 
 
@@ -88,18 +89,18 @@ dependencies {
     //implementation 'com.ibroadlink:BLLetBaseAndroid:2.11.+' // base
     implementation(name: 'blbase-debug', ext: 'aar')
 
-    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.+' // account
+    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.8' // account
     //implementation(name: 'blaccount-debug', ext: 'aar')
-    
+
     //implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.11.+' // ircode
     implementation(name: 'ircode-debug', ext: 'aar')
-    
+
     //implementation 'com.ibroadlink:BLLetFamilyAndroid:2.8.+' // family
     //implementation(name: 'blfamily-debug', ext: 'aar')
 
     //implementation 'com.ibroadlink:BLSFamilyAndroid:1.0.+' // blsfamily
     implementation(name: 'blsfamily-debug', ext: 'aar')
-  
+
     implementation 'com.android.support:support-v4:28.0.0'
     configurations {
         all*.exclude group :'com.ibroadlink',  module :'BLLetCoreAndroid'

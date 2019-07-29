@@ -13,6 +13,8 @@ import com.broadlink.lib.imageloader.core.listener.SimpleImageLoadingListener;
 
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.scene.SceneListActivity;
+import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLImageLoaderUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
@@ -119,7 +121,7 @@ public class FamilyDetailActivity extends TitleActivity implements FamilyInterfa
             public void doOnClick(View v) {
                 Intent intent = new Intent();
                 intent.putExtra(BLConstants.INTENT_FAMILY_ID, BLLocalFamilyManager.getInstance().getCurrentFamilyId());
-                intent.setClass(FamilyDetailActivity.this, FamilyModuleListActivity.class);
+                intent.setClass(FamilyDetailActivity.this, FamilyEndpointListActivity.class);
                 startActivity(intent);
             }
         });
@@ -169,7 +171,7 @@ public class FamilyDetailActivity extends TitleActivity implements FamilyInterfa
         mSceneLayout.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                BLToastUtils.show("Coming soon");
+                BLCommonUtils.toActivity(mActivity, SceneListActivity.class, blFamilyInfo.getFamilyid());
             }
         });
 

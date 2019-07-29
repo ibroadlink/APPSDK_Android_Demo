@@ -34,7 +34,6 @@ import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAda
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
 import cn.com.broadlink.ircode.BLIRCode;
-import cn.com.broadlink.ircode.BLIRDeviceType;
 import cn.com.broadlink.ircode.result.BLDownLoadIRCodeResult;
 import cn.com.broadlink.ircode.result.BLResponseResult;
 import cn.com.broadlink.sdk.BLLet;
@@ -338,7 +337,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
         @Override
         protected BLResponseResult doInBackground(String... strings) {
             int brand = Integer.parseInt(strings[0]);
-            return BLIRCode.requestIRCodeScriptDownloadUrlV3(BLIRDeviceType.AC, brand);
+            return BLIRCode.requestIRCodeScriptDownloadUrlV3(3, brand);
         }
 
         @Override
@@ -393,7 +392,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
         @Override
         protected BLResponseResult doInBackground(String... strings) {
             int brand = Integer.parseInt(strings[0]);
-            return BLIRCode.requestIRCodeScriptDownloadUrlV3(BLIRDeviceType.TV, brand);
+            return BLIRCode.requestIRCodeScriptDownloadUrlV3(1, brand);
         }
 
         @Override

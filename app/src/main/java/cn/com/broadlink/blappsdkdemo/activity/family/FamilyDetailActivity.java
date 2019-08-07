@@ -13,11 +13,11 @@ import com.broadlink.lib.imageloader.core.listener.SimpleImageLoadingListener;
 
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.activity.linkage.LinkageListActivity;
 import cn.com.broadlink.blappsdkdemo.activity.scene.SceneListActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLImageLoaderUtils;
-import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.data.MatchCountryProvinceInfo;
 import cn.com.broadlink.blappsdkdemo.intferfacer.FamilyInterface;
 import cn.com.broadlink.blappsdkdemo.mvp.presenter.CountryContentProvider;
@@ -178,7 +178,7 @@ public class FamilyDetailActivity extends TitleActivity implements FamilyInterfa
         mLinkageLayout.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                BLToastUtils.show("Coming soon");
+                BLCommonUtils.toActivity(mActivity, LinkageListActivity.class, blFamilyInfo.getFamilyid());
             }
         });
 

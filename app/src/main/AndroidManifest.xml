@@ -265,6 +265,12 @@
         <activity
             android:name=".activity.scene.SceneDevCmdActivity"
             android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.linkage.LinkageListActivity"
+            android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.linkage.LinkageDetailActivity"
+            android:theme="@style/ActivityStyle"/>
     </application>
 
 </manifest>

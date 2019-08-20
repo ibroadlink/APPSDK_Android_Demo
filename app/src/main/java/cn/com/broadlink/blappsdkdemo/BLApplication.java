@@ -41,6 +41,7 @@ import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.blsfamily.BLSFamily;
 import cn.com.broadlink.ircode.BLIRCode;
 import cn.com.broadlink.sdk.BLLet;
+import cn.com.broadlink.sdkplugin.BLPicker;
 
 public class BLApplication extends Application{
 
@@ -112,10 +113,10 @@ public class BLApplication extends Application{
         // blConfigParam.put(BLConfigParam.SDK_FILE_PATH, "");
         
         // 4. 设置本地控制超时时间，默认 3000ms
-        blConfigParam.put(BLConfigParam.CONTROLLER_LOCAL_TIMEOUT, "3000");
+        blConfigParam.put(BLConfigParam.CONTROLLER_LOCAL_TIMEOUT, "30000");
         
         // 5. 设置远程控制超时时间，默认 5000ms
-        blConfigParam.put(BLConfigParam.CONTROLLER_REMOTE_TIMEOUT, "8000");
+        blConfigParam.put(BLConfigParam.CONTROLLER_REMOTE_TIMEOUT, "30000");
         
         // 6. 设置控制重试次数，默认 1
         blConfigParam.put(BLConfigParam.CONTROLLER_SEND_COUNT, "1");
@@ -191,6 +192,13 @@ public class BLApplication extends Application{
         } else{
             BLApiUrlConstants.init(lid);
         }
+
+        // 数据上报
+        BLPicker.init(this, license, BLLet.getLicenseId());
+        BLPicker.startPick();
+        
+        BLPicker.onEvent("test upload.");
+        
 //        // for test start
 //        BLFamily.init(BLLet.getCompanyid(), BLLet.getLicenseId());
 //        BLAccount.addLoginListener(BLFamily.getLoginListener());

@@ -496,7 +496,8 @@ public class BLCommonUtils {
         try {
             final int deviceTypeInt = Integer.parseInt(deviceType);
             final String deviceTypeHex = tenTo16_2(deviceTypeInt);
-            return "000000000000000000000000" + deviceTypeHex + "00000000";
+            final String result = "000000000000000000000000" + deviceTypeHex + "00000000";
+            return result.substring(0,32);
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }

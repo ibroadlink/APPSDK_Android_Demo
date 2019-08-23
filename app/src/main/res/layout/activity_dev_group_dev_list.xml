@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.com.broadlink.blappsdkdemo.activity.device.DevGatewayManageActivity"
+    android:padding="10dp">
+
+<LinearLayout
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_marginTop="10dp">
+    
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/et_pid"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDark"
+            android:hint="pid or device-type to debug"
+            android:textSize="12sp"
+            android:layout_weight="1"
+            android:layout_marginBottom="10dp"
+            android:digits="abcdefABCDEF0123456789 "
+            android:background="@drawable/shape_input_view_blue_bg"/>
+        <Button
+            android:id="@+id/bt_get"
+            android:text="Get List"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        
+    </LinearLayout>
+
+    
+    <EditText
+        android:id="@+id/et_result"
+        android:padding="10dp"
+        android:textSize="13sp"
+        android:gravity="top|left"
+        android:layout_width="match_parent"
+        android:scrollbarStyle="insideOverlay"
+        android:layout_height="wrap_content"
+        android:minHeight="150dp"
+        android:textColor="@color/textDark"
+        android:background="@drawable/shape_input_view_blue_bg"
+        android:scrollbars="vertical"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_list"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_stroke_right_round"
+        />
+
+</LinearLayout>
+</ScrollView>

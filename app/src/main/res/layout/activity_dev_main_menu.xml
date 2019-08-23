@@ -184,10 +184,10 @@
             android:text="Ihg Bulb Wall"/>
 
         <Button
+            android:id="@+id/bt_fastcon_sub_group"
             style="@style/commonBtn"
             android:layout_weight="1"
-            android:visibility="invisible"
-            android:text="Device Reset"/>
+            android:text="Fastcon Sub Group"/>
     </LinearLayout>
 
 </LinearLayout>

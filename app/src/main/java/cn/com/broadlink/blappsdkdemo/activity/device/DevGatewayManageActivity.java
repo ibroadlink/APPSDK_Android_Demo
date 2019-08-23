@@ -465,29 +465,24 @@ public class DevGatewayManageActivity extends TitleActivity {
             final BLSubdevResult blSubdevResult = BLLet.Controller.subDevAdd(mDNADevice.getDeviceId(), subDevInfo);
             if (blSubdevResult != null && blSubdevResult.succeed()) {
                 if(subDevInfo.getMac() != null){
+                    
                     BLPairResult pairResult = BLLet.Controller.pair(subDevInfo);
                     if (pairResult.succeed()) {
                         subDevInfo.setId(pairResult.getId());
                         subDevInfo.setKey(pairResult.getKey());
-
-                        try {
-                            BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
-                            BLDeviceInfo deviceInfo = new BLDeviceInfo(subDevInfo);
-                            List<BLDeviceInfo> list = new ArrayList<>();
-                            list.add(deviceInfo);
-                            blDeviceInfoDao.insertData(list);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                        BLLocalDeviceManager.getInstance().addDeviceIntoSDK(subDevInfo);
-                    }else{
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                BLToastUtils.show("Pair fail, try again!");
-                            }
-                        });
-                    }   
+                    }
+                    
+                    try {
+                        BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
+                        BLDeviceInfo deviceInfo = new BLDeviceInfo(subDevInfo);
+                        List<BLDeviceInfo> list = new ArrayList<>();
+                        list.add(deviceInfo);
+                        blDeviceInfoDao.insertData(list);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    BLLocalDeviceManager.getInstance().addDeviceIntoSDK(subDevInfo);
+                   
                 }else{
                     try {
                         String mac = subDevInfo.getDid().substring(20, 32);

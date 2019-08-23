@@ -271,6 +271,15 @@
         <activity
             android:name=".activity.linkage.LinkageDetailActivity"
             android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.device.DevGroupDevEditActivity"
+            android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.device.DevGroupDevListActivity"
+            android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.device.DevGroupConfigEditActivity"
+            android:theme="@style/ActivityStyle"/>
     </application>
 
 </manifest>

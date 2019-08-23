@@ -54,6 +54,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
     private Button mBtFwLog;
     private Button mBtReset;
     private Button mBtIhgBulb;
+    private Button mBtFastconSubGroup;
     private BLDNADevice mDNADevice;
     
     @Override
@@ -88,6 +89,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         mBtFwLog.setOnClickListener(this);
         mBtReset.setOnClickListener(this);
         mBtIhgBulb.setOnClickListener(this);
+        mBtFastconSubGroup.setOnClickListener(this);
     }
 
     private void initView() {
@@ -112,6 +114,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         mBtFwLog = (Button) findViewById(R.id.bt_fw_log);
         mBtReset = (Button) findViewById(R.id.bt_reset);
         mBtIhgBulb = (Button) findViewById(R.id.bt_ihg_bulb_wall);
+        mBtFastconSubGroup = (Button) findViewById(R.id.bt_fastcon_sub_group);
     }
 
     @Override
@@ -216,6 +219,10 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
                 
             case R.id.bt_ihg_bulb_wall:
                 BLCommonUtils.toActivity(mActivity, IhgBulbWallMainActivity.class, mDNADevice);
+                break;
+                
+            case R.id.bt_fastcon_sub_group:
+                BLCommonUtils.toActivity(mActivity, DevGroupDevListActivity.class, mDNADevice);
                 break;
         }
     }

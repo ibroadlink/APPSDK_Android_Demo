@@ -96,7 +96,7 @@ dependencies {
     implementation(name: 'ircode-debug', ext: 'aar')
 
     //implementation 'com.ibroadlink:BLLetFamilyAndroid:2.8.+' // family
-    //implementation(name: 'blfamily-debug', ext: 'aar')
+    implementation(name: 'blfamily-debug', ext: 'aar')
 
     //implementation 'com.ibroadlink:BLSFamilyAndroid:1.0.+' // blsfamily
     implementation(name: 'blsfamily-debug', ext: 'aar')

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#fff"
+                android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:text="Cancel"
+        android:textColor="@color/gray"/>
+    
+    <TextView
+        android:id="@+id/tv_title"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:layout_toRightOf="@+id/tv_cancel"
+        android:layout_toLeftOf="@+id/tv_ok"
+        android:gravity="center"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:text="Ok"
+        android:textColor="@color/bl_yellow_main_color"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rl_content"
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_ok"/>
+
+</RelativeLayout>

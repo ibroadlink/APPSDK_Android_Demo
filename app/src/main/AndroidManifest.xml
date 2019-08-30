@@ -75,12 +75,6 @@
             android:launchMode="singleTask"
             android:theme="@style/ActivityStyle"/>
         <activity
-            android:name=".activity.device.RMDemoActivity"
-            android:theme="@style/ActivityStyle"/>
-        <activity
-            android:name=".activity.device.SPDemoActivity"
-            android:theme="@style/ActivityStyle"/>
-        <activity
             android:name=".activity.device.DevConfigActivity"
             android:theme="@style/ActivityStyle"/>
         <activity

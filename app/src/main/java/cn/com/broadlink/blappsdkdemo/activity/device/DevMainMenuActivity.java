@@ -205,10 +205,6 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
                 BLCommonUtils.toActivity(mActivity, DevRmIrControlActivity.class, mDNADevice);
                 break;
                 
-            case R.id.bt_sp:
-                BLCommonUtils.toActivity(mActivity, SPDemoActivity.class, mDNADevice);
-                break;
-                
             case R.id.bt_fw_log:
                 BLCommonUtils.toActivity(mActivity, DevFirmwareLogActivity.class, mDNADevice);
                 break;

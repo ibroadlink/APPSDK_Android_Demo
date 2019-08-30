@@ -24,7 +24,6 @@ import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
-import cn.com.broadlink.blappsdkdemo.data.BLDevProfileInfo;
 import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
 import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
@@ -34,9 +33,11 @@ import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
-import cn.com.broadlink.family.BLFamily;
-import cn.com.broadlink.family.result.BLPrivateDataIdResult;
+import cn.com.broadlink.blsfamily.BLSFamily;
+import cn.com.broadlink.blsfamily.bean.BLSBaseDataResult;
+import cn.com.broadlink.blsfamily.bean.groupdev.BLSVirtualDidInfo;
 import cn.com.broadlink.sdk.BLLet;
+import cn.com.broadlink.sdk.constants.controller.BLCoreConstants;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.data.controller.BLGroupDeviceInfo;
 import cn.com.broadlink.sdk.data.controller.BLGroupSubConfigInfo;
@@ -58,7 +59,6 @@ public class DevGroupConfigEditActivity extends TitleActivity {
     private List<BLGroupSubConfigInfo> mGroupSubDevList = new ArrayList<>();
     private SubDevAdapter mAdapter;
     private String mPid;
-    private BLDevProfileInfo mBlDevProfileInfo;
 
 
     @Override
@@ -248,12 +248,23 @@ public class DevGroupConfigEditActivity extends TitleActivity {
         protected BLBaseResult doInBackground(Boolean... params) {
             // 申请did
             if (TextUtils.isEmpty(mSubDevice.getDid())) {
-                BLFamily.setCurrentFamilyId(BLLocalFamilyManager.getInstance().getCurrentFamilyId());
-                final BLPrivateDataIdResult familyPrivateDataId = BLFamily.getFamilyPrivateDataId();
-                if(familyPrivateDataId == null || !familyPrivateDataId.succeed()){
-                    return familyPrivateDataId; 
+                
+                
+//                BLFamily.setCurrentFamilyId(BLLocalFamilyManager.getInstance().getCurrentFamilyId());
+//                final BLPrivateDataIdResult familyPrivateDataId = BLFamily.getFamilyPrivateDataId();
+//                if(familyPrivateDataId == null || !familyPrivateDataId.succeed()){
+//                    return familyPrivateDataId; 
+//                }
+//                mSubDevice.setDid(familyPrivateDataId.getDataId());
+
+
+                final BLSBaseDataResult<BLSVirtualDidInfo> virtualDid = BLSFamily.Group.applyVirtualDid(BLCoreConstants.DEVICE_TYPE.VT_PLATFORM,
+                        mSubDevice.getPid(), mSubDevice.getpDid());
+
+                if(virtualDid == null || !virtualDid.succeed()){
+                    return virtualDid; 
                 }
-                mSubDevice.setDid(familyPrivateDataId.getDataId());
+                mSubDevice.setDid(virtualDid.getData().getEndpointId());
             }
             
             // 先删除再添加
@@ -317,7 +328,7 @@ public class DevGroupConfigEditActivity extends TitleActivity {
 
         @Override
         protected BLQueryGroupDeviceResult doInBackground(Void... params) {
-            return BLLet.Controller.queryGroupDeviceBindInfo(mDNADevice.getDeviceId(), mSubDevice.getDid());
+            return BLLet.Controller.queryFastconGroupDeviceBindInfo(mDNADevice.getDeviceId(), mSubDevice.getDid());
         }
 
         @Override
@@ -353,7 +364,7 @@ public class DevGroupConfigEditActivity extends TitleActivity {
             groupDeviceInfo.setName(mSubDevice.getName());
             groupDeviceInfo.setPid(mSubDevice.getPid());
             groupDeviceInfo.getConfig().addAll(mGroupSubDevList);
-            return BLLet.Controller.bindGroupDevice(mDNADevice.getDeviceId(), groupDeviceInfo);
+            return BLLet.Controller.bindFastconGroupDevice(mDNADevice.getDeviceId(), groupDeviceInfo);
         }
 
         @Override

@@ -224,10 +224,12 @@ public class PushMainActivity extends TitleActivity {
                                 mDeviceInfo = devicesAddInSDK.get(whichButton);
                                 
                                 BLDevProfileInfo profileInfo = BLProfileTools.queryProfileInfoByPid(mDeviceInfo.getPid());
+                                if(profileInfo == null){
+                                    BLToastUtils.show("No script found, download first.");
+                                    return;
+                                }
                                 mCat = BLDevSrvConstans.getDevFirstCategory(profileInfo.getSrvs().get(0))+"."+BLDevSrvConstans.getDevCategory(profileInfo.getSrvs().get(0));
-
                                 mEtDevice.setText("Category: " + mCat + "\n" + mDeviceInfo.toJSONString());
-                                
                                 showCatDialog();
                             }
                         });

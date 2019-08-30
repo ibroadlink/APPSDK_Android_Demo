@@ -195,6 +195,5 @@
     <orderEntry type="library" name="Gradle: com.android.support:support-media-compat:28.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: :blfamily-debug:@aar" level="project" />
     <orderEntry type="module" module-name="picSelector" />
-    <orderEntry type="module" module-name="picSelector" />
   </component>
 </module>

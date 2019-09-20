@@ -54,7 +54,7 @@ public class DevTimerManageActivity extends TitleActivity {
     private DnaParamAdapter mAdapter;
     private ImageView mIvRefresh;
     private String mSubDid;
-    private String[] mTimerTypeArray = {"Common","Delay","Period","Cycle","Rand", "SunSet"};
+    private String[] mTimerTypeArray = {"comm","delay","period","cycle","rand"};
     private List<String> mTimerTempList = new ArrayList<>();
     
     @Override

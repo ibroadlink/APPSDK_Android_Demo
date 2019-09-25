@@ -11,6 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 
 import cn.com.broadlink.base.fastjson.BLJSON;
+import cn.com.broadlink.base.fastjson.JSONObject;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
@@ -19,6 +20,7 @@ import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.common.PreferencesUtils;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
+import cn.com.broadlink.sdk.BLLet;
 
 public class ResetActivity extends TitleActivity {
 
@@ -96,7 +98,9 @@ public class ResetActivity extends TitleActivity {
                         
                         if(mEtPair.getText() != null){
                             try {
-                                BLJSON.parseObject(mEtPair.getText().toString());
+                                final JSONObject jsonObject = BLJSON.parseObject(mEtPair.getText().toString());
+                                jsonObject.put("companyid", BLLet.getLicenseId());
+                                pair = jsonObject.toString();
                             } catch (Exception e) {
                                 BLToastUtils.show("Pair server profile should be json string.");
                                 return;
@@ -106,7 +110,6 @@ public class ResetActivity extends TitleActivity {
                         packageName = mEtPackage.getText().toString();
                         license = mEtLicense.getText().toString();
                         domain = mEtPackage.getText() == null ? null : mEtDomain.getText().toString();
-                        pair = mEtPair.getText() == null ? null : mEtPair.getText().toString();
                         selection = 2;
                 }
 

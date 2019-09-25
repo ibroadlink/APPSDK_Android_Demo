@@ -24,8 +24,6 @@ import java.util.concurrent.Executors;
 
 import cn.com.broadlink.account.BLAccount;
 import cn.com.broadlink.base.BLConfigParam;
-import cn.com.broadlink.base.fastjson.BLJSON;
-import cn.com.broadlink.base.fastjson.JSONObject;
 import cn.com.broadlink.blappsdkdemo.common.BLApiUrlConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLAppUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
@@ -148,7 +146,9 @@ public class BLApplication extends Application{
         
         // 14. 是否启用网络请求同一账号互斥模式, "0"-不启用， "1"-启用
         blConfigParam.put(BLConfigParam.IS_LOGIN_MUTEXMODE, "1");
-        
+
+        // 15.设置设备连接服务器
+        blConfigParam.put(BLConfigParam.DEVICE_CONNECTION_SERVER_HOST, pairServer);
         
         // 真正初始化
         BLLet.init(this, license, "", blConfigParam);
@@ -156,12 +156,6 @@ public class BLApplication extends Application{
         // 初始化之后，获取 lid 和 companyId ，用于其他类库的初始化
         String lid = BLLet.getLicenseId();
         String companyId = BLLet.getCompanyid();
-
-        // 15.设置设备连接服务器
-        final JSONObject jsonObject = BLJSON.parseObject(pairServer);
-        jsonObject.put("companyid", lid);
-        String jDeviceServer = jsonObject.toString();
-        blConfigParam.put(BLConfigParam.DEVICE_CONNECTION_SERVER_HOST, jDeviceServer);
 
         // 初始化账户库
         BLAccount.init(companyId, lid);

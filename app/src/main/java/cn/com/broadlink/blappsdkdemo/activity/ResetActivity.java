@@ -10,6 +10,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 
+import cn.com.broadlink.base.fastjson.BLJSON;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
@@ -24,6 +25,7 @@ public class ResetActivity extends TitleActivity {
     private EditText mEtPackage;
     private EditText mEtDomain;
     private EditText mEtLicense;
+    private EditText mEtPair;
     private Button mBtCommit;
     private Switch mSwtCluster;
     private RadioGroup mRgServerList;
@@ -53,10 +55,12 @@ public class ResetActivity extends TitleActivity {
                     mEtPackage.setVisibility(View.VISIBLE);
                     mEtDomain.setVisibility(View.VISIBLE);
                     mEtLicense.setVisibility(View.VISIBLE);
+                    mEtPair.setVisibility(View.VISIBLE);
                 }else{
                     mEtPackage.setVisibility(View.GONE);
                     mEtDomain.setVisibility(View.GONE);
                     mEtLicense.setVisibility(View.GONE);
+                    mEtPair.setVisibility(View.GONE);
                 }
             }
         });
@@ -67,17 +71,21 @@ public class ResetActivity extends TitleActivity {
                 String packageName = null;
                 String license = null;
                 String domain = null;
+                String pair = null;
                 
                 final int checkedRadioButtonId = mRgServerList.getCheckedRadioButtonId();
+                int selection = 0;
                 switch (checkedRadioButtonId) {
                     case R.id.rb_baidu:
                         packageName = BLConstants.SDK_PACKAGE_BAIDU;
                         license = BLConstants.SDK_LICENSE_BAIDU;
+                        selection = 0;
                         break;
                         
                     case R.id.rb_international_china:
                         packageName = BLConstants.SDK_PACKAGE;
                         license = BLConstants.SDK_LICENSE;
+                        selection = 1;
                         break;
                         
                     default:
@@ -85,9 +93,21 @@ public class ResetActivity extends TitleActivity {
                             BLToastUtils.show("Please complete input");
                             return;
                         }
+                        
+                        if(mEtPair.getText() != null){
+                            try {
+                                BLJSON.parseObject(mEtPair.getText().toString());
+                            } catch (Exception e) {
+                                BLToastUtils.show("Pair server profile should be json string.");
+                                return;
+                            }
+                        }
+                        
                         packageName = mEtPackage.getText().toString();
                         license = mEtLicense.getText().toString();
                         domain = mEtPackage.getText() == null ? null : mEtDomain.getText().toString();
+                        pair = mEtPair.getText() == null ? null : mEtPair.getText().toString();
+                        selection = 2;
                 }
 
                 BLApplication.mBLUserInfoUnits.loginOut();
@@ -95,7 +115,9 @@ public class ResetActivity extends TitleActivity {
                 PreferencesUtils.putString(mActivity, "packageName", packageName);
                 PreferencesUtils.putString(mActivity, "license", license);
                 PreferencesUtils.putString(mActivity, "domain", domain);
+                PreferencesUtils.putString(mActivity, "pair", pair);
                 PreferencesUtils.putBoolean(mActivity, "cluster", mSwtCluster.isChecked());
+                PreferencesUtils.putInt(mActivity, "selection", selection);
 
                 //重新初始化sdk
                 mApplication.sdkInit();
@@ -103,7 +125,6 @@ public class ResetActivity extends TitleActivity {
                 Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent); 
-                
             }
         });
     }
@@ -113,37 +134,51 @@ public class ResetActivity extends TitleActivity {
         String packageName = PreferencesUtils.getString(this, "packageName", BLConstants.SDK_PACKAGE);
         String license = PreferencesUtils.getString(this, "license", BLConstants.SDK_LICENSE);
         String domain = PreferencesUtils.getString(this, "domain", null);
+        String pairServer = PreferencesUtils.getString(this, "pair",  BLConstants.PAIR_SERVER_PROFILE);
         boolean useCluster = PreferencesUtils.getBoolean(this, "cluster", true);
+        int selection = PreferencesUtils.getInt(this, "selection", 0);
 
         mEtPackage.setText(packageName);
         mEtLicense.setText(license);
         mEtDomain.setText(domain);
         mSwtCluster.setChecked(useCluster);
         
-        // international china cluster
-        if(packageName.equalsIgnoreCase(BLConstants.SDK_PACKAGE) && license.equalsIgnoreCase(BLConstants.SDK_LICENSE)){
-            mRbInternationalChina.setChecked(true);
-            mEtPackage.setVisibility(View.GONE);
-            mEtDomain.setVisibility(View.GONE);
-            mEtLicense.setVisibility(View.GONE);
-        }else if(packageName.equalsIgnoreCase(BLConstants.SDK_PACKAGE_BAIDU) && license.equalsIgnoreCase(BLConstants.SDK_LICENSE_BAIDU)){
-            mRbBaidu.setChecked(true);
-            mEtPackage.setVisibility(View.GONE);
-            mEtLicense.setVisibility(View.GONE);
-            mEtDomain.setVisibility(View.GONE);
-        }else{
-            mRbCustom.setChecked(true);
-            mEtPackage.setVisibility(View.VISIBLE);
-            mEtLicense.setVisibility(View.VISIBLE);
-            mEtDomain.setVisibility(View.VISIBLE);
+        try {
+            mEtPair.setText(BLJSON.parseObject(pairServer).toString());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
+        switch (selection) {
+            case 0:
+                mRbInternationalChina.setChecked(true);
+                mEtPackage.setVisibility(View.GONE);
+                mEtDomain.setVisibility(View.GONE);
+                mEtLicense.setVisibility(View.GONE);
+                mEtPair.setVisibility(View.GONE);
+                break;
+            case 1:
+                mRbBaidu.setChecked(true);
+                mEtPackage.setVisibility(View.GONE);
+                mEtLicense.setVisibility(View.GONE);
+                mEtDomain.setVisibility(View.GONE);
+                mEtPair.setVisibility(View.GONE);
+                break;
+            case 2:
+                mRbCustom.setChecked(true);
+                mEtPackage.setVisibility(View.VISIBLE);
+                mEtLicense.setVisibility(View.VISIBLE);
+                mEtDomain.setVisibility(View.VISIBLE);
+                mEtPair.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     private void findView() {
         mEtPackage = (EditText) findViewById(R.id.et_package);
         mEtDomain = (EditText) findViewById(R.id.et_domain);
         mEtLicense = (EditText) findViewById(R.id.et_license);
+        mEtPair = (EditText) findViewById(R.id.et_pair_cfg);
         mBtCommit = (Button) findViewById(R.id.bt_commit);
         mSwtCluster = (Switch) findViewById(R.id.swt_cluster);
         mRgServerList = (RadioGroup) findViewById(R.id.rg_server_list);

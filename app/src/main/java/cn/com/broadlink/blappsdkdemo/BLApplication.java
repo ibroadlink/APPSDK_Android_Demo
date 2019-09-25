@@ -16,9 +16,6 @@ import com.didichuxing.doraemonkit.kit.IKit;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +24,8 @@ import java.util.concurrent.Executors;
 
 import cn.com.broadlink.account.BLAccount;
 import cn.com.broadlink.base.BLConfigParam;
+import cn.com.broadlink.base.fastjson.BLJSON;
+import cn.com.broadlink.base.fastjson.JSONObject;
 import cn.com.broadlink.blappsdkdemo.common.BLApiUrlConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLAppUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
@@ -94,12 +93,13 @@ public class BLApplication extends Application{
     /**
      * APPSDK 初始化函数
      */
-    public void sdkInit(){
+    public void sdkInit() {
 
         String packageName = PreferencesUtils.getString(this, "packageName", BLConstants.SDK_PACKAGE);
         String license = PreferencesUtils.getString(this, "license", BLConstants.SDK_LICENSE);
         boolean useCluster = PreferencesUtils.getBoolean(this, "cluster",true);
         String domain = PreferencesUtils.getString(this, "domain",null);
+        String pairServer = PreferencesUtils.getString(this, "pair",  BLConstants.PAIR_SERVER_PROFILE);
 
         // 初始化核心库
         BLConfigParam blConfigParam = new BLConfigParam();
@@ -158,16 +158,10 @@ public class BLApplication extends Application{
         String companyId = BLLet.getCompanyid();
 
         // 15.设置设备连接服务器
-        try {
-            final JSONObject jsonObject = new JSONObject();
-            jsonObject.put("tcp", "device-heartbeat-chn-ee08f451.ibroadlink.com");
-            jsonObject.put("http", "device-gateway-chn-ee08f451.ibroadlink.com");
-            jsonObject.put("companyid", lid);
-            String jDeviceServer = jsonObject.toString();
-            blConfigParam.put(BLConfigParam.DEVICE_CONNECTION_SERVER_HOST, jDeviceServer);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        final JSONObject jsonObject = BLJSON.parseObject(pairServer);
+        jsonObject.put("companyid", lid);
+        String jDeviceServer = jsonObject.toString();
+        blConfigParam.put(BLConfigParam.DEVICE_CONNECTION_SERVER_HOST, jDeviceServer);
 
         // 初始化账户库
         BLAccount.init(companyId, lid);
@@ -224,10 +218,8 @@ public class BLApplication extends Application{
         for (Activity item: mActivityList){
             item.finish();
         }
-
         System.exit(0);
     }
-
 
     /**
      * 获得栈顶的activity

@@ -16,6 +16,7 @@ public class DevMainActivity extends TitleActivity {
     private Button mProbeBtn;
     private Button mMyDeviceBtn;
     private Button mBtStressTest;
+    private Button mBtHttpStressTest;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class DevMainActivity extends TitleActivity {
         mProbeBtn = (Button) findViewById(R.id.btn_probe_device);
         mMyDeviceBtn = (Button) findViewById(R.id.btn_my_device);
         mBtStressTest = (Button) findViewById(R.id.bt_stress_test);
+        mBtHttpStressTest = (Button) findViewById(R.id.bt_stress_test_http);
     }
 
     private void setListener(){
@@ -69,6 +71,13 @@ public class DevMainActivity extends TitleActivity {
             @Override
             public void doOnClick(View v) {
                 BLCommonUtils.toActivity(mActivity, DevStressTestActivity.class);
+            }
+        });
+        
+        mBtHttpStressTest.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                BLCommonUtils.toActivity(mActivity, HttpStressTestActivity.class);
             }
         });
 

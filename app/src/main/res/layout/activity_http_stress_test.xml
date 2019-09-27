@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/et_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/shape_input_view_blue_bg"
+            android:gravity="center_vertical"
+            android:hint="url(must input)"
+            android:minHeight="45dp"
+            android:padding="5dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:textColor="@color/textDark"
+            android:textSize="12sp"/>
+
+        <EditText
+            android:id="@+id/et_timeout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_url"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/shape_input_view_blue_bg"
+            android:gravity="center_vertical"
+            android:hint="timeout(default 3000)"
+            android:inputType="number"
+            android:minHeight="45dp"
+            android:padding="5dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:textColor="@color/textDark"
+            android:textSize="12sp"
+            app:layout_widthPercent="49%"/>
+
+        <EditText
+            android:id="@+id/et_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/et_url"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/shape_input_view_blue_bg"
+            android:gravity="center_vertical"
+            android:hint="interval(default 1000)"
+            android:inputType="number"
+            android:minHeight="45dp"
+            android:padding="5dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:textColor="@color/textDark"
+            android:textSize="12sp"
+            app:layout_widthPercent="49%"/>
+
+        <Button
+            android:id="@+id/bt_start"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_timeout"
+            android:layout_marginTop="20dp"
+            android:text="Start Test"
+            app:layout_widthPercent="50%"/>
+
+        <Button
+            android:id="@+id/bt_stop"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_timeout"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/bt_start"
+            android:text="Stop Test"
+            app:layout_widthPercent="50%"/>
+
+        <EditText
+            android:id="@+id/et_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_start"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_input_view_blue_bg"
+            android:gravity="start"
+            android:hint="Stess test progress"
+            android:minHeight="100dp"
+            android:padding="5dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:textColor="@color/textDark"
+            android:textSize="12sp"/>
+
+    </android.support.percent.PercentRelativeLayout>
+</ScrollView>

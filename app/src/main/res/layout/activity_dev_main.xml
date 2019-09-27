@@ -33,7 +33,12 @@
     <Button
         android:id="@+id/bt_stress_test"
         style="@style/commonBtn"
-        android:text="Stress Test"/>
+        android:text="Device Stress Test"/>
+    
+    <Button
+        android:id="@+id/bt_stress_test_http"
+        style="@style/commonBtn"
+        android:text="Http Stress Test"/>
 
 </LinearLayout>
 

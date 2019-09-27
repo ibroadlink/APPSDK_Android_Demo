@@ -17,9 +17,9 @@ android {
     defaultConfig {
         applicationId "com.broadlink.blappsdkdemo"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 26
         versionCode 1
-        versionName "1.2.5"
+        versionName "1.2.6"
         flavorDimensions "default"
 
         ndk {

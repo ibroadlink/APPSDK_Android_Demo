@@ -70,45 +70,46 @@ repositories {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-//    // normal start
-//    implementation 'com.ibroadlink:BLLetCoreAndroid:2.11.+'
-//    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.8'
-//    implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.11.+'
-//    implementation 'com.ibroadlink:BLLetBaseAndroid:2.11.5' 
+    // normal start
+    implementation 'com.ibroadlink:BLLetCoreAndroid:2.12.+'
+    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.8'
+    implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.11.+'
+    implementation 'com.ibroadlink:BLLetBaseAndroid:2.11.+' 
+    implementation 'com.ibroadlink:BLSFamilyAndroid:1.0.4+'
+    implementation 'com.ibroadlink:BLLetPluginAndroid:2.7.2'
+    implementation 'com.ibroadlink:BLLetFamilyAndroid:2.8.+'
+    // normal end
+
+
+//    // fot local debug start
+//    //implementation fileTree(include: ['*.aar'], dir: 'libs')
+//
+//    //implementation 'com.ibroadlink:BLLetCoreAndroid:2.12.+' // core
+//    implementation(name: 'dnasdk-debug', ext: 'aar') 
+//
+//    //implementation 'com.ibroadlink:BLLetBaseAndroid:2.11.+' // base
+//    implementation(name: 'blbase-debug', ext: 'aar')
+//
+//    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.8' // account
+//    //implementation(name: 'blaccount-debug', ext: 'aar')
+//
+//    //implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.11.+' // ircode
+//    implementation(name: 'ircode-debug', ext: 'aar')
+//
+//    //implementation 'com.ibroadlink:BLLetFamilyAndroid:2.8.+' // family
+//    implementation(name: 'blfamily-debug', ext: 'aar')
+//
 //    //implementation 'com.ibroadlink:BLSFamilyAndroid:1.0.+' // blsfamily
 //    implementation(name: 'blsfamily-debug', ext: 'aar')
-//    // normal end
-
-
-    // fot local debug start
-    //implementation fileTree(include: ['*.aar'], dir: 'libs')
-
-    //implementation 'com.ibroadlink:BLLetCoreAndroid:2.11.+' // core
-    implementation(name: 'dnasdk-debug', ext: 'aar') 
-
-    //implementation 'com.ibroadlink:BLLetBaseAndroid:2.11.+' // base
-    implementation(name: 'blbase-debug', ext: 'aar')
-
-    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.8' // account
-    //implementation(name: 'blaccount-debug', ext: 'aar')
-
-    //implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.11.+' // ircode
-    implementation(name: 'ircode-debug', ext: 'aar')
-
-    //implementation 'com.ibroadlink:BLLetFamilyAndroid:2.8.+' // family
-    implementation(name: 'blfamily-debug', ext: 'aar')
-
-    //implementation 'com.ibroadlink:BLSFamilyAndroid:1.0.+' // blsfamily
-    implementation(name: 'blsfamily-debug', ext: 'aar')
-
-    implementation 'com.ibroadlink:BLLetPluginAndroid:2.7.2' // plugin
-    
-    implementation 'com.android.support:support-v4:28.0.0'
-    configurations {
-        all*.exclude group :'com.ibroadlink',  module :'BLLetCoreAndroid'
-        all*.exclude group :'com.ibroadlink',  module :'BLLetBaseAndroid' // 如果不使用aar，注释这一句
-    }
-    // fot local debug end
+//
+//    implementation 'com.ibroadlink:BLLetPluginAndroid:2.7.2' // plugin
+//    
+//    implementation 'com.android.support:support-v4:28.0.0'
+//    configurations {
+//        all*.exclude group :'com.ibroadlink',  module :'BLLetCoreAndroid'
+//        all*.exclude group :'com.ibroadlink',  module :'BLLetBaseAndroid' // 如果不使用aar，注释这一句
+//    }
+//    // fot local debug end
     
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
@@ -120,7 +121,7 @@ dependencies {
     implementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.2'
     implementation 'com.aliyun.ams:alicloud-android-push:3.1.4'
     implementation 'com.android.support:multidex:1.0.3'
-    implementation 'com.alibaba:fastjson:1.1.70.android'
+    implementation 'com.alibaba:fastjson:1.1.71.android'
     implementation project(path: ':picSelector')
 
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

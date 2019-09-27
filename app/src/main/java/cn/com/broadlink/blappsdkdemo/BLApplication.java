@@ -129,16 +129,12 @@ public class BLApplication extends Application{
         
         // 9. 批量查询设备在线状态最小设备数
         blConfigParam.put(BLConfigParam.CONTROLLER_QUERY_COUNT, "8");
-        blConfigParam.put(BLConfigParam.CONTROLLER_RESEND_MODE, "0");
         
         // 10. 设置认证包名，默认为APP自身包名
         blConfigParam.put(BLConfigParam.CONTROLLER_AUTH_PACKAGE_NAME, packageName);
         
         // 11. 使用APPService服务
         blConfigParam.put(BLConfigParam.APP_SERVICE_ENABLE, useCluster ? "1" : "0");
-        
-        // 12. 远程尝试0次
-        blConfigParam.put(BLConfigParam.CONTROLLER_RESEND_MODE, "0");
         
         // 13. 设置集群域名
         if(!TextUtils.isEmpty(domain)){

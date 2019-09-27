@@ -96,7 +96,7 @@ public class ResetActivity extends TitleActivity {
                             return;
                         }
                         
-                        if(mEtPair.getText() != null){
+                        if(!TextUtils.isEmpty(mEtPair.getText())){
                             try {
                                 final JSONObject jsonObject = BLJSON.parseObject(mEtPair.getText().toString());
                                 jsonObject.put("companyid", BLLet.getLicenseId());
@@ -137,9 +137,9 @@ public class ResetActivity extends TitleActivity {
         String packageName = PreferencesUtils.getString(this, "packageName", BLConstants.SDK_PACKAGE);
         String license = PreferencesUtils.getString(this, "license", BLConstants.SDK_LICENSE);
         String domain = PreferencesUtils.getString(this, "domain", null);
-        String pairServer = PreferencesUtils.getString(this, "pair",  BLConstants.PAIR_SERVER_PROFILE);
         boolean useCluster = PreferencesUtils.getBoolean(this, "cluster", true);
-        int selection = PreferencesUtils.getInt(this, "selection", 0);
+        int selection = PreferencesUtils.getInt(this, "selection", -1);
+        String pairServer = PreferencesUtils.getString(this, "pair",  selection==-1 ? BLConstants.PAIR_SERVER_PROFILE : null); // 没设置过就用默认值，设置过之后即使是null也用设置的值
 
         mEtPackage.setText(packageName);
         mEtLicense.setText(license);
@@ -153,6 +153,7 @@ public class ResetActivity extends TitleActivity {
         }
 
         switch (selection) {
+            case -1:
             case 0:
                 mRbInternationalChina.setChecked(true);
                 mEtPackage.setVisibility(View.GONE);

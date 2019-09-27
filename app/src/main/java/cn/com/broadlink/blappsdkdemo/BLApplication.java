@@ -97,7 +97,8 @@ public class BLApplication extends Application{
         String license = PreferencesUtils.getString(this, "license", BLConstants.SDK_LICENSE);
         boolean useCluster = PreferencesUtils.getBoolean(this, "cluster",true);
         String domain = PreferencesUtils.getString(this, "domain",null);
-        String pairServer = PreferencesUtils.getString(this, "pair",  BLConstants.PAIR_SERVER_PROFILE);
+        int selection = PreferencesUtils.getInt(this, "selection", -1);
+        String pairServer = PreferencesUtils.getString(this, "pair",  selection==-1 ? BLConstants.PAIR_SERVER_PROFILE : null); // 没设置过就用默认值，设置过之后即使是null也用设置的值
 
         // 初始化核心库
         BLConfigParam blConfigParam = new BLConfigParam();

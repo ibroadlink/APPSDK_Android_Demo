@@ -7,10 +7,6 @@ buildscript {
             url 'https://maven.google.com/'
             name 'Google'
         }
-        maven {
-            url 'https://jitpack.io'
-            name 'Jitpack'
-        }
         google()
         maven {
             url 'http://maven.aliyun.com/nexus/content/repositories/releases/'
@@ -31,16 +27,11 @@ allprojects {
     repositories {
         jcenter()
         maven {
-            //url 'https://maven.google.com/'
             url 'https://dl.google.com/dl/android/maven2/'
             name 'Google'
         }
         maven {
             url 'http://maven.aliyun.com/nexus/content/repositories/releases/'
-        }
-        maven {
-            url 'https://jitpack.io'
-            name 'Jitpack'
         }
     }
 }

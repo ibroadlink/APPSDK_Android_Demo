@@ -277,6 +277,9 @@
         <activity
             android:name=".activity.device.DevGroupConfigEditActivity"
             android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".activity.device.DevSpControlActivity"
+            android:theme="@style/ActivityStyle"/>
     </application>
 
 </manifest>

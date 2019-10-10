@@ -75,7 +75,7 @@ dependencies {
     implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.8'
     implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.11.+'
     implementation 'com.ibroadlink:BLLetBaseAndroid:2.11.+' 
-    implementation 'com.ibroadlink:BLSFamilyAndroid:1.0.4+'
+    implementation 'com.ibroadlink:BLSFamilyAndroid:1.0.5+'
     implementation 'com.ibroadlink:BLLetPluginAndroid:2.7.2'
     implementation 'com.ibroadlink:BLLetFamilyAndroid:2.8.+'
     // normal end

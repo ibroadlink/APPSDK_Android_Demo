@@ -17,7 +17,9 @@ import com.alibaba.fastjson.JSON;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.base.fastjson.BLJSON;
@@ -55,7 +57,7 @@ public class DevGroupDevEditActivity extends TitleActivity {
     private List<BLGroupSubDeviceInfo> mGroupSubDevList = new ArrayList<>();
     private SubDevAdapter mAdapter;
     private String mPid;
-    private BLDevProfileInfo mBlDevProfileInfo;
+    private Map<String, BLDevProfileInfo> mDevProfileMap = new HashMap<>();
     private BLGroupSubConfigInfo mSubConfigInfo;
     private int mPosition;
 
@@ -275,17 +277,19 @@ public class DevGroupDevEditActivity extends TitleActivity {
 
     private void showAddParamDialog(String pid, final BaseCallback<List<String>> callback){
 
-        if(mBlDevProfileInfo == null){
+        if(!mDevProfileMap.containsKey(pid)){
             BLProfileStringResult devProfileResult = BLLet.Controller.queryProfileByPid(pid);
             if(devProfileResult!=null && devProfileResult.succeed()){
-                mBlDevProfileInfo = JSON.parseObject(devProfileResult.getProfile(), BLDevProfileInfo.class);
+                final BLDevProfileInfo blDevProfileInfo = JSON.parseObject(devProfileResult.getProfile(), BLDevProfileInfo.class);
+                if(blDevProfileInfo != null){
+                    mDevProfileMap.put(pid, blDevProfileInfo);
+                }
             }else{
                 BLToastUtils.show("Please confirm script had been downloaded!");
                 return;
             }
         }
-        final List<String> params = mBlDevProfileInfo.getSuids().get(0).getIntfsList();
-      
+        final List<String> params = mDevProfileMap.get(pid).getSuids().get(0).getIntfsList();
 
         if(callback != null){
             callback.onResult(params);

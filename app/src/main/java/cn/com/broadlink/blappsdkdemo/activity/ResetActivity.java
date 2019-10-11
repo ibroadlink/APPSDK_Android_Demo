@@ -29,6 +29,7 @@ public class ResetActivity extends TitleActivity {
     private EditText mEtLicense;
     private EditText mEtPair;
     private Button mBtCommit;
+    private Button mBtDefault;
     private Switch mSwtCluster;
     private RadioGroup mRgServerList;
     private RadioButton mRbBaidu;
@@ -50,6 +51,19 @@ public class ResetActivity extends TitleActivity {
     }
 
     private void setListener() {
+
+        mBtDefault.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                try {
+                    final JSONObject jsonObject = BLJSON.parseObject(BLConstants.PAIR_SERVER_PROFILE);
+                    jsonObject.put("companyid", BLLet.getLicenseId());
+                    mEtPair.setText(jsonObject.toString());
+                } catch (Exception e) {
+                }
+            }
+        });
+        
         mRgServerList.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -95,22 +109,21 @@ public class ResetActivity extends TitleActivity {
                             BLToastUtils.show("Please complete input");
                             return;
                         }
-                        
-                        if(!TextUtils.isEmpty(mEtPair.getText())){
-                            try {
-                                final JSONObject jsonObject = BLJSON.parseObject(mEtPair.getText().toString());
-                                jsonObject.put("companyid", BLLet.getLicenseId());
-                                pair = jsonObject.toString();
-                            } catch (Exception e) {
-                                BLToastUtils.show("Pair server profile should be json string.");
-                                return;
-                            }
-                        }
-                        
                         packageName = mEtPackage.getText().toString();
                         license = mEtLicense.getText().toString();
                         domain = mEtPackage.getText() == null ? null : mEtDomain.getText().toString();
                         selection = 2;
+                }
+
+                if(!TextUtils.isEmpty(mEtPair.getText())){
+                    try {
+                        final JSONObject jsonObject = BLJSON.parseObject(mEtPair.getText().toString());
+                        jsonObject.put("companyid", BLLet.getLicenseId());
+                        pair = jsonObject.toString();
+                    } catch (Exception e) {
+                        BLToastUtils.show("Pair server profile should be json string.");
+                        return;
+                    }
                 }
 
                 BLApplication.mBLUserInfoUnits.loginOut();
@@ -154,14 +167,14 @@ public class ResetActivity extends TitleActivity {
 
         switch (selection) {
             case -1:
-            case 0:
+            case 1:
                 mRbInternationalChina.setChecked(true);
                 mEtPackage.setVisibility(View.GONE);
                 mEtDomain.setVisibility(View.GONE);
                 mEtLicense.setVisibility(View.GONE);
                 mEtPair.setVisibility(View.GONE);
                 break;
-            case 1:
+            case 0:
                 mRbBaidu.setChecked(true);
                 mEtPackage.setVisibility(View.GONE);
                 mEtLicense.setVisibility(View.GONE);
@@ -184,6 +197,7 @@ public class ResetActivity extends TitleActivity {
         mEtLicense = (EditText) findViewById(R.id.et_license);
         mEtPair = (EditText) findViewById(R.id.et_pair_cfg);
         mBtCommit = (Button) findViewById(R.id.bt_commit);
+        mBtDefault = (Button) findViewById(R.id.bt_default);
         mSwtCluster = (Switch) findViewById(R.id.swt_cluster);
         mRgServerList = (RadioGroup) findViewById(R.id.rg_server_list);
         mRbBaidu = (RadioButton) findViewById(R.id.rb_baidu);

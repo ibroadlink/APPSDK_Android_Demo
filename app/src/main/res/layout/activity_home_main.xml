@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/activity_main"
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:paddingTop="20dp"
-              android:paddingBottom="20dp"
-              android:orientation="vertical">
+<RelativeLayout
+    android:id="@+id/activity_main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp">
 
     <Button
         android:id="@+id/btn_account_control"
@@ -22,6 +23,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:layout_below="@+id/btn_account_control"
         android:text="@string/Family_Control"
         />
 
@@ -31,6 +33,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:layout_below="@+id/btn_family_control"
         android:text="@string/Device_Control"
         />
 
@@ -41,24 +44,27 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:layout_below="@+id/btn_device_control"
         android:text="@string/IRCode_Control"
         />
-    
+
     <Button
         android:id="@+id/btn_product_manage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:layout_below="@+id/btn_ircode_control"
         android:text="Product Management"
         />
-    
+
     <Button
         android:id="@+id/btn_push"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:layout_below="@+id/btn_product_manage"
         android:text="Push Management"
         />
 
@@ -68,16 +74,27 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:visibility="gone"
         android:text="@string/Network_Check"
+        android:layout_below="@+id/btn_push"
+        android:visibility="gone"
         />
+
     <Button
         android:id="@+id/btn_ble"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:layout_below="@+id/btn_network_check"
         android:text="BLE Management"
         />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/text999"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

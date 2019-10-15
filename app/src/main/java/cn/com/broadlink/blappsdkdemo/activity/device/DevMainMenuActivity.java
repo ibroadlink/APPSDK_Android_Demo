@@ -34,6 +34,7 @@ import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.constants.controller.BLDevCmdConstants;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.result.controller.BLDeviceTimeResult;
+import cn.com.broadlink.sdk.result.controller.BLSubdevResult;
 
 public class DevMainMenuActivity extends TitleActivity implements View.OnClickListener {
 
@@ -185,7 +186,8 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
                         if(TextUtils.isEmpty(value)){
                             BLToastUtils.show("Param null");
                         }else{
-                            new UpdateFirmwareTask().execute(value);
+//                            new UpdateFirmwareTask().execute(value);
+                            new UpdateFirmwareV2Task().execute(value);
                         }
                     }
 
@@ -345,6 +347,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         protected BLBaseResult doInBackground(String... params) {
             if (mDNADevice.getpDid() != null){
                 final String[] cachedDeviceId = BLMultDidUtils.getCachedDeviceId(mDNADevice);
+                
                 return BLLet.Controller.devSubDevUpgradeFirmware(cachedDeviceId[0], cachedDeviceId[1], params[0],null);
             }
             
@@ -370,18 +373,24 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
 
         @Override
         protected String doInBackground(String... params) {
-            
-            JSONObject jData = new JSONObject();
-            JSONObject urlObject = new JSONObject();
-            
-            try {
-                urlObject.put("hw_url", params[0]);
-                jData.put("data", urlObject);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
-            return BLLet.Controller.dnaControl(mDNADevice.getDeviceId(), null, jData.toString(),  BLDevCmdConstants.DEV_FW_UPGRADE, null);
+            if (mDNADevice.getpDid() != null){ // 子设备升级
+                final String[] cachedDeviceId = BLMultDidUtils.getCachedDeviceId(mDNADevice);
+                final BLSubdevResult blSubdevResult = BLLet.Controller.devSubDevUpgradeFirmware(cachedDeviceId[0], cachedDeviceId[1], params[0], null);
+                return blSubdevResult == null ? null : JSON.toJSONString(blSubdevResult);
+            }else{ // 主设备升级
+                JSONObject jData = new JSONObject();
+                JSONObject urlObject = new JSONObject();
+
+                try {
+                    urlObject.put("hw_url", params[0]);
+                    jData.put("data", urlObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return BLLet.Controller.dnaControl(mDNADevice.getDeviceId(), null, jData.toString(),  BLDevCmdConstants.DEV_FW_UPGRADE, null);
+            }
         }
 
         @Override

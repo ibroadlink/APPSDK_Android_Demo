@@ -105,7 +105,7 @@ public class AccountUserNameLoginActivity extends TitleActivity {
             userPassword = params[1];
 
             loginResult = BLAccount.login(userName, userPassword);
-            if (loginResult != null) {
+            if (loginResult != null && loginResult.succeed()) {
                 
                 //存储登陆成功返回的 userId 和 loginSession ，便于下次直接登陆使用
                 BLApplication.mBLUserInfoUnits.login(loginResult.getUserid(), loginResult.getLoginsession(),

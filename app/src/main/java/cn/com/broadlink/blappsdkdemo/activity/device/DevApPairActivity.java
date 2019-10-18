@@ -7,9 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.com.broadlink.blappsdkdemo.BLApplication;
+import cn.com.broadlink.blappsdkdemo.BuildConfig;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
@@ -20,6 +25,7 @@ import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAda
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseViewHolder;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.divideritemdecoration.BLDividerUtil;
 import cn.com.broadlink.sdk.BLLet;
+import cn.com.broadlink.sdk.constants.controller.BLCoreConstants;
 import cn.com.broadlink.sdk.data.controller.BLAPInfo;
 import cn.com.broadlink.sdk.data.controller.BLGetAPListResult;
 import cn.com.broadlink.sdk.result.controller.BLAPConfigResult;
@@ -118,7 +124,21 @@ public class DevApPairActivity extends TitleActivity {
             String ssid = mSelectAPInfo.getSsid();
             int type = mSelectAPInfo.getType();
             String password = params[0];
-            return BLLet.Controller.deviceAPConfig(ssid, password, type, null);
+            if(BuildConfig.SUPPORT_AUX){
+                final JSONObject infoJson = new JSONObject();
+                try {
+                    infoJson.put("userid", BLApplication.mBLUserInfoUnits.getUserid());
+                    infoJson.put("httpgw", "");
+                    infoJson.put("m2m", "");
+                    infoJson.put("location", "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return BLLet.Controller.deviceAPConfig(ssid, password, type, BLCoreConstants.DevApConfigProtocol.AUX, null, infoJson.toString(), null);
+            }else{
+                return BLLet.Controller.deviceAPConfig(ssid, password, type, null);
+            }
         }
 
         @Override

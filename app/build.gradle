@@ -38,27 +38,30 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
+            buildConfigField "boolean", "SUPPORT_AUX", "false"
         }
+        
         debug {
             signingConfig signingConfigs.config
+            buildConfigField "boolean", "SUPPORT_AUX", "false"
         }
 
-        //修改生成的apk名字
-        applicationVariants.all { variant ->
-            variant.outputs.all { output ->
-                def versionName = android.defaultConfig.versionName
-                def time = new java.text.SimpleDateFormat("yyyy-MM-dd_HH").format(new Date())
-                def fileName
-
-                if (variant.buildType.name.equals('release')) {
-                    fileName = "sdk_demo_release_v${versionName}_${time}.apk"
-                } else if (variant.buildType.name.equals('debug')) {
-                    fileName = "sdk_demo_debug_v${versionName}_${time}.apk"
-                }
-                outputFileName = fileName
-            }
+        auxAc {
+            signingConfig signingConfigs.config
+            buildConfigField "boolean", "SUPPORT_AUX", "true"
         }
     }
+
+    
+    //修改生成的apk名字
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def versionName = android.defaultConfig.versionName
+            def time = new java.text.SimpleDateFormat("yyyy-MM-dd_HH").format(new Date())
+            outputFileName = "sdk_demo_${variant.buildType.name}_v${versionName}_${time}.apk"
+        }
+    }
+
 }
 
 repositories {
@@ -70,46 +73,46 @@ repositories {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    // normal start
-    implementation 'com.ibroadlink:BLLetCoreAndroid:2.12.+'
-    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.8'
-    implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.11.+'
-    implementation 'com.ibroadlink:BLLetBaseAndroid:2.11.+' 
-    implementation 'com.ibroadlink:BLSFamilyAndroid:1.0.5+'
-    implementation 'com.ibroadlink:BLLetPluginAndroid:2.7.2'
-    implementation 'com.ibroadlink:BLLetFamilyAndroid:2.8.+'
-    // normal end
+//    // normal start
+//    implementation 'com.ibroadlink:BLLetCoreAndroid:2.12.+'
+//    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.8'
+//    implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.11.+'
+//    implementation 'com.ibroadlink:BLLetBaseAndroid:2.11.+' 
+//    implementation 'com.ibroadlink:BLSFamilyAndroid:1.0.5+'
+//    implementation 'com.ibroadlink:BLLetPluginAndroid:2.7.2'
+//    implementation 'com.ibroadlink:BLLetFamilyAndroid:2.8.+'
+//    // normal end
 
 
-//    // fot local debug start
-//    //implementation fileTree(include: ['*.aar'], dir: 'libs')
-//
-//    //implementation 'com.ibroadlink:BLLetCoreAndroid:2.12.+' // core
-//    implementation(name: 'dnasdk-debug', ext: 'aar') 
-//
-//    //implementation 'com.ibroadlink:BLLetBaseAndroid:2.11.+' // base
-//    implementation(name: 'blbase-debug', ext: 'aar')
-//
-//    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.8' // account
-//    //implementation(name: 'blaccount-debug', ext: 'aar')
-//
-//    //implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.11.+' // ircode
-//    implementation(name: 'ircode-debug', ext: 'aar')
-//
-//    //implementation 'com.ibroadlink:BLLetFamilyAndroid:2.8.+' // family
-//    implementation(name: 'blfamily-debug', ext: 'aar')
-//
-//    //implementation 'com.ibroadlink:BLSFamilyAndroid:1.0.+' // blsfamily
-//    implementation(name: 'blsfamily-debug', ext: 'aar')
-//
-//    implementation 'com.ibroadlink:BLLetPluginAndroid:2.7.2' // plugin
-//    
-//    implementation 'com.android.support:support-v4:28.0.0'
-//    configurations {
-//        all*.exclude group :'com.ibroadlink',  module :'BLLetCoreAndroid'
-//        all*.exclude group :'com.ibroadlink',  module :'BLLetBaseAndroid' // 如果不使用aar，注释这一句
-//    }
-//    // fot local debug end
+    // fot local debug start
+    //implementation fileTree(include: ['*.aar'], dir: 'libs')
+
+    //implementation 'com.ibroadlink:BLLetCoreAndroid:2.12.+' // core
+    implementation(name: 'dnasdk-debug', ext: 'aar') 
+
+    //implementation 'com.ibroadlink:BLLetBaseAndroid:2.11.+' // base
+    implementation(name: 'blbase-debug', ext: 'aar')
+
+    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.8' // account
+    //implementation(name: 'blaccount-debug', ext: 'aar')
+
+    //implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.11.+' // ircode
+    implementation(name: 'ircode-debug', ext: 'aar')
+
+    //implementation 'com.ibroadlink:BLLetFamilyAndroid:2.8.+' // family
+    implementation(name: 'blfamily-debug', ext: 'aar')
+
+    //implementation 'com.ibroadlink:BLSFamilyAndroid:1.0.+' // blsfamily
+    implementation(name: 'blsfamily-debug', ext: 'aar')
+
+    implementation 'com.ibroadlink:BLLetPluginAndroid:2.7.2' // plugin
+
+    implementation 'com.android.support:support-v4:28.0.0'
+    configurations {
+        all*.exclude group :'com.ibroadlink',  module :'BLLetCoreAndroid'
+        all*.exclude group :'com.ibroadlink',  module :'BLLetBaseAndroid' // 如果不使用aar，注释这一句
+    }
+    // fot local debug end
     
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'

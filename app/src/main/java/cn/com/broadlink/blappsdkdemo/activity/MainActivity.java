@@ -63,7 +63,7 @@ public class MainActivity extends TitleActivity {
         //final String text = getString(R.string.str_json_test);
         HashMap<String, String> paramHeaderMap = JSON.parseObject(text, new TypeReference<HashMap<String,String>>(){});
         System.out.println(JSON.toJSONString(paramHeaderMap));
-        mTvVersion.setText("Version: " + BuildConfig.VERSION_NAME);
+        mTvVersion.setText(BuildConfig.BUILD_TYPE + " Version: " + BuildConfig.VERSION_NAME );
     }
 
     private void findView() {

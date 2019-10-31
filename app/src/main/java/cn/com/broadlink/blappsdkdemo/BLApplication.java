@@ -139,7 +139,7 @@ public class BLApplication extends Application{
         
         // 12. probe支持的协议
         blConfigParam.put(BLConfigParam.CONTROLLER_SUPPORT_PROTOCOL, String.valueOf(BuildConfig.SUPPORT_AUX ?
-                BLCoreConstants.DevProbeProtocol.AUX | BLCoreConstants.DevProbeProtocol.DEFAULT :
+                BLCoreConstants.DevProbeProtocol.AUX:
                 BLCoreConstants.DevProbeProtocol.DEFAULT));
         
         // 13. 设置集群域名

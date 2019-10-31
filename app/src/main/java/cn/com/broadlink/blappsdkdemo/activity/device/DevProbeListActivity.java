@@ -151,6 +151,13 @@ public class DevProbeListActivity extends TitleActivity {
     }
 
     private void add2SdkOrFamily(final int position) {
+        
+        if(mDevices.size()==0){
+            BLToastUtils.show("No device!");
+            mDeviceAdapter.notifyDataSetChanged();
+            return;
+        }
+        
         mSelection = position;
         final BLDNADevice device = mDevices.get(position);
         device.setOwnerId(BLLocalFamilyManager.getInstance().getCurrentFamilyId()); // 将当前家庭设置为owner

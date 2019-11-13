@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.com.broadlink.base.fastjson.JSONException;
+import cn.com.broadlink.base.fastjson.JSONObject;
+import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.BuildConfig;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
@@ -121,17 +124,18 @@ public class DevApPairActivity extends TitleActivity {
             int type = mSelectAPInfo.getType();
             String password = params[0];
             if(BuildConfig.SUPPORT_AUX){
-//                final JSONObject infoJson = new JSONObject();
-//                try {
-//                    infoJson.put("userid", BLApplication.mBLUserInfoUnits.getUserid());
-//                    infoJson.put("httpgw", "");
-//                    infoJson.put("m2m", "");
-//                    infoJson.put("location", "");
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                final JSONObject infoJson = new JSONObject();
+                try {
+                    infoJson.put("userid", BLApplication.mBLUserInfoUnits.getUserid());
+                    infoJson.put("httpgw", "");
+                    infoJson.put("m2m", "");
+                    infoJson.put("location", "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 return BLLet.Controller.deviceAPConfig(ssid, password, type, BLCoreConstants.DevApConfigProtocol.AUX, null, null);
+                //return null;
             }else{
                 return BLLet.Controller.deviceAPConfig(ssid, password, type, null);
             }

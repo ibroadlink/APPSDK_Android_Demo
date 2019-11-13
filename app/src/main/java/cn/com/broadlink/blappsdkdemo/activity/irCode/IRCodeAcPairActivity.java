@@ -171,7 +171,7 @@ public class IRCodeAcPairActivity extends TitleActivity {
 
         @Override
         protected BLResponseResult doInBackground(String... strings) {
-            return BLIRCode.recognizeACIRCodeV3(strings[0]);
+            return BLIRCode.recognizeACIRCode(strings[0]);
         }
 
         @Override

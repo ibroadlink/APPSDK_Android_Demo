@@ -124,7 +124,7 @@ public class BLApplication extends Application{
         
         // 7. 设置设备控制支持的网络模式，默认 -1 都支持。  0 - 局域网控制，非0 - 局域网/远程都支持。
         blConfigParam.put(BLConfigParam.CONTROLLER_NETMODE, String.valueOf(BuildConfig.SUPPORT_AUX ? BLCoreConstants.NetMode.BL_NET_REMOTE_ONLY : BLCoreConstants.NetMode.BL_NET_BOTH));
-        
+
         // 8. 设置脚本和UI文件下载资源平台。 默认 0 老平台。  1 - 新平台
         blConfigParam.put(BLConfigParam.CONTROLLER_SCRIPT_DOWNLOAD_VERSION, "1");
         
@@ -139,7 +139,7 @@ public class BLApplication extends Application{
         
         // 12. probe支持的协议
         blConfigParam.put(BLConfigParam.CONTROLLER_SUPPORT_PROTOCOL, String.valueOf(BuildConfig.SUPPORT_AUX ?
-                BLCoreConstants.DevProbeProtocol.AUX:
+                BLCoreConstants.DevProbeProtocol.AUX | BLCoreConstants.DevProbeProtocol.DEFAULT :
                 BLCoreConstants.DevProbeProtocol.DEFAULT));
         
         // 13. 设置集群域名

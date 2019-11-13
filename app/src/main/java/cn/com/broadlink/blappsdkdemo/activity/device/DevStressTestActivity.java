@@ -165,8 +165,11 @@ public class DevStressTestActivity extends TitleActivity {
         String result = (String) msg.obj;
         final BLBaseResult blBaseResult = JSON.parseObject(result, BLBaseResult.class);
 
-        if (mResultList.size() <= index) {
-            mResultList.add(new BLStressTestResultBean(index));
+        final int size = mResultList.size();
+        if (size <= index) {
+            for (int i = 0; i < index-size+1; i++) {
+                mResultList.add(new BLStressTestResultBean(index));
+            }
         }
 
         mResultList.get(index).totalCount++;

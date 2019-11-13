@@ -326,8 +326,14 @@ public class DevTimerManageActivity extends TitleActivity {
         protected void onPostExecute(String ret) {
             super.onPostExecute(ret);
             dismissProgressDialog();
+
+            BLTimerGetListResultV2 result = null;
+            try {
+                result = JSON.parseObject(ret, BLTimerGetListResultV2.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             
-            final BLTimerGetListResultV2 result = JSON.parseObject(ret, BLTimerGetListResultV2.class);
             if(result != null && result.succeed()){
                 mTimerList.clear();
                 mTimerList.addAll(result.data.timerlist);
@@ -335,6 +341,7 @@ public class DevTimerManageActivity extends TitleActivity {
             } else {
                 BLCommonUtils.toastErr(result);
             }
+            
         }
 
     }

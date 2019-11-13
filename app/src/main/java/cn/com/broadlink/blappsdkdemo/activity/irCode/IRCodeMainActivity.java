@@ -125,7 +125,7 @@ public class IRCodeMainActivity extends TitleActivity {
 
         @Override
         protected BLResponseResult doInBackground(String... strings) {
-            return BLIRCode.requestCaptchaIdV3("");
+            return BLIRCode.requestCaptchaId("");
         }
 
         @Override
@@ -186,7 +186,7 @@ public class IRCodeMainActivity extends TitleActivity {
         protected BLBaseResult doInBackground(String... strings) {
             
             
-            return BLIRCode.freeLimitV3(strings[0], strings[1]);
+            return BLIRCode.freeLimit(strings[0], strings[1]);
         }
 
         @Override

@@ -337,7 +337,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
         @Override
         protected BLResponseResult doInBackground(String... strings) {
             int brand = Integer.parseInt(strings[0]);
-            return BLIRCode.requestIRCodeScriptDownloadUrlV3(3, brand);
+            return BLIRCode.requestIRCodeScriptDownloadUrl(3, brand);
         }
 
         @Override
@@ -392,7 +392,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
         @Override
         protected BLResponseResult doInBackground(String... strings) {
             int brand = Integer.parseInt(strings[0]);
-            return BLIRCode.requestIRCodeScriptDownloadUrlV3(1, brand);
+            return BLIRCode.requestIRCodeScriptDownloadUrl(1, brand);
         }
 
         @Override
@@ -731,7 +731,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
         @Override
         protected BLDownLoadIRCodeResult doInBackground(String... strings) {
             final String mtag = mDeviceType == BLConstants.BL_IRCODE_DEVICE_AC  ? "gz" : "";
-            return BLIRCode.downloadIRCodeScriptByIdV3(mtag, strings[0], strings[1]);
+            return BLIRCode.downloadIRCodeScriptById(mtag, strings[0], strings[1]);
         }
 
         @Override
@@ -779,7 +779,7 @@ public class IRCodeBrandListActivity extends TitleActivity {
 
         @Override
         protected RmIrTreeResult doInBackground(Void... voids) {
-            final BLResponseResult matchTree = BLIRCode.getMatchTreeV3("1", typeId, brandId);
+            final BLResponseResult matchTree = BLIRCode.getMatchTree("1", typeId, brandId);
             if(matchTree != null && matchTree.succeed() && matchTree.getResponseBody() != null){
                 final RmIrTreeResult rmIrTreeResult = new RmIrTreeResult();
 

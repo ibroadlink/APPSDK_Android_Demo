@@ -280,6 +280,8 @@
         <activity
             android:name=".activity.device.DevSpControlActivity"
             android:theme="@style/ActivityStyle"/>
+        <activity
+            android:name=".common.BLPermissionUtils$PermissionActivity"/>
     </application>
 
 </manifest>

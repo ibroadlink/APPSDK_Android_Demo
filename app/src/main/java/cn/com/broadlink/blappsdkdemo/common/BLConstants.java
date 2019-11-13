@@ -23,8 +23,7 @@ public class BLConstants {
     public static final String SDK_PACKAGE = "com.broadlink.blappsdkdemo";
     public static final String SDK_LICENSE = "4oQxAHVFYnnY7HPuDlYnm0I6pGcRvFTh/Ct2Vv+/5qZDpJJiIweBn2RUUA6oE8InRDV+XAAAAABz4LOxmXdGndIQ0J762DN4lXimLcoYN1h90T3OlpYrQrNgvm0/7+Kdmrgfawtr+QWBY+UBaf8hxk19tobFrLsFsEkbxXTfoUSQjDzWcfVjcAAAAAA=";
 
-    public static final String PAIR_SERVER_PROFILE = BuildConfig.SUPPORT_AUX ? "{\"tcp\":\"device-heartbeat-usa-7f792fba.broadlinkbcs.com\"," + "\"http\":\"device-gateway-usa" +
-            "-7f792fba.broadlinkbcs.com\"}" : "{\"tcp\":\"device-heartbeat-chn-ee08f451.ibroadlink.com\",\"http\":\"device-gateway-chn-ee08f451.ibroadlink.com\"}";
+    public static final String PAIR_SERVER_PROFILE = BuildConfig.SUPPORT_AUX ? "{\"tcp\":\"device-heartbeat-chn-f05bd82f.ibroadlink.com\"," + "\"http\":\"device-gateway-chn-f05bd82f.ibroadlink.com\"}" : "{\"tcp\":\"device-heartbeat-chn-ee08f451.ibroadlink.com\",\"http\":\"device-gateway-chn-ee08f451.ibroadlink.com\"}";
     
     /**MD5加密后缀*/
     public static final String STR_BODY_ENCRYPT = "xgx3d*fe3478$ukx";

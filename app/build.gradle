@@ -19,7 +19,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
-        versionName "1.2.7"
+        versionName "1.2.8"
         flavorDimensions "default"
 
         ndk {
@@ -75,7 +75,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
 //    // normal start
-//    implementation 'com.ibroadlink:BLLetCoreAndroid:2.12.+'
+//    implementation 'com.ibroadlink:BLLetCoreAndroid:2.12.12'
 //    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.8'
 //    implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.11.+'
 //    implementation 'com.ibroadlink:BLLetBaseAndroid:2.11.+' 

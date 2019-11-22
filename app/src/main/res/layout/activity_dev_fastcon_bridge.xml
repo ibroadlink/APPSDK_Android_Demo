@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+<LinearLayout
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_marginTop="10dp">
+    
+    <EditText
+        android:id="@+id/et_result"
+        android:padding="10dp"
+        android:textSize="13sp"
+        android:gravity="top|left"
+        android:layout_width="match_parent"
+        android:scrollbarStyle="insideOverlay"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:textColor="@color/textDark"
+        android:background="@drawable/shape_input_view_blue_bg"
+        android:scrollbars="vertical"/>
+
+
+    <moe.leer.tree2view.TreeView
+        android:id="@+id/rv_list"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#ffffff"
+        android:background="@drawable/shape_stroke_right_round"
+        android:dividerHeight="1px">
+    </moe.leer.tree2view.TreeView>
+
+</LinearLayout>
+</ScrollView>

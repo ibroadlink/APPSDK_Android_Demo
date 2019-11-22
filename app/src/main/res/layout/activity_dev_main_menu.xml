@@ -190,5 +190,24 @@
             android:text="Fastcon Sub Group"/>
     </LinearLayout>
 
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/bt_fastcon_bridge"
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:text="Fastcon Bridge"/>
+
+        <Button
+            style="@style/commonBtn"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:text=""/>
+    </LinearLayout>
+
 </LinearLayout>
 </ScrollView>

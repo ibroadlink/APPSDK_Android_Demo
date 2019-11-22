@@ -282,6 +282,9 @@
             android:theme="@style/ActivityStyle"/>
         <activity
             android:name=".common.BLPermissionUtils$PermissionActivity"/>
+        
+        <activity android:name=".activity.device.DevFastconBridgeActivity"
+                  android:theme="@style/ActivityStyle"/>
     </application>
 
 </manifest>

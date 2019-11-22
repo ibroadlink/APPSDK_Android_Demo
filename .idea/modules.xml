@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/APPSDK_Android_Demo_upload.iml" filepath="$PROJECT_DIR$/APPSDK_Android_Demo_upload.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/picSelector/picSelector.iml" filepath="$PROJECT_DIR$/picSelector/picSelector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/treeView/treeview.iml" filepath="$PROJECT_DIR$/treeView/treeview.iml" />
     </modules>
   </component>
 </project>

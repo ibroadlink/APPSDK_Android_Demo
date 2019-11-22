@@ -1,2 +1,2 @@
-include ':app', ':picSelector'
+include ':app', ':picSelector', ':treeview'
 project(':picSelector').projectDir = new File('picSelector')

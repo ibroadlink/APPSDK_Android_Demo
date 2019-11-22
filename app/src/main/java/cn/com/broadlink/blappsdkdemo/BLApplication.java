@@ -8,6 +8,7 @@ import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
@@ -28,6 +29,7 @@ import cn.com.broadlink.blappsdkdemo.common.BLApiUrlConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLAppUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLCrashHandler;
+import cn.com.broadlink.blappsdkdemo.common.BLLog;
 import cn.com.broadlink.blappsdkdemo.common.BLSettings;
 import cn.com.broadlink.blappsdkdemo.common.BLStorageUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLUserInfoUnits;
@@ -37,7 +39,9 @@ import cn.com.broadlink.blappsdkdemo.plugin.ShowVersionInfoKit;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.blsfamily.BLSFamily;
 import cn.com.broadlink.family.BLFamily;
+import cn.com.broadlink.family.params.BLPrivateData;
 import cn.com.broadlink.ircode.BLIRCode;
+import cn.com.broadlink.networkapi.NetworkCallback;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.constants.controller.BLCoreConstants;
 import cn.com.broadlink.sdkplugin.BLPicker;
@@ -195,6 +199,35 @@ public class BLApplication extends Application{
         BLFamily.init(BLLet.getCompanyid(), BLLet.getLicenseId());
         BLAccount.addLoginListener(BLFamily.getLoginListener());
         // for test end
+
+
+        //实现脚本中保存数据的脚本，将数据部分保存在私有数据中
+        BLLet.Controller.setOnNetworkCallback(new NetworkCallback() {
+            @Override
+            public String readPrivateData(int i, String key) {
+                BLLog.i("BLLetOnNetworkCallback", "readPrivateData key:" + key);
+                String result = JSON.toJSONString(BLFamily.queryFamilyPrivateData(key));
+                BLLog.i("BLLetOnNetworkCallback", "readPrivateData result:" + result);
+                return result;
+            }
+
+            @Override
+            public String writePrivateData(int i, String key, String data) {
+                BLLog.i("BLLetOnNetworkCallback", "writePrivateData key:" + key + "data:" + data);
+
+                List<BLPrivateData> datas = new ArrayList<>();
+                BLPrivateData privateData = new BLPrivateData();
+                privateData.setMkeyid(key);
+                privateData.setContent(data);
+                datas.add(privateData);
+                String result = JSON.toJSONString(BLFamily.updateFamilyPrivateData(datas));
+
+                BLLog.i("BLLetOnNetworkCallback", "writePrivateData result:" + result);
+                return result;
+
+            }
+        });
+
     }
 
     /**

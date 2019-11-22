@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.ibroadlink:BLLetAccountAndroid:2.8.8@aar">
     <CLASSES>
-      <root url="jar://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/BLLetAccountAndroid-2.8.8.aar/daa659542952c560ec95f908242c822f/jars/classes.jar!/" />
-      <root url="file://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/BLLetAccountAndroid-2.8.8.aar/daa659542952c560ec95f908242c822f/res" />
+      <root url="file://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/BLLetAccountAndroid-2.8.8.aar/2903bece9eaa367119aac504d95156a5/res" />
+      <root url="jar://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/BLLetAccountAndroid-2.8.8.aar/2903bece9eaa367119aac504d95156a5/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

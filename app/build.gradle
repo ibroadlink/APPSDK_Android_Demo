@@ -19,7 +19,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
-        versionName "1.2.8"
+        versionName "1.2.9"
         flavorDimensions "default"
 
         ndk {

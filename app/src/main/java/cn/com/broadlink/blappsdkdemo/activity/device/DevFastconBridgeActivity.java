@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -29,12 +30,14 @@ import moe.leer.tree2view.adapter.TreeAdapter;
 import moe.leer.tree2view.module.DefaultTreeNode;
 
 public class DevFastconBridgeActivity extends TitleActivity {
-
+    private static final int ROOT_NODE_FLAG = 0xffff;
+    private static final boolean IS_FAKE_DATE = false;
     private EditText mTvResult;
-    private TreeView mRvList;
-    
+    private TreeView mVTree;
     private BLDNADevice mDNADevice;
-    private List<DefaultTreeNode<FastconBrigeBean.DeviceListBean>> mSubDeviceList = new ArrayList<>();
+    private DefaultTreeNode<FastconBrigeBean.DeviceListBean> mNodeRoot = null;
+    private TreeAdapter<FastconBrigeBean.DeviceListBean> mAdapter;
+   
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,56 +47,44 @@ public class DevFastconBridgeActivity extends TitleActivity {
         setTitle("Fastcon Bridge");
 
         mDNADevice = getIntent().getParcelableExtra(BLConstants.INTENT_PARCELABLE);
-
-        initData();
         
         findView();
 
+        initView();
+
         setListener();
-
-        queryFastconDevList();
-    }
-
-    private void initData() {
 
     }
     
-    private DefaultTreeNode<FastconBrigeBean.DeviceListBean> findNode(int index, DefaultTreeNode<FastconBrigeBean.DeviceListBean> item, List<FastconBrigeBean.DeviceListBean> list){
-                
-        for (int i = 0; i < list.size(); i++) {
-            if(list.get(i).parentIndex == index){
-                final DefaultTreeNode node = new DefaultTreeNode(list.get(i));
-                if(item == null){
-                    item = node;
-                }else{
-                    item.addChild(node);
-                }
-                findNode(i, node, list);
-            }
-        }
-        return item;
-    }
-
     private void findView() {
         mTvResult = (EditText) findViewById(R.id.et_result);
-        mRvList = (TreeView) findViewById(R.id.rv_list);
+        mVTree = (TreeView) findViewById(R.id.v_list);
     }
 
-    private void initView(String ret) {
-        final String fakeData = "{\"data\":{\"count\":6,\"deviceList\":[{\"mac\":\"ff:00:a2:2b:fe:42\",\"rssi\":-1," + "\"parentIndex\":65535},{\"mac\":\"01:c2:3b:78:e6:77\"," +
-                "\"rssi\":0," + "\"parentIndex\":0},{\"mac\":\"05:f0:2b:9d:18:34\",\"rssi\":0,\"parentIndex\":0}," + "{\"mac\":\"00:00:00:00:00:00\",\"rssi\":0," +
-                "\"parentIndex\":1}," + "{\"mac\":\"00" + ":00:00:00:00:00\",\"rssi\":0,\"parentIndex\":2}," + "{\"mac\":\"00:00:00:00:00:00\",\"rssi\":0,\"parentIndex\":1}]}," +
-                "\"status\":0,\"msg\":\"success\"}";
-        final ResultGetFastconBridge resultGetFastconBridge = BLJSON.parseObject(ret, ResultGetFastconBridge.class);
+    private void initView() {
+        
+        // 模拟测试
+        if(IS_FAKE_DATE){
+            final String fakeData = "{\"data\":{\"count\":6,\"deviceList\":[{\"mac\":\"ff:00:a2:2b:fe:42\",\"rssi\":-1," + "\"parentIndex\":65535},{\"mac\":\"01:c2:3b:78:e6:77\"," +
+                    "\"rssi\":0," + "\"parentIndex\":0},{\"mac\":\"05:f0:2b:9d:18:34\",\"rssi\":0,\"parentIndex\":0}," + "{\"mac\":\"00:00:00:00:00:00\",\"rssi\":0," +
+                    "\"parentIndex\":1}," + "{\"mac\":\"00" + ":00:00:00:00:00\",\"rssi\":0,\"parentIndex\":2}," + "{\"mac\":\"00:00:00:00:00:00\",\"rssi\":0,\"parentIndex\":1}]}," +
+                    "\"status\":0,\"msg\":\"success\"}";
+            final ResultGetFastconBridge resultGetFastconBridge = BLJSON.parseObject(fakeData, ResultGetFastconBridge.class);
+            mNodeRoot = findNode(ROOT_NODE_FLAG, null, resultGetFastconBridge.data.deviceList);
+            setupTreeAdapter();
+        }else{
+            queryFastconDevList();
+        }
+    }
 
-        final DefaultTreeNode<FastconBrigeBean.DeviceListBean> root = findNode(0xffff, null, resultGetFastconBridge.data.deviceList);
-        if(root == null){
+    private void setupTreeAdapter() {
+        if (mNodeRoot == null) {
             return;
         }
         
-        mRvList.setRoot(root);
-        mRvList.setDefaultAnimation(true);
-        mRvList.setTreeAdapter(new TreeAdapter<FastconBrigeBean.DeviceListBean>(mActivity, root, R.layout.item_fastcon_bridge){
+        mVTree.setRoot(mNodeRoot);
+        mVTree.setDefaultAnimation(false);
+        mAdapter = new TreeAdapter<FastconBrigeBean.DeviceListBean>(mActivity, mNodeRoot, R.layout.item_fastcon_bridge) {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -108,49 +99,70 @@ public class DevFastconBridgeActivity extends TitleActivity {
                     convertView = LayoutInflater.from(mContext).inflate(mResourceId, parent, false);
                     holder = new ViewHolder();
                     holder.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
-                    holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title);
+                    holder.tv_count = (TextView) convertView.findViewById(R.id.tv_count);
+                    holder.iv_title = (ImageView) convertView.findViewById(R.id.iv_title);
                     convertView.setTag(holder);
                 } else {
                     holder = (ViewHolder) convertView.getTag();
                 }
                 holder.tv_name.setText(BLJSON.toJSONString(node.getElement(), true));
-                holder.tv_title.setText(String.valueOf(node.getDepth()));
+                holder.tv_count.setText(String.format("%d/%d", node.getDepth(), node.getSize()));
 
                 int depth = node.getDepth();
-                setPadding(holder.tv_title, depth, -1);
+                setPadding(holder.iv_title, depth, -1);
+                toggle(node, holder);
                 return convertView;
             }
 
-
             @Override
             public void toggle(Object... objects) {
-                
+                DefaultTreeNode node = null;
+                ViewHolder holder = null;
+                try {
+                    node = (DefaultTreeNode) objects[0];
+                    holder = (ViewHolder) objects[1];
+                } catch (ClassCastException e) {
+                    e.printStackTrace();
+                }
+
+                if (node.isExpandable() && node.getSize()!=0) {
+                    if (!node.isExpanded()) {
+                        //set right arrowIcon
+                        holder.iv_title.setImageResource(R.drawable.icon_tri_right);
+                    } else {
+                        //set down arrowIcon
+                        holder.iv_title.setImageResource(R.drawable.icon_tri_down);
+                    }
+                } else {
+                    holder.iv_title.setImageResource(R.drawable.icon_point);
+                }
             }
 
             class ViewHolder {
                 TextView tv_name;
-                TextView tv_title;
+                TextView tv_count;
+                ImageView iv_title;
             }
-        });
+        };
+        mVTree.setTreeAdapter(mAdapter);
+        mVTree.performItemClick(mAdapter.getView(0, null, null), 0, 0);
     }
 
+    private void refreshView(String ret){
+        final ResultGetFastconBridge resultGetFastconBridge = BLJSON.parseObject(ret, ResultGetFastconBridge.class);
+        mNodeRoot = findNode(ROOT_NODE_FLAG, null, resultGetFastconBridge.data.deviceList);
+        setupTreeAdapter();
+    }
 
     private void setListener() {
-
         setRightButtonOnClickListener("Retry", getResources().getColor(R.color.bl_yellow_main_color), new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                // retry
                 queryFastconDevList();
             }
         });
     }
-
-
-    private void queryFastconDevList() {
-        new GetFastconBridgeDevsTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR);
-    }
-
+ 
     private void showResult(Object result) {
         if (result == null) {
             mTvResult.setText("Return null");
@@ -161,6 +173,27 @@ public class DevFastconBridgeActivity extends TitleActivity {
                 mTvResult.setText(JSON.toJSONString(result, true));
             }
         }
+    }
+
+    private DefaultTreeNode<FastconBrigeBean.DeviceListBean> findNode(int index, DefaultTreeNode<FastconBrigeBean.DeviceListBean> item, List<FastconBrigeBean.DeviceListBean> list){
+
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i).parentIndex == index){
+                final DefaultTreeNode node = new DefaultTreeNode(list.get(i));
+                if(item == null){
+                    item = node;
+                }else{
+                    item.addChild(node);
+                }
+                findNode(i, node, list);
+            }
+        }
+        return item;
+    }
+
+
+    private void queryFastconDevList() {
+        new GetFastconBridgeDevsTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR);
     }
 
     /**
@@ -184,7 +217,7 @@ public class DevFastconBridgeActivity extends TitleActivity {
             super.onPostExecute(blBaseResult);
             dismissProgressDialog();
             showResult(blBaseResult);
-            initView(blBaseResult);
+            refreshView(blBaseResult);
         }
     }
     
@@ -194,7 +227,6 @@ public class DevFastconBridgeActivity extends TitleActivity {
         public ResultGetFastconBridge() {
         }
     }
-    
     
     public static final class FastconBrigeBean{
 

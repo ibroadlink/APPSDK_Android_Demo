@@ -175,6 +175,9 @@ public class DevFastconBridgeActivity extends TitleActivity {
         }
     }
 
+    /**
+     * 递归，整理出树形结构
+     */
     private DefaultTreeNode<FastconBrigeBean.DeviceListBean> findNode(int index, DefaultTreeNode<FastconBrigeBean.DeviceListBean> item, List<FastconBrigeBean.DeviceListBean> list){
 
         for (int i = 0; i < list.size(); i++) {
@@ -192,6 +195,9 @@ public class DevFastconBridgeActivity extends TitleActivity {
     }
 
 
+    /**
+     * 查询Bridge
+     */
     private void queryFastconDevList() {
         new GetFastconBridgeDevsTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR);
     }

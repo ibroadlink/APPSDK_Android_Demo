@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:padding="10dp"
+              android:layout_height="match_parent">
+    
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:minHeight="45dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+        
+        <cn.com.broadlink.blappsdkdemo.view.InputTextView
+            android:id="@+id/et_topic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="45dp"
+            android:layout_weight="1"
+            app:hint="Topic"
+            android:background="@drawable/input_bg_round_tran_gray" />
+
+        <Spinner
+            android:id="@+id/sp_topic"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_height="45dp"/>
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:minHeight="45dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+
+        <cn.com.broadlink.blappsdkdemo.view.InputTextView
+            android:id="@+id/et_msgtype"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="45dp"
+            android:layout_weight="1"
+            app:hint="Msg Type"
+            android:background="@drawable/input_bg_round_tran_gray" />
+
+        <Spinner
+            android:id="@+id/sp_msgtype"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_height="45dp"/>
+    </LinearLayout>
+
+    <EditText
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:gravity="start"
+        android:hint="{}"
+        android:background="@drawable/input_bg_round_tran_gray" />
+</LinearLayout>

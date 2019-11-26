@@ -285,6 +285,9 @@
         
         <activity android:name=".activity.device.DevFastconBridgeActivity"
                   android:theme="@style/ActivityStyle"/>
+        
+        <activity android:name=".activity.websocket.WebSocketActivity"
+                  android:theme="@style/ActivityStyle"/>
     </application>
 
 </manifest>

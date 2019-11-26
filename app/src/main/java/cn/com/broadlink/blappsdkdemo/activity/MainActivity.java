@@ -27,6 +27,7 @@ import cn.com.broadlink.blappsdkdemo.activity.family.FamilyListActivity;
 import cn.com.broadlink.blappsdkdemo.activity.irCode.IRCodeMainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.product.ProductCategoryListActivity;
 import cn.com.broadlink.blappsdkdemo.activity.push.PushMainActivity;
+import cn.com.broadlink.blappsdkdemo.activity.websocket.WebSocketActivity;
 import cn.com.broadlink.blappsdkdemo.common.AppExitHelper;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
@@ -38,7 +39,8 @@ import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
 public class MainActivity extends TitleActivity {
 
-    private Button mDeviceBtn, mAccountBtn, mFamilyBtn, mIRCodeBtn, mNetworkCheckBtn, mProductManageBtn, mPushManagageBtn, mBLEButton;
+    private Button mDeviceBtn, mAccountBtn, mFamilyBtn, mIRCodeBtn, mNetworkCheckBtn, mProductManageBtn, mPushManagageBtn, mBLEButton, mWebSocketButton
+            ;
     private TextView mTvVersion;
 
     @Override
@@ -75,6 +77,7 @@ public class MainActivity extends TitleActivity {
         mProductManageBtn = (Button) findViewById(R.id.btn_product_manage);
         mPushManagageBtn = (Button) findViewById(R.id.btn_push);
         mBLEButton = (Button) findViewById(R.id.btn_ble);
+        mWebSocketButton = (Button) findViewById(R.id.btn_web_socket);
         mTvVersion = findViewById(R.id.tv_version);
     }
 
@@ -160,6 +163,13 @@ public class MainActivity extends TitleActivity {
             @Override
             public void doOnClick(View v) {
                 BLCommonUtils.toActivity(MainActivity.this, BLEMainActivity.class);
+            }
+        });
+
+        mWebSocketButton.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                BLCommonUtils.toActivity(MainActivity.this, WebSocketActivity.class);
             }
         });
     }

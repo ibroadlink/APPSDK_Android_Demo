@@ -45,6 +45,7 @@ import cn.com.broadlink.networkapi.NetworkCallback;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.constants.controller.BLCoreConstants;
 import cn.com.broadlink.sdkplugin.BLPicker;
+import cn.com.broadlink.websocket.BLSWebSocket;
 
 public class BLApplication extends Application{
 
@@ -175,12 +176,15 @@ public class BLApplication extends Application{
 
         // 初始化家庭管理接口
         BLSFamily.init(lid, domain);
+
+        //初始化BLWebScocket
+        BLSWebSocket.init(lid, domain);
         
         // 添加登录成功回调函数
         BLAccount.addLoginListener(BLLet.Controller.getLoginListener());
         BLAccount.addLoginListener(BLIRCode.getLoginListener());
         BLAccount.addLoginListener(BLSFamily.getLoginListener());
-        
+        BLAccount.addLoginListener(BLSWebSocket.getLoginListener());
         
         // 初始化本地url
         if(!TextUtils.isEmpty(domain)){

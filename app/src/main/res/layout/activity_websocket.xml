@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp">
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <TextView
+            android:id="@+id/tv_url"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:text="Url: null"
+            />
+
+        <Button
+            android:id="@+id/bt_get_url"
+            app:layout_widthPercent="50%"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/tv_url"
+            android:layout_height="wrap_content"
+            android:text="GetUrl"/>
+
+
+        <Button
+            android:id="@+id/bt_create"
+            app:layout_widthPercent="50%"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_url"
+            android:layout_toRightOf="@id/bt_get_url"
+            android:text="Create Link"/>
+        
+        <Button
+            android:id="@+id/bt_send"
+            app:layout_widthPercent="50%"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bt_get_url"
+            android:text="Send Data"/>
+
+        <Button
+            android:id="@+id/bt_destroy"
+            app:layout_widthPercent="50%"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bt_get_url"
+            android:layout_toRightOf="@id/bt_send"
+            android:text="Destroy Link"/>
+        
+
+        <EditText
+            android:id="@+id/et_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/shape_input_view_blue_bg"
+            android:gravity="start"
+            android:hint="Result"
+            android:minHeight="200dp"
+            android:padding="5dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:textColor="@color/textDark"
+            android:layout_below="@id/bt_send"
+            android:textSize="12sp"/>
+        
+        
+        <EditText
+            android:id="@+id/et_receive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/shape_input_view_blue_bg"
+            android:gravity="start"
+            android:hint="Receive"
+            android:minHeight="200dp"
+            android:padding="5dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:textColor="@color/textDark"
+            android:layout_below="@id/et_result"
+            android:textSize="12sp"/>
+
+    </android.support.percent.PercentRelativeLayout>
+</ScrollView>

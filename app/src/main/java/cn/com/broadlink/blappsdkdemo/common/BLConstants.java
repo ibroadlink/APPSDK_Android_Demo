@@ -1,5 +1,7 @@
 package cn.com.broadlink.blappsdkdemo.common;
 
+import android.text.TextUtils;
+
 import cn.com.broadlink.blappsdkdemo.BuildConfig;
 
 public class BLConstants {
@@ -71,6 +73,32 @@ public class BLConstants {
         public final static String COUNTRY = "getcountry";
         public final static String PROVINCE = "getprovince";
         public final static String CITY = "getcity";
+    }
+    
+    public final static class SPACE_URL{
+        private static String DOMAIN = "";
+        
+        public static String ADD() {return DOMAIN + "/appsync/group/space/manage?operation=add";} 
+        public static String DEL() {return DOMAIN + "/appsync/group/space/manage?operation=del";}
+        public static String MDF() {return DOMAIN + "/appsync/group/space/manage?operation=update";}
+        public static String QUE() {return DOMAIN + "/appsync/group/space/query";}
+        public static String MOV() {return DOMAIN + "/appsync/group/space/manage?operation=move";}
+
+        public static String QUE_DEV() {return DOMAIN + "/appsync/group/spaceresource/dev/query";}
+        public static String QUE_DEV_BY_USER() {return DOMAIN + "/appsync/group/spaceresource/dev/queryuserdev";}
+        
+        public static void init(String lid, String domain){
+            assert !(TextUtils.isEmpty(lid) && TextUtils.isEmpty(domain));
+            
+            if(TextUtils.isEmpty(domain)){
+                DOMAIN =  String.format("https://%sappservice.ibroadlink.com", lid);
+            }else{
+                DOMAIN = domain;
+            }
+            if(DOMAIN.endsWith("/")){
+                DOMAIN = DOMAIN.substring(0, DOMAIN.length() - 1);
+            }
+        }
     }
 
     /** Intent Buddle-key **/

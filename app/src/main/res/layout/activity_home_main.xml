@@ -99,6 +99,16 @@
         android:text="WebSocket Management"
         />
     
+    <Button
+        android:id="@+id/btn_space"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_below="@+id/btn_network_check"
+        android:text="Space Management"
+        />
+    
     <TextView
         android:id="@+id/tv_version"
         android:layout_centerHorizontal="true"

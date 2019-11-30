@@ -27,6 +27,7 @@ import cn.com.broadlink.blappsdkdemo.activity.family.FamilyListActivity;
 import cn.com.broadlink.blappsdkdemo.activity.irCode.IRCodeMainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.product.ProductCategoryListActivity;
 import cn.com.broadlink.blappsdkdemo.activity.push.PushMainActivity;
+import cn.com.broadlink.blappsdkdemo.activity.space.SpaceManageActivity;
 import cn.com.broadlink.blappsdkdemo.activity.websocket.WebSocketActivity;
 import cn.com.broadlink.blappsdkdemo.common.AppExitHelper;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
@@ -39,8 +40,7 @@ import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
 public class MainActivity extends TitleActivity {
 
-    private Button mDeviceBtn, mAccountBtn, mFamilyBtn, mIRCodeBtn, mNetworkCheckBtn, mProductManageBtn, mPushManagageBtn, mBLEButton, mWebSocketButton
-            ;
+    private Button mDeviceBtn, mAccountBtn, mFamilyBtn, mIRCodeBtn, mNetworkCheckBtn, mProductManageBtn, mPushManagageBtn, mBLEButton, mWebSocketButton, mSpaceButton;
     private TextView mTvVersion;
 
     @Override
@@ -78,6 +78,7 @@ public class MainActivity extends TitleActivity {
         mPushManagageBtn = (Button) findViewById(R.id.btn_push);
         mBLEButton = (Button) findViewById(R.id.btn_ble);
         mWebSocketButton = (Button) findViewById(R.id.btn_web_socket);
+        mSpaceButton = (Button) findViewById(R.id.btn_space);
         mTvVersion = findViewById(R.id.tv_version);
     }
 
@@ -169,7 +170,18 @@ public class MainActivity extends TitleActivity {
         mWebSocketButton.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                BLCommonUtils.toActivity(MainActivity.this, WebSocketActivity.class);
+                if (checkLoginAndFamily(false)) {
+                    BLCommonUtils.toActivity(MainActivity.this, WebSocketActivity.class);
+                }
+            }
+        });
+
+        mSpaceButton.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                if (checkLoginAndFamily(false)) {
+                    BLCommonUtils.toActivity(MainActivity.this, SpaceManageActivity.class);
+                }
             }
         });
     }

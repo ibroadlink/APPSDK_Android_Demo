@@ -18,9 +18,12 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <!-- 蓝牙权限 -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true"/>
 
     <application
         android:name=".BLApplication"
@@ -63,8 +66,8 @@
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.broadlink.blappsdkdemo.fileprovider"
             android:exported="false"
-            tools:replace="android:authorities"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
@@ -282,12 +285,18 @@
             android:theme="@style/ActivityStyle"/>
         <activity
             android:name=".common.BLPermissionUtils$PermissionActivity"/>
-        
-        <activity android:name=".activity.device.DevFastconBridgeActivity"
-                  android:theme="@style/ActivityStyle"/>
-        
-        <activity android:name=".activity.websocket.WebSocketActivity"
-                  android:theme="@style/ActivityStyle"/>
+
+        <activity
+            android:name=".activity.device.DevFastconBridgeActivity"
+            android:theme="@style/ActivityStyle"/>
+
+        <activity
+            android:name=".activity.websocket.WebSocketActivity"
+            android:theme="@style/ActivityStyle"/>
+
+        <activity
+            android:name=".activity.space.SpaceManageActivity"
+            android:theme="@style/ActivityStyle"/>
     </application>
 
 </manifest>

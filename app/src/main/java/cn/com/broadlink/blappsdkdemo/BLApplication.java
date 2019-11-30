@@ -179,6 +179,10 @@ public class BLApplication extends Application{
 
         //初始化BLWebScocket
         BLSWebSocket.init(lid, domain);
+
+        // 复杂空间
+        BLConstants.SPACE_URL.init(lid, domain);
+        
         
         // 添加登录成功回调函数
         BLAccount.addLoginListener(BLLet.Controller.getLoginListener());

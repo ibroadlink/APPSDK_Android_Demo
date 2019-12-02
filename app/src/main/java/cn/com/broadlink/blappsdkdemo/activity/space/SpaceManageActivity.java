@@ -54,7 +54,8 @@ public class SpaceManageActivity extends TitleActivity {
     private List<BLSEndpointInfo> mEndpointList = new ArrayList<>();
     private MyAdapter mAdapter;
     private BLDNADevice mDNADevice;
-
+    private BLBaseResult mResultWhenFail = null;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +70,7 @@ public class SpaceManageActivity extends TitleActivity {
     }
 
     private void setListener() {
-        setRightButtonOnClickListener("reTry", getResources().getColor(R.color.bl_yellow_main_color), new OnSingleClickListener() {
+        setRightButtonOnClickListener("Retry", getResources().getColor(R.color.bl_yellow_main_color), new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
                 querySpaceDevList();
@@ -126,10 +127,12 @@ public class SpaceManageActivity extends TitleActivity {
         if(info==null) return;
         
         // 如果是子设备，先将其网关添加到sdk
+        BLDNADevice gatewayDev = null;
         if(!TextUtils.isEmpty(info.getGatewayId())){
             for (BLSEndpointInfo item : mEndpointList) {
                 if(info.getGatewayId().equalsIgnoreCase(item.getEndpointId())){
-                    BLLet.Controller.addDevice(item.toDnadeviceInfo());
+                    gatewayDev = item.toDnadeviceInfo();
+                    BLLet.Controller.addDevice(gatewayDev);
                     break;
                 }
             }
@@ -139,10 +142,11 @@ public class SpaceManageActivity extends TitleActivity {
         BLLet.Controller.addDevice(mDNADevice);
         String pid = mDNADevice.getPid();
 
-        if(scriptFileExist(pid)){
+        final String gatewayPid = gatewayDev == null ? null : gatewayDev.getPid();
+        if (scriptFileExist(pid) && (gatewayPid == null || scriptFileExist(gatewayPid))) {
             gotoDevMainMenu();
         }else{
-            new DownLoadResTask(pid).executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR);
+            new DownLoadResTask(pid, gatewayPid).executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR);
         }
     }
 
@@ -196,10 +200,10 @@ public class SpaceManageActivity extends TitleActivity {
 
     
     public List<DataSpaceInfo.SpaceBean.SpaceInfoBean> querySpaceTree(String spaceId,  List<DataSpaceInfo.SpaceBean.SpaceInfoBean> list) {
-        if(list == null){
+        if (list == null) {
             list = new ArrayList<>();
         }
-        
+
         String finalUrl = BLConstants.SPACE_URL.QUE();
         JSONObject body = new JSONObject();
         body.put("spaceOpenId", spaceId);
@@ -208,26 +212,35 @@ public class SpaceManageActivity extends TitleActivity {
         head.put("familyId", BLLocalFamilyManager.getInstance().getCurrentFamilyId());
         head.put("companyId", BLLet.getCompanyid());
         Map<String, String> headMap = this.generateHead(head);
-        String retStr = BLBaseHttpAccessor.post(finalUrl, headMap, body.toString().getBytes(), 10*1000, BLTrustManagerV2.getInstance());
-        if (retStr != null) {
-            final BLSBaseDataResult<DataSpaceInfo> ret = JSONObject.parseObject(retStr, new TypeReference<BLSBaseDataResult<DataSpaceInfo>>() {}, new Feature[0]);
-            if(ret.getData() != null){
-                if(spaceId == null && ret.getData().topSpace != null && ret.getData().topSpace.size()>0){ // 顶层查询
-                    for (DataSpaceInfo.SpaceBean spaceBean : ret.getData().topSpace) {
-                        list.add(spaceBean.spaceInfo);
-                        querySpaceTree(spaceBean.spaceInfo.spaceOpenId, list);
-                    }
-                }else{ // 底层查询
-                    if(ret.getData().subSpace != null){
-                        for (DataSpaceInfo.SpaceBean item : ret.getData().subSpace) {
-                            querySpaceTree(item.spaceInfo.spaceOpenId, list);
-                        }
-                    }else{ // 递归的终止条件是，没有树叉
-                        list.add(ret.getData().space.spaceInfo);
-                    }
-                }
+        String retStr = BLBaseHttpAccessor.post(finalUrl, headMap, body.toString().getBytes(), 10 * 1000, BLTrustManagerV2.getInstance());
+        
+        if (TextUtils.isEmpty(retStr)) {
+            mResultWhenFail = new BLBaseResult();
+            mResultWhenFail.setError(-1);
+            mResultWhenFail.setMsg("Query space return null");
+            return list;
+        }
+            
+        final BLSBaseDataResult<DataSpaceInfo> ret = JSONObject.parseObject(retStr, new TypeReference<BLSBaseDataResult<DataSpaceInfo>>() {}, new Feature[0]);
+        if (ret == null || !ret.succeed() || ret.getData() == null) {
+            mResultWhenFail = ret;
+            return list;
+        }
+
+        if (spaceId == null && ret.getData().topSpace != null && ret.getData().topSpace.size() > 0) { // 顶层查询
+            for (DataSpaceInfo.SpaceBean spaceBean : ret.getData().topSpace) {
+                list.add(spaceBean.spaceInfo);
+                querySpaceTree(spaceBean.spaceInfo.spaceOpenId, list);
             }
-        } 
+        } else { // 底层查询
+            if (ret.getData().subSpace != null) {
+                for (DataSpaceInfo.SpaceBean item : ret.getData().subSpace) {
+                    querySpaceTree(item.spaceInfo.spaceOpenId, list);
+                }
+            } else { // 递归的终止条件是，没有树叉
+                list.add(ret.getData().space.spaceInfo);
+            }
+        }
         return list;
     }
     
@@ -237,12 +250,13 @@ public class SpaceManageActivity extends TitleActivity {
     }
 
     class QuerySpaceTask extends AsyncTask<String, Void, List<BLSEndpointInfo>> {
-        BLBaseResult resultWhenFail = null;
+        
         
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             showProgressDialog("Query space");
+            mResultWhenFail = null;
         }
 
         @Override
@@ -252,13 +266,12 @@ public class SpaceManageActivity extends TitleActivity {
             if(spaceInfoList != null){
                 for (DataSpaceInfo.SpaceBean.SpaceInfoBean item : spaceInfoList) {
                     final BLSBaseDataResult<BLSEndpointListData> devList = queryEndpointList(item.spaceOpenId);
-                    if(devList != null && devList.succeed()){
-                        if(devList.getData().getEndpoints() != null){
-                            retList.addAll(devList.getData().getEndpoints());
-                        }
-                    }else{
-                        resultWhenFail = devList;
-                        return retList; 
+                    if(devList == null || !devList.succeed()){
+                        mResultWhenFail = devList;
+                        return retList;
+                    }
+                    if(devList.getData().getEndpoints() != null){
+                        retList.addAll(devList.getData().getEndpoints());
                     }
                 }
             }
@@ -269,14 +282,14 @@ public class SpaceManageActivity extends TitleActivity {
         protected void onPostExecute(final List<BLSEndpointInfo> result) {
             super.onPostExecute(result);
             dismissProgressDialog();
-            if (resultWhenFail == null) {
+            if (mResultWhenFail == null) {
                 //showResult(mEtResult, result, false);
                 showResult(mEtResult, "Success", false);
                 mEndpointList.clear();
                 mEndpointList.addAll(result);
                 mAdapter.notifyDataSetChanged();
             } else {
-                showResult(mEtResult, resultWhenFail, false);
+                showResult(mEtResult, mResultWhenFail, false);
             }
         }
     }
@@ -293,9 +306,11 @@ public class SpaceManageActivity extends TitleActivity {
     class DownLoadResTask extends AsyncTask<String, Void, BLBaseResult> {
         private ProgressDialog progressDialog;
         private String pid;
+        private String gatewayPid;
 
-        public DownLoadResTask(String pid) {
+        public DownLoadResTask(String pid, String gatewayPid) {
             this.pid = pid;
+            this.gatewayPid = gatewayPid;
         }
 
         @Override
@@ -310,12 +325,17 @@ public class SpaceManageActivity extends TitleActivity {
         protected BLBaseResult doInBackground(String... params) {
             BLBaseResult result = null;
 
-            if (!scriptFileExist(pid)){
+            if (pid != null &&!scriptFileExist(pid)){
                 result = BLLet.Controller.downloadScript(pid);
                 if(result==null || !result.succeed()){
                     return result;
                 }
             }
+
+            if (gatewayPid != null && !scriptFileExist(gatewayPid)) {
+                result = BLLet.Controller.downloadScript(gatewayPid);
+            }
+            
             return result;
         }
 
@@ -326,7 +346,7 @@ public class SpaceManageActivity extends TitleActivity {
 
             BLCommonUtils.toastErr(result);
 
-            if (scriptFileExist(pid)) {
+            if (scriptFileExist(pid) && (gatewayPid == null || scriptFileExist(gatewayPid))) {
                 gotoDevMainMenu();
             }
         }

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -41,7 +40,6 @@ import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 public class MainActivity extends TitleActivity {
 
     private Button mDeviceBtn, mAccountBtn, mFamilyBtn, mIRCodeBtn, mNetworkCheckBtn, mProductManageBtn, mPushManagageBtn, mBLEButton, mWebSocketButton, mSpaceButton;
-    private TextView mTvVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +63,6 @@ public class MainActivity extends TitleActivity {
         //final String text = getString(R.string.str_json_test);
         HashMap<String, String> paramHeaderMap = JSON.parseObject(text, new TypeReference<HashMap<String,String>>(){});
         System.out.println(JSON.toJSONString(paramHeaderMap));
-        mTvVersion.setText(BuildConfig.BUILD_TYPE + " Version: " + BuildConfig.VERSION_NAME );
     }
 
     private void findView() {
@@ -79,11 +76,17 @@ public class MainActivity extends TitleActivity {
         mBLEButton = (Button) findViewById(R.id.btn_ble);
         mWebSocketButton = (Button) findViewById(R.id.btn_web_socket);
         mSpaceButton = (Button) findViewById(R.id.btn_space);
-        mTvVersion = findViewById(R.id.tv_version);
     }
 
     private void setListener() {
 
+        setLeftButtonOnClickListener(BuildConfig.BUILD_TYPE + BuildConfig.VERSION_NAME, getResources().getColor(R.color.title_838987_color), null, new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                // do nothing
+            }
+        });
+        
         setRightButtonOnClickListener("Reset", getResources().getColor(R.color.bl_yellow_main_color), new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {

@@ -72,11 +72,13 @@ public class ResetActivity extends TitleActivity {
                     mEtDomain.setVisibility(View.VISIBLE);
                     mEtLicense.setVisibility(View.VISIBLE);
                     mEtPair.setVisibility(View.VISIBLE);
+                    mBtDefault.setVisibility(View.VISIBLE);
                 }else{
                     mEtPackage.setVisibility(View.GONE);
                     mEtDomain.setVisibility(View.GONE);
                     mEtLicense.setVisibility(View.GONE);
                     mEtPair.setVisibility(View.GONE);
+                    mBtDefault.setVisibility(View.GONE);
                 }
             }
         });
@@ -173,6 +175,7 @@ public class ResetActivity extends TitleActivity {
                 mEtDomain.setVisibility(View.GONE);
                 mEtLicense.setVisibility(View.GONE);
                 mEtPair.setVisibility(View.GONE);
+                mBtDefault.setVisibility(View.GONE);
                 break;
             case 0:
                 mRbBaidu.setChecked(true);
@@ -180,6 +183,7 @@ public class ResetActivity extends TitleActivity {
                 mEtLicense.setVisibility(View.GONE);
                 mEtDomain.setVisibility(View.GONE);
                 mEtPair.setVisibility(View.GONE);
+                mBtDefault.setVisibility(View.GONE);
                 break;
             case 2:
                 mRbCustom.setChecked(true);
@@ -187,6 +191,7 @@ public class ResetActivity extends TitleActivity {
                 mEtLicense.setVisibility(View.VISIBLE);
                 mEtDomain.setVisibility(View.VISIBLE);
                 mEtPair.setVisibility(View.VISIBLE);
+                mBtDefault.setVisibility(View.VISIBLE);
                 break;
         }
     }

@@ -280,18 +280,19 @@
         </LinearLayout>
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_gray_bg"/>
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1px"-->
+            <!--android:background="@color/line_gray_bg"/>-->
     </LinearLayout>
 
 
     <LinearLayout
+        android:id="@+id/ll_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@android:color/white"
+        android:clickable="true"
+        android:background="@drawable/white_selector"
         android:orientation="vertical">
 
         <View
@@ -311,7 +312,6 @@
             android:textColor="#333"
             android:text="Modify password"
             android:gravity="center_vertical"
-            android:clickable="true"
             android:textSize="16sp"/>
 
         <View
@@ -319,6 +319,42 @@
             android:layout_height="1px"
             android:background="@color/line_gray_bg"/>
     </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_agreement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:background="@drawable/white_selector"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/line_gray_bg"/>
+
+        <TextView
+            android:id="@+id/tv_agreement"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/arrow_gray_right"
+            android:singleLine="true"
+            android:textColor="#333"
+            android:text="Agreement Signed"
+            android:gravity="center_vertical"
+            android:textSize="16sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/line_gray_bg"/>
+    </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"

@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -32,8 +33,9 @@ public class AccountAndSecurityActivity extends TitleActivity {
     private TextView mBirthdayView;
     private TextView mPhoneNumView;
     private TextView mEmailView;
-    private TextView mTvModifyPwd;
     private Button mLoginOutButton;
+    private LinearLayout mLlPassword;
+    private LinearLayout mLlAgreement;
 
     private BLImageLoaderUtils mBlImageLoaderUtils;
     private RelativeLayout mPhoneLayout, mEmailLayout;
@@ -63,8 +65,9 @@ public class AccountAndSecurityActivity extends TitleActivity {
         mPhoneNumView = (TextView) findViewById(R.id.phone_num_tv);
         mEmailLayout = (RelativeLayout) findViewById(R.id.email_address_layout);
         mEmailView = (TextView) findViewById(R.id.email_address_tv);
-        mTvModifyPwd = (TextView) findViewById(R.id.tv_right);
         mLoginOutButton = (Button) findViewById(R.id.btn_loginout);
+        mLlPassword = (LinearLayout) findViewById(R.id.ll_password);
+        mLlAgreement = (LinearLayout) findViewById(R.id.ll_agreement);
     }
 
     private void setListener() {
@@ -84,7 +87,7 @@ public class AccountAndSecurityActivity extends TitleActivity {
 
         });
 
-        mTvModifyPwd.setOnClickListener(new OnSingleClickListener() {
+        mLlPassword.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
                 BLCommonUtils.toActivity(AccountAndSecurityActivity.this, AccountPasswordChangeActivity.class);
@@ -106,6 +109,13 @@ public class AccountAndSecurityActivity extends TitleActivity {
                 if(!TextUtils.isEmpty( BLApplication.mBLUserInfoUnits.getEmail())){
                     BLCommonUtils.toActivity(mActivity, AccountModifyPhoneOrEmailActivity.class, BLApplication.mBLUserInfoUnits.getEmail());
                 }
+            }
+        });
+
+        mLlAgreement.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                BLCommonUtils.toActivity(AccountAndSecurityActivity.this, TestAgreementSignedActivity.class);
             }
         });
 

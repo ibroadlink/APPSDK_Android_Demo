@@ -1,128 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:paddingTop="20dp"
-    tools:context="cn.com.broadlink.blappsdkdemo.activity.ResetActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_cluster"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Use Cluster"/>
-
-    <Switch
-        android:id="@+id/swt_cluster"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"/>
-
-    <RadioGroup
-        android:id="@+id/rg_server_list"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_cluster"
-        android:layout_marginTop="20dp">
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:paddingTop="20dp">
 
-        <RadioButton
-            android:id="@+id/rb_baidu"
+        <TextView
+            android:id="@+id/tv_cluster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use Cluster"/>
+
+        <Switch
+            android:id="@+id/swt_cluster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"/>
+
+        <RadioGroup
+            android:id="@+id/rg_server_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ihc international Cluster"/>
+            android:layout_below="@+id/tv_cluster"
+            android:layout_marginTop="20dp">
 
-        <RadioButton
-            android:id="@+id/rb_international_china"
+            <RadioButton
+                android:id="@+id/rb_baidu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ihc international Cluster"/>
+
+            <RadioButton
+                android:id="@+id/rb_international_china"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Internatinal China Cluster"/>
+
+            <RadioButton
+                android:id="@+id/rb_custom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Custom"/>
+        </RadioGroup>
+
+
+        <EditText
+            android:id="@+id/et_package"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Internatinal China Cluster"/>
+            android:layout_below="@+id/rg_server_list"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_input_view_blue_bg"
+            android:hint="package name"
+            android:minHeight="50dp"
+            android:padding="5dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:textColor="@color/textDark"
+            android:textSize="13sp"/>
 
-        <RadioButton
-            android:id="@+id/rb_custom"
+        <EditText
+            android:id="@+id/et_domain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Custom"/>
-    </RadioGroup>
+            android:layout_below="@+id/et_package"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_input_view_blue_bg"
+            android:hint="domain(default is empty)"
+            android:minHeight="50dp"
+            android:padding="5dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:textColor="@color/textDark"
+            android:textSize="13sp"/>
 
+        <EditText
+            android:id="@+id/et_license"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_domain"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_input_view_blue_bg"
+            android:gravity="start"
+            android:hint="license"
+            android:minHeight="150dp"
+            android:padding="5dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:textColor="@color/textDark"
+            android:textSize="13sp"/>
 
-    <EditText
-        android:id="@+id/et_package"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rg_server_list"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/shape_input_view_blue_bg"
-        android:hint="package name"
-        android:minHeight="50dp"
-        android:padding="5dp"
-        android:scrollbarStyle="insideOverlay"
-        android:scrollbars="vertical"
-        android:textColor="@color/textDark"
-        android:textSize="13sp"/>
+        <EditText
+            android:id="@+id/et_pair_cfg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_license"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_input_view_blue_bg"
+            android:gravity="start"
+            android:hint="pair server profile"
+            android:minHeight="150dp"
+            android:padding="5dp"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:textColor="@color/textDark"
+            android:textSize="13sp"/>
 
-    <EditText
-        android:id="@+id/et_domain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_package"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/shape_input_view_blue_bg"
-        android:hint="domain(default is empty)"
-        android:minHeight="50dp"
-        android:padding="5dp"
-        android:scrollbarStyle="insideOverlay"
-        android:scrollbars="vertical"
-        android:textColor="@color/textDark"
-        android:textSize="13sp"/>
+        <Button
+            android:id="@+id/bt_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/et_pair_cfg"
+            android:layout_alignParentRight="true"
+            android:text="Default"
+            android:textSize="12sp"/>
 
-    <EditText
-        android:id="@+id/et_license"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_domain"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/shape_input_view_blue_bg"
-        android:gravity="start"
-        android:hint="license"
-        android:minHeight="150dp"
-        android:padding="5dp"
-        android:scrollbarStyle="insideOverlay"
-        android:scrollbars="vertical"
-        android:textColor="@color/textDark"
-        android:textSize="13sp"/>
+        <Button
+            android:id="@+id/bt_commit"
+            style="@style/commitBtn"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/et_pair_cfg"
+            android:text="Reset"/>
 
-    <EditText
-        android:id="@+id/et_pair_cfg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_license"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/shape_input_view_blue_bg"
-        android:gravity="start"
-        android:hint="pair server profile"
-        android:minHeight="150dp"
-        android:padding="5dp"
-        android:scrollbarStyle="insideOverlay"
-        android:scrollbars="vertical"
-        android:textColor="@color/textDark"
-        android:textSize="13sp"/>
-
-    <Button
-        android:id="@+id/bt_default"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/et_pair_cfg"
-        android:layout_alignParentRight="true"
-        android:text="Default"
-        android:textSize="12sp"/>
-
-    <Button
-        android:id="@+id/bt_commit"
-        style="@style/commitBtn"
-        android:layout_alignParentBottom="true"
-        android:text="Reset"/>
-
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

@@ -237,7 +237,7 @@ public class SpaceManageActivity extends TitleActivity {
                 for (DataSpaceInfo.SpaceBean item : ret.getData().subSpace) {
                     querySpaceTree(item.spaceInfo.spaceOpenId, list);
                 }
-            } else { // 递归的终止条件是，没有树叉
+            } else if(ret.getData().space != null){ // 递归的终止条件是，没有树叉
                 list.add(ret.getData().space.spaceInfo);
             }
         }

@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <RelativeLayout
     android:id="@+id/activity_main"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -95,7 +100,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:layout_below="@+id/btn_network_check"
+        android:layout_below="@+id/btn_ble"
         android:text="WebSocket Management"
         />
     
@@ -105,16 +110,9 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:layout_below="@+id/btn_network_check"
+        android:layout_below="@+id/btn_web_socket"
         android:text="Space Management"
         />
-    
-    <TextView
-        android:id="@+id/tv_version"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/text999"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
+</ScrollView>

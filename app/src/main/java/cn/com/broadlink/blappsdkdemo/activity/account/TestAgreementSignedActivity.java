@@ -131,8 +131,7 @@ public class TestAgreementSignedActivity extends TitleActivity {
                 body.put("loginsession", BLApplication.mBLUserInfoUnits.getLoginsession());
                 
 
-                String url = String.format("https://cloud-oauth-chn-ee08f451.ibroadlink.com/oauth/v2/login/info?response_type=code&redirect_uri=https://pitangui.amazon" +
-                        ".com/api/skill/link/M1TJ2VD8XAW3VZ&client_id=%s", "da0511c2ac6114acd8bd12ef64e818dc");
+               String url = "https://app-service-chn-ee08f451.ibroadlink.com/oauth/v2/login/info?response_type=code&client_id=da0511c2ac6114acd8bd12ef64e818dc&redirect_uri=https://pitangui.amazon.com/api/skill/link/M1TJ2VD8XAW3VZ";
                return  BLBaseHttpAccessor.post(url, headerMap, body.toString().getBytes(), 10 * 1000, BLTrustManagerV2.getInstance());
             }
             return "PlatformId is null";

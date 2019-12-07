@@ -145,7 +145,7 @@ public class TestAgreementSignedActivity extends TitleActivity {
 
             final JSONObject resultJson = BLJSON.parseObject(result);
             if(resultJson != null && resultJson.containsKey("code")){
-                String url = String.format("https://app-service-chn-8616c306.ibroadlink.com/appfront/v1/webui/giot?code=%s&plateformid=%s", resultJson.getString("code"), platformId);
+                String url = String.format("https://app-service-chn-8616c306.ibroadlink.com/appfront/v1/webui/giot/#/?code=%s&plateformid=%s", resultJson.getString("code"), platformId);
                 final Intent intent = new Intent(mActivity, CommonH5Activity.class);
                 intent.putExtra(BLConstants.INTENT_TITLE, "Agreement Signed");
                 intent.putExtra(BLConstants.INTENT_URL, url);

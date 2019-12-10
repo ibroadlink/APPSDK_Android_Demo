@@ -287,12 +287,14 @@ public class FamilyEndpointListActivity extends TitleActivity {
                 convertView = getLayoutInflater().inflate(R.layout.item_family_dev, null);
                 viewHolder.familyIconView = (ImageView) convertView.findViewById(R.id.fiamily_icon_view);
                 viewHolder.familyNameView = (TextView) convertView.findViewById(R.id.fiamily_name_view);
+                viewHolder.tvDid = (TextView) convertView.findViewById(R.id.tv_did);
                 convertView.setTag(viewHolder);
             }else{
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
             viewHolder.familyNameView.setText(getItem(position).getFriendlyName());
+            viewHolder.tvDid.setText(getItem(position).getEndpointId());
             imageLoaderUtils.displayImage(getItem(position).getIcon(),viewHolder.familyIconView, animateFirstListener);
 
             return convertView;
@@ -301,6 +303,7 @@ public class FamilyEndpointListActivity extends TitleActivity {
         private class ViewHolder{
             ImageView familyIconView;
             TextView familyNameView;
+            TextView tvDid;
         }
 
         private class AnimateFirstDisplayListener extends SimpleImageLoadingListener {

@@ -38,8 +38,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:textColor="#393939"
+                android:textColor="@color/textDark"
                 android:textSize="17dp" />
+
+            <TextView
+                android:id="@+id/tv_did"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@color/text555"
+                android:textSize="13dp" />
 
         </LinearLayout>
     </RelativeLayout>

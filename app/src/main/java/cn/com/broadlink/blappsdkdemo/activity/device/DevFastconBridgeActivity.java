@@ -16,6 +16,7 @@ import java.util.List;
 
 import cn.com.broadlink.base.BLBaseResult;
 import cn.com.broadlink.base.fastjson.BLJSON;
+import cn.com.broadlink.base.fastjson.JSONObject;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
@@ -148,9 +149,12 @@ public class DevFastconBridgeActivity extends TitleActivity {
         mVTree.performItemClick(mAdapter.getView(0, null, null), 0, 0);
     }
 
-    private void refreshView(String ret){
-        final ResultGetFastconBridge resultGetFastconBridge = BLJSON.parseObject(ret, ResultGetFastconBridge.class);
-        mNodeRoot = findNode(ROOT_NODE_FLAG, null, resultGetFastconBridge.data.deviceList);
+    private void refreshView(List<FastconBrigeBean.DeviceListBean> ret){
+        if(ret == null ){
+            return;
+        }
+        
+        mNodeRoot = findNode(ROOT_NODE_FLAG, null, ret);
         setupTreeAdapter();
     }
 
@@ -179,7 +183,6 @@ public class DevFastconBridgeActivity extends TitleActivity {
      * 递归，整理出树形结构
      */
     private DefaultTreeNode<FastconBrigeBean.DeviceListBean> findNode(int index, DefaultTreeNode<FastconBrigeBean.DeviceListBean> item, List<FastconBrigeBean.DeviceListBean> list){
-
         for (int i = 0; i < list.size(); i++) {
             if(list.get(i).parentIndex == index){
                 final DefaultTreeNode node = new DefaultTreeNode(list.get(i));
@@ -206,16 +209,37 @@ public class DevFastconBridgeActivity extends TitleActivity {
      * 查询Bridge
      **/
     private class GetFastconBridgeDevsTask extends AsyncTask<String, Void, String> {
-
+        List<FastconBrigeBean.DeviceListBean> ret = null;
+                
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             showProgressDialog("Get fastcon bridge devices...");
         }
+        
+        private String getData(int index, List<FastconBrigeBean.DeviceListBean> ret){
+            final JSONObject paramObj = new JSONObject();
+            paramObj.put("index", index);
+            final String result = BLLet.Controller.dnaControl(mDNADevice.getDeviceId(), null, paramObj.toString(), BLDevCmdConstants.DEV_FASTCON_BRIDGE_DEVICES, null);
+            final ResultGetFastconBridge resultGetFastconBridge = BLJSON.parseObject(result, ResultGetFastconBridge.class);
+            if(ret == null){
+                ret = new ArrayList<>();
+            }
+            
+            if(resultGetFastconBridge == null || !resultGetFastconBridge.succeed() || resultGetFastconBridge.data.deviceList == null){
+                return result;
+            }
+            
+            ret.addAll(resultGetFastconBridge.data.deviceList);
+            if(resultGetFastconBridge.data.deviceList.size()+index < resultGetFastconBridge.data.count){
+                getData(index + resultGetFastconBridge.data.deviceList.size(), ret);
+            }
+            return BLJSON.toJSONString(ret);
+        }
 
         @Override
         protected String doInBackground(String... params) {
-            return BLLet.Controller.dnaControl(mDNADevice.getDeviceId(), null, "{}",  BLDevCmdConstants.DEV_FASTCON_BRIDGE_DEVICES, null);
+            return getData(0, ret);
         }
 
         @Override
@@ -223,7 +247,7 @@ public class DevFastconBridgeActivity extends TitleActivity {
             super.onPostExecute(blBaseResult);
             dismissProgressDialog();
             showResult(blBaseResult);
-            refreshView(blBaseResult);
+            refreshView(ret);
         }
     }
     

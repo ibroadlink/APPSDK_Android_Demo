@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:padding="10dp"
+              android:layout_height="wrap_content">
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="upgrade url"
+        android:background="@drawable/input_bg_round_tran_gray" />
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_ssid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="wifi ssid"
+        android:background="@drawable/input_bg_round_tran_gray" />
+    
+    <cn.com.broadlink.blappsdkdemo.view.InputTextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/et_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        app:hint="password"
+        android:background="@drawable/input_bg_round_tran_gray" />
+</LinearLayout>

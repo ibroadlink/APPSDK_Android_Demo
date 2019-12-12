@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSON;
 
@@ -29,12 +30,12 @@ import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
 import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
+import cn.com.broadlink.blappsdkdemo.view.InputTextView;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.constants.controller.BLDevCmdConstants;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 import cn.com.broadlink.sdk.result.controller.BLDeviceTimeResult;
-import cn.com.broadlink.sdk.result.controller.BLSubdevResult;
 
 public class DevMainMenuActivity extends TitleActivity implements View.OnClickListener {
 
@@ -177,29 +178,7 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
                 break;
                 
             case R.id.bt_update_firmware:
-                BLAlert.showEditDilog(mActivity, "Please input firmware update Url", null, new BLAlert.BLEditDialogOnClickListener() {
-                    @Override
-                    public void onClink(String value) {
-                    /*    if(!BLCommonUtils.isURL(value)){
-                            BLToastUtils.show("Please input a valid url!");  
-                        }else{
-                            new UpdateFirmwareTask().execute(value);
-                        }*/
-
-                        if(TextUtils.isEmpty(value)){
-                            BLToastUtils.show("Param null");
-                        }else{
-//                            new UpdateFirmwareTask().execute(value);
-                            new UpdateFirmwareV2Task().execute(value);
-                        }
-                    }
-
-                    @Override
-                    public void onCancel(String value) {
-
-                    }
-                }, false);
-                
+                showUpgradeDialog();
                 break;
                 
             case R.id.bt_server:
@@ -267,6 +246,41 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         }
         return status;
     }
+
+
+
+    private void showUpgradeDialog(){
+
+        final LinearLayout dialog = (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_subdev_firmware_upgrade, null);
+        final InputTextView etUrl = dialog.findViewById(R.id.et_url);
+        final InputTextView etSsid = dialog.findViewById(R.id.et_ssid);
+        final InputTextView etPwd = dialog.findViewById(R.id.et_pwd);
+
+        BLAlert.showCustomViewDilog(mActivity, dialog, "Ok", "Cancel", new BLAlert.DialogOnClickListener() {
+            @Override
+            public void onPositiveClick() {
+                final String url = etUrl.getTextString();
+                final String ssid = etSsid.getTextString();
+                final String pwd = etPwd.getTextString();
+
+                if(TextUtils.isEmpty(url)){
+                    BLToastUtils.show("Url is null");
+                    return;
+                }
+                if(!TextUtils.isEmpty(ssid)){
+                    new UpdateFirmwareV2Task().execute(url, ssid, pwd);
+                }else{
+                    new UpdateFirmwareV2Task().execute(url);
+                }
+            }
+
+            @Override
+            public void onNegativeClick() {
+
+            }
+        });
+    }
+
 
     //服务器设备时间查询
     class QueryDeviceTimeTask extends AsyncTask<Void, Void, BLDeviceTimeResult>{
@@ -341,34 +355,6 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
     }
     
     //升级固件版本
-    class UpdateFirmwareTask extends AsyncTask<String, Void, BLBaseResult> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgressDialog("Update Firmware...");
-        }
-
-        @Override
-        protected BLBaseResult doInBackground(String... params) {
-            if (mDNADevice.getpDid() != null){
-                final String[] cachedDeviceId = BLMultDidUtils.getCachedDeviceId(mDNADevice);
-                
-                return BLLet.Controller.devSubDevUpgradeFirmware(cachedDeviceId[0], cachedDeviceId[1], params[0],null);
-            }
-            
-            return BLLet.Controller.updateFirmware(mDNADevice.getDeviceId(), params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(BLBaseResult result) {
-            super.onPostExecute(result);
-            dismissProgressDialog();
-            setResult(result);
-        }
-    }
-    
-    //升级固件版本
     class UpdateFirmwareV2Task extends AsyncTask<String, Void, String> {
 
         @Override
@@ -379,24 +365,22 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
 
         @Override
         protected String doInBackground(String... params) {
+            
+            JSONObject urlObject = new JSONObject();
 
-            if (mDNADevice.getpDid() != null){ // 子设备升级
-                final String[] cachedDeviceId = BLMultDidUtils.getCachedDeviceId(mDNADevice);
-                final BLSubdevResult blSubdevResult = BLLet.Controller.devSubDevUpgradeFirmware(cachedDeviceId[0], cachedDeviceId[1], params[0], null);
-                return blSubdevResult == null ? null : JSON.toJSONString(blSubdevResult);
-            }else{ // 主设备升级
-                JSONObject jData = new JSONObject();
-                JSONObject urlObject = new JSONObject();
-
-                try {
-                    urlObject.put("hw_url", params[0]);
-                    jData.put("data", urlObject);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            try {
+                urlObject.put("did", mDNADevice.getDid());
+                urlObject.put("fwurl", params[0]);
+                if(params.length==3){
+                    urlObject.put("ssid", params[1]);
+                    urlObject.put("psk", params[2]);
                 }
-
-                return BLLet.Controller.dnaControl(mDNADevice.getDeviceId(), null, jData.toString(),  BLDevCmdConstants.DEV_FW_UPGRADE, null);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            
+            final String[] cachedDeviceId = BLMultDidUtils.getCachedDeviceId(mDNADevice);
+            return BLLet.Controller.dnaControl(cachedDeviceId[0], cachedDeviceId[1], urlObject.toString(),  BLDevCmdConstants.DEV_SUBDEV_UPGRADE, null);
         }
 
         @Override

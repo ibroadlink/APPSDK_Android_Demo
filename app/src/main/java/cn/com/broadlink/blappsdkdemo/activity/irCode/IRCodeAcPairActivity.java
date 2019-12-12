@@ -129,7 +129,7 @@ public class IRCodeAcPairActivity extends TitleActivity {
 
     private boolean  getScriptContent() {
         // for test
-        // mSavePath = "/storage/emulated/0/Android/data/com.broadlink.blappsdkdemo/cache/let/ircode/960.gz";
+        // mSavePath = "/storage/emulated/0/Android/data/com.broadlink.blappsdkdemo/cache/let/ircode/5705.gz";
         
         if (mSavePath == null) {
             BLCommonUtils.toastShow(mActivity, "Please download script first!");

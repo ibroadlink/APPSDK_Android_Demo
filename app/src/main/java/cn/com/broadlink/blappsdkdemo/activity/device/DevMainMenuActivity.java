@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import java.sql.SQLException;
 
 import cn.com.broadlink.base.BLBaseResult;
+import cn.com.broadlink.base.fastjson.BLJSON;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.MainActivity;
@@ -366,21 +367,24 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
         @Override
         protected String doInBackground(String... params) {
             
-            JSONObject urlObject = new JSONObject();
-
-            try {
-                urlObject.put("did", mDNADevice.getDid());
-                urlObject.put("fwurl", params[0]);
-                if(params.length==3){
-                    urlObject.put("ssid", params[1]);
-                    urlObject.put("psk", params[2]);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            
             final String[] cachedDeviceId = BLMultDidUtils.getCachedDeviceId(mDNADevice);
-            return BLLet.Controller.dnaControl(cachedDeviceId[0], cachedDeviceId[1], urlObject.toString(),  BLDevCmdConstants.DEV_SUBDEV_UPGRADE, null);
+            if(cachedDeviceId[1]==null){
+                final BLBaseResult result = BLLet.Controller.updateFirmware(cachedDeviceId[0], params[0]);
+                return BLJSON.toJSONString(result);  
+            }else{
+                JSONObject urlObject = new JSONObject();
+                try {
+                    urlObject.put("did", mDNADevice.getDid());
+                    urlObject.put("fwurl", params[0]);
+                    if(params.length==3){
+                        urlObject.put("ssid", params[1]);
+                        urlObject.put("psk", params[2]);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return BLLet.Controller.dnaControl(cachedDeviceId[0], cachedDeviceId[1], urlObject.toString(),  BLDevCmdConstants.DEV_SUBDEV_UPGRADE, null);
+            }
         }
 
         @Override

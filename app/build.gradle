@@ -19,7 +19,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
-        versionName "1.3.2"
+        versionName "1.3.3"
         flavorDimensions "default"
 
         ndk {
@@ -75,7 +75,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
 //    // normal start
-//    implementation 'com.ibroadlink:BLLetCoreAndroid:2.12.12'
+//    implementation 'com.ibroadlink:BLLetCoreAndroid:2.13.17.beta'
 //    implementation 'com.ibroadlink:BLLetAccountAndroid:2.8.8'
 //    implementation 'com.ibroadlink:BLLetIRCodeAndroid:2.11.+'
 //    implementation 'com.ibroadlink:BLLetBaseAndroid:2.11.+' 
@@ -88,7 +88,7 @@ dependencies {
     // fot local debug start
     //implementation fileTree(include: ['*.aar'], dir: 'libs')
 
-    //implementation 'com.ibroadlink:BLLetCoreAndroid:2.12.+' // core
+    //implementation 'com.ibroadlink:BLLetCoreAndroid:2.13.17.beta' // core
     implementation(name: 'dnasdk-debug', ext: 'aar') 
 
     //implementation 'com.ibroadlink:BLLetBaseAndroid:2.11.+' // base
@@ -118,7 +118,7 @@ dependencies {
         all*.exclude group :'com.ibroadlink',  module :'BLLetBaseAndroid' // 如果不使用aar，注释这一句
     }
     // fot local debug end
-    
+
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'

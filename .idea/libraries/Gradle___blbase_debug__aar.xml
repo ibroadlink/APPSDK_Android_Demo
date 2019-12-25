@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: :blbase-debug:@aar">
     <CLASSES>
-      <root url="jar://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/blbase-debug.aar/e12aeae0056a510044acf81474625b4e/jars/classes.jar!/" />
-      <root url="file://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/blbase-debug.aar/e12aeae0056a510044acf81474625b4e/res" />
+      <root url="file://$PROJECT_DIR$/../../AndroidTools/.Gradle/caches/transforms-1/files-1.1/blbase-debug.aar/bcf03004de64b4817bb0c37f0f4ff0f2/res" />
+      <root url="jar://$PROJECT_DIR$/../../AndroidTools/.Gradle/caches/transforms-1/files-1.1/blbase-debug.aar/bcf03004de64b4817bb0c37f0f4ff0f2/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

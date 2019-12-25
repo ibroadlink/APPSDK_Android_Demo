@@ -113,12 +113,21 @@
             android:textSize="13sp"/>
 
         <Button
-            android:id="@+id/bt_default"
+        android:id="@+id/bt_default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/et_pair_cfg"
+        android:layout_alignParentRight="true"
+        android:text="Default CompanyId"
+        android:textSize="12sp"/>
+
+        <Button
+            android:id="@+id/bt_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/et_pair_cfg"
-            android:layout_alignParentRight="true"
-            android:text="Default"
+            android:layout_toLeftOf="@+id/bt_default"
+            android:text="Input domain suffix"
             android:textSize="12sp"/>
 
         <Button

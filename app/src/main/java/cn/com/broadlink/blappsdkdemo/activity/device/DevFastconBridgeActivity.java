@@ -2,6 +2,7 @@ package cn.com.broadlink.blappsdkdemo.activity.device;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,15 @@ import cn.com.broadlink.base.fastjson.JSONObject;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
+import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
+import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
+import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
+import cn.com.broadlink.blsfamily.BLSFamily;
+import cn.com.broadlink.blsfamily.bean.BLSBaseDataResult;
+import cn.com.broadlink.blsfamily.bean.endpoint.BLSEndpointInfo;
+import cn.com.broadlink.blsfamily.bean.endpoint.BLSEndpointListData;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.constants.controller.BLDevCmdConstants;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
@@ -38,6 +46,7 @@ public class DevFastconBridgeActivity extends TitleActivity {
     private BLDNADevice mDNADevice;
     private DefaultTreeNode<FastconBrigeBean.DeviceListBean> mNodeRoot = null;
     private TreeAdapter<FastconBrigeBean.DeviceListBean> mAdapter;
+    private List<BLSEndpointInfo> mEndpointInfos = new ArrayList<>();
    
 
     @Override
@@ -66,15 +75,35 @@ public class DevFastconBridgeActivity extends TitleActivity {
         
         // 模拟测试
         if(IS_FAKE_DATE){
-            final String fakeData = "{\"data\":{\"count\":6,\"deviceList\":[{\"mac\":\"ff:00:a2:2b:fe:42\",\"rssi\":-1," + "\"parentIndex\":65535},{\"mac\":\"01:c2:3b:78:e6:77\"," +
-                    "\"rssi\":0," + "\"parentIndex\":0},{\"mac\":\"05:f0:2b:9d:18:34\",\"rssi\":0,\"parentIndex\":0}," + "{\"mac\":\"00:00:00:00:00:00\",\"rssi\":0," +
-                    "\"parentIndex\":1}," + "{\"mac\":\"00" + ":00:00:00:00:00\",\"rssi\":0,\"parentIndex\":2}," + "{\"mac\":\"00:00:00:00:00:00\",\"rssi\":0,\"parentIndex\":1}]}," +
+            final String fakeData = "{\"data\":{\"count\":33,\"deviceList\":[{\"mac\":\"c8:f7:42:fb:e2:ef\",\"parentIndex\":65535,\"rssi\":0},{\"mac\":\"78:0f:77:e6:a6:68\"," +
+                    "\"parentIndex\":0,\"rssi\":0},{\"mac\":\"78:0f:77:e6:a7:90\",\"parentIndex\":0,\"rssi\":0},{\"mac\":\"24:df:a7:ac:3d:28\",\"parentIndex\":24,\"rssi\":-85}," +
+                    "{\"mac\":\"24:df:a7:ac:3d:51\",\"parentIndex\":26,\"rssi\":-92},{\"mac\":\"24:df:a7:ac:3c:f3\",\"parentIndex\":26,\"rssi\":-82}," +
+                    "{\"mac\":\"24:df:a7:ac:3d:36\",\"parentIndex\":28,\"rssi\":-79},{\"mac\":\"34:ea:34:18:9d:2d\",\"name\":\"未命名设备9d2d\",\"parentIndex\":8,\"rssi\":-43}," +
+                    "{\"mac\":\"24:df:a7:ac:3c:e5\",\"parentIndex\":6,\"rssi\":-79},{\"mac\":\"78:0f:77:e6:a3:10\",\"parentIndex\":8,\"rssi\":-67}," +
+                    "{\"mac\":\"24:df:a7:ac:3d:4c\",\"parentIndex\":2,\"rssi\":-63},{\"mac\":\"24:df:a7:ac:3c:e8\",\"parentIndex\":6,\"rssi\":-82}," +
+                    "{\"mac\":\"78:0f:77:e6:a7:2c\",\"parentIndex\":0,\"rssi\":0},{\"mac\":\"24:df:a7:ac:3d:3f\",\"parentIndex\":12,\"rssi\":-62},{\"mac\":\"78:0f:77:e6:a6:60\"," +
+                    "\"parentIndex\":13,\"rssi\":-68},{\"mac\":\"24:df:a7:ac:3d:0f\",\"parentIndex\":13,\"rssi\":-62},{\"mac\":\"24:df:a7:ac:3c:ff\",\"parentIndex\":28," +
+                    "\"rssi\":-80},{\"mac\":\"24:df:a7:ac:3d:1f\",\"parentIndex\":30,\"rssi\":-84},{\"mac\":\"24:df:a7:ac:3c:e9\",\"parentIndex\":17,\"rssi\":-68}," +
+                    "{\"mac\":\"24:df:a7:ac:3d:1e\",\"parentIndex\":21,\"rssi\":-68},{\"mac\":\"24:df:a7:ac:3d:08\",\"parentIndex\":12,\"rssi\":-65}," +
+                    "{\"mac\":\"24:df:a7:ac:3c:d6\",\"parentIndex\":26,\"rssi\":-85},{\"mac\":\"24:df:a7:ac:3d:4f\",\"parentIndex\":16,\"rssi\":-87}," +
+                    "{\"mac\":\"24:df:a7:ac:3d:34\",\"parentIndex\":22,\"rssi\":-83},{\"mac\":\"24:df:a7:ac:3d:43\",\"parentIndex\":0,\"rssi\":0},{\"mac\":\"24:df:a7:ac:3d:39\"," +
+                    "\"parentIndex\":30,\"rssi\":-32},{\"mac\":\"24:df:a7:ac:3d:46\",\"parentIndex\":25,\"rssi\":-68},{\"mac\":\"24:df:a7:ac:3d:01\",\"parentIndex\":0," +
+                    "\"rssi\":0},{\"mac\":\"24:df:a7:ac:3d:0a\",\"parentIndex\":27,\"rssi\":-27},{\"mac\":\"24:df:a7:ac:3d:31\",\"parentIndex\":16,\"rssi\":-80}," +
+                    "{\"mac\":\"24:df:a7:ac:3d:2e\",\"parentIndex\":27,\"rssi\":-81},{\"mac\":\"78:0f:77:e6:a7:67\",\"parentIndex\":0,\"rssi\":0},{\"mac\":\"78:0f:77:e6:a8:12\"," +
+                    "\"parentIndex\":13,\"rssi\":-76}]}," +
                     "\"status\":0,\"msg\":\"success\"}";
+            
+//            final String fakeData = "{\"data\":{\"count\":6,\"deviceList\":[{\"mac\":\"ff:00:a2:2b:fe:42\",\"rssi\":-1," + "\"parentIndex\":65535},{\"mac\":\"01:c2:3b:78:e6:77\"," +
+//                    "\"rssi\":0," + "\"parentIndex\":0},{\"mac\":\"05:f0:2b:9d:18:34\",\"rssi\":0,\"parentIndex\":0}," + "{\"mac\":\"00:00:00:00:00:00\",\"rssi\":0," +
+//                    "\"parentIndex\":1}," + "{\"mac\":\"00" + ":00:00:00:00:00\",\"rssi\":0,\"parentIndex\":2}," + "{\"mac\":\"00:00:00:00:00:00\",\"rssi\":0,\"parentIndex\":1}]}," +
+//                    "\"status\":0,\"msg\":\"success\"}";
+            
             final ResultGetFastconBridge resultGetFastconBridge = BLJSON.parseObject(fakeData, ResultGetFastconBridge.class);
-            mNodeRoot = findNode(ROOT_NODE_FLAG, null, resultGetFastconBridge.data.deviceList);
-            setupTreeAdapter();
+            refreshView(resultGetFastconBridge.data.deviceList);
+            
+            
         }else{
-            queryFastconDevList();
+            queryFamilyDevList();
         }
     }
 
@@ -162,7 +191,7 @@ public class DevFastconBridgeActivity extends TitleActivity {
         setRightButtonOnClickListener("Retry", getResources().getColor(R.color.bl_yellow_main_color), new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                queryFastconDevList();
+                queryFamilyDevList();
             }
         });
     }
@@ -177,6 +206,19 @@ public class DevFastconBridgeActivity extends TitleActivity {
                 mTvResult.setText(JSON.toJSONString(result, true));
             }
         }
+    }
+    
+    private BLSEndpointInfo getEndpointByMac(String mac){
+        if (TextUtils.isEmpty(mac) || mEndpointInfos == null) {
+            return null;
+        }
+
+        for (BLSEndpointInfo item : mEndpointInfos) {
+            if(item.getMac().equalsIgnoreCase(mac)){
+                return item;
+            }
+        }
+        return null;
     }
 
     /**
@@ -197,6 +239,13 @@ public class DevFastconBridgeActivity extends TitleActivity {
         return item;
     }
 
+
+    /**
+     * 查询家庭下设备列表
+     */
+    private void queryFamilyDevList() {
+        new QueryEndpointListTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, BLLocalFamilyManager.getInstance().getCurrentFamilyId());
+    }
 
     /**
      * 查询Bridge
@@ -231,6 +280,15 @@ public class DevFastconBridgeActivity extends TitleActivity {
             }
             
             ret.addAll(resultGetFastconBridge.data.deviceList);
+
+            // 从家庭设备列表获得name字段
+            for (FastconBrigeBean.DeviceListBean deviceListBean : ret) {
+                final BLSEndpointInfo endpoint = getEndpointByMac(deviceListBean.mac);
+                if(endpoint != null){
+                    deviceListBean.name = endpoint.getFriendlyName();
+                }
+            }
+            
             if(resultGetFastconBridge.data.deviceList.size()+index < resultGetFastconBridge.data.count){
                 getData(index + resultGetFastconBridge.data.deviceList.size(), ret);
             }
@@ -248,6 +306,41 @@ public class DevFastconBridgeActivity extends TitleActivity {
             dismissProgressDialog();
             showResult(blBaseResult);
             refreshView(ret);
+        }
+    }
+
+
+    private class QueryEndpointListTask extends AsyncTask<String, Void, BLSBaseDataResult<BLSEndpointListData>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("Query Family Endpoint List...");
+        }
+
+        @Override
+        protected BLSBaseDataResult<BLSEndpointListData> doInBackground(String... strings) {
+            String familyId = strings[0];
+
+            return BLSFamily.Endpoint.getList(familyId);
+        }
+
+        @Override
+        protected void onPostExecute(BLSBaseDataResult<BLSEndpointListData>  result) {
+            super.onPostExecute(result);
+            dismissProgressDialog();
+            if (result != null && result.succeed() && result.getData() != null) {
+                mEndpointInfos.clear();
+
+                if (result.getData().getEndpoints() != null) {
+                    mEndpointInfos.addAll(result.getData().getEndpoints());
+                }else{
+                    BLToastUtils.show("家庭设备列表为空");
+                }
+                queryFastconDevList();
+            }else{
+                BLCommonUtils.toastErr(result);
+            }
         }
     }
     
@@ -270,6 +363,7 @@ public class DevFastconBridgeActivity extends TitleActivity {
             public String mac;
             public int parentIndex;
             public int rssi;
+            public String name;
 
             public DeviceListBean() {
             }

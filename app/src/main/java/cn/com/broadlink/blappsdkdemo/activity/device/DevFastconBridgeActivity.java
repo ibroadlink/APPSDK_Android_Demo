@@ -292,6 +292,7 @@ public class DevFastconBridgeActivity extends TitleActivity {
             if(resultGetFastconBridge.data.deviceList.size()+index < resultGetFastconBridge.data.count){
                 getData(index + resultGetFastconBridge.data.deviceList.size(), ret);
             }
+            this.ret = ret;
             return BLJSON.toJSONString(ret);
         }
 

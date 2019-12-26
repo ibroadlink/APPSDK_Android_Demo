@@ -223,6 +223,10 @@ public class DefaultTreeNode<E> implements TreeNode, Serializable, Cloneable{
    * @return the expanded nodes count
    */
   public int getVisibleSize() {
+    if(children == null){
+      children = new LinkedList<>();
+    }
+    
     int c = 0;
     for (DefaultTreeNode child : children) {
       if (child.isExpanded()) {
@@ -366,8 +370,11 @@ public class DefaultTreeNode<E> implements TreeNode, Serializable, Cloneable{
     if (nodes == null) {
       return "Root/";
     }
-    for (DefaultTreeNode<E> e : nodes) {
-      sb.append(e.getElement().toString()).append("/");
+    for (int i = 0; i < nodes.length; i++) {
+      if(i != 0){
+        sb.append(" -> ");
+      }
+      sb.append(nodes[i].getElement().toString());
     }
     return sb.toString();
   }

@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
+import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blsfamily.BLSFamily;
 import cn.com.broadlink.blsfamily.bean.BLSBaseDataResult;
@@ -43,6 +45,7 @@ public class DevFastconBridgeActivity extends TitleActivity {
     private static final boolean IS_FAKE_DATE = false;
     private EditText mTvResult;
     private TreeView mVTree;
+    private TextView mTvBrief;
     private BLDNADevice mDNADevice;
     private DefaultTreeNode<FastconBrigeBean.DeviceListBean> mNodeRoot = null;
     private TreeAdapter<FastconBrigeBean.DeviceListBean> mAdapter;
@@ -69,29 +72,14 @@ public class DevFastconBridgeActivity extends TitleActivity {
     private void findView() {
         mTvResult = (EditText) findViewById(R.id.et_result);
         mVTree = (TreeView) findViewById(R.id.v_list);
+        mTvBrief = (TextView) findViewById(R.id.tv_brief);
     }
 
     private void initView() {
         
         // 模拟测试
         if(IS_FAKE_DATE){
-            final String fakeData = "{\"data\":{\"count\":33,\"deviceList\":[{\"mac\":\"c8:f7:42:fb:e2:ef\",\"parentIndex\":65535,\"rssi\":0},{\"mac\":\"78:0f:77:e6:a6:68\"," +
-                    "\"parentIndex\":0,\"rssi\":0},{\"mac\":\"78:0f:77:e6:a7:90\",\"parentIndex\":0,\"rssi\":0},{\"mac\":\"24:df:a7:ac:3d:28\",\"parentIndex\":24,\"rssi\":-85}," +
-                    "{\"mac\":\"24:df:a7:ac:3d:51\",\"parentIndex\":26,\"rssi\":-92},{\"mac\":\"24:df:a7:ac:3c:f3\",\"parentIndex\":26,\"rssi\":-82}," +
-                    "{\"mac\":\"24:df:a7:ac:3d:36\",\"parentIndex\":28,\"rssi\":-79},{\"mac\":\"34:ea:34:18:9d:2d\",\"name\":\"未命名设备9d2d\",\"parentIndex\":8,\"rssi\":-43}," +
-                    "{\"mac\":\"24:df:a7:ac:3c:e5\",\"parentIndex\":6,\"rssi\":-79},{\"mac\":\"78:0f:77:e6:a3:10\",\"parentIndex\":8,\"rssi\":-67}," +
-                    "{\"mac\":\"24:df:a7:ac:3d:4c\",\"parentIndex\":2,\"rssi\":-63},{\"mac\":\"24:df:a7:ac:3c:e8\",\"parentIndex\":6,\"rssi\":-82}," +
-                    "{\"mac\":\"78:0f:77:e6:a7:2c\",\"parentIndex\":0,\"rssi\":0},{\"mac\":\"24:df:a7:ac:3d:3f\",\"parentIndex\":12,\"rssi\":-62},{\"mac\":\"78:0f:77:e6:a6:60\"," +
-                    "\"parentIndex\":13,\"rssi\":-68},{\"mac\":\"24:df:a7:ac:3d:0f\",\"parentIndex\":13,\"rssi\":-62},{\"mac\":\"24:df:a7:ac:3c:ff\",\"parentIndex\":28," +
-                    "\"rssi\":-80},{\"mac\":\"24:df:a7:ac:3d:1f\",\"parentIndex\":30,\"rssi\":-84},{\"mac\":\"24:df:a7:ac:3c:e9\",\"parentIndex\":17,\"rssi\":-68}," +
-                    "{\"mac\":\"24:df:a7:ac:3d:1e\",\"parentIndex\":21,\"rssi\":-68},{\"mac\":\"24:df:a7:ac:3d:08\",\"parentIndex\":12,\"rssi\":-65}," +
-                    "{\"mac\":\"24:df:a7:ac:3c:d6\",\"parentIndex\":26,\"rssi\":-85},{\"mac\":\"24:df:a7:ac:3d:4f\",\"parentIndex\":16,\"rssi\":-87}," +
-                    "{\"mac\":\"24:df:a7:ac:3d:34\",\"parentIndex\":22,\"rssi\":-83},{\"mac\":\"24:df:a7:ac:3d:43\",\"parentIndex\":0,\"rssi\":0},{\"mac\":\"24:df:a7:ac:3d:39\"," +
-                    "\"parentIndex\":30,\"rssi\":-32},{\"mac\":\"24:df:a7:ac:3d:46\",\"parentIndex\":25,\"rssi\":-68},{\"mac\":\"24:df:a7:ac:3d:01\",\"parentIndex\":0," +
-                    "\"rssi\":0},{\"mac\":\"24:df:a7:ac:3d:0a\",\"parentIndex\":27,\"rssi\":-27},{\"mac\":\"24:df:a7:ac:3d:31\",\"parentIndex\":16,\"rssi\":-80}," +
-                    "{\"mac\":\"24:df:a7:ac:3d:2e\",\"parentIndex\":27,\"rssi\":-81},{\"mac\":\"78:0f:77:e6:a7:67\",\"parentIndex\":0,\"rssi\":0},{\"mac\":\"78:0f:77:e6:a8:12\"," +
-                    "\"parentIndex\":13,\"rssi\":-76}]}," +
-                    "\"status\":0,\"msg\":\"success\"}";
+            final String fakeData = "{\n" + "\t\"data\": {\n" + "\t\t\"count\": 37,\n" + "\t\t\"deviceList\": [{\n" + "\t\t\t\"mac\": \"c8:f7:42:fb:e2:ef\",\n" + "\t\t\t\"rssi\": 0,\n" + "\t\t\t\"parentIndex\": 65535\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:01\",\n" + "\t\t\t\"rssi\": -25,\n" + "\t\t\t\"parentIndex\": 14\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3c:ff\",\n" + "\t\t\t\"rssi\": -76,\n" + "\t\t\t\"parentIndex\": 20\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:34\",\n" + "\t\t\t\"rssi\": -78,\n" + "\t\t\t\"parentIndex\": 2\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"78:0f:77:e6:a7:c9\",\n" + "\t\t\t\"rssi\": -76,\n" + "\t\t\t\"parentIndex\": 3\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:26\",\n" + "\t\t\t\"rssi\": -64,\n" + "\t\t\t\"parentIndex\": 2\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:2e\",\n" + "\t\t\t\"rssi\": -76,\n" + "\t\t\t\"parentIndex\": 1\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:36\",\n" + "\t\t\t\"rssi\": -78,\n" + "\t\t\t\"parentIndex\": 1\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"34:ea:34:18:9d:2d\",\n" + "\t\t\t\"rssi\": -38,\n" + "\t\t\t\"parentIndex\": 7\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:3f\",\n" + "\t\t\t\"rssi\": -85,\n" + "\t\t\t\"parentIndex\": 2\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3c:d6\",\n" + "\t\t\t\"rssi\": -80,\n" + "\t\t\t\"parentIndex\": 20\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"78:0f:77:e6:a3:10\",\n" + "\t\t\t\"rssi\": -78,\n" + "\t\t\t\"parentIndex\": 1\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3c:e5\",\n" + "\t\t\t\"rssi\": -80,\n" + "\t\t\t\"parentIndex\": 7\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:4f\",\n" + "\t\t\t\"rssi\": -74,\n" + "\t\t\t\"parentIndex\": 3\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:0a\",\n" + "\t\t\t\"rssi\": 0,\n" + "\t\t\t\"parentIndex\": 0\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:2a\",\n" + "\t\t\t\"rssi\": -70,\n" + "\t\t\t\"parentIndex\": 12\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3c:bf\",\n" + "\t\t\t\"rssi\": -80,\n" + "\t\t\t\"parentIndex\": 15\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:4c\",\n" + "\t\t\t\"rssi\": -70,\n" + "\t\t\t\"parentIndex\": 15\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:1e\",\n" + "\t\t\t\"rssi\": -29,\n" + "\t\t\t\"parentIndex\": 10\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:3b\",\n" + "\t\t\t\"rssi\": -76,\n" + "\t\t\t\"parentIndex\": 15\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"78:0f:77:e6:a5:b4\",\n" + "\t\t\t\"rssi\": -69,\n" + "\t\t\t\"parentIndex\": 0\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3c:e9\",\n" + "\t\t\t\"rssi\": -72,\n" + "\t\t\t\"parentIndex\": 31\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"78:0f:77:e6:a7:2c\",\n" + "\t\t\t\"rssi\": -59,\n" + "\t\t\t\"parentIndex\": 20\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:0f\",\n" + "\t\t\t\"rssi\": -13,\n" + "\t\t\t\"parentIndex\": 22\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3c:e8\",\n" + "\t\t\t\"rssi\": -79,\n" + "\t\t\t\"parentIndex\": 7\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"78:0f:77:e6:a7:e0\",\n" + "\t\t\t\"rssi\": -55,\n" + "\t\t\t\"parentIndex\": 14\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:43\",\n" + "\t\t\t\"rssi\": 0,\n" + "\t\t\t\"parentIndex\": 0\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:39\",\n" + "\t\t\t\"rssi\": -56,\n" + "\t\t\t\"parentIndex\": 0\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:28\",\n" + "\t\t\t\"rssi\": -91,\n" + "\t\t\t\"parentIndex\": 30\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3c:f3\",\n" + "\t\t\t\"rssi\": -20,\n" + "\t\t\t\"parentIndex\": 32\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:46\",\n" + "\t\t\t\"rssi\": -60,\n" + "\t\t\t\"parentIndex\": 0\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:1f\",\n" + "\t\t\t\"rssi\": -75,\n" + "\t\t\t\"parentIndex\": 20\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:51\",\n" + "\t\t\t\"rssi\": -63,\n" + "\t\t\t\"parentIndex\": 28\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"24:df:a7:ac:3d:31\",\n" + "\t\t\t\"rssi\": -78,\n" + "\t\t\t\"parentIndex\": 30\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"78:0f:77:e6:a7:90\",\n" + "\t\t\t\"rssi\": 0,\n" + "\t\t\t\"parentIndex\": 0\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"78:0f:77:e6:a7:19\",\n" + "\t\t\t\"rssi\": 0,\n" + "\t\t\t\"parentIndex\": 0\n" + "\t\t}, {\n" + "\t\t\t\"mac\": \"78:0f:77:e6:a6:68\",\n" + "\t\t\t\"rssi\": 0,\n" + "\t\t\t\"parentIndex\": 0\n" + "\t\t}]\n" + "\t},\n" + "\t\"status\": 0,\n" + "\t\"msg\": \"success\"\n" + "}";
             
 //            final String fakeData = "{\"data\":{\"count\":6,\"deviceList\":[{\"mac\":\"ff:00:a2:2b:fe:42\",\"rssi\":-1," + "\"parentIndex\":65535},{\"mac\":\"01:c2:3b:78:e6:77\"," +
 //                    "\"rssi\":0," + "\"parentIndex\":0},{\"mac\":\"05:f0:2b:9d:18:34\",\"rssi\":0,\"parentIndex\":0}," + "{\"mac\":\"00:00:00:00:00:00\",\"rssi\":0," +
@@ -122,7 +110,7 @@ public class DevFastconBridgeActivity extends TitleActivity {
                     mNodesList = TreeUtils.getVisibleNodesD(super.mRoot);
                     notifyDataSetChanged();
                 }
-                DefaultTreeNode<FastconBrigeBean.DeviceListBean> node = mNodesList.get(position);
+                final DefaultTreeNode<FastconBrigeBean.DeviceListBean> node = mNodesList.get(position);
                 ViewHolder holder;
 
                 if (convertView == null) {
@@ -131,12 +119,27 @@ public class DevFastconBridgeActivity extends TitleActivity {
                     holder.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
                     holder.tv_count = (TextView) convertView.findViewById(R.id.tv_count);
                     holder.iv_title = (ImageView) convertView.findViewById(R.id.iv_title);
+                    holder.bt_path = (Button) convertView.findViewById(R.id.bt_path);
                     convertView.setTag(holder);
                 } else {
                     holder = (ViewHolder) convertView.getTag();
                 }
                 holder.tv_name.setText(BLJSON.toJSONString(node.getElement(), true));
                 holder.tv_count.setText(String.format("%d/%d", node.getDepth(), node.getSize()));
+                
+                holder.bt_path.setVisibility(node.isRoot() ? View.GONE : View.VISIBLE);
+
+                holder.bt_path.setOnClickListener(new OnSingleClickListener() {
+                    @Override
+                    public void doOnClick(View v) {
+                        BLAlert.showAlert(mActivity, "Path", node.getPath(), new OnSingleClickListener() {
+                            @Override
+                            public void doOnClick(View v) {
+                                //do nothing
+                            }
+                        });
+                    }
+                });
 
                 int depth = node.getDepth();
                 setPadding(holder.iv_title, depth, -1);
@@ -172,10 +175,12 @@ public class DevFastconBridgeActivity extends TitleActivity {
                 TextView tv_name;
                 TextView tv_count;
                 ImageView iv_title;
+                Button bt_path;
             }
         };
         mVTree.setTreeAdapter(mAdapter);
         mVTree.performItemClick(mAdapter.getView(0, null, null), 0, 0);
+        mTvBrief.setText(getTreeBriefInfo());
     }
 
     private void refreshView(List<FastconBrigeBean.DeviceListBean> ret){
@@ -214,11 +219,29 @@ public class DevFastconBridgeActivity extends TitleActivity {
         }
 
         for (BLSEndpointInfo item : mEndpointInfos) {
-            if(item.getMac().equalsIgnoreCase(mac)){
+            
+            if(TextUtils.isEmpty(item.getMac())){
+                item.setMac(BLCommonUtils.parseMacFromDid(item.getEndpointId()));
+            }
+            
+            if(mac.equalsIgnoreCase(item.getMac())){
                 return item;
             }
         }
         return null;
+    }
+    
+    private String getTreeBriefInfo(){
+        final ArrayList<DefaultTreeNode> allNodesB = TreeUtils.getAllNodesB(mNodeRoot);
+        if(allNodesB == null){
+            return null;
+        }
+        
+        int deepth = 0;
+        for (DefaultTreeNode item : allNodesB) {
+            deepth = Math.max(item.getDepth(), deepth);
+        }
+        return String.format("Count %d, Deepth %d", allNodesB.size(), deepth);
     }
 
     /**
@@ -365,6 +388,11 @@ public class DevFastconBridgeActivity extends TitleActivity {
             public int parentIndex;
             public int rssi;
             public String name;
+
+            @Override
+            public String toString() {
+                return TextUtils.isEmpty(name) ? mac : name;
+            }
 
             public DeviceListBean() {
             }

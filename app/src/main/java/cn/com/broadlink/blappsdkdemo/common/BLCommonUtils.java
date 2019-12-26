@@ -20,6 +20,7 @@ import android.support.v4.content.FileProvider;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
@@ -593,6 +594,28 @@ public class BLCommonUtils {
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String parseMacFromDid(String did) {
+        if(did == null){
+            return null;
+        }
+        
+        String mac = null;
+        try {
+            final String hexMac = did.substring(20).toLowerCase();
+            final StringBuilder sb = new StringBuilder(20);
+            for (int j = 0; j < 6; j++) {
+                if(j!=0){
+                    sb.append(":");
+                }
+                sb.append(hexMac.substring(j * 2, (j + 1) * 2));
+            }
+            mac = sb.toString();
+        } catch (Exception e) {
+            Log.w("parseMacFromDid",  e.getMessage());
+        }
+        return mac;
     }
     
     /**

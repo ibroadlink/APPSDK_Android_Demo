@@ -3,31 +3,37 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_marginTop="10dp">
-    
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
+
     <EditText
         android:id="@+id/et_result"
-        android:padding="10dp"
-        android:textSize="13sp"
-        android:gravity="top|left"
         android:layout_width="match_parent"
-        android:scrollbarStyle="insideOverlay"
         android:layout_height="120dp"
-        android:textColor="@color/textDark"
         android:background="@drawable/shape_input_view_blue_bg"
-        android:scrollbars="vertical"/>
+        android:gravity="top|left"
+        android:padding="10dp"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="vertical"
+        android:textColor="@color/textDark"
+        android:textSize="13sp"/>
 
+    <TextView
+        android:id="@+id/tv_brief"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/textDark"
+        android:textSize="13sp"/>
 
     <moe.leer.tree2view.TreeView
         android:id="@+id/v_list"
-        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@color/text999"
         android:background="@drawable/shape_stroke_right_round"
+        android:divider="@color/text999"
         android:dividerHeight="1px">
     </moe.leer.tree2view.TreeView>
 

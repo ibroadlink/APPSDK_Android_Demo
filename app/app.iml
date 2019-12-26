@@ -200,5 +200,7 @@
     <orderEntry type="library" name="Gradle: :blfamily-debug:@aar" level="project" />
     <orderEntry type="module" module-name="picSelector" />
     <orderEntry type="module" module-name="treeview" />
+    <orderEntry type="module" module-name="picSelector" />
+    <orderEntry type="module" module-name="treeview" />
   </component>
 </module>

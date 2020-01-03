@@ -241,7 +241,7 @@ public class DevFastconBridgeActivity extends TitleActivity {
         for (DefaultTreeNode item : allNodesB) {
             deepth = Math.max(item.getDepth(), deepth);
         }
-        return String.format("Count %d, Deepth %d", allNodesB.size(), deepth);
+        return String.format("Family %s, Count %d, Deepth %d",BLLocalFamilyManager.getInstance().getCurrentFamilyInfo().getName(), allNodesB.size(), deepth);
     }
 
     /**

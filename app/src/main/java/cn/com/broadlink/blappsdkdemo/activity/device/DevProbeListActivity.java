@@ -278,7 +278,7 @@ public class DevProbeListActivity extends TitleActivity {
             Integer index = integers[0];
             BLDNADevice device = mDevices.get(index);
             BLSEndpointInfo endpointInfo = new BLSEndpointInfo(device);
-            endpointInfo.setFriendlyName("TestEndPoint-" + device.getName());
+            endpointInfo.setFriendlyName(device.getName());
             endpointInfo.setRoomId(roomId);
 
             List<BLSEndpointInfo> infos = new ArrayList<>();

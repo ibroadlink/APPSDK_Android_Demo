@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,13 @@ import com.broadlink.lib.imageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import cn.com.broadlink.base.BLBaseResult;
+import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.R;
 import cn.com.broadlink.blappsdkdemo.activity.base.TitleActivity;
 import cn.com.broadlink.blappsdkdemo.activity.device.DevProbeListActivity;
@@ -34,13 +37,17 @@ import cn.com.broadlink.blappsdkdemo.activity.h5.DeviceH5Activity;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLImageLoaderUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
+import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleItemClickListener;
 import cn.com.broadlink.blsfamily.BLSFamily;
+import cn.com.broadlink.blsfamily.bean.BLSBaseAttrInfo;
 import cn.com.broadlink.blsfamily.bean.BLSBaseDataResult;
 import cn.com.broadlink.blsfamily.bean.endpoint.BLSEndpointInfo;
 import cn.com.broadlink.blsfamily.bean.endpoint.BLSEndpointListData;
+import cn.com.broadlink.blsfamily.bean.endpoint.BLSEndpointUpdateAttrParam;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
@@ -108,20 +115,60 @@ public class FamilyEndpointListActivity extends TitleActivity {
 
         mModuleListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long id) {
                 final BLSEndpointInfo info = blsEndpointInfos.get(position);
-                String name = info.getFriendlyName();
-                BLAlert.showDialog(FamilyEndpointListActivity.this, "Delete EndPoint " + name, new BLAlert.DialogOnClickListener() {
+                final String name = info.getFriendlyName();
+                final String[] menu = {"Edit name", "Delete"};
+                BLListAlert.showAlert(mActivity, null, menu, new BLListAlert.OnItemClickLister() {
                     @Override
-                    public void onPositiveClick() {
-                        new DelEndpointTask().execute(info.getEndpointId());
-                    }
+                    public void onClick(int whichButton) {
+                        switch (whichButton) {
+                            case 0:
+                                BLAlert.showEditDilog(mActivity, "Input new name", name, new BLAlert.BLEditDialogOnClickListener() {
+                                    @Override
+                                    public void onClink(String value) {
+                                        if (TextUtils.isEmpty(value)) {
+                                            BLToastUtils.show("Name should not be null.");
+                                            return;
+                                        }
+                                        
+                                        final BLSEndpointUpdateAttrParam attrParam = new BLSEndpointUpdateAttrParam();
+                                        attrParam.setEndpointId(info.getEndpointId());
+                                        final ArrayList<BLSBaseAttrInfo> attributes = new ArrayList<>();
+                                        final BLSBaseAttrInfo attrInfo = new BLSBaseAttrInfo<String>();
+                                        attrInfo.setAttributeName("friendlyName");
+                                        attrInfo.setAttributeValue(value);
+                                        attributes.add(attrInfo);
+                                        attrParam.setAttributes(attributes);
+                                        new UpdateEndpointTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, attrParam);
+                                    }
 
-                    @Override
-                    public void onNegativeClick() {
+                                    @Override
+                                    public void onCancel(String value) {
 
+                                    }
+                                }, false);
+                                break;
+                                
+                            case 1:
+                              
+                                BLAlert.showDialog(FamilyEndpointListActivity.this, "Delete EndPoint " + name, new BLAlert.DialogOnClickListener() {
+                                    @Override
+                                    public void onPositiveClick() {
+                                        new DelEndpointTask().executeOnExecutor(BLApplication.FULL_TASK_EXECUTOR, info.getEndpointId());
+                                    }
+                                    @Override
+                                    public void onNegativeClick() {
+
+                                    }
+                                });
+                                break;
+                        }
+                        
                     }
                 });
+                
+        
                 
                 return true;
             }
@@ -245,6 +292,30 @@ public class FamilyEndpointListActivity extends TitleActivity {
             }
         }
     }
+    
+    class UpdateEndpointTask extends AsyncTask<BLSEndpointUpdateAttrParam, Void, BLBaseResult>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog("Update name...");
+        }
+
+        @Override
+        protected BLBaseResult doInBackground(BLSEndpointUpdateAttrParam... attrParams) {
+            final List<BLSEndpointUpdateAttrParam> endpoints = Arrays.asList(attrParams);
+            return BLSFamily.Endpoint.updateAttrs(mFamilyId, endpoints);
+        }
+
+        @Override
+        protected void onPostExecute(BLBaseResult result) {
+            super.onPostExecute(result);
+           dismissProgressDialog();
+           BLCommonUtils.toastErr(result);
+            updateFamilyEndpoints();
+        }
+    }
+    
     
     class DelEndpointTask extends AsyncTask<String, Void, BLBaseResult>{
 

@@ -29,7 +29,6 @@ import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
 import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceListener;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
-import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
 import cn.com.broadlink.blsfamily.BLSFamily;
@@ -160,7 +159,7 @@ public class DevProbeListActivity extends TitleActivity {
         
         mSelection = position;
         final BLDNADevice device = mDevices.get(position);
-        device.setOwnerId(BLLocalFamilyManager.getInstance().getCurrentFamilyId()); // 将当前家庭设置为owner
+        //device.setOwnerId(BLLocalFamilyManager.getInstance().getCurrentFamilyId()); // 将当前家庭设置为owner
         
         final String message = "Add device " + device.getName() + (mIsAdd2Family ? " into Family?" : " into SDK?");
         BLAlert.showDialog(DevProbeListActivity.this, message, new BLAlert.DialogOnClickListener() {

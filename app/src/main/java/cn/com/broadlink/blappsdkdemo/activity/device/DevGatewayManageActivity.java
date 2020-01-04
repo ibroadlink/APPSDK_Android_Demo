@@ -32,7 +32,6 @@ import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
 import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
-import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.BLListAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
@@ -236,7 +235,7 @@ public class DevGatewayManageActivity extends TitleActivity {
      */
     private void add2DbAndGotoNextActivity(BLDNADevice subDevInfo, boolean add2DB){
         if(add2DB){
-            subDevInfo.setOwnerId(BLLocalFamilyManager.getInstance().getCurrentFamilyId());
+            //subDevInfo.setOwnerId(BLLocalFamilyManager.getInstance().getCurrentFamilyId());
             
             if(subDevInfo.getMac() == null){
                 String mac = subDevInfo.getDid().substring(20, 32);
@@ -461,7 +460,7 @@ public class DevGatewayManageActivity extends TitleActivity {
         protected BLBaseResult doInBackground(Integer... params) {
 
             final BLDNADevice subDevInfo = mSubDeviceList.get(params[0]);
-            subDevInfo.setOwnerId(BLLocalFamilyManager.getInstance().getCurrentFamilyId());
+            //subDevInfo.setOwnerId(BLLocalFamilyManager.getInstance().getCurrentFamilyId());
             final BLSubdevResult blSubdevResult = BLLet.Controller.subDevAdd(mDNADevice.getDeviceId(), subDevInfo);
             if (blSubdevResult != null && blSubdevResult.succeed()) {
                 if(subDevInfo.getMac() != null){

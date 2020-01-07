@@ -166,7 +166,7 @@ public class AccountVerifyCodeLoginActivity extends TitleActivity {
         protected BLLoginResult doInBackground(String... params) {
             account = params[0];
             verifyCode = params[1];
-            final BLLoginResult loginResult = BLAccount.fastLogin(account, "+" + mCountryCode, verifyCode);
+            final BLLoginResult loginResult = BLAccount.fastLogin(account, "+" + mCountryCode, verifyCode, true);
             if (loginResult!=null && loginResult.succeed()) {
                 
                 //存储登陆成功返回的 userId 和 loginSession ，便于下次直接登陆使用

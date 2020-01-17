@@ -19,6 +19,7 @@ import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.common.PreferencesUtils;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
+import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.sdk.BLLet;
 
@@ -30,6 +31,7 @@ public class ResetActivity extends TitleActivity {
     private EditText mEtPair;
     private Button mBtCommit;
     private Button mBtDefault;
+    private Button mBtInput;
     private Switch mSwtCluster;
     private RadioGroup mRgServerList;
     private RadioButton mRbBaidu;
@@ -61,6 +63,45 @@ public class ResetActivity extends TitleActivity {
                     mEtPair.setText(jsonObject.toString());
                 } catch (Exception e) {
                 }
+            }
+        });
+
+        mBtInput.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+                String domainSuffix = "";
+
+                try {
+                    final String pairServerInfoStr = mEtPair.getText().toString();
+                    final int index1 = pairServerInfoStr.indexOf("device-heartbeat-chn-");
+                    if(index1 >=0){
+                        int realIndex = index1 + "device-heartbeat-chn-".length();
+                        domainSuffix = pairServerInfoStr.substring(realIndex, realIndex + 8); 
+                    }
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                BLAlert.showEditDilog(mActivity, "Input domain suffix", domainSuffix, new BLAlert.BLEditDialogOnClickListener() {
+                    @Override
+                    public void onClink(String value) {
+                        if(TextUtils.isEmpty(value) || value.length()!=8){
+                            BLToastUtils.show("domain suffix should be 8 chars, like 'f05bd82f'");
+                            return;
+                        }
+                        
+                        final JSONObject pairInfoObj = new JSONObject();
+                        pairInfoObj.put("tcp", String.format("device-heartbeat-chn-%s.ibroadlink.com", value));
+                        pairInfoObj.put("http", String.format("device-gateway-chn-%s.ibroadlink.com", value));
+                        mEtPair.setText(pairInfoObj.toString());
+                    }
+
+                    @Override
+                    public void onCancel(String value) {
+
+                    }
+                }, false);
             }
         });
         
@@ -203,6 +244,7 @@ public class ResetActivity extends TitleActivity {
         mEtPair = (EditText) findViewById(R.id.et_pair_cfg);
         mBtCommit = (Button) findViewById(R.id.bt_commit);
         mBtDefault = (Button) findViewById(R.id.bt_default);
+        mBtInput = (Button) findViewById(R.id.bt_input);
         mSwtCluster = (Switch) findViewById(R.id.swt_cluster);
         mRgServerList = (RadioGroup) findViewById(R.id.rg_server_list);
         mRbBaidu = (RadioButton) findViewById(R.id.rb_baidu);

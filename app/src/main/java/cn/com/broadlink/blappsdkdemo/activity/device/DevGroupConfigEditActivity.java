@@ -27,7 +27,6 @@ import cn.com.broadlink.blappsdkdemo.common.BLMultDidUtils;
 import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
 import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
-import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.blappsdkdemo.view.recyclerview.adapter.BLBaseRecyclerAdapter;
@@ -274,7 +273,7 @@ public class DevGroupConfigEditActivity extends TitleActivity {
             }
 
             // 添加子设备
-            mSubDevice.setOwnerId(BLLocalFamilyManager.getInstance().getCurrentFamilyId());
+            //mSubDevice.setOwnerId(BLLocalFamilyManager.getInstance().getCurrentFamilyId());
             final BLSubdevResult blSubdevResult = BLLet.Controller.subDevAdd(mDNADevice.getDeviceId(), mSubDevice);
             if (blSubdevResult != null && blSubdevResult.succeed()) {
                 if (mSubDevice.getMac() != null) {

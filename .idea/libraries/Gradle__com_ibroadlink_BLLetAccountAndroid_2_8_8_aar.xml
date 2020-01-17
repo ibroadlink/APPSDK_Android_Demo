@@ -1,12 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: com.ibroadlink:BLLetAccountAndroid:2.8.8@aar">
     <CLASSES>
-      <root url="file://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/BLLetAccountAndroid-2.8.8.aar/2903bece9eaa367119aac504d95156a5/res" />
-      <root url="jar://E:/Android_develop_kit/.gradle/caches/transforms-1/files-1.1/BLLetAccountAndroid-2.8.8.aar/2903bece9eaa367119aac504d95156a5/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../../AndroidTools/.Gradle/caches/transforms-1/files-1.1/BLLetAccountAndroid-2.8.8.aar/9e3badfa64d3c9fcf09514f7d8393a2b/res" />
+      <root url="jar://$PROJECT_DIR$/../../AndroidTools/.Gradle/caches/transforms-1/files-1.1/BLLetAccountAndroid-2.8.8.aar/9e3badfa64d3c9fcf09514f7d8393a2b/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://E:/Android_develop_kit/.gradle/caches/modules-2/files-2.1/com.ibroadlink/BLLetAccountAndroid/2.8.8/8130a9d883bf318506dbec7fce1cc22a5d2063fb/BLLetAccountAndroid-2.8.8-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../AndroidTools/.Gradle/caches/modules-2/files-2.1/com.ibroadlink/BLLetAccountAndroid/2.8.8/8130a9d883bf318506dbec7fce1cc22a5d2063fb/BLLetAccountAndroid-2.8.8-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

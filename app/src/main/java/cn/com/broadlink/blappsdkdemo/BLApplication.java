@@ -177,6 +177,9 @@ public class BLApplication extends Application{
 
         // 复杂空间
         BLConstants.SPACE_URL.init(lid, domain);
+
+        // 用户企业私有数据
+        BLConstants.PRIVATE_DATA_URL.init(lid, domain);
         
         
         // 添加登录成功回调函数

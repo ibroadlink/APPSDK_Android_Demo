@@ -14,7 +14,7 @@ public class PushExtendInfo {
 
     public static class ActionBean {
         /**
-         * alicloud : {"action":"","content":"{\"devname\":\"$devname$\",\"说明\":\"h5需要把keylist的参数补充为左边这种格式\"}","templatecontent":"打开%v(通知中心原来模板内容)",
+         * alicloud : {"action":"","content":"{\"name\":\"$name$\",\"说明\":\"h5需要把keylist的参数补充为左边这种格式\"}","templatecontent":"打开%v(通知中心原来模板内容)",
          * "did":"780f7727e691000005000100b8390cb2","enable":true,"tagcode":"","templateid":""}
          * language : zh-cn
          * name : 
@@ -32,7 +32,7 @@ public class PushExtendInfo {
         public static class AlicloudBean {
             /**
              * action : 
-             * content : {"devname":"$devname$","说明":"h5需要把keylist的参数补充为左边这种格式"}
+             * content : {"name":"$name$","说明":"h5需要把keylist的参数补充为左边这种格式"}
              * templatecontent : 打开%v(通知中心原来模板内容)
              * did : 780f7727e691000005000100b8390cb2
              * enable : true

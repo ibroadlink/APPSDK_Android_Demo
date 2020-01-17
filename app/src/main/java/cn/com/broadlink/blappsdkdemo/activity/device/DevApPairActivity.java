@@ -73,7 +73,7 @@ public class DevApPairActivity extends TitleActivity {
             @Override
             public void onClick(int position, int viewType) {
                 mSelectAPInfo = mAPList.get(position);
-                BLAlert.showEditDilog(DevApPairActivity.this, "Please input password", null, new BLAlert.BLEditDialogOnClickListener() {
+                BLAlert.showEditDilog(DevApPairActivity.this, "Please input did", null, new BLAlert.BLEditDialogOnClickListener() {
                     @Override
                     public void onClink(String value) {
                         new APConfigTask().execute(value);

@@ -123,7 +123,7 @@ public class ResetActivity extends TitleActivity {
                         jsonObject.put("companyid", BLLet.getLicenseId());
                         pair = jsonObject.toString();
                     } catch (Exception e) {
-                        BLToastUtils.show("Pair server profile should be json string.");
+                        BLToastUtils.show("Pair server pid should be json string.");
                         return;
                     }
                 }

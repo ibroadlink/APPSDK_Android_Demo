@@ -360,7 +360,7 @@ public class IhgBulbWallManager {
             }
 
             if (stdControlParam.getPassword() != null) {
-                jData.put("password", stdControlParam.getPassword());
+                jData.put("did", stdControlParam.getPassword());
             }
 
             JSONArray jParams = new JSONArray();

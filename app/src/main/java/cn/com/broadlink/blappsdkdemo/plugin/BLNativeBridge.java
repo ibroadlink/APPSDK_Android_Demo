@@ -416,7 +416,7 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer 
                 JSONObject jsonObject = new JSONObject(didJSONStr);
                 String did = jsonObject.optString("did");
                 String sdid = jsonObject.optString("sdid");
-                param = jsonObject.optString("extend");
+                param = jsonObject.optString("did");
                 String data = jsonObject.optString("data");
 
                 //如果data数据不为空 将数据保存文件，供下次H5调用,数据大小约1M
@@ -429,7 +429,7 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer 
             }
 
             if (param != null) {
-                BLLog.e(TAG, "extend value:" + param);
+                BLLog.e(TAG, "did value:" + param);
             }
 
             BLDNADevice deviceInfo = null;
@@ -501,7 +501,7 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer 
             if (pid != null) {
                 BLProfileStringResult devProfileResult = BLLet.Controller.queryProfileByPid(pid);
                 JSONObject resultJsonObject = new JSONObject();
-                resultJsonObject.put("profile", devProfileResult);
+                resultJsonObject.put("pid", devProfileResult);
                 callbackContext.success(resultJsonObject.toString());
             }
         }
@@ -523,7 +523,7 @@ public class BLNativeBridge extends CordovaPlugin implements BLPluginInterfacer 
                 devObject.put("pid", deviceInfo.getPid());
                 devObject.put("name", deviceInfo.getName());
                 devObject.put("lock", deviceInfo.isLock());
-                devObject.put("password", deviceInfo.getPassword());
+                devObject.put("did", deviceInfo.getPassword());
                 int deviceStatus = BLLet.Controller.queryDeviceState(deviceInfo.getDeviceId());
                 devObject.put("deviceStatus", deviceStatus);
                 jsonArray.put(devObject);

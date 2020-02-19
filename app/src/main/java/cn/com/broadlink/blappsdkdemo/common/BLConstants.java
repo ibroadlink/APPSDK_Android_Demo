@@ -101,6 +101,28 @@ public class BLConstants {
         }
     }
 
+    public final static class PRIVATE_DATA_URL{
+        private static String DOMAIN = "";
+
+        public static String ADD() {return DOMAIN + "/appsync/group/companyprivatedata?action=add";}
+        public static String DEL() {return DOMAIN + "/appsync/group/companyprivatedata?action=del";}
+        public static String MDF() {return DOMAIN + "/appsync/group/companyprivatedata?action=update";}
+        public static String QUE() {return DOMAIN + "/appsync/group/companyprivatedata?action=query";}
+
+        public static void init(String lid, String domain){
+            assert !(TextUtils.isEmpty(lid) && TextUtils.isEmpty(domain));
+
+            if(TextUtils.isEmpty(domain)){
+                DOMAIN =  String.format("https://%sappservice.ibroadlink.com", lid);
+            }else{
+                DOMAIN = domain;
+            }
+            if(DOMAIN.endsWith("/")){
+                DOMAIN = DOMAIN.substring(0, DOMAIN.length() - 1);
+            }
+        }
+    }
+
     /** Intent Buddle-key **/
     public static final String INTENT_NAME = "INTENT_NAME";
     public static final String INTENT_CODE = "INTENT_CODE";

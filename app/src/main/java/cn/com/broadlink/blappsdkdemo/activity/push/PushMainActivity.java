@@ -414,10 +414,10 @@ public class PushMainActivity extends TitleActivity {
             alicloudBean.setDid(mDeviceInfo.getDid());
             List<String> aliKeyList = alicloudBean.getKeylist();
             org.json.JSONObject jsonObject = new org.json.JSONObject();
-            if(aliKeyList != null && aliKeyList.size() > 0 && aliKeyList.contains("devname")){
-                jsonObject.put("devname",mDeviceInfo.getName());
+            if(aliKeyList != null && aliKeyList.size() > 0 && aliKeyList.contains("name")){
+                jsonObject.put("name",mDeviceInfo.getName());
             }else{
-                jsonObject.put("devname","name-null");
+                jsonObject.put("name","name-null");
             }
             jsonObject.put("location", "BedRoom");
             alicloudBean.setContent(BLCommonUtils.Base64(jsonObject.toString().getBytes()));
@@ -429,10 +429,10 @@ public class PushMainActivity extends TitleActivity {
             gcmBean.setDid(mDeviceInfo.getDid());
             List<String> gcmKeyList = gcmBean.getKeylist();
             org.json.JSONObject gcmJsonObject = new org.json.JSONObject();
-            if(gcmKeyList != null && gcmKeyList.size() > 0 && gcmKeyList.contains("devname")){
-                gcmJsonObject.put("devname",mDeviceInfo.getName());
+            if(gcmKeyList != null && gcmKeyList.size() > 0 && gcmKeyList.contains("name")){
+                gcmJsonObject.put("name",mDeviceInfo.getName());
             }else{
-                jsonObject.put("devname","name-null");
+                jsonObject.put("name","name-null");
             }
             gcmJsonObject.put("location", "BedRoom");
             gcmBean.setContent(BLCommonUtils.Base64(gcmJsonObject.toString().getBytes()));
@@ -443,10 +443,10 @@ public class PushMainActivity extends TitleActivity {
             iosBean.setDid(mDeviceInfo.getDid());
             List<String> iosKeyList = iosBean.getKeylist();
             org.json.JSONObject iosJsonObject = new org.json.JSONObject();
-            if(iosKeyList != null && iosKeyList.size() > 0 && iosKeyList.contains("devname")){
-                iosJsonObject.put("devname",mDeviceInfo.getName());
+            if(iosKeyList != null && iosKeyList.size() > 0 && iosKeyList.contains("name")){
+                iosJsonObject.put("name",mDeviceInfo.getName());
             }else{
-                iosJsonObject.put("devname","name-null");
+                iosJsonObject.put("name","name-null");
             }
             iosJsonObject.put("location", "BedRoom");
             iosBean.setContent(BLCommonUtils.Base64(iosJsonObject.toString().getBytes()));

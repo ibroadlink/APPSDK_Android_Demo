@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: :blaccount-debug:@aar">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../AndroidTools/.Gradle/caches/transforms-1/files-1.1/blaccount-debug.aar/fb75f843d13f7fe90160bf4c4bf4c135/res" />
+      <root url="jar://$PROJECT_DIR$/../../AndroidTools/.Gradle/caches/transforms-1/files-1.1/blaccount-debug.aar/fb75f843d13f7fe90160bf4c4bf4c135/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

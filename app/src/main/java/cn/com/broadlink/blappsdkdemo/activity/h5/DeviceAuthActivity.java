@@ -251,7 +251,7 @@ public class DeviceAuthActivity extends TitleActivity {
         if(!TextUtils.isEmpty(mDevAuthStr)){
             try {
                 JSONObject jsonObject = new JSONObject(mDevAuthStr);
-                mAuthExtendInfo = jsonObject.optString("did");
+                mAuthExtendInfo = jsonObject.optString("extend");
                 JSONObject serviceObject = jsonObject.optJSONObject("servicelist");
                 Iterator<String> keyIterator = serviceObject.keys();
                 while (keyIterator.hasNext()){

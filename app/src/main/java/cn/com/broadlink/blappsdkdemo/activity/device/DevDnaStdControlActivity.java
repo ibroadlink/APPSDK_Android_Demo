@@ -370,7 +370,7 @@ public class DevDnaStdControlActivity extends TitleActivity implements View.OnCl
             }
 
             if (stdControlParam.getPassword() != null) {
-                jData.put("did", stdControlParam.getPassword());
+                jData.put("password", stdControlParam.getPassword());
             }
 
             JSONArray jParams = new JSONArray();

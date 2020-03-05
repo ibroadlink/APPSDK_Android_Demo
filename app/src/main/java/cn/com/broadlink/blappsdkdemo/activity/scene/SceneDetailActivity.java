@@ -258,7 +258,7 @@ public class SceneDetailActivity extends TitleActivity {
         mLlExtend.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void doOnClick(View v) {
-                BLAlert.showEditDilog(mActivity, "Input did json string", TextUtils.isEmpty(mTvExtend.getText()) ? "" : mTvExtend.getText().toString(),
+                BLAlert.showEditDilog(mActivity, "Input extend json string", TextUtils.isEmpty(mTvExtend.getText()) ? "" : mTvExtend.getText().toString(),
                         new BLAlert.BLEditDialogOnClickListener() {
                             @Override
                             public void onClink(String value) {
@@ -270,7 +270,7 @@ public class SceneDetailActivity extends TitleActivity {
                                     attr.setSceneId(mSceneInfo.getSceneId());
                                     final ArrayList<BLSBaseAttrInfo> attributes = new ArrayList<>();
                                     final BLSBaseAttrInfo<String> attrInfo = new BLSBaseAttrInfo<>();
-                                    attrInfo.setAttributeName("did");
+                                    attrInfo.setAttributeName("extend");
                                     attrInfo.setAttributeValue(value);
                                     attributes.add(attrInfo);
                                     attr.setAttributes(attributes);

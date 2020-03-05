@@ -304,28 +304,28 @@ public class DevProbeListActivity extends TitleActivity {
                 device.setId(pairResult.getId());
                 device.setKey(pairResult.getKey());
                 
+                try {
+                    BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
+                    BLDeviceInfo deviceInfo = new BLDeviceInfo(device);
+                    List<BLDeviceInfo> list = new ArrayList<>();
+                    list.add(deviceInfo);
+                    blDeviceInfoDao.insertData(list);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                
+/*      
+                // 上传设备信息
                 BLBaseResult addResult = mCompanyPrivateDataPresenter.add(device);
-
                 // 重复上传，直接调用update接口
                 if(addResult != null && (addResult.getStatus()==-13008)){
                     addResult = mCompanyPrivateDataPresenter.update(device);
                 }
-                
-                if (addResult != null && addResult.succeed()) {
-                    try {
-                        BLDeviceInfoDao blDeviceInfoDao = new BLDeviceInfoDao(getHelper());
-                        BLDeviceInfo deviceInfo = new BLDeviceInfo(device);
-                        List<BLDeviceInfo> list = new ArrayList<>();
-                        list.add(deviceInfo);
-                        blDeviceInfoDao.insertData(list);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+*/
 
-                }
-                return addResult;
+                return pairResult;
             }
-            return null;
+            return pairResult;
         }
 
         @Override

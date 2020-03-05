@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/APPSDK_Android_Demo_upload.iml" filepath="$PROJECT_DIR$/APPSDK_Android_Demo_upload.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/picSelector/picSelector.iml" filepath="$PROJECT_DIR$/picSelector/picSelector.iml" />
-      <module fileurl="file://$PROJECT_DIR$/treeView/treeview.iml" filepath="$PROJECT_DIR$/treeView/treeview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/APPSDK_Android_Demo_upload.iml" filepath="$PROJECT_DIR$/APPSDK_Android_Demo_upload.iml" group="APPSDK_Android_Demo_upload" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="APPSDK_Android_Demo_upload/app" />
+      <module fileurl="file://$PROJECT_DIR$/picSelector/picSelector.iml" filepath="$PROJECT_DIR$/picSelector/picSelector.iml" group="APPSDK_Android_Demo_upload/picSelector" />
+      <module fileurl="file://$PROJECT_DIR$/treeView/treeview.iml" filepath="$PROJECT_DIR$/treeView/treeview.iml" group="APPSDK_Android_Demo_upload/treeview" />
     </modules>
   </component>
 </project>

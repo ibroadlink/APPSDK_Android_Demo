@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.com.broadlink.base.fastjson.BLJSON;
 import cn.com.broadlink.blappsdkdemo.BLApplication;
 import cn.com.broadlink.blappsdkdemo.BuildConfig;
 import cn.com.broadlink.blappsdkdemo.R;
@@ -30,6 +31,7 @@ import cn.com.broadlink.blappsdkdemo.activity.space.SpaceManageActivity;
 import cn.com.broadlink.blappsdkdemo.activity.websocket.WebSocketActivity;
 import cn.com.broadlink.blappsdkdemo.common.AppExitHelper;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLLog;
 import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
 import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
@@ -211,6 +213,7 @@ public class MainActivity extends TitleActivity {
                 for (BLDeviceInfo dev : deviceInfoList) {
                     BLDNADevice dnaDev = dev.cloneBLDNADevice();
                     BLLocalDeviceManager.getInstance().addDeviceIntoSDK(dnaDev);
+                    BLLog.d("localDevices", BLJSON.toJSONString(dev, true));
                 }
             }
         } catch (SQLException e) {

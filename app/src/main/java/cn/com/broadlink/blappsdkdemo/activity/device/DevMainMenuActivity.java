@@ -344,7 +344,17 @@ public class DevMainMenuActivity extends TitleActivity implements View.OnClickLi
                 return BLLet.Controller.devSubDevVersion(cachedDeviceId[0], cachedDeviceId[1], null);
             }
             
-            return BLLet.Controller.queryFirmwareVersion(mDNADevice.getDeviceId());
+//            return BLLet.Controller.queryFirmwareVersion(mDNADevice.getDeviceId());
+
+//            String devJson = "{\n" + "  \"key\" : \"0000000000000000000000700e0887b5\",\n" + "  \"id\" : 1,\n" + "  \"state\" : 2,\n" + "  \"refreshStateFlag\" : 0,\n" + "  " +
+//                    "\"password\" : 0,\n" + "  \"lastStateRefreshTime\" : 605526735.65963697,\n" + "  \"type\" : 25157,\n" + "  \"addFlag\" : 0,\n" + "  \"pid\" : " +
+//                    "\"00000000000000000000000045620000\",\n" + "  \"newConfig\" : 0,\n" + "  \"deviceFlag\" : 0,\n" + "  \"mac\" : \"34:e3:34:00:15:be\",\n" + "  \"did\" : " +
+//                    "\"0000000000000000000034e3340015be\",\n" + "  \"lock\" : 0\n" + "}";
+//            final BLDNADevice bldnaDevice = BLJSON.parseObject(devJson, BLDNADevice.class);
+//            BLLet.Controller.addDevice(bldnaDevice);
+//            return BLLet.Controller.queryFirmwareVersionOnServer(bldnaDevice.getDeviceId(), null);
+            
+              return BLLet.Controller.queryFirmwareVersionOnServer(mDNADevice.getDeviceId(), null);
         }
 
         @Override

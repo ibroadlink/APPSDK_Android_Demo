@@ -2,8 +2,6 @@ package cn.com.broadlink.blappsdkdemo.common;
 
 import android.text.TextUtils;
 
-import cn.com.broadlink.blappsdkdemo.BuildConfig;
-
 public class BLConstants {
 
     /**app文件夹目录**/
@@ -23,10 +21,15 @@ public class BLConstants {
 
      // international
     public static final String SDK_PACKAGE = "com.broadlink.blappsdkdemo";
-    public static final String SDK_LICENSE = "4oQxAHVFYnnY7HPuDlYnm0I6pGcRvFTh/Ct2Vv+/5qZDpJJiIweBn2RUUA6oE8InRDV+XAAAAABz4LOxmXdGndIQ0J762DN4lXimLcoYN1h90T3OlpYrQrNgvm0/7+Kdmrgfawtr+QWBY+UBaf8hxk19tobFrLsFsEkbxXTfoUSQjDzWcfVjcAAAAAA=";
-
-    public static final String PAIR_SERVER_PROFILE = BuildConfig.SUPPORT_AUX ? "{\"tcp\":\"device-heartbeat-chn-f05bd82f.ibroadlink.com\"," + "\"http\":\"device-gateway-chn-f05bd82f.ibroadlink.com\"}" : "{\"tcp\":\"device-heartbeat-chn-ee08f451.ibroadlink.com\",\"http\":\"device-gateway-chn-ee08f451.ibroadlink.com\"}";
+    public static final String SDK_LICENSE = "PAFbJJ3WbvDxH5vvWezXN5BujETtH/iuTtIIW5CE/SeHN7oNKqnEajgljTcL0fBQQWM0XAAAAAAnBhJyhMi7zIQMsUcwR/PEwGA3uB5HLOnr+xRrci+FwHMkUtK7v4yo0ZHa+jPvb6djelPP893k7SagmffZmOkLSOsbNs8CAqsu8HuIDs2mDQAAAAA=";
+    public static final String PAIR_SERVER_PROFILE ="{\"http\":\"device-gateway-chn-661b49da.ibroadlink.com\",\"tcp\":\"device-heartbeat-chn-661b49da" +
+            ".ibroadlink.com\"}";
     
+//     // international
+//    public static final String SDK_PACKAGE = "com.broadlink.blappsdkdemo";
+//    public static final String SDK_LICENSE = "4oQxAHVFYnnY7HPuDlYnm0I6pGcRvFTh/Ct2Vv+/5qZDpJJiIweBn2RUUA6oE8InRDV+XAAAAABz4LOxmXdGndIQ0J762DN4lXimLcoYN1h90T3OlpYrQrNgvm0/7+Kdmrgfawtr+QWBY+UBaf8hxk19tobFrLsFsEkbxXTfoUSQjDzWcfVjcAAAAAA=";
+//    public static final String PAIR_SERVER_PROFILE = BuildConfig.SUPPORT_AUX ? "{\"tcp\":\"device-heartbeat-chn-f05bd82f.ibroadlink.com\"," + "\"http\":\"device-gateway-chn-f05bd82f.ibroadlink.com\"}" : "{\"tcp\":\"device-heartbeat-chn-ee08f451.ibroadlink.com\",\"http\":\"device-gateway-chn-ee08f451.ibroadlink.com\"}";
+//    
     /**MD5加密后缀*/
     public static final String STR_BODY_ENCRYPT = "xgx3d*fe3478$ukx";
     

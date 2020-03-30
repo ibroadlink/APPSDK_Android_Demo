@@ -106,7 +106,7 @@ public class BLApplication extends Application{
         int selection = PreferencesUtils.getInt(this, "selection", -1);
         String pairServer = PreferencesUtils.getString(this, "pair",  selection==-1 ? BLConstants.PAIR_SERVER_PROFILE : null); // 没设置过就用默认值，设置过之后即使是null也用设置的值
 
-        domain = "https://app-service-chn-661b49da.ibroadlink.com";
+        // domain = "https://app-service-chn-9c0ad40b.ibroadlink.com"; // 临时打包供测试
         
         
         // 初始化核心库

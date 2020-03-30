@@ -2,34 +2,29 @@ package cn.com.broadlink.blappsdkdemo.common;
 
 import android.text.TextUtils;
 
+import cn.com.broadlink.blappsdkdemo.BuildConfig;
+
 public class BLConstants {
 
     /**app文件夹目录**/
     public static final String BASE_FILE_PATH = "broadlink/blTool";
     public static final String ROOT_FILE_PATH = "broadlink";
-    
     public static final String BROADLINK_LOG_TAG = "BROADLINK_DEMO";
     
-//    // ihc
-//    public static final String SDK_PACKAGE_BAIDU = "cn.com.broadlink.econtrol.plus";
-//    public static final String SDK_LICENSE_BAIDU = 
-//            "0PlPqgTGPZt7CwNNz4lWVm7qQZqm8AdPyooafIrN9QX5UING6RYrag2V2nFqWRIQrFDxVgAAAADoWWz5UyBiHvQQIPyIUhi4XFSykPGAqniglnoIUWhvuHCgxWxDEyF0yb0xHzyz6V5BLR6D0KoiI6QqjWxRKs8JsEkbxXTfoUSQjDzWcfVjcA4AAADzeX7wfU+3ndxs2/3yXOnJrFAlYyFEltcuD9SloQA7kInW0ynCvel2PMHSm6RgRp/xNYhi5LPROx4fnr746yHD";
-  
     // ihc
     public static final String SDK_PACKAGE_BAIDU = "cn.com.broadlink.econtrol.international";
     public static final String SDK_LICENSE_BAIDU = "z3pn54M4x0Ad6uuWSI9G++DMebHcudBcmuQc0EzgH2MYC8m3+LcREcvQ/ihQzqUOeVcgXAAAAADjur2NVArwxwkCXFCflaFAvKQ+Zl0lPyrU2admH4eowk/FnWbIxL62RhRPseZ+Prnck2eU+xOGEEUW14Lo14gMsEkbxXTfoUSQjDzWcfVjcAAAAAA=";
 
-     // international
-    public static final String SDK_PACKAGE = "com.broadlink.blappsdkdemo";
-    public static final String SDK_LICENSE = "PAFbJJ3WbvDxH5vvWezXN5BujETtH/iuTtIIW5CE/SeHN7oNKqnEajgljTcL0fBQQWM0XAAAAAAnBhJyhMi7zIQMsUcwR/PEwGA3uB5HLOnr+xRrci+FwHMkUtK7v4yo0ZHa+jPvb6djelPP893k7SagmffZmOkLSOsbNs8CAqsu8HuIDs2mDQAAAAA=";
-    public static final String PAIR_SERVER_PROFILE ="{\"http\":\"device-gateway-chn-661b49da.ibroadlink.com\",\"tcp\":\"device-heartbeat-chn-661b49da" +
-            ".ibroadlink.com\"}";
-    
-//     // international
+//     // international // 临时打包测试
 //    public static final String SDK_PACKAGE = "com.broadlink.blappsdkdemo";
 //    public static final String SDK_LICENSE = "4oQxAHVFYnnY7HPuDlYnm0I6pGcRvFTh/Ct2Vv+/5qZDpJJiIweBn2RUUA6oE8InRDV+XAAAAABz4LOxmXdGndIQ0J762DN4lXimLcoYN1h90T3OlpYrQrNgvm0/7+Kdmrgfawtr+QWBY+UBaf8hxk19tobFrLsFsEkbxXTfoUSQjDzWcfVjcAAAAAA=";
-//    public static final String PAIR_SERVER_PROFILE = BuildConfig.SUPPORT_AUX ? "{\"tcp\":\"device-heartbeat-chn-f05bd82f.ibroadlink.com\"," + "\"http\":\"device-gateway-chn-f05bd82f.ibroadlink.com\"}" : "{\"tcp\":\"device-heartbeat-chn-ee08f451.ibroadlink.com\",\"http\":\"device-gateway-chn-ee08f451.ibroadlink.com\"}";
-//    
+//    public static final String PAIR_SERVER_PROFILE ="{\"http\":\"device-gateway-chn-9c0ad40b.ibroadlink.com\",\"tcp\":\"device-heartbeat-chn-9c0ad40b.ibroadlink.com\"}";
+    
+     // international
+    public static final String SDK_PACKAGE = "com.broadlink.blappsdkdemo";
+    public static final String SDK_LICENSE = "4oQxAHVFYnnY7HPuDlYnm0I6pGcRvFTh/Ct2Vv+/5qZDpJJiIweBn2RUUA6oE8InRDV+XAAAAABz4LOxmXdGndIQ0J762DN4lXimLcoYN1h90T3OlpYrQrNgvm0/7+Kdmrgfawtr+QWBY+UBaf8hxk19tobFrLsFsEkbxXTfoUSQjDzWcfVjcAAAAAA=";
+    public static final String PAIR_SERVER_PROFILE = BuildConfig.SUPPORT_AUX ? "{\"tcp\":\"device-heartbeat-chn-f05bd82f.ibroadlink.com\"," + "\"http\":\"device-gateway-chn-f05bd82f.ibroadlink.com\"}" : "{\"tcp\":\"device-heartbeat-chn-ee08f451.ibroadlink.com\",\"http\":\"device-gateway-chn-ee08f451.ibroadlink.com\"}";
+
     /**MD5加密后缀*/
     public static final String STR_BODY_ENCRYPT = "xgx3d*fe3478$ukx";
     

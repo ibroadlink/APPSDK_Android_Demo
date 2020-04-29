@@ -24,6 +24,7 @@ import cn.com.broadlink.blappsdkdemo.activity.ble.BLEMainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.check.NetworkCheckActivity;
 import cn.com.broadlink.blappsdkdemo.activity.device.DevMainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.family.FamilyListActivity;
+import cn.com.broadlink.blappsdkdemo.activity.h5.CommonH5Activity;
 import cn.com.broadlink.blappsdkdemo.activity.irCode.IRCodeMainActivity;
 import cn.com.broadlink.blappsdkdemo.activity.product.ProductCategoryListActivity;
 import cn.com.broadlink.blappsdkdemo.activity.push.PushMainActivity;
@@ -31,17 +32,20 @@ import cn.com.broadlink.blappsdkdemo.activity.space.SpaceManageActivity;
 import cn.com.broadlink.blappsdkdemo.activity.websocket.WebSocketActivity;
 import cn.com.broadlink.blappsdkdemo.common.AppExitHelper;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
+import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLLog;
+import cn.com.broadlink.blappsdkdemo.common.PreferencesUtils;
 import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
 import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
+import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
 
 public class MainActivity extends TitleActivity {
 
-    private Button mDeviceBtn, mAccountBtn, mFamilyBtn, mIRCodeBtn, mNetworkCheckBtn, mProductManageBtn, mPushManagageBtn, mBLEButton, mWebSocketButton, mSpaceButton;
+    private Button mDeviceBtn, mAccountBtn, mFamilyBtn, mIRCodeBtn, mNetworkCheckBtn, mProductManageBtn, mPushManagageBtn, mBLEButton, mWebSocketButton, mSpaceButton, mH5Button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,7 @@ public class MainActivity extends TitleActivity {
         mBLEButton = (Button) findViewById(R.id.btn_ble);
         mWebSocketButton = (Button) findViewById(R.id.btn_web_socket);
         mSpaceButton = (Button) findViewById(R.id.btn_space);
+        mH5Button = (Button) findViewById(R.id.btn_h5);
     }
 
     private void setListener() {
@@ -186,6 +191,33 @@ public class MainActivity extends TitleActivity {
             public void doOnClick(View v) {
                 if (checkLoginAndFamily(false)) {
                     BLCommonUtils.toActivity(MainActivity.this, SpaceManageActivity.class);
+                }
+            }
+        });
+        
+        mH5Button.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void doOnClick(View v) {
+
+                if (checkLoginAndFamily(false)) {
+                    String lid = BLLet.getLicenseId();
+                    String companyId = BLLet.getCompanyid();
+                    String packageName = PreferencesUtils.getString(getApplicationContext(), "packageName", BLConstants.SDK_PACKAGE);
+                    String domain = PreferencesUtils.getString(getApplicationContext(), "domain",  String.format("https://%sappservice.ibroadlink.com", lid));
+
+                    final HashMap<String, Object> header = new HashMap<String, Object>();
+                    header.put("companyId", companyId);
+                    header.put("licenseid", lid);
+                    header.put("userid", BLApplication.mBLUserInfoUnits.getUserid());
+                    header.put("loginsession", BLApplication.mBLUserInfoUnits.getLoginsession());
+                    header.put("language", BLCommonUtils.getLanguage());
+
+                    String url = String.format("%s/appfront/v1/webui/%s", domain, packageName);
+                    url = CommonH5Activity.appendUrl(url, header);
+
+                    final Intent intent = new Intent(mActivity, CommonH5Activity.class);
+                    intent.putExtra(BLConstants.INTENT_URL, url);
+                    startActivity(intent);
                 }
             }
         });

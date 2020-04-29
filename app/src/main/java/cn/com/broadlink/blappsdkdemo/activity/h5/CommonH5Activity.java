@@ -1,6 +1,7 @@
 package cn.com.broadlink.blappsdkdemo.activity.h5;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -37,7 +38,12 @@ public class CommonH5Activity extends TitleActivity {
         mUrl = getIntent().getStringExtra(BLConstants.INTENT_URL);
         mTitle = getIntent().getStringExtra(BLConstants.INTENT_TITLE);
 
-        setTitle(mTitle);
+        if(TextUtils.isEmpty(mTitle)){
+            setTitleBarGone();
+        }else{
+            setTitle(mTitle);
+        }
+       
         
         mWebView.loadUrl(mUrl);
         mWebView.getSettings().setJavaScriptEnabled(true);
@@ -64,7 +70,7 @@ public class CommonH5Activity extends TitleActivity {
         });
     }
 
-    private String appendUrl(String url, HashMap<String, Object> param){
+    public static String appendUrl(String url, HashMap<String, Object> param){
         StringBuffer sbUrl = new StringBuffer();
 
         Iterator<Map.Entry<String, Object>> iterator = param.entrySet().iterator();

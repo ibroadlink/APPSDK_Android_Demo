@@ -113,6 +113,16 @@
         android:layout_below="@+id/btn_web_socket"
         android:text="Space Management"
         />
+    
+    <Button
+        android:id="@+id/btn_h5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_below="@+id/btn_space"
+        android:text="Vt-h5 Debug"
+        />
 
 </RelativeLayout>
 </ScrollView>

@@ -34,11 +34,13 @@ import cn.com.broadlink.blappsdkdemo.common.AppExitHelper;
 import cn.com.broadlink.blappsdkdemo.common.BLCommonUtils;
 import cn.com.broadlink.blappsdkdemo.common.BLConstants;
 import cn.com.broadlink.blappsdkdemo.common.BLLog;
+import cn.com.broadlink.blappsdkdemo.common.BLToastUtils;
 import cn.com.broadlink.blappsdkdemo.common.PreferencesUtils;
 import cn.com.broadlink.blappsdkdemo.db.dao.BLDeviceInfoDao;
 import cn.com.broadlink.blappsdkdemo.db.data.BLDeviceInfo;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalDeviceManager;
 import cn.com.broadlink.blappsdkdemo.service.BLLocalFamilyManager;
+import cn.com.broadlink.blappsdkdemo.view.BLAlert;
 import cn.com.broadlink.blappsdkdemo.view.OnSingleClickListener;
 import cn.com.broadlink.sdk.BLLet;
 import cn.com.broadlink.sdk.data.controller.BLDNADevice;
@@ -200,24 +202,47 @@ public class MainActivity extends TitleActivity {
             public void doOnClick(View v) {
 
                 if (checkLoginAndFamily(false)) {
-                    String lid = BLLet.getLicenseId();
-                    String companyId = BLLet.getCompanyid();
-                    String packageName = PreferencesUtils.getString(getApplicationContext(), "packageName", BLConstants.SDK_PACKAGE);
-                    String domain = PreferencesUtils.getString(getApplicationContext(), "domain",  String.format("https://%sappservice.ibroadlink.com", lid));
+                    String urlPath = PreferencesUtils.getString(getApplicationContext(), "vt_h5_url_path", "");
 
-                    final HashMap<String, Object> header = new HashMap<String, Object>();
-                    header.put("companyId", companyId);
-                    header.put("licenseid", lid);
-                    header.put("userid", BLApplication.mBLUserInfoUnits.getUserid());
-                    header.put("loginsession", BLApplication.mBLUserInfoUnits.getLoginsession());
-                    header.put("language", BLCommonUtils.getLanguage());
+                    BLAlert.showEditDilog(MainActivity.this, "Input Url Path", urlPath, new BLAlert.BLEditDialogOnClickListener() {
+                        @Override
+                        public void onClink(String urlPathStr) {
+                            if(TextUtils.isEmpty(urlPathStr)){
+                                BLToastUtils.show("should not be null");
+                                return;
+                            }
+                            
+                            PreferencesUtils.putString(getApplicationContext(), "vt_h5_url_path", urlPathStr);
+                            
+                            String lid = BLLet.getLicenseId();
+                            String companyId = BLLet.getCompanyid();
+                            String domain = PreferencesUtils.getString(getApplicationContext(), "domain",  String.format("https://%sappservice.ibroadlink.com", lid));
 
-                    String url = String.format("%s/appfront/v1/webui/%s", domain, packageName);
-                    url = CommonH5Activity.appendUrl(url, header);
+                            final HashMap<String, Object> header = new HashMap<String, Object>();
+                            header.put("companyId", companyId);
+                            header.put("licenseid", lid);
+                            header.put("userid", BLApplication.mBLUserInfoUnits.getUserid());
+                            header.put("loginsession", BLApplication.mBLUserInfoUnits.getLoginsession());
+                            header.put("language", BLCommonUtils.getLanguage());
+                            
+                            String url;
+                            if(urlPathStr.startsWith("http://") || urlPathStr.startsWith("https://")){
+                                url = urlPathStr; 
+                            }else{
+                                url = String.format("%s/appfront/v1/webui/%s", domain, urlPathStr);
+                            }
+                            url = CommonH5Activity.appendUrl(url, header);
 
-                    final Intent intent = new Intent(mActivity, CommonH5Activity.class);
-                    intent.putExtra(BLConstants.INTENT_URL, url);
-                    startActivity(intent);
+                            final Intent intent = new Intent(mActivity, CommonH5Activity.class);
+                            intent.putExtra(BLConstants.INTENT_URL, url);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onCancel(String value) {
+
+                        }
+                    }, false);
                 }
             }
         });
